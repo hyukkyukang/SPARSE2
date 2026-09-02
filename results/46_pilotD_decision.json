@@ -1,0 +1,81 @@
+{
+  "decision": {
+    "passing_runs": [
+      "smoke_V1"
+    ],
+    "H10_verdict": "no arm passes",
+    "H11_V3_rho": null,
+    "H11_verdict": "not supported",
+    "H12_vd_effect": {
+      "V1": [
+        null,
+        null
+      ],
+      "V2": [
+        null,
+        null
+      ],
+      "V3": [
+        null,
+        null
+      ]
+    },
+    "H13_difficulty_order": {
+      "random": null,
+      "cluster": null,
+      "rare": null
+    },
+    "H14_crand_worse": false,
+    "H14_verdict": "NOT supported \u2014 stop and reconsider",
+    "recipe": "no arm passes",
+    "signed_gaps": {
+      "smoke_V1": -0.031111365293229637
+    },
+    "pilotE_triggered": false,
+    "summary": "1 of 1 runs meet H10. No systematic signed gap; if no arm passes the problem is representational, not calibrational (\u00a7D.7 final branch).",
+    "systematic_gap_runs": []
+  },
+  "rows": {
+    "smoke_V1": {
+      "name": "smoke_V1",
+      "split": "random",
+      "mrr_all": 0.11791626870423433,
+      "mrr_seen": 0.1098291604129713,
+      "r100_all": 0.5520176695319962,
+      "nnz_d": 542.7976425485652,
+      "nnz_q": 68.20974212034383,
+      "n_QH": 3009,
+      "n_QH_lex": null,
+      "signed_gap_r": -0.031111365293229637,
+      "abs_gap_r": 0.04164156974843597,
+      "gap_w": 0.0028296013197946623,
+      "wasserstein": 0.0017903438292686859,
+      "Q_H_rho": 1.0,
+      "Q_H_rho_lo": 1.0,
+      "Q_H_rho_hi": 1.0,
+      "Q_H_den": 0.020872963121218356,
+      "Q_H_den_valid": true,
+      "Q_H_gap_to_oracle": 0.0,
+      "Q_H_alias_mrr": 0.09700791804480738,
+      "Q_H_beats_alias": true,
+      "Q_H_lex_rho": 1.0,
+      "Q_H_lex_rho_lo": 1.0,
+      "Q_H_lex_rho_hi": 1.0,
+      "Q_H_lex_den": 0.025168307067948644,
+      "Q_H_lex_den_valid": true,
+      "Q_H_lex_gap_to_oracle": 0.0,
+      "Q_H_lex_alias_mrr": 0.13512750248114644,
+      "Q_H_lex_beats_alias": true
+    }
+  },
+  "checks": {
+    "smoke_V1": {
+      "pass_": true,
+      "rho": true,
+      "ci_excludes_0p5": true,
+      "gap": true,
+      "gap_r": true,
+      "beats_alias": true
+    }
+  }
+}

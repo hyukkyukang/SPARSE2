@@ -3,3 +3,7 @@
 03:01:50 I runD | [queue] start V1vd on gpu 1
 03:01:50 I runD | [queue] start V1oracle on gpu 2
 03:01:50 I runD | [queue] start V3oracle on gpu 7
+04:19:59 I runD | [queue] done V1
+04:19:59 I runD | [queue] start Crand on gpu 0
+04:20:33 I runD | [queue] done V1oracle
+04:20:33 I runD | [queue] start V1_cluster on gpu 2
