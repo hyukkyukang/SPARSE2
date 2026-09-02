@@ -1,27 +1,37 @@
 # Pilot D — held-out vocabulary generalisation
 
-| run | split | MRR@10 all | seen-only | rho (Q_H) | 95% CI | denom | valid |
-|---|---|---|---|---|---|---|---|
-| smoke_V1 | random | 0.1179 | 0.1098 | 1.000 | [1.00, 1.00] | 0.0209 | True |
+rho compares a model to an oracle of its **own architecture** (§D.3). Rows
+marked (arch\*) have no same-architecture oracle on their split — the
+protocol's own run list provides only a V1 oracle for the cluster and rare
+splits — so their rho is reported for completeness but is not a like-for-like
+recovery ratio.
+
+| run | split | oracle | MRR@10 all | seen-only | rho (Q_H) | 95% CI | denom | valid |
+|---|---|---|---|---|---|---|---|---|
+| Crand | random | V1oracle | 0.0000 | 0.0000 | 0.000 | [0.00, 0.00] | 0.0609 | True |
+| V1 | random | V1oracle | 0.2010 | 0.1850 | 0.685 | [0.60, 0.77] | 0.0609 | True |
+| V1_cluster | cluster | V1oracle_cluster | 0.1944 | 0.1765 | 0.567 | [0.49, 0.65] | 0.1407 | True |
+| V1_rare | rare | V1oracle | 0.2017 | 0.1961 | 0.932 | [0.80, 1.07] | 0.0946 | True |
 
 | run | gap to oracle on Q_H | signed gap_r | abs gap_r | gap_w | Wasserstein | nnz(d) | nnz(q) | \|Q_H\| | \|Q_H-lex\| | C-alias MRR |
 |---|---|---|---|---|---|---|---|---|---|---|
-| smoke_V1 | 0.000 | -0.0311 | 0.0416 | 0.0028 | 0.00179 | 543 | 68 | 3009 | None | 0.0970 |
+| Crand | 1.000 | 0.0000 | 0.0000 | 0.0000 | 0.00000 | 0 | 0 | 3346 | None | — |
+| V1 | -0.012 | -0.0053 | 0.0668 | 0.0052 | 0.00032 | 72 | 22 | 3346 | None | 0.1595 |
+| V1_cluster | 0.092 | 0.4727 | 0.4727 | -0.0458 | 0.00142 | 74 | 24 | 1675 | None | 0.1129 |
+| V1_rare | -0.007 | nan | nan | nan | nan | 62 | 19 | 352 | None | — |
 
 ## Decision (§D.7)
 
 ```json
 {
-  "passing_runs": [
-    "smoke_V1"
-  ],
+  "passing_runs": [],
   "H10_verdict": "no arm passes",
   "H11_V3_rho": null,
   "H11_verdict": "not supported",
   "H12_vd_effect": {
     "V1": [
       null,
-      null
+      0.6849068734413967
     ],
     "V2": [
       null,
@@ -33,18 +43,23 @@
     ]
   },
   "H13_difficulty_order": {
-    "random": null,
-    "cluster": null,
-    "rare": null
+    "random": 0.6849068734413967,
+    "cluster": 0.5666578016273517,
+    "rare": 0.9322161080540272
   },
-  "H14_crand_worse": false,
-  "H14_verdict": "NOT supported \u2014 stop and reconsider",
+  "H14_crand_worse": true,
+  "H14_verdict": "supported",
   "recipe": "no arm passes",
   "signed_gaps": {
-    "smoke_V1": -0.031111365293229637
+    "Crand": 0.0,
+    "V1": -0.005347633119368454,
+    "V1_cluster": 0.4727370443514086,
+    "V1_rare": NaN
   },
-  "pilotE_triggered": false,
-  "summary": "1 of 1 runs meet H10. No systematic signed gap; if no arm passes the problem is representational, not calibrational (\u00a7D.7 final branch).",
-  "systematic_gap_runs": []
+  "pilotE_triggered": true,
+  "summary": "0 of 4 runs meet H10. A systematic signed activation gap is present, so Pilot E applies.",
+  "systematic_gap_runs": [
+    "V1_cluster"
+  ]
 }
 ```

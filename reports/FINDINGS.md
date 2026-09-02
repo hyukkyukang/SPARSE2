@@ -26,7 +26,7 @@ Vocabulary V: **30,000** entries from 1,220,347 alphabetic types in P; 67,676 cl
 1. **Token states do carry term-level semantics against text-defined entries.** Whitened cross-representation self-hit@10 is 0.923 (threshold 0.4) and related-term MRR is 23x the random baseline (threshold 3x). H1 holds with room to spare.
 2. **Untrained, the projection retrieves at 0.67x BM25** on C1 — real signal, well short of the 0.8x the protocol hoped for. Term lists are excellent (see the plausibility annotation); the weighting is what is missing.
 3. **Three of the protocol's expectations were falsified**, each in an informative direction: whitening does not sharpen profiles (H3), bare-string entries are *less* hubby than prototypes rather than more (H5), and the metric §A.4 selects layers on is anti-correlated with retrieval across layers.
-4. **Pilot D verdict:** no arm passes; recipe = *no arm passes*. 1 of 1 runs meet H10. No systematic signed gap; if no arm passes the problem is representational, not calibrational (§D.7 final branch).
+4. **Pilot D verdict:** no arm passes; recipe = *no arm passes*. 0 of 4 runs meet H10. A systematic signed activation gap is present, so Pilot E applies.
 
 ## Hypotheses
 
@@ -43,7 +43,7 @@ Vocabulary V: **30,000** entries from 1,220,347 alphabetic types in P; 67,676 cl
 | **H9** | Spearman vs dense 0.5–0.7; plausibility ≥80% | **split** | Spearman 0.296 (below range); plausibility 0.97 (met) |
 | **H10** | ρ ≥ 0.8, CI excludes 0.5, gap ≤10%, |gap_r| ≤ log 1.5, beats C-alias | **no arm passes** |  |
 | **H11** | V3 has the best seen-only MRR but ρ ≤ 0.5 | **not supported** |  |
-| **H14** | C-rand is clearly worse than V1 | **NOT supported — stop and reconsider** |  |
+| **H14** | C-rand is clearly worse than V1 | **supported** |  |
 
 ## Decisions, in order
 
@@ -122,15 +122,15 @@ Vocabulary V: **30,000** entries from 1,220,347 alphabetic types in P; 67,676 cl
 ### Pilot D — held-out vocabulary
 
 * `recipe` = "no arm passes"
-* `passing_runs` = ["smoke_V1"]
+* `passing_runs` = []
 * `H10_verdict` = "no arm passes"
 * `H11_verdict` = "not supported"
-* `H12_vd_effect` = {"V1": [null, null], "V2": [null, null], "V3": [null, null]}
-* `H13_difficulty_order` = {"random": null, "cluster": null, "rare": null}
-* `H14_verdict` = "NOT supported \u2014 stop and reconsider"
-* `systematic_gap_runs` = []
-* `pilotE_triggered` = false
-* `summary` = "1 of 1 runs meet H10. No systematic signed gap; if no arm passes the problem is representational, not calibrational (\u00a7D.7 final branch)."
+* `H12_vd_effect` = {"V1": [null, 0.6849068734413967], "V2": [null, null], "V3": [null, null]}
+* `H13_difficulty_order` = {"random": 0.6849068734413967, "cluster": 0.5666578016273517, "rare": 0.9322161080540272}
+* `H14_verdict` = "supported"
+* `systematic_gap_runs` = ["V1_cluster"]
+* `pilotE_triggered` = true
+* `summary` = "0 of 4 runs meet H10. A systematic signed activation gap is present, so Pilot E applies."
 
 ### Pilot E — insertion-time calibration
 

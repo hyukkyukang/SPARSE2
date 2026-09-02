@@ -11,3 +11,12 @@
 04:47:05 I runD | [queue] start V1vd_cluster on gpu 1
 05:01:07 I runD | [queue] done V3oracle
 05:01:07 I runD | [queue] start V1oracle_cluster on gpu 7
+05:37:39 I runD | [queue] done Crand
+05:37:39 I runD | [queue] start V1_s2 on gpu 0
+05:40:11 I runD | [queue] done V1_cluster
+05:40:11 I runD | [queue] start V1vd_s2 on gpu 2
+06:20:55 I runD | [queue] done V1oracle_cluster
+06:32:45 I runD | [queue] done V1vd_cluster
+06:57:07 I runD | [queue] done V1_s2
+07:24:51 I runD | [queue] done V1vd_s2
+07:24:51 I runD | [done ] Pilot D training runs (15781.1s)

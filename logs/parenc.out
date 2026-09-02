@@ -1,0 +1,22 @@
+07:58:01 I parenc | 16 configurations on 7 GPUs: ['Crand', 'V1', 'V1_cluster', 'V1_rare', 'V1_s2', 'V1oracle', 'V1oracle_cluster', 'V1oracle_rare', 'V1vd', 'V1vd_cluster', 'V1vd_rare', 'V1vd_s2', 'V3', 'V3_cluster', 'V3oracle', 'V3vd']
+07:58:01 I parenc | [start] Crand on gpu 0
+07:58:01 I parenc | [start] V1 on gpu 1
+07:58:01 I parenc | [start] V1_cluster on gpu 2
+07:58:01 I parenc | [start] V1_rare on gpu 3
+07:58:01 I parenc | [start] V1_s2 on gpu 5
+07:58:01 I parenc | [start] V1oracle on gpu 6
+07:58:01 I parenc | [start] V1oracle_cluster on gpu 7
+08:22:14 I parenc | [done] V1 (gpu 1, 1452s elapsed)
+08:22:14 I parenc | [done] V1_rare (gpu 3, 1452s elapsed)
+08:22:14 I parenc | [start] V1oracle_rare on gpu 1
+08:22:14 I parenc | [start] V1vd on gpu 3
+08:22:17 I parenc | [done] V1_cluster (gpu 2, 1455s elapsed)
+08:22:17 I parenc | [start] V1vd_cluster on gpu 2
+08:22:26 I parenc | [done] V1_s2 (gpu 5, 1464s elapsed)
+08:22:26 I parenc | [start] V1vd_rare on gpu 5
+08:22:29 I parenc | [done] V1oracle (gpu 6, 1467s elapsed)
+08:22:29 I parenc | [start] V1vd_s2 on gpu 6
+08:22:32 I parenc | [done] V1oracle_cluster (gpu 7, 1470s elapsed)
+08:22:32 I parenc | [start] V3 on gpu 7
+08:22:35 I parenc | [done] Crand (gpu 0, 1473s elapsed)
+08:22:35 I parenc | [start] V3_cluster on gpu 0

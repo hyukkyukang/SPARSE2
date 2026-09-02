@@ -1,10 +1,15 @@
 {
   "done": [
-    "V3",
-    "V3vd"
+    "V1",
+    "V1oracle",
+    "V1vd",
+    "V3oracle",
+    "Crand",
+    "V1_cluster",
+    "V1oracle_cluster",
+    "V1vd_cluster",
+    "V1_s2",
+    "V1vd_s2"
   ],
-  "failed": [
-    "V2",
-    "V2vd"
-  ]
+  "failed": []
 }
