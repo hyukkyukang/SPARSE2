@@ -1,0 +1,82 @@
+# Running log
+
+Chronological record of what was run, what it cost, and what turned up. Numbers
+are copied from `results/*.json`; nothing here is a summary of expectations.
+
+## Setup
+
+* MS MARCO v1 passage collection (8,841,823 passages) as a mmap'd blob + offsets.
+* Splits (§0.2): Q = 40,000 (probe/bank pool), S = 100,000 (statistics),
+  P = 8,794,420 (collection minus Q minus the 7,433 dev-small qrels passages).
+* Vocabulary (§0.3): 1,220,347 alphabetic word types in P; 67,676 clear the
+  100-occurrence floor; V = the top 30,000. **The §0.3 pre-check passes with room
+  to spare** — the bottom decile's minimum collection frequency is 498, so no entry
+  has a noisy prototype and V was not cut. Every entry has a full 100-occurrence
+  sample, which is what makes k=50 *disjoint* prototype pairs possible in Pilot B.
+* Compute: 8xA100-40GB. Full-collection dense encode ~13 min/encoder; prototypes
+  over 2.48M passages ~4 min/encoder; C1 encode ~3 min.
+
+## Pipeline validation (§Appendix, before anything else)
+
+| system | ours | published |
+|---|---|---|
+| BM25 (k1=0.82, b=0.68) | 0.1874 | 0.1875 |
+| SPLADE++ CoCondenser-EnsembleDistil | 0.3827 | 0.383 |
+| e5-base-v2 | 0.3542 | ~0.35 |
+| bge-base-en-v1.5 | 0.3498 | ~0.35 |
+
+All four reproduce, so prefix / pooling / normalisation conventions are right.
+
+## §0.5 — the query side needs its own transform
+
+Measured before adopting one: the query-side token distribution differs from the
+document side by ‖μ_Q − μ_H‖/‖μ_H‖ = 0.16–0.54 and a relative covariance Frobenius
+difference of 0.80–1.10 across layers, far above the 5% threshold at which the
+protocol would have allowed a shared transform. Separate W_Q, μ_Q are used.
+
+## Pilot A
+
+Selected **e5-base-v2, hidden layer 9**; top-2 layers {9, 10} carried into B.
+R1's prefix convention was fixed on the 5k tuning slice: **no prefix** for e5
+(0.887 vs 0.826 doc / 0.842 query), the query instruction for bge.
+
+* **H1 supported, decisively.** Whitened cross-representation self-hit@10 = 0.923
+  at layer 9 (threshold 0.4); related-term MRR is 23x the random baseline
+  (threshold 3x). A contextual token state does align with the embedding of the
+  bare text that names it.
+* **H2 supported.** Best layer is 9 (e5) and 10 (bge); neither is 12.
+* **H3 not supported.** Whitening does *not* raise z-gap 2x (it lowers it at every
+  layer below 12) and does not cut nnz/token by an order of magnitude (2.2x at
+  layer 9). Most of the density reduction comes from **centering** alone. Whitening
+  also *lowers* cross-representation self-hit below layer 11 (0.966 raw / 0.969
+  centered / 0.923 whitened at layer 9). Sparsity will have to come from the
+  learned threshold, not the geometry — §A.4's third fallback branch.
+* **H4 partly supported.** Sense accuracy reaches 0.8 only at bge layer 12 (0.814),
+  whose cross-representation self-hit is 0.507 — half of e5's. Applying the sense
+  constraint verbatim would therefore select a far worse configuration, so the
+  conflict is recorded and the selection is made on the primary metric.
+  ColBERTv2 leads on identity (0.991) and SPLADE overlap (0.390) but *trails* e5's
+  layer 12 on related-term MRR (74x vs 210x) and sense — so "above both candidates
+  on every metric" does not hold.
+* **A tension worth keeping.** Identity peaks at layer 9-10; semantic organisation
+  (related-term MRR: 23x -> 210x) and sense both peak at layer 12. Pilot C
+  therefore evaluates layer 9 *and* layer 12 end to end.
+
+## Pilot B
+
+Selected **R2 (contextual prototype)**; insertion cost k\* = 20 occurrences.
+
+* **H5 reversed on hubness.** R1 (bare string) is *far less* hubby than R2:
+  N_10 skewness 3.6 vs 17.2, hub share 0.044 vs 0.161. It is R2's hub list that is
+  dominated by function words (`that, and, but, which, or, the`). The df-frequency
+  half of H5 *is* confirmed: Spearman 0.249 (R1) vs 0.566 (R2).
+* Runaway rate < 0.3% for every representation, so Pilot E is not mandatory on
+  B's evidence.
+* **H6 narrowly missed.** Stability Jaccard: k=10 reaches 0.788x the k=50 value,
+  just under the 0.8 the rule wants; k=20 reaches 0.89x. k\* = 20.
+* **H7 supported, strongly.** R1 under the shared token-side transform collapses:
+  self-hit 0.923 -> 0.837, SPLADE Jaccard 0.286 -> 0.002, and its profile is so flat
+  that the passage-level threshold leaves ~0 entries per token. The "one shared
+  space" story does need a per-space transform.
+* R3 (5 centroids per entry) is competitive at layer 9 but degenerate at layer 10
+  (its threshold cannot reach the common density target), so it is not carried.

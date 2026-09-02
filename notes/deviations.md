@@ -46,3 +46,38 @@ torch matmul over C1 as §0.7 specifies, not Lucene.
 Passages are truncated at 192 wordpieces and queries at 64. MS MARCO passages are
 short; this affects a negligible tail and is applied identically to every system
 we compare.
+
+## D6 — Pilot A's sense constraint could not be applied as written (§A.4)
+The rule is "argmax whitened cross-representation self-hit@10, with sense accuracy
+≥ 0.8 required". Exactly one configuration clears 0.8 — bge layer 12, at 0.814 —
+and its self-hit is 0.507 against e5 layer 9's 0.923. Applying the constraint
+verbatim would hand the whole study to an encoder that is worse by 0.42 absolute
+on the metric the rule is built around, on the strength of a 0.014 margin in a
+metric whose own label agreement is 0.963.
+
+**What we do instead.** Select on the primary metric (e5, layer 9), record what the
+literal rule would have chosen (`literal_rule_pick` in
+`results/15_pilotA_decision.json`), and let Pilot C settle it with end-to-end
+retrieval: bge layer 12 is evaluated on C1 alongside the selected configuration.
+
+## D7 — Pilot C evaluates comparators the protocol fixes earlier
+Pilot A found that identity peaks at layer 9-10 while semantic organisation and
+sense peak at layer 12, and that centering beats whitening on the selection metric
+(H3's failure). Pilot B found R1 and R2 trading places depending on the metric.
+Rather than let those tensions be settled by a threshold, Pilot C encodes C1 under
+six configurations — (e5,L9,R2,whitened) with the full 36-cell grid, plus
+(e5,L9,R1), (e5,L9,R3), (e5,L12,R2), (e5,L9,R2,centered) and (bge,L12,R2) at the
+best cell — and reports which retrieves better. Each extra configuration costs
+about three minutes of encoding, so this is cheap evidence in place of a coin flip.
+
+## D8 — Pilot D's entry-side statistics are estimated on seen entries only
+§D.1 requires μ_V, τ and b to be computed over seen entries. We also estimate the
+entry-side whitening W_V on seen entries only, which is stricter than the letter of
+§0.5 (which freezes one transform per representation) and removes a leakage path
+the protocol's checklist implies but does not name.
+
+## D9 — V2's staggered entry refresh
+§D.3 refreshes a random 10% of entries every 100 steps by re-encoding their
+contexts. We re-encode k=50 contexts per refreshed entry, as at initialisation, so
+refreshed and unrefreshed entries stay comparable; the refresh is what dominates
+V2's wall-clock, which is reported alongside its effectiveness.

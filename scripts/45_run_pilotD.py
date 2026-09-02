@@ -99,17 +99,23 @@ def main(a):
             done, failed = run_queue(jobs, gpus=gpus, logger=lg)
         save_json(dict(done=done, failed=failed), paths.RESULTS / "45_train_status.json")
     if a.stage in ("all", "encode"):
+        # one configuration at a time, but every GPU on it: sharding one encode over
+        # 24 workers is ~8x faster than running 8 encodes one-per-GPU.
+        import subprocess
         names = [n for n, _ in run_list(cfg)]
         if a.only:
             names = [n for n in names if n in set(a.only.split(","))]
-        jobs = []
+        done, failed = [], []
+        env = dict(os.environ, PYTHONPATH=str(paths.REPO))
         for n in names:
-            for kind in ("q", "d", "s"):
-                jobs.append((f"enc_{n}_{kind}",
-                             [PY, ENC, "--name", n, "--kind", kind,
-                              "--n-shards", "1", "--per-gpu", "1"]))
-        with Timer("Pilot D encoding", lg):
-            done, failed = run_queue(jobs, gpus=gpus, logger=lg)
+            for kind, ns in (("q", 8), ("d", 24), ("s", 24)):
+                tag = f"enc_{n}_{kind}"
+                with open(paths.LOGS / f"{tag}.log", "w") as log:
+                    r = subprocess.run([PY, ENC, "--name", n, "--kind", kind,
+                                        "--n-shards", str(ns), "--per-gpu", "3"],
+                                       env=env, stdout=log, stderr=subprocess.STDOUT)
+                (done if r.returncode == 0 else failed).append(tag)
+                lg.info(f"[encode] {tag} rc={r.returncode}")
         save_json(dict(done=done, failed=failed), paths.RESULTS / "45_encode_status.json")
     if a.stage in ("all", "eval"):
         pairs = []

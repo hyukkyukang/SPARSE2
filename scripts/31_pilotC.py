@@ -73,28 +73,31 @@ def query_taus(qval, targets=(30, 15), n_fit=5000, seed=3):
     return out
 
 
-def our_scores_for(docs_local, qi, qv, di, dv, tau_q, tau_d, k_q, k_d, sat):
-    """Our score for an explicit (query, doc) list -- used for score preservation."""
+def our_scores_for(docs_local, qi, qv, di, dv, tau_q, tau_d, k_q, k_d, sat, n_entries=30000):
+    """Our score for an explicit (query, doc) list -- used for score preservation.
+
+    Scatters the query into a dense |V| vector once, then gathers each candidate
+    document's own entries out of it: 100 documents per query cost one gather.
+    """
     nq = qi.shape[0]
     out = np.zeros(docs_local.shape, np.float32)
+    qbuf = np.zeros(n_entries, np.float32)
     for q in range(nq):
-        w = np.maximum(qv[q, :k_q] - tau_q, 0)
+        w = np.maximum(np.asarray(qv[q, :k_q], np.float32) - tau_q, 0)
         if sat == "log1p":
             w = np.log1p(w)
-        qmap = {int(e): float(x) for e, x in zip(qi[q, :k_q], w) if x > 0}
-        if not qmap:
+        ids = np.asarray(qi[q, :k_q])
+        qbuf[:] = 0.0
+        np.add.at(qbuf, ids[w > 0], w[w > 0])
+        sel = docs_local[q]
+        ok = sel >= 0
+        if not ok.any():
             continue
-        for r, d in enumerate(docs_local[q]):
-            if d < 0:
-                continue
-            e = di[d, :k_d]; p = np.maximum(np.asarray(dv[d, :k_d], np.float32) - tau_d, 0)
-            if sat == "log1p":
-                p = np.log1p(p)
-            s = 0.0
-            for ee, pp in zip(e, p):
-                if pp > 0:
-                    s += qmap.get(int(ee), 0.0) * pp
-            out[q, r] = s
+        d_ids = np.asarray(di[sel[ok]][:, :k_d])
+        d_w = np.maximum(np.asarray(dv[sel[ok]][:, :k_d], np.float32) - tau_d, 0)
+        if sat == "log1p":
+            d_w = np.log1p(d_w)
+        out[q, ok] = (qbuf[d_ids] * d_w).sum(1)
     return out
 
 
