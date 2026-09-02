@@ -46,8 +46,12 @@ def out_paths(name, kind):
     return b.with_name(b.name + "_idx.npy"), b.with_name(b.name + "_val.npy")
 
 
-def worker(shard, n_shards, name, kind, bs):
+def worker(shard, n_shards, name, kind, bs, calib=None, out_tag=None):
     cfg, head, enc, E = load_ckpt(name)
+    cal = None
+    if calib:
+        c = np.load(calib)
+        cal = (torch.as_tensor(c[0], device="cuda"), torch.as_tensor(c[1], device="cuda"))
     layer = cfg["layer"]
     mu, W = whitening.load(paths.ART / "whiten" /
                            f"{cfg['encoder']}_L{layer}_{'Q' if kind == 'q' else 'H'}.npz")
@@ -65,8 +69,9 @@ def worker(shard, n_shards, name, kind, bs):
         lens = None
     b = np.linspace(0, n, n_shards + 1).astype(np.int64)
     lo, hi = int(b[shard]), int(b[shard + 1])
-    AI = np.lib.format.open_memmap(out_paths(name, kind)[0], mode="r+")
-    AV = np.lib.format.open_memmap(out_paths(name, kind)[1], mode="r+")
+    tag = out_tag or name
+    AI = np.lib.format.open_memmap(out_paths(tag, kind)[0], mode="r+")
+    AV = np.lib.format.open_memmap(out_paths(tag, kind)[1], mode="r+")
     t0 = time.time()
     with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
         for s in range(lo, hi, bs):
@@ -79,6 +84,8 @@ def worker(shard, n_shards, name, kind, bs):
             h = tf(wu.states[:, 0].cuda(), normalize=False)
             row = torch.as_tensor(wu.row.astype(np.int64), device="cuda")
             z = head.logits(h.to(E.dtype), E)
+            if cal is not None:
+                z = z * cal[0] + cal[1]
             p = segment_max(z, row, len(sel))
             sv = torch.log1p(torch.relu(p))
             v, i = torch.topk(sv.float(), min(cap, sv.shape[1]), dim=1)
@@ -100,20 +107,26 @@ if __name__ == "__main__":
     ap.add_argument("--kind", default="d", choices=["d", "q", "s"])
     ap.add_argument("--bs", type=int, default=192)
     ap.add_argument("--per-gpu", type=int, default=2)
+    ap.add_argument("--calib", default=None)
+    ap.add_argument("--out-tag", default=None)
     a = ap.parse_args()
     if a.shard >= 0:
-        worker(a.shard, a.n_shards, a.name, a.kind, a.bs)
+        worker(a.shard, a.n_shards, a.name, a.kind, a.bs, a.calib, a.out_tag)
     else:
         n = {"d": len(np.load(paths.PREP / "c1_pids.npy")),
              "q": len(load_queries(paths.QUERIES_DEV_SMALL)[0]),
              "s": len(load_splits()["S"])}[a.kind]
         cap = CAP_Q if a.kind == "q" else CAP
-        pi, pv = out_paths(a.name, a.kind)
+        tag = a.out_tag or a.name
+        pi, pv = out_paths(tag, a.kind)
         if not pi.exists():
             np.lib.format.open_memmap(pi, mode="w+", dtype=np.int32, shape=(n, cap))
             np.lib.format.open_memmap(pv, mode="w+", dtype=np.float16, shape=(n, cap))
         ns = a.n_shards if a.kind != "q" else 8
         with Timer(f"encode {a.kind} for {a.name} ({n})", lg):
-            gpu_map(os.path.abspath(__file__), ns,
-                    ["--name", a.name, "--kind", a.kind, "--bs", str(a.bs)],
-                    logger=lg, per_gpu=a.per_gpu)
+            extra = ["--name", a.name, "--kind", a.kind, "--bs", str(a.bs)]
+            if a.calib:
+                extra += ["--calib", a.calib]
+            if a.out_tag:
+                extra += ["--out-tag", a.out_tag]
+            gpu_map(os.path.abspath(__file__), ns, extra, logger=lg, per_gpu=a.per_gpu)

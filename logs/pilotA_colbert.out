@@ -3,3 +3,9 @@
 01:03:18 I pilotA | colbert L12|R1-none|raw: hit10=0.985 (stop 0.198) relMRR=0.0254/77.3x z=7.02 PR=3.1 nnz/tok=5.4 sense=0.762 jac=0.341/cov=0.86
 01:03:58 I pilotA | colbert L12|R2|raw: hit10=0.998 (stop 0.407) relMRR=0.0182/52.5x z=7.92 PR=3.0 nnz/tok=5.1 sense=0.715 jac=0.384/cov=0.86
 01:04:36 I pilotA | colbert L12|R1-none|centered: hit10=0.987 (stop 0.199) relMRR=0.0263/81.1x z=7.07 PR=3.2 nnz/tok=5.2 sense=0.766 jac=0.360/cov=0.86
+01:05:15 I pilotA | colbert L12|R2|centered: hit10=0.997 (stop 0.349) relMRR=0.0194/56.8x z=8.33 PR=3.0 nnz/tok=4.9 sense=0.715 jac=0.400/cov=0.86
+01:05:53 I pilotA | colbert L12|R1-none|whitened: hit10=0.991 (stop 0.228) relMRR=0.0242/74.4x z=7.47 PR=3.1 nnz/tok=5.0 sense=0.744 jac=0.361/cov=0.86
+01:06:32 I pilotA | colbert L12|R1-none-shared|whitened: hit10=0.988 (stop 0.201) relMRR=0.0259/78.2x z=7.29 PR=3.8 nnz/tok=7.2 sense=0.750 jac=0.350/cov=0.86
+01:07:10 I pilotA | colbert L12|R2|whitened: hit10=0.997 (stop 0.326) relMRR=0.0190/55.2x z=9.03 PR=2.8 nnz/tok=4.5 sense=0.719 jac=0.390/cov=0.86
+01:07:10 I pilotA | [done ] pilot A colbert [report] (280.9s)
+01:07:10 I pilotA | saved /home/user/tmp/dvlsr/results/14_pilotA_colbert_report.json

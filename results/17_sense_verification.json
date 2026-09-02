@@ -1,0 +1,160 @@
+{
+  "protocol": "\u00a7A.1 asks for LLM sense labels with 10% manual verification; see notes/deviations.md D1",
+  "round1": {
+    "n_sampled": 240,
+    "sample_fraction": 0.1,
+    "clear_errors": 22,
+    "marginal": 6,
+    "correct": 212,
+    "agreement_strict": 0.8833333333333333,
+    "agreement_lenient": 0.9083333333333333,
+    "error_causes": [
+      "indicator that is an inflection of the target word and shares its ambiguity (matches, palms, springs, tanks, bats, pupils, scales, pitchers, ports, cellular)",
+      "over-generic indicator that co-occurs with both senses (container/terminal for port, output/operations for plant, harbor/ice/ocean for seal, measurement/readings for scale, hello/fans/stadium for wave)",
+      "proper nouns derived from the word (Palm Beach, Seal Beach) which belong to neither sense"
+    ],
+    "examples": [
+      "cell|B labelled from 'cellular' on a passage about cell walls in bacteria",
+      "java|B labelled from 'beans' on a passage about Spring @Beans in Java code",
+      "port|A labelled from 'container' on a passage about IP port numbers",
+      "tank|B labelled from 'tanks' on a passage about refilling a 20lb propane tank"
+    ]
+  },
+  "action": "dropped the 61 indicators listed below and rebuilt the polysemy set",
+  "dropped_indicators": {
+    "cell|B": [
+      "cellular"
+    ],
+    "java|B": [
+      "beans"
+    ],
+    "match|A": [
+      "matches"
+    ],
+    "match|B": [
+      "combination",
+      "criteria",
+      "matched"
+    ],
+    "palm|A": [
+      "florida",
+      "island"
+    ],
+    "palm|B": [
+      "palms"
+    ],
+    "plant|B": [
+      "operations",
+      "output"
+    ],
+    "port|A": [
+      "container",
+      "ports",
+      "terminal"
+    ],
+    "port|B": [
+      "socket"
+    ],
+    "scale|A": [
+      "accurate",
+      "digital",
+      "readings",
+      "scales"
+    ],
+    "scale|B": [
+      "extent",
+      "scaled"
+    ],
+    "seal|A": [
+      "harbor",
+      "ice",
+      "ocean"
+    ],
+    "seal|B": [
+      "install",
+      "joint",
+      "seam",
+      "surface"
+    ],
+    "tank|B": [
+      "tanks"
+    ],
+    "trunk|A": [
+      "growth",
+      "trunks"
+    ],
+    "trunk|B": [
+      "boot",
+      "compartment",
+      "spare"
+    ],
+    "wave|B": [
+      "fans",
+      "hello",
+      "stadium"
+    ],
+    "mine|B": [
+      "everybody",
+      "mom",
+      "somebody"
+    ],
+    "spring|B": [
+      "assembly",
+      "installed",
+      "springs"
+    ],
+    "pupil|B": [
+      "pupils"
+    ],
+    "pitcher|B": [
+      "pitchers"
+    ],
+    "bat|A": [
+      "flying"
+    ],
+    "star|B": [
+      "career",
+      "role",
+      "tv"
+    ],
+    "current|B": [
+      "status",
+      "version"
+    ],
+    "novel|B": [
+      "discovery",
+      "proposed"
+    ],
+    "bass|B": [
+      "player",
+      "tone"
+    ],
+    "crane|B": [
+      "site"
+    ],
+    "rock|B": [
+      "hits",
+      "tour"
+    ],
+    "race|B": [
+      "gender"
+    ],
+    "bark|A": [
+      "oak"
+    ],
+    "ruler|A": [
+      "throne"
+    ]
+  },
+  "round2": {
+    "n_sampled": 80,
+    "sample_fraction": 0.033,
+    "clear_errors": 1,
+    "marginal": 2,
+    "correct": 77,
+    "agreement_strict": 0.9625,
+    "agreement_lenient": 0.9875,
+    "note": "After dropping the 61 indicators. The one clear residual error is a landmine passage labelled mine|A=excavation: the word has a third sense the two-way split does not cover. Two marginal cases are proper nouns (Seal Rocks) and a metaphor (elephant-trunk drain tile).",
+    "conclusion": "Label agreement rose from 0.883 to 0.963; the sense numbers reported for Pilot A and B use the corrected labels, and the pre-correction values are kept alongside as `sense_v1`."
+  }
+}

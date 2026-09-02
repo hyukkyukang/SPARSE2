@@ -92,6 +92,8 @@ class Trainer:
         self.n_q = len(self.qidx)
         self.bs = a.batch_queries
         self.steps = (self.n_q // self.bs) * a.epochs
+        if a.max_steps:
+            self.steps = min(self.steps, a.max_steps)
         self.ramp = int(0.2 * self.steps)
         lg.info(f"{self.n_q} queries, batch {self.bs}x8, {self.steps} steps")
 
@@ -201,6 +203,8 @@ class Trainer:
                             f"acc={acc:.3f} nnz_q={nq:.0f} nnz_d={nd:.0f} "
                             f"t={float(self.head.t):.2f} b={float(self.head.b):.2f} "
                             f"({(time.time()-t0)/step:.2f}s/step)")
+                if a.max_steps and step >= a.max_steps:
+                    self.save(hist); return
                 if a.variant == "V2" and step % a.refresh_every == 0:
                     n = self.refresh_entries(step)
                     lg.info(f"[{a.name}] refreshed {n} entries at step {step}")
@@ -247,6 +251,7 @@ def build_args(argv=None):
     ap.add_argument("--refresh-every", type=int, default=100)
     ap.add_argument("--refresh-frac", type=float, default=0.10)
     ap.add_argument("--refresh-k", type=int, default=50)
+    ap.add_argument("--max-steps", type=int, default=0)
     a = ap.parse_args(argv)
     if a.batch_queries is None:
         a.batch_queries = 128 if a.variant == "V1" else 32

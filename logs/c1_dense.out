@@ -3,3 +3,4 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
 00:59:57 I dense | [done ] load corpus e5 to gpu (2.5s)
 00:59:57 I dense | [start] search e5 C1 (1852472 docs)
 00:59:59 I dense | [done ] search e5 C1 (1852472 docs) (2.0s)
+01:06:06 I refC1 | dense_e5_c1: {'mrr@10': 0.35423358120707693, 'r@10': 0.6294770773638968, 'r@100': 0.8872015281757402, 'r@1000': 0.9902936962750717, 'mrr@10_ci': (0.3450835266293719, 0.3632811618797471)}
