@@ -159,8 +159,10 @@ def evaluate_model(name, oracle_name, split, k=1000, do_alias=True):
     res = dict(name=name, oracle=oracle_name, split=split, n_held=int(held.sum()))
     di, dv = store(name, "d")
     qi, qv = store(name, "q")
-    res["cap_hit_frac"] = float((np.asarray(dv[::53]) > 0).sum(1).mean() / dv.shape[1] >= 1.0)
-    res["nnz_d"] = float((np.asarray(dv[::53], np.float32) > 0).sum(1).mean())
+    nz = (np.asarray(dv[::53], np.float32) > 0).sum(1)
+    res["cap_hit_frac"] = float((nz >= dv.shape[1]).mean())   # §D.6.1 safety-cap report
+    res["nnz_d"] = float(nz.mean())
+    res["nnz_d_p99"] = float(np.percentile(nz, 99))
     res["nnz_q"] = float((np.asarray(qv, np.float32) > 0).sum(1).mean())
 
     with Timer(f"index {name}", lg):

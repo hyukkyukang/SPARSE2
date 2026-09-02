@@ -1,0 +1,87 @@
+# Pilot C — qualitative top-10 entries
+
+encoder=e5 layer=9 rep=R1 cell=kd128_kq32_nnz120_log1p
+
+## passages
+- *In order to become a registered nurse, students must graduate from an accredited program. Several options are available, including nursing diplomas, a*
+  - midwives:0.15, accelerated:0.14, anesthetists:0.14, nursing:0.13, knowledge:0.13, degree:0.12, midwife:0.11, anesthetist:0.11, timeframe:0.10, anesthesiologist:0.08
+- *Cortisol is a steroid hormone produced by the zona fasciculata, the middle of three layers of the adrenal cortex located in the kidneys, and regulated*
+  - adrenal:0.31, cortisol:0.26, gland:0.25, pituitary:0.22, steroid:0.20, steroidal:0.20, brain:0.19, cardiovascular:0.17, adrenergic:0.16, brains:0.15
+- *remitter (plural remitters) One who remits, or makes remittance. One who pardons. (law) The sending or placing back of a person to a title or right fo*
+  - remittance:0.17, restitution:0.14, backs:0.12, possession:0.11, person:0.08, virtue:0.08, legally:0.08, back:0.08, plural:0.08, rightly:0.07
+- *Some conditions may include the appearance of a rash on other parts of your body, such as the soles of your feet, or can include fever and feelings of*
+  - fever:0.27, rash:0.25, ringworm:0.24, fungal:0.22, palms:0.21, soles:0.19, fevers:0.19, feet:0.17, rashes:0.16, foot:0.16
+- *1 Chromium (Cr 0) is an ubiquitous trace metal. 2  The predominant chromium form in the body is trivalent chromium (Cr 3+), which may play a role in n*
+  - chromium:0.26, cr:0.24, metal:0.20, metals:0.20, ubiquitous:0.19, cofactor:0.19, insulin:0.19, body:0.15, crs:0.13, normal:0.12
+- *USAA does not have a SWIFT Code. If you are sending money to an international bank, please contact the receiving bank to obtain their wiring instructi*
+  - aba:0.24, usaa:0.19, international:0.16, swift:0.16, funds:0.14, intl:0.11, money:0.10, wiring:0.10, monetary:0.07, code:0.07
+- *|More. Please note this is an estimate based on typical growth patterns for Basset Hound puppies. For a more accurate estimate, enter your Basset Houn*
+  - kai:0.20, puppies:0.20, weight:0.18, afghan:0.18, swiss:0.17, hound:0.16, canine:0.15, dog:0.14, adult:0.14, pup:0.13
+- *After the Land of the Goblins quest, a Plain of Mud Sphere may be used to teleport here. The secret Goblin Temple is located in the north part of the *
+  - goblin:0.23, sphere:0.19, north:0.18, temple:0.17, potion:0.17, secret:0.16, cave:0.16, stair:0.16, potions:0.16, mud:0.15
+- *Notable interments. The grave site and tombstone of Andy Warhol. The cemetery is best known as the burial site of the American artist Andy Warhol and *
+  - stone:0.22, american:0.19, fans:0.18, parents:0.16, fan:0.15, tombstone:0.14, cans:0.14, stones:0.13, grave:0.12, tomb:0.12
+- *How much does it cost on average to repaint a car? Answer Wiki. As others have pointed out, the price of a paint job can vary widely. Earl Schibe used*
+  - colors:0.18, us:0.17, colours:0.16, re:0.15, color:0.15, earl:0.15, wiki:0.15, quick:0.13, colour:0.13, automobile:0.12
+- *1 Remove your SIM card from the SIM card tray and then put the SIM card back. 2  Make sure that the SIM tray closes completely and isnât loose. 3  I*
+  - iphone:0.22, sim:0.19, phones:0.16, iphones:0.14, phone:0.13, telephone:0.09, apple:0.09, tray:0.09, sims:0.08, smartphone:0.08
+- *Monrovia's Chaste Tree details and information. Learn more about Monrovia plants and best practices for best possible plant performance. Monrovia's Ch*
+  - cart:0.16, tree:0.15, login:0.15, website:0.14, trees:0.12, plants:0.11, retailers:0.11, plant:0.11, information:0.09, retail:0.09
+- *Animegg is another popular anime streaming website that has Naruto available for viewing in English. Each episode link loads quickly and can be viewed*
+  - naruto:0.21, web:0.15, website:0.14, streaming:0.14, websites:0.12, versions:0.11, version:0.11, links:0.10, series:0.10, english:0.10
+- *Customer Service Responsibilities. The shift supervisor is considered an expert barista, so providing customer service is an essential part of the job*
+  - starbucks:0.16, latte:0.12, stores:0.12, job:0.11, customers:0.11, beverages:0.11, beverage:0.10, shift:0.09, duties:0.09, food:0.08
+- *Stanislaus River Fisheries Flow Discussion . Date: November 7, 2012 . Location: US Bureau of Reclamation . 801 I Street, Suite 140 . Bay Delta Office *
+  - delta:0.29, bay:0.21, sue:0.19, river:0.18, tim:0.16, fisheries:0.16, fry:0.15, rivers:0.13, uspto:0.12, us:0.11
+- *Carbon is a unique and extra ordinary element produced by burning charcoal. It was officially classified near the end of the eighteenth century. It wa*
+  - carbon:0.21, charcoal:0.19, carbons:0.17, prehistoric:0.14, unique:0.13, uniquely:0.13, uniqueness:0.10, fossilized:0.10, element:0.10, peculiar:0.08
+- *If pumping the pedal makes the car stop when the pedalâs higher up, either a brake adjustment is in order or you need more brake fluid. If the level*
+  - cylinder:0.20, fluid:0.16, upward:0.15, cylinders:0.14, line:0.13, upwards:0.12, master:0.11, car:0.11, masters:0.11, low:0.11
+- *During the Civil War, however, American women turned their attention to the world outside the home. Thousands of women in the North and South joined v*
+  - war:0.18, north:0.18, american:0.17, south:0.17, world:0.17, women:0.12, americans:0.09, northern:0.09, homegroup:0.09, nurses:0.09
+- *Sea of Galilee. The Sea of Galilee, also Kinneret, Lake of Gennesaret, or Lake Tiberias (Hebrew: ×Ö¸× ×Ö´Ö¼× Ö¶Ö¼×¨Ö¶×ªâ, Judeo-Aramaic: ×Ö·×Ö¼*
+  - freshwater:0.22, galilee:0.21, large:0.21, lake:0.18, big:0.17, israel:0.16, huge:0.16, circumference:0.16, sea:0.15, enormous:0.13
+- *Cathy also appeared in a PBS special about her role as a Latina entrepreneur. Cathy is the author of the non-fiction inspirational book: Latino Wisdom*
+  - wisdom:0.25, cathy:0.23, tweeted:0.21, tweet:0.20, tweets:0.18, latinos:0.18, latino:0.17, retweeted:0.14, pbs:0.13, book:0.13
+
+## querys
+- *The hormone that does the opposite of calcitonin is*
+  - calcitonin:0.20, hormone:0.14, hormones:0.09, troponin:0.06, hormonal:0.05, endocrine:0.03, calcite:0.03, endocrinologist:0.02, hydrocortisone:0.02, inhibitory:0.02
+- *webmd symptoms of lupus*
+  - lupus:0.24, webmd:0.17, web:0.08, symptoms:0.05, webmaster:0.04, symptomatic:0.04, lutein:0.04, symptom:0.04, lu:0.03, webs:0.03
+- *what are casein curds*
+  - casein:0.24, curds:0.22, curd:0.18, culver:0.06, cur:0.04, albumin:0.03, cusp:0.03, casing:0.02, curie:0.02, tenderloin:0.02
+- *what conference is bryant for football*
+  - bryant:0.16, football:0.13, basketball:0.02, figured:0.02, foramen:0.01, alliance:0.01, suborder:0.01, semesters:0.00, delegated:0.00, maven:0.00
+- *what are aneurysm*
+  - aneurysm:0.22, aneurysms:0.21, anemic:0.07, anemia:0.05, anheuser:0.01, hill:0.01, hills:0.00, steelers:0.00, lysosome:0.00, clown:0.00
+- *how many eggs do rouen ducks lay a year*
+  - eggs:0.21, egg:0.20, ducks:0.17, yolk:0.12, eggshell:0.12, ducklings:0.11, duck:0.10, yolks:0.10, hatched:0.08, hatching:0.07
+- *how many cylinder have the jeep cherokee limited*
+  - jeep:0.24, cylinder:0.20, cylinders:0.13, cherokee:0.12, hasn:0.12, has:0.10, have:0.06, y:0.04, many:0.03, hassle:0.03
+- *greek pottery and their meaning*
+  - pottery:0.15, greek:0.15, greece:0.10, greeks:0.08, clays:0.07, clay:0.07, theirs:0.06, ceramics:0.06, potter:0.06, pharaoh:0.05
+- *what causes ringworm in adults*
+  - ringworm:0.23, adult:0.17, adults:0.13, adulthood:0.11, hookworms:0.10, ringed:0.07, roundworm:0.06, ringer:0.05, causes:0.04, worms:0.03
+- *what kills ants home remedy*
+  - ants:0.20, homes:0.13, ant:0.13, home:0.13, homemaker:0.12, house:0.11, homebuyer:0.11, homeopathy:0.11, homeopathic:0.10, homeowner:0.09
+- *what oscars has denzel washington won*
+  - oscars:0.22, denzel:0.22, oscar:0.14, grammys:0.13, hasn:0.12, accolades:0.11, has:0.09, washington:0.09, nominated:0.09, nominations:0.08
+- *is it still dangerous to go to the place of where the chernobyl happened*
+  - chernobyl:0.22, dangerous:0.08, polonium:0.06, unsafe:0.05, safe:0.04, soviet:0.04, still:0.04, stalin:0.04, rarest:0.04, tragedies:0.03
+- *is paradise township in adams county*
+  - adams:0.22, paradise:0.14, township:0.13, county:0.12, isn:0.07, townships:0.07, are:0.05, is:0.05, counties:0.04, adam:0.03
+- *does glycerin tincture need to be refrigerated*
+  - glycerin:0.24, refrigerate:0.22, refrigerated:0.22, refrigeration:0.20, tincture:0.19, glycerol:0.14, refrigerant:0.12, glycosidic:0.10, glycol:0.10, glycine:0.10
+- *ismat name meaning*
+  - basmati:0.07, ish:0.04, names:0.03, meaning:0.02, meanings:0.02, malik:0.01, surname:0.01, iras:0.00
+- *what is the official site for free credit reports*
+  - free:0.18, credit:0.16, websites:0.15, website:0.14, webpages:0.13, webpage:0.12, web:0.11, urls:0.10, official:0.09, site:0.08
+- *enu protein shake*
+  - protein:0.15, shake:0.11, proteins:0.08, shakes:0.08, usu:0.08, proteinuria:0.07, une:0.06, shaker:0.06, emu:0.06, ecu:0.04
+- *who are quakers*
+  - quakers:0.21, quaker:0.17, identities:0.03, correspondence:0.02, weren:0.02, agonists:0.01, protestants:0.01, trackers:0.01, processors:0.01, juniper:0.01
+- *where does microtubule formation occur*
+  - microtubules:0.19, tubule:0.06, tubules:0.04, genius:0.03, microbe:0.03, micron:0.02, microsd:0.01, microchip:0.01, micro:0.01, wy:0.01
+- *home remedies for lupus pain*
+  - lupus:0.24, remedies:0.17, homemaker:0.12, homes:0.11, home:0.10, analgesic:0.09, homeopathy:0.09, pains:0.09, homeopathic:0.08, pain:0.06

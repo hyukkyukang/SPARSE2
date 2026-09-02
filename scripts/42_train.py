@@ -22,6 +22,7 @@ from dvlsr.util import get_logger, save_json, set_seed, Timer
 
 lg = get_logger("trainD", "42_train.log")
 DEV = "cuda"
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 
 def entry_raw(enc, layer, rep, r1_prefix):
@@ -66,8 +67,11 @@ class Trainer:
             self.enc.model.eval()
         elif a.variant == "V2":
             from peft import LoraConfig, get_peft_model
+            # q/k/v/o as §D.3 specifies: "dense" alone would also catch both FFN
+            # projections, which is a different (larger) adapter than the protocol asks for
             cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.0, bias="none",
-                             target_modules=["query", "key", "value", "dense"])
+                             target_modules=["query", "key", "value",
+                                             "attention.output.dense"])
             self.enc.model = get_peft_model(self.enc.model, cfg)
             self.enc.model.train()
         else:

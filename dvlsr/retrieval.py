@@ -22,12 +22,16 @@ class InvertedIndex:
     def __init__(self, idx: np.ndarray, val: np.ndarray, n_entries: int,
                  device="cuda", dtype=torch.float32, min_val: float = -1e3):
         n_docs, top = idx.shape
-        e = torch.as_tensor(idx.reshape(-1).astype(np.int64))
-        d = torch.arange(n_docs, dtype=torch.int64).repeat_interleave(top)
-        p = torch.as_tensor(val.reshape(-1).astype(np.float32))
-        r = torch.arange(top, dtype=torch.int16).repeat(n_docs)
-        keep = p > min_val
-        e, d, p, r = e[keep], d[keep], p[keep], r[keep]
+        # Filter in numpy first: a top-1024 store over 1.9M documents is 1.9e9 slots,
+        # and materialising int64 copies of all of them before dropping the zeros
+        # costs tens of GB for nothing.
+        mask = np.asarray(val) > min_val
+        counts = mask.sum(1)
+        e = torch.as_tensor(np.asarray(idx)[mask].astype(np.int64))
+        d = torch.as_tensor(np.repeat(np.arange(n_docs, dtype=np.int64), counts))
+        p = torch.as_tensor(np.asarray(val)[mask].astype(np.float32))
+        r = torch.as_tensor(np.broadcast_to(
+            np.arange(top, dtype=np.int16), (n_docs, top))[mask].astype(np.int16))
         order = torch.argsort(e)
         self.doc = d[order].to(device=device, dtype=torch.int32)
         self.p = p[order].to(device=device, dtype=dtype)
