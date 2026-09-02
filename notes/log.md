@@ -110,3 +110,59 @@ References on C1: BM25 **0.1882**, e5-base-v2 dense **0.3542**, SPLADE++ **0.381
   discriminative terms are not up-weighted. This is precisely what Pilot D's
   learned threshold and scale exist to fix, and it is consistent with the term
   lists being good while the ranking is not.
+
+### Pilot C, continued — the layer the protocol picked is not the layer that retrieves
+
+Because Pilot A left a tension (identity peaks at layer 9, semantics at layer 12)
+and because H3 failed, Pilot C encoded C1 under six configurations instead of one.
+Best cell per configuration (MRR@10 on C1):
+
+| configuration | MRR@10 | note |
+|---|---|---|
+| e5 L12 R2 whitened | **0.1251** | best; full 36-cell grid |
+| e5 L9 R2 whitened | 0.0963 | the configuration §A.4 selected |
+| e5 L9 R3 whitened | 0.0962 | multi-prototype buys nothing |
+| bge L12 R2 whitened | 0.1083 | what the literal sense constraint would have picked |
+| e5 L9 R1 whitened | 0.0623 | bare-string entries |
+| e5 L9 R2 centered | 0.0563 | whitening *is* worth it end to end |
+
+Four things follow.
+
+1. **Layer 12 beats layer 9 by 30%.** Cross-representation self-hit — the metric
+   §A.4 selects on — is *anti*-correlated with retrieval across layers here, while
+   related-term MRR (23x at L9, 210x at L12) tracks it. Identity is not the property
+   that matters; semantic organisation is.
+2. **Whitening is vindicated where H3 said it should not be.** It does not make
+   profiles peakier (H3 fails), but it is worth 0.096 vs 0.056 in MRR@10 against
+   centering alone. Peakiness was the wrong thing to measure it by.
+3. **e5 beats bge end to end** (0.1251 vs 0.1083), so the sense-threshold conflict
+   in §A.4 resolves in favour of the configuration the primary metric chose.
+4. **R2 ~ R3 > R1**, confirming Pilot B's choice without relying on its
+   structurally-favoured in-context self-hit.
+
+At layer 12 sense accuracy is 0.850 (R1, R2) and 0.862 (R3) — so the §A.4
+constraint that could not be satisfied at layer 9 *is* satisfied at the layer
+retrieval selects. Stability is worse there (k* = 50 rather than 20): later-layer
+prototypes need more occurrences.
+
+Query-side transform, measured end to end: own transform 0.1250 vs the shared
+document transform 0.1237, paired-bootstrap difference +0.0013 with CI
+[-0.0013, +0.0038]. The large distribution shift §0.5 measures (mean shift 0.16-0.54)
+does **not** translate into retrieval impact.
+
+**Pilot C verdict: weak** (0.665x BM25), so Pilot D runs the LoRA arm from the start.
+
+### Pilot D — setup findings before the results
+
+* The **lambda sweep is degenerate**: nnz_d lands at 46.3-46.4 for every lambda_d in
+  {1e-4, 3e-4, 1e-3}, and the FLOPS term is 5e-4 of the cross-entropy at the top of
+  the grid. Density is set by the *learned threshold*, not by the regulariser, and it
+  settles well below C's 120-per-document operating point. This is §A.4's H3-failure
+  branch playing out exactly as written.
+* **A bug worth recording**: V2's staggered refresh initially averaged every
+  occurrence of a refreshed word found in the gathered passages, rather than the
+  entry's own sampled contexts. Frequent entries drifted towards the corpus mean and
+  became hubs — one refresh took nnz_d from 53 to 685 and CE from 2.8 to 4.1. Fixed
+  by restricting accumulation to the sampled (passage, entry) pairs; the corrected
+  refresh reproduces the original prototypes to cosine 0.999998 when the encoder has
+  not yet moved.
