@@ -1,0 +1,16 @@
+{
+  "documents": {
+    "n": 10708,
+    "max_over_median": 5.4825439453125,
+    "top1_share": 0.034563660621643066,
+    "participation_ratio": 63.260215759277344,
+    "mean_nnz": 119.20638774747852
+  },
+  "queries": {
+    "n": 6899,
+    "max_over_median": 7.663620471954346,
+    "top1_share": 0.18513280153274536,
+    "participation_ratio": 13.98558235168457,
+    "mean_nnz": 30.191332077112627
+  }
+}

@@ -45,12 +45,19 @@ python3 scripts/13_whitening.py --encoder e5      # freeze every §0.5 transform
 python3 scripts/14_pilotA.py --encoder e5
 ```
 
+Run everything with `./run_all.sh` (it fixes the OpenBLAS thread cap and the
+JDK path Pyserini needs). Findings land in `reports/FINDINGS.md`; every deviation
+from the written protocol is in `notes/deviations.md`, and `notes/log.md` is the
+running record.
+
 ## Validation of the pipeline (§Appendix "sanity before A")
 
 | System | full-collection MRR@10 | published |
 |---|---|---|
 | BM25 (k1=0.82, b=0.68) | 0.1874 | 0.1875 |
-| e5-base-v2 (ours) | 0.3542 | ~0.35 |
+| SPLADE++ CoCondenser-EnsembleDistil | 0.3827 | 0.383 |
+| e5-base-v2 | 0.3542 | ~0.35 |
+| bge-base-en-v1.5 | 0.3498 | ~0.35 |
 
-Both reproduce, so the prefix / pooling / normalisation conventions are right and
-the pilots do not inherit a pipeline bug.
+All four reproduce, so the prefix / pooling / normalisation conventions are right
+and the pilots do not inherit a pipeline bug.

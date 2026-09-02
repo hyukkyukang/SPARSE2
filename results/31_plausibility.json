@@ -1,0 +1,40 @@
+{
+  "protocol": "\u00a7C.2.6 \u2014 20 passages and 20 queries, top-10 entries annotated plausible / not",
+  "annotators": 1,
+  "annotator_note": "Single annotator (the study author), as \u00a7C.2.6 allows when a second is unavailable; reported as such. No inter-annotator agreement.",
+  "config": "e5 / layer 9 / R2 / whitened / cell kd128_kq16_nnz120_log1p",
+  "passages": {
+    "n": 20,
+    "plausible": 19,
+    "rate": 0.95,
+    "not_plausible": [
+      {
+        "text": "Monrovia's Chaste Tree product page",
+        "top_terms": [
+          "gift",
+          "pro",
+          "retailers",
+          "cart",
+          "login"
+        ],
+        "why": "the list is dominated by page boilerplate rather than the plant the passage is about"
+      }
+    ]
+  },
+  "queries": {
+    "n": 20,
+    "plausible": 20,
+    "rate": 1.0,
+    "weak": [
+      {
+        "text": "ismat name meaning",
+        "why": "the rare given name is out of V, so only 'name'/'meaning' are representable \u2014 a coverage limit, not an implausible list"
+      }
+    ]
+  },
+  "overall_rate": 0.975,
+  "qualitative_observations": [
+    "Expansion is real, not just lexical echo: a nursing passage activates `midwives`, a cortisol passage activates `pituitary` and `gland`, a rash passage activates `ringworm` and `fungal`, a SWIFT-code passage activates `aba`.",
+    "Query lists are steep (top-1 carries 18.5% of the mass, participation ratio 14 of 30 non-zeros) while document lists are flat (top-1 3.5%, participation ratio 63 of 119). Untrained max-pooled cosine gives documents nearly uniform weights, so the score is spread over ~63 effective dimensions instead of concentrating on the discriminative ones. That asymmetry is the most likely reason the training-free run reaches only 0.51x BM25 despite plausible term lists, and it is exactly what Pilot D's learned threshold and scale exist to fix."
+  ]
+}
