@@ -66,14 +66,19 @@ class Encoder:
         return out
 
     # ------------------------------------------------------------------ word units
-    @torch.no_grad()
     def encode_word_units(self, texts, layers, is_query=False, maxlen=None,
-                          keep=None) -> WordUnits:
+                          keep=None, grad=False) -> WordUnits:
         """Word-unit states for one batch of texts at the requested hidden layers.
 
         keep: optional callable(word_lower) -> bool, applied before states are
               gathered so we never materialise units we do not need.
+        grad: keep the graph (Pilot D's V2/V3, which train the encoder).
         """
+        import contextlib
+        with (contextlib.nullcontext() if grad else torch.no_grad()):
+            return self._word_units(texts, layers, is_query, maxlen, keep)
+
+    def _word_units(self, texts, layers, is_query, maxlen, keep) -> WordUnits:
         maxlen = maxlen or (paths.MAXLEN_QRY if is_query else paths.MAXLEN_DOC)
         full, enc, plen = self._tok(texts, is_query, maxlen, offsets=True)
         offs = enc.pop("offset_mapping").numpy()

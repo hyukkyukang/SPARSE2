@@ -49,3 +49,218 @@ shard 0: 205312/315779 1317/s
 shard 0: 307712/315779 1370/s
 shard 0 done in 240s
 00:24:14 I enc-corpus | launch shard 17 on gpu 0: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 17 --n-shards 28 --encoder bge --bs 512
+00:24:17 I enc-corpus | shard 4 ok (gpu 2) 9 [00:00<00:01, 103.29it/s]
+Loading weights:  51%|█████     | 101/199 [00:00<00:00, 471.38it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 716.96it/s]
+shard 4: 512/315779 138/s
+shard 4: 102912/315779 1020/s
+shard 4: 205312/315779 1279/s
+shard 4: 307712/315779 1298/s
+shard 4 done in 244s
+00:24:17 I enc-corpus | shard 7 ok (gpu 3) 9 [00:00<00:00, 819.36it/s]
+Loading weights:  84%|████████▍ | 167/199 [00:00<00:00, 614.80it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 702.19it/s]
+shard 7: 512/315780 160/s
+shard 7: 102912/315780 1011/s
+shard 7: 205312/315780 1258/s
+shard 7: 307712/315780 1298/s
+shard 7 done in 244s
+00:24:17 I enc-corpus | launch shard 18 on gpu 2: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 18 --n-shards 28 --encoder bge --bs 512
+00:24:17 I enc-corpus | launch shard 19 on gpu 3: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 19 --n-shards 28 --encoder bge --bs 512
+00:24:18 I enc-corpus | shard 5 ok (gpu 2) 199 [00:00<00:04, 40.70it/s]
+Loading weights:  48%|████▊     | 95/199 [00:00<00:00, 491.92it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 784.71it/s]
+shard 5: 512/315780 192/s
+shard 5: 102912/315780 1016/s
+shard 5: 205312/315780 1267/s
+shard 5: 307712/315780 1293/s
+shard 5 done in 245s
+00:24:18 I enc-corpus | launch shard 20 on gpu 2: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 20 --n-shards 28 --encoder bge --bs 512
+00:24:19 I enc-corpus | shard 6 ok (gpu 3) 199 [00:00<00:04, 45.28it/s]
+Loading weights:  27%|██▋       | 53/199 [00:00<00:00, 243.32it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 609.82it/s]
+shard 6: 512/315779 144/s
+shard 6: 102912/315779 1014/s
+shard 6: 205312/315779 1243/s
+shard 6: 307712/315779 1282/s
+shard 6 done in 245s
+00:24:19 I enc-corpus | launch shard 21 on gpu 3: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 21 --n-shards 28 --encoder bge --bs 512
+00:24:21 I enc-corpus | shard 10 ok (gpu 5) | 0/199 [00:00<?, ?it/s]
+Loading weights:  27%|██▋       | 54/199 [00:00<00:00, 517.01it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 989.93it/s]
+shard 10: 512/315780 143/s
+shard 10: 102912/315780 982/s
+shard 10: 205312/315780 1218/s
+shard 10: 307712/315780 1271/s
+shard 10 done in 248s
+00:24:21 I enc-corpus | launch shard 22 on gpu 5: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 22 --n-shards 28 --encoder bge --bs 512
+00:24:22 I enc-corpus | shard 11 ok (gpu 5) 00:00<00:08, 22.49it/s]
+Loading weights:  89%|████████▉ | 177/199 [00:00<00:00, 683.31it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 600.14it/s]
+shard 11: 512/315779 189/s
+shard 11: 102912/315779 991/s
+shard 11: 205312/315779 1208/s
+shard 11: 307712/315779 1257/s
+shard 11 done in 250s
+00:24:22 I enc-corpus | launch shard 23 on gpu 5: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 23 --n-shards 28 --encoder bge --bs 512
+00:24:23 I enc-corpus | shard 9 ok (gpu 4) 99 [00:00<00:05, 34.12it/s]
+Loading weights:  51%|█████     | 101/199 [00:00<00:00, 479.66it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 594.71it/s]
+shard 9: 512/315779 186/s
+shard 9: 102912/315779 1010/s
+shard 9: 205312/315779 1258/s
+shard 9: 307712/315779 1261/s
+shard 9 done in 250s
+00:24:23 I enc-corpus | launch shard 24 on gpu 4: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 24 --n-shards 28 --encoder bge --bs 512
+00:24:24 I enc-corpus | shard 8 ok (gpu 4) 9 [00:00<00:00, 729.85it/s]
+Loading weights:  93%|█████████▎| 185/199 [00:00<00:00, 814.01it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 861.01it/s]
+shard 8: 512/315779 189/s
+shard 8: 102912/315779 1005/s
+shard 8: 205312/315779 1229/s
+shard 8: 307712/315779 1260/s
+shard 8 done in 250s
+00:24:24 I enc-corpus | shard 13 ok (gpu 6) [00:00<00:04, 41.27it/s]
+Loading weights:  41%|████      | 81/199 [00:00<00:00, 407.47it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 607.24it/s]
+shard 13: 512/315779 143/s
+shard 13: 102912/315779 966/s
+shard 13: 205312/315779 1187/s
+shard 13: 307712/315779 1261/s
+shard 13 done in 250s
+00:24:24 I enc-corpus | launch shard 25 on gpu 4: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 25 --n-shards 28 --encoder bge --bs 512
+00:24:24 I enc-corpus | launch shard 26 on gpu 6: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 26 --n-shards 28 --encoder bge --bs 512
+00:24:25 I enc-corpus | shard 12 ok (gpu 6) 00:00<00:08, 24.43it/s]
+Loading weights:  69%|██████▉   | 137/199 [00:00<00:00, 730.96it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 817.54it/s]
+shard 12: 512/315780 148/s
+shard 12: 102912/315780 976/s
+shard 12: 205312/315780 1190/s
+shard 12: 307712/315780 1250/s
+shard 12 done in 251s
+00:24:25 I enc-corpus | launch shard 27 on gpu 6: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 27 --n-shards 28 --encoder bge --bs 512
+00:28:15 I enc-corpus | shard 14 ok (gpu 0) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3299.92it/s]
+shard 14: 512/315779 258/s
+shard 14: 102912/315779 1308/s
+shard 14: 205312/315779 1492/s
+shard 14: 307712/315779 1479/s
+shard 14 done in 225s
+00:28:15 I enc-corpus | shard 15 ok (gpu 1) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 4782.97it/s]
+shard 15: 512/315780 257/s
+shard 15: 102912/315780 1297/s
+shard 15: 205312/315780 1482/s
+shard 15: 307712/315780 1469/s
+shard 15 done in 225s
+00:28:15 I enc-corpus | shard 16 ok (gpu 1) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3491.09it/s]
+shard 16: 512/315779 259/s
+shard 16: 102912/315779 1283/s
+shard 16: 205312/315779 1441/s
+shard 16: 307712/315779 1404/s
+shard 16 done in 225s
+00:28:16 I enc-corpus | shard 17 ok (gpu 0) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 9908.31it/s]
+shard 17: 512/315780 237/s
+shard 17: 102912/315780 1312/s
+shard 17: 205312/315780 1474/s
+shard 17: 307712/315780 1396/s
+shard 17 done in 225s
+00:28:35 I enc-corpus | shard 18 ok (gpu 2) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3743.87it/s]
+shard 18: 512/315779 206/s
+shard 18: 102912/315779 1285/s
+shard 18: 205312/315779 1411/s
+shard 18: 307712/315779 1349/s
+shard 18 done in 237s
+00:28:37 I enc-corpus | shard 21 ok (gpu 3) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3196.50it/s]
+shard 21: 512/315779 187/s
+shard 21: 102912/315779 1200/s
+shard 21: 205312/315779 1325/s
+shard 21: 307712/315779 1307/s
+shard 21 done in 241s
+00:28:38 I enc-corpus | shard 20 ok (gpu 2) Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3670.35it/s]
+shard 20: 512/315780 209/s
+shard 20: 102912/315780 1244/s
+shard 20: 205312/315780 1353/s
+shard 20: 307712/315780 1304/s
+shard 20 done in 241s
+00:28:41 I enc-corpus | shard 19 ok (gpu 3) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3234.11it/s]
+shard 19: 512/315779 205/s
+shard 19: 102912/315779 1291/s
+shard 19: 205312/315779 1320/s
+shard 19: 307712/315779 1285/s
+shard 19 done in 245s
+00:28:41 I enc-corpus | shard 22 ok (gpu 5) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2785.93it/s]
+shard 22: 512/315780 391/s
+shard 22: 102912/315780 1211/s
+shard 22: 205312/315780 1292/s
+shard 22: 307712/315780 1308/s
+shard 22 done in 240s
+00:28:41 I enc-corpus | shard 23 ok (gpu 5) te limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3176.72it/s]
+shard 23: 512/315779 362/s
+shard 23: 102912/315779 1185/s
+shard 23: 205312/315779 1292/s
+shard 23: 307712/315779 1299/s
+shard 23 done in 241s
+00:28:42 I enc-corpus | shard 25 ok (gpu 4) e limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 31586.24it/s]
+shard 25: 512/315780 485/s
+shard 25: 102912/315780 1200/s
+shard 25: 205312/315780 1287/s
+shard 25: 307712/315780 1309/s
+shard 25 done in 241s
+00:28:42 I enc-corpus | shard 27 ok (gpu 6) e limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 32746.15it/s]
+shard 27: 512/315780 512/s
+shard 27: 102912/315780 1200/s
+shard 27: 205312/315780 1308/s
+shard 27: 307712/315780 1321/s
+shard 27 done in 240s
+00:28:44 I enc-corpus | shard 26 ok (gpu 6) e limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 30930.76it/s]
+shard 26: 512/315779 380/s
+shard 26: 102912/315779 1220/s
+shard 26: 205312/315779 1321/s
+shard 26: 307712/315779 1301/s
+shard 26 done in 242s
+00:28:46 I enc-corpus | shard 24 ok (gpu 4) e limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 32968.62it/s]
+shard 24: 512/315779 553/s
+shard 24: 102912/315779 1181/s
+shard 24: 205312/315779 1283/s
+shard 24: 307712/315779 1290/s
+shard 24 done in 244s
+00:28:46 I enc-corpus | corpus encoded: /workspace/SPARSE/dvlsr/emb/corpus_bge.npy

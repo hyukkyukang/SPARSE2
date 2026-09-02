@@ -1,0 +1,88 @@
+00:44:46 I pilotA | [start] pilot A bge [prefix]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3507.80it/s]
+00:45:07 I pilotA | bge: aux2 saved (overlap units (57556, 9, 768), polysemy filled 0.993)
+00:45:08 I pilotA | bge [prefix]: 4945 probes, 763 with related terms
+00:45:23 I pilotA | bge L4|R1-none|raw: hit10=0.549 (stop 0.073) relMRR=0.0051/17.8x z=4.93 PR=0.1 nnz/tok=0.1
+00:45:24 I pilotA | bge L4|R1-doc|raw: hit10=0.549 (stop 0.073) relMRR=0.0051/17.8x z=4.93 PR=0.1 nnz/tok=0.1
+00:45:25 I pilotA | bge L4|R1-query|raw: hit10=0.721 (stop 0.127) relMRR=0.0058/19.3x z=5.05 PR=0.8 nnz/tok=1.1
+00:45:26 I pilotA | bge L4|R1-none|centered: hit10=0.678 (stop 0.124) relMRR=0.0064/23.9x z=5.01 PR=2.2 nnz/tok=3.9
+00:45:26 I pilotA | bge L4|R1-doc|centered: hit10=0.678 (stop 0.124) relMRR=0.0064/23.9x z=5.01 PR=2.2 nnz/tok=3.9
+00:45:27 I pilotA | bge L4|R1-query|centered: hit10=0.781 (stop 0.127) relMRR=0.0070/27.2x z=5.21 PR=2.3 nnz/tok=4.1
+00:45:28 I pilotA | bge L4|R1-none|whitened: hit10=0.263 (stop 0.010) relMRR=0.0026/7.9x z=4.33 PR=1.8 nnz/tok=2.7
+00:45:29 I pilotA | bge L4|R1-doc|whitened: hit10=0.263 (stop 0.010) relMRR=0.0026/7.9x z=4.33 PR=1.8 nnz/tok=2.7
+00:45:30 I pilotA | bge L4|R1-query|whitened: hit10=0.291 (stop 0.016) relMRR=0.0029/9.9x z=4.37 PR=1.8 nnz/tok=2.6
+00:45:33 I pilotA | bge L5|R1-none|raw: hit10=0.604 (stop 0.072) relMRR=0.0053/16.6x z=5.05 PR=0.3 nnz/tok=0.4
+00:45:35 I pilotA | bge L5|R1-doc|raw: hit10=0.604 (stop 0.072) relMRR=0.0053/16.6x z=5.05 PR=0.3 nnz/tok=0.4
+00:45:36 I pilotA | bge L5|R1-query|raw: hit10=0.791 (stop 0.126) relMRR=0.0061/18.8x z=5.22 PR=1.4 nnz/tok=2.2
+00:45:36 I pilotA | bge L5|R1-none|centered: hit10=0.743 (stop 0.110) relMRR=0.0067/17.6x z=5.27 PR=2.4 nnz/tok=4.3
+00:45:37 I pilotA | bge L5|R1-doc|centered: hit10=0.743 (stop 0.110) relMRR=0.0067/17.6x z=5.27 PR=2.4 nnz/tok=4.3
+00:45:38 I pilotA | bge L5|R1-query|centered: hit10=0.844 (stop 0.118) relMRR=0.0076/17.1x z=5.49 PR=2.5 nnz/tok=4.5
+00:45:39 I pilotA | bge L5|R1-none|whitened: hit10=0.298 (stop 0.005) relMRR=0.0028/7.2x z=4.39 PR=1.8 nnz/tok=2.7
+00:45:39 I pilotA | bge L5|R1-doc|whitened: hit10=0.298 (stop 0.005) relMRR=0.0028/7.2x z=4.39 PR=1.8 nnz/tok=2.7
+00:45:40 I pilotA | bge L5|R1-query|whitened: hit10=0.337 (stop 0.021) relMRR=0.0034/10.0x z=4.45 PR=1.8 nnz/tok=2.8
+00:45:44 I pilotA | bge L6|R1-none|raw: hit10=0.684 (stop 0.091) relMRR=0.0061/20.4x z=5.22 PR=1.0 nnz/tok=1.6
+00:45:45 I pilotA | bge L6|R1-doc|raw: hit10=0.684 (stop 0.091) relMRR=0.0061/20.4x z=5.22 PR=1.0 nnz/tok=1.6
+00:45:45 I pilotA | bge L6|R1-query|raw: hit10=0.845 (stop 0.138) relMRR=0.0065/22.0x z=5.49 PR=2.9 nnz/tok=5.5
+00:45:46 I pilotA | bge L6|R1-none|centered: hit10=0.787 (stop 0.119) relMRR=0.0071/24.2x z=5.55 PR=2.5 nnz/tok=4.4
+00:45:47 I pilotA | bge L6|R1-doc|centered: hit10=0.787 (stop 0.119) relMRR=0.0071/24.2x z=5.55 PR=2.5 nnz/tok=4.4
+00:45:48 I pilotA | bge L6|R1-query|centered: hit10=0.889 (stop 0.133) relMRR=0.0086/28.7x z=5.80 PR=2.5 nnz/tok=4.6
+00:45:49 I pilotA | bge L6|R1-none|whitened: hit10=0.343 (stop 0.008) relMRR=0.0035/10.5x z=4.48 PR=1.9 nnz/tok=2.8
+00:45:49 I pilotA | bge L6|R1-doc|whitened: hit10=0.343 (stop 0.008) relMRR=0.0035/10.5x z=4.48 PR=1.9 nnz/tok=2.8
+00:45:50 I pilotA | bge L6|R1-query|whitened: hit10=0.387 (stop 0.013) relMRR=0.0042/12.0x z=4.55 PR=1.9 nnz/tok=3.0
+00:45:54 I pilotA | bge L7|R1-none|raw: hit10=0.793 (stop 0.099) relMRR=0.0076/20.1x z=5.59 PR=1.0 nnz/tok=1.5
+00:45:55 I pilotA | bge L7|R1-doc|raw: hit10=0.793 (stop 0.099) relMRR=0.0076/20.1x z=5.59 PR=1.0 nnz/tok=1.5
+00:45:56 I pilotA | bge L7|R1-query|raw: hit10=0.908 (stop 0.121) relMRR=0.0077/26.1x z=5.98 PR=3.0 nnz/tok=5.6
+00:45:56 I pilotA | bge L7|R1-none|centered: hit10=0.841 (stop 0.113) relMRR=0.0078/20.2x z=5.97 PR=2.7 nnz/tok=5.1
+00:45:57 I pilotA | bge L7|R1-doc|centered: hit10=0.841 (stop 0.113) relMRR=0.0078/20.2x z=5.97 PR=2.7 nnz/tok=5.1
+00:45:58 I pilotA | bge L7|R1-query|centered: hit10=0.925 (stop 0.119) relMRR=0.0091/30.2x z=6.25 PR=2.8 nnz/tok=5.1
+00:45:59 I pilotA | bge L7|R1-none|whitened: hit10=0.396 (stop 0.008) relMRR=0.0039/6.6x z=4.60 PR=2.0 nnz/tok=3.0
+00:46:00 I pilotA | bge L7|R1-doc|whitened: hit10=0.396 (stop 0.008) relMRR=0.0039/6.6x z=4.60 PR=2.0 nnz/tok=3.0
+00:46:00 I pilotA | bge L7|R1-query|whitened: hit10=0.436 (stop 0.016) relMRR=0.0048/8.3x z=4.68 PR=2.0 nnz/tok=3.2
+00:46:04 I pilotA | bge L8|R1-none|raw: hit10=0.845 (stop 0.122) relMRR=0.0088/26.7x z=5.92 PR=1.3 nnz/tok=2.0
+00:46:05 I pilotA | bge L8|R1-doc|raw: hit10=0.845 (stop 0.122) relMRR=0.0088/26.7x z=5.92 PR=1.3 nnz/tok=2.0
+00:46:05 I pilotA | bge L8|R1-query|raw: hit10=0.939 (stop 0.166) relMRR=0.0086/27.1x z=6.37 PR=3.1 nnz/tok=5.8
+00:46:06 I pilotA | bge L8|R1-none|centered: hit10=0.881 (stop 0.152) relMRR=0.0084/21.4x z=6.28 PR=2.8 nnz/tok=5.1
+00:46:07 I pilotA | bge L8|R1-doc|centered: hit10=0.881 (stop 0.152) relMRR=0.0084/21.4x z=6.28 PR=2.8 nnz/tok=5.1
+00:46:08 I pilotA | bge L8|R1-query|centered: hit10=0.951 (stop 0.177) relMRR=0.0100/29.7x z=6.61 PR=2.8 nnz/tok=4.9
+00:46:09 I pilotA | bge L8|R1-none|whitened: hit10=0.447 (stop 0.011) relMRR=0.0043/11.7x z=4.71 PR=2.1 nnz/tok=3.3
+00:46:10 I pilotA | bge L8|R1-doc|whitened: hit10=0.447 (stop 0.011) relMRR=0.0043/11.7x z=4.71 PR=2.1 nnz/tok=3.3
+00:46:10 I pilotA | bge L8|R1-query|whitened: hit10=0.489 (stop 0.033) relMRR=0.0053/14.7x z=4.80 PR=2.1 nnz/tok=3.4
+00:46:14 I pilotA | bge L9|R1-none|raw: hit10=0.878 (stop 0.158) relMRR=0.0101/31.2x z=6.33 PR=1.7 nnz/tok=2.8
+00:46:15 I pilotA | bge L9|R1-doc|raw: hit10=0.878 (stop 0.158) relMRR=0.0101/31.2x z=6.33 PR=1.7 nnz/tok=2.8
+00:46:16 I pilotA | bge L9|R1-query|raw: hit10=0.949 (stop 0.209) relMRR=0.0098/25.8x z=6.82 PR=3.0 nnz/tok=5.4
+00:46:17 I pilotA | bge L9|R1-none|centered: hit10=0.898 (stop 0.178) relMRR=0.0090/22.6x z=6.60 PR=2.6 nnz/tok=4.4
+00:46:18 I pilotA | bge L9|R1-doc|centered: hit10=0.898 (stop 0.178) relMRR=0.0090/22.6x z=6.60 PR=2.6 nnz/tok=4.4
+00:46:18 I pilotA | bge L9|R1-query|centered: hit10=0.956 (stop 0.208) relMRR=0.0112/24.1x z=6.98 PR=2.7 nnz/tok=4.4
+00:46:19 I pilotA | bge L9|R1-none|whitened: hit10=0.509 (stop 0.028) relMRR=0.0055/10.7x z=4.90 PR=2.2 nnz/tok=3.5
+00:46:20 I pilotA | bge L9|R1-doc|whitened: hit10=0.509 (stop 0.028) relMRR=0.0055/10.7x z=4.90 PR=2.2 nnz/tok=3.5
+00:46:21 I pilotA | bge L9|R1-query|whitened: hit10=0.556 (stop 0.052) relMRR=0.0075/22.2x z=5.02 PR=2.2 nnz/tok=3.6
+00:46:25 I pilotA | bge L10|R1-none|raw: hit10=0.878 (stop 0.122) relMRR=0.0156/48.5x z=6.93 PR=1.0 nnz/tok=1.5
+00:46:25 I pilotA | bge L10|R1-doc|raw: hit10=0.878 (stop 0.122) relMRR=0.0156/48.5x z=6.93 PR=1.0 nnz/tok=1.5
+00:46:26 I pilotA | bge L10|R1-query|raw: hit10=0.935 (stop 0.159) relMRR=0.0147/41.3x z=7.42 PR=2.3 nnz/tok=3.8
+00:46:27 I pilotA | bge L10|R1-none|centered: hit10=0.900 (stop 0.128) relMRR=0.0139/41.7x z=7.12 PR=2.6 nnz/tok=4.1
+00:46:27 I pilotA | bge L10|R1-doc|centered: hit10=0.900 (stop 0.128) relMRR=0.0139/41.7x z=7.12 PR=2.6 nnz/tok=4.1
+00:46:28 I pilotA | bge L10|R1-query|centered: hit10=0.945 (stop 0.160) relMRR=0.0166/46.1x z=7.52 PR=2.8 nnz/tok=4.4
+00:46:29 I pilotA | bge L10|R1-none|whitened: hit10=0.553 (stop 0.037) relMRR=0.0092/22.0x z=5.17 PR=2.3 nnz/tok=3.8
+00:46:30 I pilotA | bge L10|R1-doc|whitened: hit10=0.553 (stop 0.037) relMRR=0.0092/22.0x z=5.17 PR=2.3 nnz/tok=3.8
+00:46:31 I pilotA | bge L10|R1-query|whitened: hit10=0.605 (stop 0.068) relMRR=0.0121/33.6x z=5.33 PR=2.4 nnz/tok=4.0
+00:46:34 I pilotA | bge L11|R1-none|raw: hit10=0.816 (stop 0.060) relMRR=0.0461/183.9x z=7.28 PR=1.0 nnz/tok=1.6
+00:46:35 I pilotA | bge L11|R1-doc|raw: hit10=0.816 (stop 0.060) relMRR=0.0461/183.9x z=7.28 PR=1.0 nnz/tok=1.6
+00:46:36 I pilotA | bge L11|R1-query|raw: hit10=0.871 (stop 0.076) relMRR=0.0427/167.2x z=7.58 PR=1.8 nnz/tok=2.8
+00:46:37 I pilotA | bge L11|R1-none|centered: hit10=0.841 (stop 0.062) relMRR=0.0462/172.9x z=7.59 PR=4.4 nnz/tok=7.7
+00:46:37 I pilotA | bge L11|R1-doc|centered: hit10=0.841 (stop 0.062) relMRR=0.0462/172.9x z=7.59 PR=4.4 nnz/tok=7.7
+00:46:38 I pilotA | bge L11|R1-query|centered: hit10=0.879 (stop 0.068) relMRR=0.0501/192.1x z=7.84 PR=4.7 nnz/tok=8.2
+00:46:39 I pilotA | bge L11|R1-none|whitened: hit10=0.535 (stop 0.023) relMRR=0.0390/122.9x z=5.83 PR=3.7 nnz/tok=6.6
+00:46:40 I pilotA | bge L11|R1-doc|whitened: hit10=0.535 (stop 0.023) relMRR=0.0390/122.9x z=5.83 PR=3.7 nnz/tok=6.6
+00:46:40 I pilotA | bge L11|R1-query|whitened: hit10=0.573 (stop 0.040) relMRR=0.0476/167.9x z=6.02 PR=3.9 nnz/tok=7.0
+00:46:44 I pilotA | bge L12|R1-none|raw: hit10=0.553 (stop 0.009) relMRR=0.0822/341.5x z=5.55 PR=18.3 nnz/tok=35.8
+00:46:45 I pilotA | bge L12|R1-doc|raw: hit10=0.553 (stop 0.009) relMRR=0.0822/341.5x z=5.55 PR=18.3 nnz/tok=35.8
+00:46:46 I pilotA | bge L12|R1-query|raw: hit10=0.548 (stop 0.018) relMRR=0.0845/368.0x z=5.58 PR=18.3 nnz/tok=36.5
+00:46:46 I pilotA | bge L12|R1-none|centered: hit10=0.576 (stop 0.006) relMRR=0.0899/361.9x z=7.40 PR=18.6 nnz/tok=37.7
+00:46:47 I pilotA | bge L12|R1-doc|centered: hit10=0.576 (stop 0.006) relMRR=0.0899/361.9x z=7.40 PR=18.6 nnz/tok=37.7
+00:46:48 I pilotA | bge L12|R1-query|centered: hit10=0.598 (stop 0.012) relMRR=0.0968/385.5x z=7.61 PR=18.4 nnz/tok=37.5
+00:46:49 I pilotA | bge L12|R1-none|whitened: hit10=0.477 (stop 0.009) relMRR=0.0939/341.3x z=7.93 PR=10.9 nnz/tok=21.8
+00:46:49 I pilotA | bge L12|R1-doc|whitened: hit10=0.477 (stop 0.009) relMRR=0.0939/341.3x z=7.93 PR=10.9 nnz/tok=21.8
+00:46:50 I pilotA | bge L12|R1-query|whitened: hit10=0.496 (stop 0.016) relMRR=0.1034/384.8x z=8.23 PR=11.8 nnz/tok=23.8
+00:46:50 I pilotA | [done ] pilot A bge [prefix] (124.6s)
+00:46:50 I pilotA | saved /home/user/tmp/dvlsr/results/14_pilotA_bge_prefix.json

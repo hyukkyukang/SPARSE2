@@ -1,0 +1,160 @@
+00:44:49 I refC1 | [start] encode C1 with SPLADE++
+00:44:49 I refC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 0 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 1 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 2 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 3 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 4 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 5 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 6 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 7 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 8 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 9 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 10 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 11 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 12 on gpu 4: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 12 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 13 on gpu 4: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 13 --n-shards 24 --what splade-shard
+00:44:49 I refC1 | launch shard 14 on gpu 4: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 14 --n-shards 24 --what splade-shard
+00:49:03 I refC1 | shard 2 ok (gpu 0) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/77187 166/s
+shard 2: 12800/77187 335/s
+shard 2: 25600/77187 334/s
+shard 2: 38400/77187 333/s
+shard 2: 51200/77187 333/s
+shard 2: 64000/77187 333/s
+shard 2: 76800/77187 334/s
+shard 2 done
+00:49:03 I refC1 | launch shard 15 on gpu 0: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 15 --n-shards 24 --what splade-shard
+00:49:04 I refC1 | shard 0 ok (gpu 0) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/77186 160/s
+shard 0: 12800/77186 335/s
+shard 0: 25600/77186 334/s
+shard 0: 38400/77186 333/s
+shard 0: 51200/77186 333/s
+shard 0: 64000/77186 333/s
+shard 0: 76800/77186 333/s
+shard 0 done
+00:49:04 I refC1 | shard 1 ok (gpu 0) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/77186 170/s
+shard 1: 12800/77186 335/s
+shard 1: 25600/77186 334/s
+shard 1: 38400/77186 333/s
+shard 1: 51200/77186 333/s
+shard 1: 64000/77186 333/s
+shard 1: 76800/77186 334/s
+shard 1 done
+00:49:04 I refC1 | shard 12 ok (gpu 4) quests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 12: 0/77186 205/s
+shard 12: 12800/77186 333/s
+shard 12: 25600/77186 333/s
+shard 12: 38400/77186 332/s
+shard 12: 51200/77186 333/s
+shard 12: 64000/77186 333/s
+shard 12: 76800/77186 333/s
+shard 12 done
+00:49:04 I refC1 | shard 13 ok (gpu 4) quests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 13: 0/77186 210/s
+shard 13: 12800/77186 333/s
+shard 13: 25600/77186 333/s
+shard 13: 38400/77186 332/s
+shard 13: 51200/77186 333/s
+shard 13: 64000/77186 333/s
+shard 13: 76800/77186 333/s
+shard 13 done
+00:49:04 I refC1 | shard 14 ok (gpu 4) quests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 14: 0/77187 172/s
+shard 14: 12800/77187 331/s
+shard 14: 25600/77187 332/s
+shard 14: 38400/77187 331/s
+shard 14: 51200/77187 332/s
+shard 14: 64000/77187 332/s
+shard 14: 76800/77187 332/s
+shard 14 done
+00:49:04 I refC1 | launch shard 16 on gpu 0: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 16 --n-shards 24 --what splade-shard
+00:49:04 I refC1 | launch shard 17 on gpu 0: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 17 --n-shards 24 --what splade-shard
+00:49:04 I refC1 | launch shard 18 on gpu 4: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 18 --n-shards 24 --what splade-shard
+00:49:04 I refC1 | launch shard 19 on gpu 4: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 19 --n-shards 24 --what splade-shard
+00:49:04 I refC1 | launch shard 20 on gpu 4: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 20 --n-shards 24 --what splade-shard
+00:49:05 I refC1 | shard 9 ok (gpu 3) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 9: 0/77186 177/s
+shard 9: 12800/77186 327/s
+shard 9: 25600/77186 329/s
+shard 9: 38400/77186 331/s
+shard 9: 51200/77186 331/s
+shard 9: 64000/77186 332/s
+shard 9: 76800/77186 332/s
+shard 9 done
+00:49:05 I refC1 | shard 10 ok (gpu 3) quests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 10: 0/77186 182/s
+shard 10: 12800/77186 334/s
+shard 10: 25600/77186 332/s
+shard 10: 38400/77186 332/s
+shard 10: 51200/77186 332/s
+shard 10: 64000/77186 333/s
+shard 10: 76800/77186 332/s
+shard 10 done
+00:49:05 I refC1 | launch shard 21 on gpu 3: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 21 --n-shards 24 --what splade-shard
+00:49:05 I refC1 | launch shard 22 on gpu 3: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 22 --n-shards 24 --what splade-shard
+00:49:06 I refC1 | shard 3 ok (gpu 1) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/77186 173/s
+shard 3: 12800/77186 327/s
+shard 3: 25600/77186 329/s
+shard 3: 38400/77186 329/s
+shard 3: 51200/77186 330/s
+shard 3: 64000/77186 330/s
+shard 3: 76800/77186 330/s
+shard 3 done
+00:49:06 I refC1 | shard 4 ok (gpu 1) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/77186 230/s
+shard 4: 12800/77186 332/s
+shard 4: 25600/77186 331/s
+shard 4: 38400/77186 331/s
+shard 4: 51200/77186 331/s
+shard 4: 64000/77186 331/s
+shard 4: 76800/77186 331/s
+shard 4 done
+00:49:06 I refC1 | shard 5 ok (gpu 1) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/77187 169/s
+shard 5: 12800/77187 330/s
+shard 5: 25600/77187 330/s
+shard 5: 38400/77187 330/s
+shard 5: 51200/77187 331/s
+shard 5: 64000/77187 330/s
+shard 5: 76800/77187 331/s
+shard 5 done
+00:49:06 I refC1 | shard 6 ok (gpu 2) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/77186 179/s
+shard 6: 12800/77186 331/s
+shard 6: 25600/77186 334/s
+shard 6: 38400/77186 331/s
+shard 6: 51200/77186 332/s
+shard 6: 64000/77186 332/s
+shard 6: 76800/77186 332/s
+shard 6 done
+00:49:06 I refC1 | shard 7 ok (gpu 2) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/77186 130/s
+shard 7: 12800/77186 328/s
+shard 7: 25600/77186 332/s
+shard 7: 38400/77186 330/s
+shard 7: 51200/77186 331/s
+shard 7: 64000/77186 331/s
+shard 7: 76800/77186 331/s
+shard 7 done
+00:49:06 I refC1 | shard 8 ok (gpu 2) cated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 8: 0/77187 181/s
+shard 8: 12800/77187 331/s
+shard 8: 25600/77187 332/s
+shard 8: 38400/77187 330/s
+shard 8: 51200/77187 331/s
+shard 8: 64000/77187 331/s
+shard 8: 76800/77187 331/s
+shard 8 done
+00:49:06 I refC1 | shard 11 ok (gpu 3) quests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 11: 0/77187 110/s
+shard 11: 12800/77187 325/s
+shard 11: 25600/77187 328/s
+shard 11: 38400/77187 330/s
+shard 11: 51200/77187 330/s
+shard 11: 64000/77187 331/s
+shard 11: 76800/77187 331/s
+shard 11 done
+00:49:06 I refC1 | launch shard 23 on gpu 1: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 23 --n-shards 24 --what splade-shard

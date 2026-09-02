@@ -100,14 +100,16 @@ def merge(enc_name, n_shards):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--shard", type=int, default=-1)
-    ap.add_argument("--n-shards", type=int, default=8)
+    ap.add_argument("--n-shards", type=int, default=16)
     ap.add_argument("--encoder", default="e5")
     ap.add_argument("--bs", type=int, default=192)
+    ap.add_argument("--per-gpu", type=int, default=2)
     a = ap.parse_args()
     if a.shard >= 0:
         worker(a.shard, a.n_shards, a.encoder, a.bs)
     else:
         with Timer(f"prototypes {a.encoder}", lg):
             gpu_map(os.path.abspath(__file__), a.n_shards,
-                    ["--encoder", a.encoder, "--bs", str(a.bs)], logger=lg)
+                    ["--encoder", a.encoder, "--bs", str(a.bs)], logger=lg,
+                    per_gpu=a.per_gpu)
         merge(a.encoder, a.n_shards)

@@ -1,0 +1,47 @@
+{
+  "L4": {
+    "rel_mu_shift": 0.413271546547498,
+    "rel_cov_frob": 1.0271413512006062,
+    "shared_ok": false
+  },
+  "L5": {
+    "rel_mu_shift": 0.3900643551277872,
+    "rel_cov_frob": 1.0497677131121452,
+    "shared_ok": false
+  },
+  "L6": {
+    "rel_mu_shift": 0.4151489935509594,
+    "rel_cov_frob": 1.0401269499141264,
+    "shared_ok": false
+  },
+  "L7": {
+    "rel_mu_shift": 0.4556915715738576,
+    "rel_cov_frob": 0.9639953356540096,
+    "shared_ok": false
+  },
+  "L8": {
+    "rel_mu_shift": 0.4721226417011084,
+    "rel_cov_frob": 0.8777003689386675,
+    "shared_ok": false
+  },
+  "L9": {
+    "rel_mu_shift": 0.4929660665488099,
+    "rel_cov_frob": 0.8279683255434469,
+    "shared_ok": false
+  },
+  "L10": {
+    "rel_mu_shift": 0.5628437583285834,
+    "rel_cov_frob": 0.8100790136927601,
+    "shared_ok": false
+  },
+  "L11": {
+    "rel_mu_shift": 0.37979523188985403,
+    "rel_cov_frob": 0.6743007946394306,
+    "shared_ok": false
+  },
+  "L12": {
+    "rel_mu_shift": 0.22914622251875985,
+    "rel_cov_frob": 0.5500652274301561,
+    "shared_ok": false
+  }
+}

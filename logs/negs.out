@@ -1,0 +1,38 @@
+00:38:21 I negs | [start] mine BM25 negatives
+00:38:23 I negs | 502939 train queries with qrels; using 200000
+00:38:35 I negs | 2000/200000 (4s, eta 382s)
+
+2026-09-03 00:38:35,641 - negs - INFO - 2000/200000 (4s, eta 382s)
+00:39:02 I negs | 22000/200000 (31s, eta 247s)
+
+2026-09-03 00:39:02,344 - negs - INFO - 22000/200000 (31s, eta 247s)
+00:39:32 I negs | 42000/200000 (61s, eta 229s)
+
+2026-09-03 00:39:32,537 - negs - INFO - 42000/200000 (61s, eta 229s)
+00:40:00 I negs | 62000/200000 (88s, eta 197s)
+
+2026-09-03 00:40:00,209 - negs - INFO - 62000/200000 (88s, eta 197s)
+00:40:22 I negs | 82000/200000 (111s, eta 159s)
+
+2026-09-03 00:40:22,532 - negs - INFO - 82000/200000 (111s, eta 159s)
+00:40:49 I negs | 102000/200000 (137s, eta 132s)
+
+2026-09-03 00:40:49,219 - negs - INFO - 102000/200000 (137s, eta 132s)
+00:41:13 I negs | 122000/200000 (161s, eta 103s)
+
+2026-09-03 00:41:13,274 - negs - INFO - 122000/200000 (161s, eta 103s)
+00:41:36 I negs | 142000/200000 (185s, eta 75s)
+
+2026-09-03 00:41:36,360 - negs - INFO - 142000/200000 (185s, eta 75s)
+00:42:00 I negs | 162000/200000 (209s, eta 49s)
+
+2026-09-03 00:42:00,745 - negs - INFO - 162000/200000 (209s, eta 49s)
+00:42:24 I negs | 182000/200000 (232s, eta 23s)
+
+2026-09-03 00:42:24,270 - negs - INFO - 182000/200000 (232s, eta 23s)
+00:42:45 I negs | saved /workspace/SPARSE/dvlsr/data/prep/train_negatives.npz
+
+2026-09-03 00:42:45,902 - negs - INFO - saved /workspace/SPARSE/dvlsr/data/prep/train_negatives.npz
+00:42:45 I negs | [done ] mine BM25 negatives (264.3s)
+
+2026-09-03 00:42:45,996 - negs - INFO - [done ] mine BM25 negatives (264.3s)

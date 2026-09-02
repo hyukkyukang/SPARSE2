@@ -1,0 +1,365 @@
+00:29:53 I proto | [start] prototypes e5
+00:29:55 I proto | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 0 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 1 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 2 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 3 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 4 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 5 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 6 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 7 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 8 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 9 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 10 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 11 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 12 on gpu 4: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 12 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 13 on gpu 4: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 13 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 14 on gpu 4: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 14 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 15 on gpu 5: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 15 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 16 on gpu 5: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 16 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 17 on gpu 5: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 17 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 18 on gpu 6: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 18 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 19 on gpu 6: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 19 --n-shards 21 --encoder e5 --bs 192
+00:29:55 I proto | launch shard 20 on gpu 6: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 20 --n-shards 21 --encoder e5 --bs 192
+00:32:57 I proto | shard 17 ok (gpu 5) 7.02it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1087.55it/s]
+shard 17: 0/117886 300/s
+shard 17: 19200/117886 1101/s
+shard 17: 38400/117886 1060/s
+shard 17: 57600/117886 1030/s
+shard 17: 76800/117886 985/s
+shard 17: 96000/117886 926/s
+shard 17: 115200/117886 865/s
+shard 17 done 145s
+00:33:13 I proto | shard 12 ok (gpu 4) 7887 1021/s
+shard 12: 76800/117887 989/s
+shard 12: 96000/117887 933/s
+shard 12: 115200/117887 863/s
+[W903 00:32:47.233066115 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 354418688 bytes (free: 275120128, total: 42404806656).
+shard 12 done 161s
+00:33:20 I proto | shard 6 ok (gpu 2) 0/117886 1031/s
+shard 6: 76800/117886 1005/s
+shard 6: 96000/117886 940/s
+shard 6: 115200/117886 860/s
+[W903 00:32:49.342124597 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 354418688 bytes (free: 80019456, total: 42404806656).
+shard 6 done 168s
+00:33:20 I proto | shard 19 ok (gpu 6) 7886 1036/s
+shard 19: 76800/117886 1005/s
+shard 19: 96000/117886 952/s
+shard 19: 115200/117886 859/s
+[W903 00:32:44.189993336 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 293601280 bytes (free: 38141952, total: 42404806656).
+shard 19 done 169s
+00:33:24 I proto | shard 18 ok (gpu 6) 17886 1018/s
+shard 18: 76800/117886 985/s
+shard 18: 96000/117886 936/s
+[W903 00:32:44.199367749 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 285212672 bytes (free: 38141952, total: 42404806656).
+shard 18: 115200/117886 853/s
+shard 18 done 173s
+00:33:25 I proto | shard 13 ok (gpu 4) 22.19it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 886.27it/s]
+shard 13: 0/117886 279/s
+shard 13: 19200/117886 1076/s
+shard 13: 38400/117886 1050/s
+shard 13: 57600/117886 1010/s
+shard 13: 76800/117886 975/s
+shard 13: 96000/117886 926/s
+shard 13: 115200/117886 846/s
+shard 13 done 174s
+00:33:29 I proto | shard 20 ok (gpu 6) 87.59it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 903.68it/s]
+shard 20: 0/117887 287/s
+shard 20: 19200/117887 1077/s
+shard 20: 38400/117887 1045/s
+shard 20: 57600/117887 1000/s
+shard 20: 76800/117887 978/s
+shard 20: 96000/117887 935/s
+shard 20: 115200/117887 846/s
+shard 20 done 177s
+00:33:30 I proto | shard 0 ok (gpu 0) 0/117886 1039/s
+shard 0: 76800/117886 996/s
+shard 0: 96000/117886 924/s
+shard 0: 115200/117886 850/s
+[W903 00:32:46.853816294 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 301989888 bytes (free: 163905536, total: 42404806656).
+shard 0 done 178s
+00:33:30 I proto | shard 5 ok (gpu 1) 00/117886 1012/s
+shard 5: 76800/117886 992/s
+shard 5: 96000/117886 917/s
+shard 5: 115200/117886 846/s
+[W903 00:32:46.856530792 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 293601280 bytes (free: 10878976, total: 42404806656).
+shard 5 done 178s
+00:33:30 I proto | shard 11 ok (gpu 3) 7886 1014/s
+shard 11: 76800/117886 979/s
+shard 11: 96000/117886 916/s
+shard 11: 115200/117886 844/s
+[W903 00:32:51.307901317 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 346030080 bytes (free: 115671040, total: 42404806656).
+shard 11 done 178s
+00:33:31 I proto | shard 1 ok (gpu 0) 0/117886 1014/s
+shard 1: 76800/117886 974/s
+shard 1: 96000/117886 908/s
+[W903 00:32:46.623367914 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 287309824 bytes (free: 163905536, total: 42404806656).
+shard 1: 115200/117886 835/s
+shard 1 done 179s
+00:33:31 I proto | shard 3 ok (gpu 1) 00/117886 1023/s
+shard 3: 76800/117886 983/s
+shard 3: 96000/117886 913/s
+[W903 00:32:46.196679162 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 291504128 bytes (free: 23461888, total: 42404806656).
+shard 3: 115200/117886 835/s
+shard 3 done 179s
+00:33:31 I proto | shard 7 ok (gpu 2) 00/117886 997/s
+shard 7: 76800/117886 973/s
+shard 7: 96000/117886 917/s
+[W903 00:32:43.148825055 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 270532608 bytes (free: 262471680, total: 42404806656).
+shard 7: 115200/117886 834/s
+shard 7 done 179s
+00:33:31 I proto | shard 10 ok (gpu 3) ng to allocate 283115520 bytes (free: 191168512, total: 42404806656).
+shard 10: 115200/117886 842/s
+[W903 00:32:49.000195943 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 314572800 bytes (free: 289734656, total: 42404806656).
+shard 10 done 179s
+00:33:31 I proto | shard 16 ok (gpu 5) 17887 1005/s
+shard 16: 76800/117887 971/s
+shard 16: 96000/117887 904/s
+[W903 00:32:46.196760406 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 289406976 bytes (free: 52756480, total: 42404806656).
+shard 16: 115200/117887 835/s
+shard 16 done 179s
+00:33:32 I proto | shard 8 ok (gpu 2)  [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3008.52it/s]
+shard 8: 0/117887 271/s
+shard 8: 19200/117887 1065/s
+shard 8: 38400/117887 1041/s
+shard 8: 57600/117887 1027/s
+shard 8: 76800/117887 978/s
+shard 8: 96000/117887 921/s
+shard 8: 115200/117887 838/s
+shard 8 done 179s
+00:33:32 I proto | shard 9 ok (gpu 3) 00:03, 49.62it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1122.48it/s]
+shard 9: 0/117886 289/s
+shard 9: 19200/117886 1079/s
+shard 9: 38400/117886 1031/s
+shard 9: 57600/117886 1013/s
+shard 9: 76800/117886 978/s
+shard 9: 96000/117886 912/s
+shard 9: 115200/117886 838/s
+shard 9 done 179s
+00:33:32 I proto | shard 14 ok (gpu 4) ng to allocate 272629760 bytes (free: 243662848, total: 42404806656).
+[W903 00:32:47.233037511 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 281018368 bytes (free: 275120128, total: 42404806656).
+shard 14: 115200/117886 808/s
+shard 14 done 180s
+00:33:33 I proto | shard 15 ok (gpu 5) 17886 978/s
+shard 15: 76800/117886 940/s
+shard 15: 96000/117886 868/s
+[W903 00:32:51.862965610 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 306184192 bytes (free: 151322624, total: 42404806656).
+shard 15: 115200/117886 811/s
+shard 15 done 180s
+00:33:34 I proto | shard 2 ok (gpu 0) 00/117886 996/s
+shard 2: 76800/117886 967/s
+shard 2: 96000/117886 903/s
+[W903 00:32:46.854498145 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 281018368 bytes (free: 163905536, total: 42404806656).
+shard 2: 115200/117886 829/s
+shard 2 done 179s
+00:33:34 I proto | shard 4 ok (gpu 1) 600/117887 996/s
+shard 4: 76800/117887 967/s
+shard 4: 96000/117887 904/s
+[W903 00:32:46.191598076 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 283115520 bytes (free: 10878976, total: 42404806656).
+shard 4: 115200/117887 829/s
+shard 4 done 179s
+00:33:34 I proto | [done ] prototypes e5 (221.2s)
+00:34:28 I proto | e5: prototypes (30000, 9, 768) countA min=0 med=63 countB min=0 med=63
+00:34:36 I whiten | [start] whitening
+00:34:48 I whiten | e5 L4: ||muQ-muH||/||muH|| = 0.535  covFrob = 1.063
+00:34:52 I whiten | e5 L5: ||muQ-muH||/||muH|| = 0.502  covFrob = 1.087
+00:34:55 I whiten | e5 L6: ||muQ-muH||/||muH|| = 0.495  covFrob = 1.101
+00:34:58 I whiten | e5 L7: ||muQ-muH||/||muH|| = 0.506  covFrob = 1.058
+00:35:02 I whiten | e5 L8: ||muQ-muH||/||muH|| = 0.541  covFrob = 0.946
+00:35:05 I whiten | e5 L9: ||muQ-muH||/||muH|| = 0.456  covFrob = 0.862
+00:35:08 I whiten | e5 L10: ||muQ-muH||/||muH|| = 0.462  covFrob = 0.874
+00:35:12 I whiten | e5 L11: ||muQ-muH||/||muH|| = 0.285  covFrob = 0.935
+00:35:14 I whiten | e5 L12: ||muQ-muH||/||muH|| = 0.164  covFrob = 0.801
+00:35:16 I whiten | e5: whitening transforms frozen in /workspace/SPARSE/dvlsr/artifacts/whiten
+00:35:16 I whiten | [done ] whitening (39.9s)
+00:35:19 I proto | [start] prototypes bge
+00:35:22 I proto | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 0 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 1 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 2 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 3 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 4 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 5 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 6 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 7 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 8 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 9 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 10 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 11 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 12 on gpu 4: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 12 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 13 on gpu 4: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 13 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 14 on gpu 4: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 14 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 15 on gpu 5: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 15 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 16 on gpu 5: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 16 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 17 on gpu 5: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 17 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 18 on gpu 6: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 18 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 19 on gpu 6: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 19 --n-shards 21 --encoder bge --bs 192
+00:35:22 I proto | launch shard 20 on gpu 6: /home/user/tmp/dvlsr/scripts/11_prototypes.py --shard 20 --n-shards 21 --encoder bge --bs 192
+00:38:26 I proto | shard 9 ok (gpu 3) /117886 1055/s
+shard 9: 76800/117886 1023/s
+shard 9: 96000/117886 948/s
+shard 9: 115200/117886 878/s
+[W903 00:38:05.732380133 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 301989888 bytes (free: 249888768, total: 42404806656).
+shard 9 done 151s
+00:38:27 I proto | shard 5 ok (gpu 1) /117886 1055/s
+shard 5: 76800/117886 1011/s
+shard 5: 96000/117886 945/s
+shard 5: 115200/117886 875/s
+[W903 00:38:07.615024578 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 329252864 bytes (free: 249823232, total: 42404806656).
+shard 5 done 152s
+00:38:45 I proto | shard 20 ok (gpu 6) 117887 1029/s
+shard 20: 76800/117887 994/s
+shard 20: 96000/117887 961/s
+shard 20: 115200/117887 869/s
+[W903 00:38:06.522793821 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 295698432 bytes (free: 6619136, total: 42404806656).
+shard 20 done 171s
+00:38:46 I proto | shard 12 ok (gpu 4) , ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3269.10it/s]
+shard 12: 0/117887 142/s
+shard 12: 19200/117887 1081/s
+shard 12: 38400/117887 1046/s
+shard 12: 57600/117887 1035/s
+shard 12: 76800/117887 1000/s
+shard 12: 96000/117887 939/s
+shard 12: 115200/117887 867/s
+shard 12 done 172s
+00:38:47 I proto | shard 8 ok (gpu 2) 0/117887 1017/s
+shard 8: 76800/117887 988/s
+shard 8: 96000/117887 943/s
+shard 8: 115200/117887 872/s
+[W903 00:38:08.794150249 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 329252864 bytes (free: 302120960, total: 42404806656).
+shard 8 done 172s
+00:38:48 I proto | shard 17 ok (gpu 5) 7886 1031/s
+shard 17: 76800/117886 993/s
+shard 17: 96000/117886 934/s
+shard 17: 115200/117886 865/s
+[W903 00:38:09.264138083 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 339738624 bytes (free: 287703040, total: 42404806656).
+shard 17 done 173s
+00:38:50 I proto | shard 6 ok (gpu 2) 0/117886 1011/s
+shard 6: 76800/117886 979/s
+shard 6: 96000/117886 937/s
+[W903 00:38:04.925891132 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 272629760 bytes (free: 195166208, total: 42404806656).
+shard 6: 115200/117886 863/s
+shard 6 done 176s
+00:38:51 I proto | shard 7 ok (gpu 2) 0/117886 1007/s
+shard 7: 76800/117886 975/s
+shard 7: 96000/117886 935/s
+shard 7: 115200/117886 862/s
+[W903 00:38:08.797616171 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 306184192 bytes (free: 302120960, total: 42404806656).
+shard 7 done 176s
+00:38:52 I proto | shard 18 ok (gpu 6) 1.43it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1257.40it/s]
+shard 18: 0/117886 129/s
+shard 18: 19200/117886 1004/s
+shard 18: 38400/117886 1004/s
+shard 18: 57600/117886 1006/s
+shard 18: 76800/117886 973/s
+shard 18: 96000/117886 926/s
+shard 18: 115200/117886 853/s
+shard 18 done 178s
+00:38:52 I proto | shard 19 ok (gpu 6) 117886 1017/s
+shard 19: 76800/117886 985/s
+shard 19: 96000/117886 940/s
+[W903 00:38:06.512472638 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 276824064 bytes (free: 6619136, total: 42404806656).
+shard 19: 115200/117886 858/s
+shard 19 done 177s
+00:38:53 I proto | shard 11 ok (gpu 3) ?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3707.95it/s]
+shard 11: 0/117886 142/s
+shard 11: 19200/117886 1059/s
+shard 11: 38400/117886 1069/s
+shard 11: 57600/117886 1028/s
+shard 11: 76800/117886 999/s
+shard 11: 96000/117886 931/s
+shard 11: 115200/117886 857/s
+shard 11 done 178s
+00:38:54 I proto | shard 10 ok (gpu 3) 7886 1007/s
+shard 10: 76800/117886 978/s
+shard 10: 96000/117886 918/s
+shard 10: 115200/117886 848/s
+[W903 00:38:11.368213464 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 314572800 bytes (free: 228917248, total: 42404806656).
+shard 10 done 178s
+00:38:54 I proto | shard 13 ok (gpu 4) 17886 1020/s
+shard 13: 76800/117886 978/s
+shard 13: 96000/117886 912/s
+[W903 00:38:06.179700715 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 285212672 bytes (free: 25427968, total: 42404806656).
+shard 13: 115200/117886 841/s
+shard 13 done 179s
+00:38:55 I proto | shard 0 ok (gpu 0) 00/117886 998/s
+shard 0: 76800/117886 977/s
+shard 0: 96000/117886 923/s
+[W903 00:38:08.121097783 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 293601280 bytes (free: 245628928, total: 42404806656).
+shard 0: 115200/117886 846/s
+shard 0 done 179s
+00:38:55 I proto | shard 1 ok (gpu 0) :00, 1339.27it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1395.86it/s]
+shard 1: 0/117886 308/s
+shard 1: 19200/117886 1080/s
+shard 1: 38400/117886 1047/s
+shard 1: 57600/117886 1009/s
+shard 1: 76800/117886 982/s
+shard 1: 96000/117886 920/s
+shard 1: 115200/117886 844/s
+shard 1 done 179s
+00:38:55 I proto | shard 2 ok (gpu 0) 00/117886 982/s
+shard 2: 76800/117886 964/s
+shard 2: 96000/117886 907/s
+[W903 00:38:08.125382529 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 281018368 bytes (free: 245628928, total: 42404806656).
+shard 2: 115200/117886 834/s
+shard 2 done 179s
+00:38:55 I proto | shard 4 ok (gpu 1) 0/117887 1023/s
+shard 4: 76800/117887 981/s
+shard 4: 96000/117887 920/s
+[W903 00:38:07.609280242 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 283115520 bytes (free: 237240320, total: 42404806656).
+shard 4: 115200/117887 845/s
+shard 4 done 179s
+00:38:55 I proto | shard 14 ok (gpu 4) 7886 1003/s
+shard 14: 76800/117886 949/s
+shard 14: 96000/117886 875/s
+[W903 00:38:12.329403347 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 295698432 bytes (free: 228851712, total: 42404806656).
+shard 14: 115200/117886 817/s
+shard 14 done 180s
+00:38:55 I proto | shard 16 ok (gpu 5) 7887 1026/s
+shard 16: 76800/117887 981/s
+shard 16: 96000/117887 898/s
+[W903 00:38:09.264255233 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 293601280 bytes (free: 287703040, total: 42404806656).
+shard 16: 115200/117887 839/s
+shard 16 done 179s
+00:38:56 I proto | shard 3 ok (gpu 1)  [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3074.37it/s]
+shard 3: 0/117886 143/s
+shard 3: 19200/117886 1098/s
+shard 3: 38400/117886 1050/s
+shard 3: 57600/117886 1036/s
+shard 3: 76800/117886 984/s
+shard 3: 96000/117886 908/s
+shard 3: 115200/117886 832/s
+shard 3 done 179s
+00:38:56 I proto | shard 15 ok (gpu 5) 68.11it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1791.81it/s]
+shard 15: 0/117886 134/s
+shard 15: 19200/117886 1048/s
+shard 15: 38400/117886 1021/s
+shard 15: 57600/117886 992/s
+shard 15: 76800/117886 945/s
+shard 15: 96000/117886 876/s
+shard 15: 115200/117886 818/s
+shard 15 done 180s
+00:38:56 I proto | [done ] prototypes bge (216.8s)
+00:39:58 I proto | bge: prototypes (30000, 9, 768) countA min=0 med=63 countB min=0 med=63
+00:40:07 I whiten | [start] whitening
+00:40:29 I whiten | bge L4: ||muQ-muH||/||muH|| = 0.413  covFrob = 1.027
+00:40:32 I whiten | bge L5: ||muQ-muH||/||muH|| = 0.390  covFrob = 1.050
+00:40:36 I whiten | bge L6: ||muQ-muH||/||muH|| = 0.415  covFrob = 1.040
+00:40:39 I whiten | bge L7: ||muQ-muH||/||muH|| = 0.456  covFrob = 0.964
+00:40:43 I whiten | bge L8: ||muQ-muH||/||muH|| = 0.472  covFrob = 0.878
+00:40:47 I whiten | bge L9: ||muQ-muH||/||muH|| = 0.493  covFrob = 0.828
+00:40:50 I whiten | bge L10: ||muQ-muH||/||muH|| = 0.563  covFrob = 0.810
+00:40:53 I whiten | bge L11: ||muQ-muH||/||muH|| = 0.380  covFrob = 0.674
+00:40:57 I whiten | bge L12: ||muQ-muH||/||muH|| = 0.229  covFrob = 0.550
+00:40:59 I whiten | bge: whitening transforms frozen in /workspace/SPARSE/dvlsr/artifacts/whiten
+00:40:59 I whiten | [done ] whitening (51.5s)
+PROTO_CHAIN_DONE

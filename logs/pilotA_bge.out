@@ -1,0 +1,4 @@
+00:47:57 I pilotA | [start] pilot A bge [report]
+00:48:07 I pilotA | bge [report]: 44534 probes, 9442 with related terms
+00:48:50 I pilotA | bge L4|R1-query|raw: hit10=0.732 (stop 0.120) relMRR=0.0059/15.2x z=5.05 PR=0.8 nnz/tok=1.1 sense=0.662 jac=0.098/cov=0.86
+00:49:27 I pilotA | bge L4|R2|raw: hit10=1.000 (stop 1.000) relMRR=0.0090/25.3x z=11.91 PR=2.5 nnz/tok=4.8 sense=0.726 jac=0.284/cov=0.86

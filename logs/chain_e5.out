@@ -7,3 +7,28 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
 00:23:59 I probes | [done ] e5: bank H (6.6s)
 00:24:09 I probes | e5: H bank (200000, 9, 768) (from 234322 units)
 00:24:10 I probes | [start] e5: bank Q
+00:24:20 I probes | [done ] e5: bank Q (10.5s)
+00:24:26 I probes | e5: Q bank (200000, 9, 768) (from 231450 units)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3319.97it/s]
+00:24:39 I probes | [start] e5: tau sample S
+00:24:47 I probes | [done ] e5: tau sample S (8.0s)
+00:24:58 I probes | e5: S (286962, 9, 768) over 5000 texts
+00:24:59 I probes | [start] e5: tau sample devq
+00:25:01 I probes | [done ] e5: tau sample devq (2.4s)
+00:25:03 I probes | e5: devq (41576, 9, 768) over 6980 texts
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3004.58it/s]
+00:25:14 I r1 | [start] R1 e5/none
+00:25:17 I r1 | [done ] R1 e5/none (2.8s)
+00:25:17 I r1 | [start] R1 e5/doc
+00:25:19 I r1 | [done ] R1 e5/doc (2.4s)
+00:25:19 I r1 | [start] R1 e5/query
+00:25:22 I r1 | [done ] R1 e5/query (2.4s)
+00:25:22 I r1 | saved R1 e5: {'none': (30000, 768), 'doc': (30000, 768), 'query': (30000, 768)}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/204 [00:00<?, ?it/s]Loading weights: 100%|██████████| 204/204 [00:00<00:00, 3321.86it/s]
+00:25:39 I splade-exp | [start] SPLADE expansions for 5879 passages
+00:25:45 I splade-exp | [done ] SPLADE expansions for 5879 passages (5.9s)
+00:25:45 I splade-exp | saved /workspace/SPARSE/dvlsr/artifacts/splade_expansions.npz
+CHAIN_E5_DONE

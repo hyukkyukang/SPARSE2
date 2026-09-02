@@ -1,0 +1,9 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2692.69it/s]
+00:30:32 I dense | [start] load corpus bge to gpu
+/home/user/tmp/dvlsr/scripts/04_dense_retrieval.py:33: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:213.)
+  D = torch.from_numpy(np.ascontiguousarray(C)).cuda()
+00:31:07 I dense | [done ] load corpus bge to gpu (35.5s)
+00:31:07 I dense | [start] search bge full (8841823 docs)
+00:31:11 I dense | [done ] search bge full (8841823 docs) (3.4s)
+00:31:14 I dense | dense bge full collection: {'mrr@10': 0.34979374175649247, 'r@10': 0.6269937917860554, 'r@100': 0.885148042024833, 'r@1000': 0.9753581661891118, 'mrr@10_ci': (0.34090602117160135, 0.3589276092122618)}
