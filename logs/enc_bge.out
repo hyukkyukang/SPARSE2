@@ -1,0 +1,51 @@
+00:19:26 I enc-corpus | allocated /workspace/SPARSE/dvlsr/emb/corpus_bge.npy
+00:19:28 I enc-corpus | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 0 --n-shards 28 --encoder bge --bs 512
+00:19:28 I enc-corpus | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 1 --n-shards 28 --encoder bge --bs 512
+00:19:28 I enc-corpus | launch shard 2 on gpu 1: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 2 --n-shards 28 --encoder bge --bs 512
+00:19:28 I enc-corpus | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 3 --n-shards 28 --encoder bge --bs 512
+00:19:28 I enc-corpus | launch shard 4 on gpu 2: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 4 --n-shards 28 --encoder bge --bs 512
+00:19:28 I enc-corpus | launch shard 5 on gpu 2: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 5 --n-shards 28 --encoder bge --bs 512
+00:19:28 I enc-corpus | launch shard 6 on gpu 3: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 6 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 7 on gpu 3: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 7 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 8 on gpu 4: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 8 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 9 on gpu 4: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 9 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 10 on gpu 5: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 10 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 11 on gpu 5: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 11 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 12 on gpu 6: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 12 --n-shards 28 --encoder bge --bs 512
+00:19:29 I enc-corpus | launch shard 13 on gpu 6: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 13 --n-shards 28 --encoder bge --bs 512
+00:24:13 I enc-corpus | shard 1 ok (gpu 0) 9 [00:00<00:00, 601.64it/s]
+Loading weights:  97%|█████████▋| 193/199 [00:00<00:00, 633.10it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 639.80it/s]
+shard 1: 512/315779 291/s
+shard 1: 102912/315779 1027/s
+shard 1: 205312/315779 1306/s
+shard 1: 307712/315779 1345/s
+shard 1 done in 240s
+00:24:13 I enc-corpus | shard 2 ok (gpu 1) 9 [00:00<00:00, 772.05it/s]
+Loading weights:  79%|███████▉  | 157/199 [00:00<00:00, 741.32it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 722.30it/s]
+shard 2: 512/315780 459/s
+shard 2: 102912/315780 1032/s
+shard 2: 205312/315780 1286/s
+shard 2: 307712/315780 1315/s
+shard 2 done in 240s
+00:24:13 I enc-corpus | shard 3 ok (gpu 1) 9 [00:00<00:00, 504.95it/s]
+Loading weights:  79%|███████▉  | 157/199 [00:00<00:00, 528.89it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 590.21it/s]
+shard 3: 512/315779 220/s
+shard 3: 102912/315779 1020/s
+shard 3: 205312/315779 1283/s
+shard 3: 307712/315779 1312/s
+shard 3 done in 241s
+00:24:13 I enc-corpus | launch shard 14 on gpu 0: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 14 --n-shards 28 --encoder bge --bs 512
+00:24:13 I enc-corpus | launch shard 15 on gpu 1: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 15 --n-shards 28 --encoder bge --bs 512
+00:24:13 I enc-corpus | launch shard 16 on gpu 1: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 16 --n-shards 28 --encoder bge --bs 512
+00:24:14 I enc-corpus | shard 0 ok (gpu 0) 9 [00:00<00:00, 476.70it/s]
+Loading weights:  72%|███████▏  | 143/199 [00:00<00:00, 698.66it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 724.93it/s]
+shard 0: 512/315779 193/s
+shard 0: 102912/315779 1026/s
+shard 0: 205312/315779 1317/s
+shard 0: 307712/315779 1370/s
+shard 0 done in 240s
+00:24:14 I enc-corpus | launch shard 17 on gpu 0: /home/user/tmp/dvlsr/scripts/02_encode_corpus.py --shard 17 --n-shards 28 --encoder bge --bs 512

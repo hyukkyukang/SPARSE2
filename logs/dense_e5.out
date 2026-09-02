@@ -1,0 +1,9 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:   3%|▎         | 5/199 [00:00<00:09, 19.55it/s]Loading weights:  25%|██▍       | 49/199 [00:00<00:00, 159.64it/s]Loading weights:  46%|████▌     | 91/199 [00:00<00:00, 237.39it/s]Loading weights:  61%|██████    | 121/199 [00:00<00:00, 251.98it/s]Loading weights:  89%|████████▉ | 177/199 [00:00<00:00, 345.39it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 268.75it/s]
+00:20:13 I dense | [start] load corpus e5 to gpu
+/home/user/tmp/dvlsr/scripts/04_dense_retrieval.py:33: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:213.)
+  D = torch.from_numpy(np.ascontiguousarray(C)).cuda()
+00:21:09 I dense | [done ] load corpus e5 to gpu (56.4s)
+00:21:09 I dense | [start] search e5 full (8841823 docs)
+00:21:12 I dense | [done ] search e5 full (8841823 docs) (3.4s)
+00:21:15 I dense | dense e5 full collection: {'mrr@10': 0.35423358120707693, 'r@10': 0.6294770773638968, 'r@100': 0.8872015281757402, 'r@1000': 0.9770176695319963, 'mrr@10_ci': (0.3450835266293719, 0.3632811618797471)}

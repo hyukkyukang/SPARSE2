@@ -1,0 +1,125 @@
+{
+  "_note": "§A.1 polysemy set. `anchors` are the 5 entries per sense used for SCORING; `indicators` are a DISJOINT vocabulary used only to LABEL occurrences (see notes/deviations.md). Extra anchors are listed so the builder can substitute any that fail the §0.3 membership check.",
+  "words": {
+    "bank": {
+      "A": {"gloss": "financial", "anchors": ["loan", "deposit", "mortgage", "account", "credit", "banking", "savings"], "indicators": ["atm", "checking", "teller", "interest", "branch", "fees", "overdraft", "lender", "debit", "financial"]},
+      "B": {"gloss": "riverbank", "anchors": ["shore", "creek", "stream", "flood", "water", "river", "erosion"], "indicators": ["riverbank", "levee", "sediment", "marsh", "shoreline", "downstream", "embankment", "muddy"]}
+    },
+    "python": {
+      "A": {"gloss": "snake", "anchors": ["reptile", "venom", "snake", "species", "habitat", "constrictor", "prey"], "indicators": ["burmese", "reticulated", "anaconda", "boa", "lizard", "eggs", "wildlife", "swamp"]},
+      "B": {"gloss": "language", "anchors": ["programming", "script", "function", "library", "software", "code", "developer"], "indicators": ["numpy", "django", "interpreter", "syntax", "django", "pip", "import", "compiler", "variable"]}
+    },
+    "apple": {
+      "A": {"gloss": "fruit", "anchors": ["pie", "orchard", "juice", "tree", "fruit", "cider", "apples"], "indicators": ["harvest", "varieties", "peel", "baking", "vinegar", "seeds", "ripe", "pear"]},
+      "B": {"gloss": "company", "anchors": ["iphone", "mac", "computer", "software", "device", "ipad", "itunes"], "indicators": ["macbook", "ios", "app", "store", "cupertino", "iphones", "macos", "safari"]}
+    },
+    "mouse": {
+      "A": {"gloss": "animal", "anchors": ["rodent", "rat", "mice", "trap", "species", "tail", "cheese"], "indicators": ["infestation", "burrow", "droppings", "rodents", "pest", "nest", "whiskers"]},
+      "B": {"gloss": "device", "anchors": ["keyboard", "click", "cursor", "computer", "usb", "pointer", "wireless"], "indicators": ["scroll", "dpi", "laptop", "monitor", "buttons", "touchpad", "optical"]}
+    },
+    "java": {
+      "A": {"gloss": "language", "anchors": ["programming", "class", "compiler", "code", "software", "developer", "method"], "indicators": ["jvm", "oracle", "eclipse", "syntax", "runtime", "servlet", "android"]},
+      "B": {"gloss": "island/coffee", "anchors": ["island", "indonesia", "coffee", "sumatra", "volcano", "tropical", "bali"], "indicators": ["jakarta", "javanese", "archipelago", "borneo", "sea", "beans", "roast"]}
+    },
+    "jaguar": {
+      "A": {"gloss": "animal", "anchors": ["panther", "leopard", "predator", "rainforest", "species", "prey", "wildlife"], "indicators": ["amazon", "spotted", "habitat", "endangered", "jungle", "cats", "hunting"]},
+      "B": {"gloss": "car", "anchors": ["car", "vehicle", "engine", "luxury", "model", "sedan", "automotive"], "indicators": ["dealership", "mileage", "coupe", "bmw", "mercedes", "horsepower", "chassis"]}
+    },
+    "cell": {
+      "A": {"gloss": "biology", "anchors": ["membrane", "tissue", "nucleus", "protein", "organism", "cells", "dna"], "indicators": ["cytoplasm", "mitochondria", "bacteria", "chromosome", "enzyme", "division", "biology"]},
+      "B": {"gloss": "phone/prison", "anchors": ["phone", "mobile", "prison", "battery", "carrier", "inmate", "jail"], "indicators": ["verizon", "smartphone", "texting", "prisoners", "cellular", "tower", "minutes"]}
+    },
+    "crane": {
+      "A": {"gloss": "bird", "anchors": ["bird", "migration", "wetland", "species", "nest", "birds", "wingspan"], "indicators": ["heron", "flock", "plumage", "sandhill", "marsh", "beak", "breeding"]},
+      "B": {"gloss": "machine", "anchors": ["lift", "construction", "load", "equipment", "boom", "hoist", "operator"], "indicators": ["tons", "rigging", "jib", "scaffolding", "crawler", "counterweight", "site"]}
+    },
+    "bass": {
+      "A": {"gloss": "fish", "anchors": ["fish", "fishing", "lake", "trout", "species", "anglers", "catch"], "indicators": ["largemouth", "smallmouth", "bait", "tackle", "spawning", "reel", "freshwater"]},
+      "B": {"gloss": "music", "anchors": ["guitar", "music", "sound", "drums", "band", "audio", "notes"], "indicators": ["amplifier", "strings", "tone", "treble", "speakers", "frequency", "player"]}
+    },
+    "pitcher": {
+      "A": {"gloss": "baseball", "anchors": ["baseball", "inning", "batter", "team", "league", "throw", "game"], "indicators": ["strikeouts", "mound", "innings", "fastball", "bullpen", "catcher", "mlb"]},
+      "B": {"gloss": "container", "anchors": ["water", "jug", "glass", "pour", "container", "juice", "filter"], "indicators": ["ounces", "lemonade", "carafe", "spout", "pitchers", "gallon", "beverage"]}
+    },
+    "seal": {
+      "A": {"gloss": "animal", "anchors": ["marine", "sea", "species", "arctic", "mammal", "whale", "colony"], "indicators": ["pups", "walrus", "blubber", "ocean", "harbor", "penguins", "ice"]},
+      "B": {"gloss": "closure", "anchors": ["gasket", "leak", "tight", "rubber", "waterproof", "sealant", "adhesive"], "indicators": ["caulk", "airtight", "moisture", "install", "surface", "joint", "seam"]}
+    },
+    "spring": {
+      "A": {"gloss": "season", "anchors": ["summer", "winter", "season", "fall", "bloom", "weather", "planting"], "indicators": ["april", "march", "autumn", "seasonal", "temperatures", "flowers", "semester"]},
+      "B": {"gloss": "coil/water", "anchors": ["coil", "suspension", "tension", "metal", "valve", "compression", "steel"], "indicators": ["springs", "mechanism", "loaded", "shock", "installed", "torsion", "assembly"]}
+    },
+    "ruler": {
+      "A": {"gloss": "monarch", "anchors": ["king", "emperor", "reign", "kingdom", "empire", "dynasty", "throne"], "indicators": ["conquered", "monarch", "sultan", "rulers", "royal", "throne", "successor"]},
+      "B": {"gloss": "measuring", "anchors": ["inches", "measure", "centimeters", "length", "measuring", "scale", "straight"], "indicators": ["millimeters", "yardstick", "protractor", "pencil", "draw", "markings", "tape"]}
+    },
+    "plant": {
+      "A": {"gloss": "botany", "anchors": ["leaves", "soil", "grow", "flower", "roots", "garden", "species"], "indicators": ["seedling", "watering", "botanical", "foliage", "stems", "gardening", "photosynthesis"]},
+      "B": {"gloss": "factory", "anchors": ["factory", "manufacturing", "production", "facility", "industrial", "workers", "plants"], "indicators": ["nuclear", "assembly", "output", "operations", "employees", "refinery", "megawatts"]}
+    },
+    "bat": {
+      "A": {"gloss": "animal", "anchors": ["bats", "nocturnal", "species", "cave", "wings", "mammal", "insects"], "indicators": ["echolocation", "roost", "colony", "rabies", "guano", "flying", "wildlife"]},
+      "B": {"gloss": "sport", "anchors": ["baseball", "ball", "swing", "player", "hitting", "game", "wood"], "indicators": ["softball", "cricket", "aluminum", "batting", "innings", "grip", "ounces"]}
+    },
+    "tank": {
+      "A": {"gloss": "container", "anchors": ["water", "gallons", "fuel", "gas", "storage", "septic", "capacity"], "indicators": ["heater", "propane", "aquarium", "pump", "fill", "empty", "pressure"]},
+      "B": {"gloss": "vehicle", "anchors": ["army", "military", "armor", "battle", "war", "soldiers", "combat"], "indicators": ["tanks", "artillery", "infantry", "turret", "wehrmacht", "sherman", "battalion"]}
+    },
+    "port": {
+      "A": {"gloss": "harbor", "anchors": ["ship", "harbor", "cargo", "vessel", "shipping", "coast", "trade"], "indicators": ["ports", "dock", "container", "maritime", "terminal", "freight", "berth"]},
+      "B": {"gloss": "connector", "anchors": ["usb", "connector", "device", "cable", "network", "adapter", "hdmi"], "indicators": ["ethernet", "serial", "plug", "router", "socket", "peripheral", "interface"]}
+    },
+    "match": {
+      "A": {"gloss": "game", "anchors": ["game", "team", "players", "tournament", "played", "win", "league"], "indicators": ["matches", "opponent", "referee", "score", "round", "championship", "final"]},
+      "B": {"gloss": "correspond/fire", "anchors": ["matching", "identical", "similar", "compare", "pair", "equal", "exactly"], "indicators": ["mismatch", "correspond", "criteria", "matched", "colors", "combination", "requirement"]}
+    },
+    "current": {
+      "A": {"gloss": "electric/flow", "anchors": ["voltage", "electric", "circuit", "amps", "flow", "electrical", "wire"], "indicators": ["amperes", "resistance", "conductor", "ohms", "battery", "alternating", "watts"]},
+      "B": {"gloss": "present", "anchors": ["present", "recent", "latest", "today", "updated", "existing", "now"], "indicators": ["currently", "previous", "ongoing", "status", "version", "trends", "outdated"]}
+    },
+    "novel": {
+      "A": {"gloss": "book", "anchors": ["book", "author", "story", "fiction", "published", "chapter", "wrote"], "indicators": ["novels", "novelist", "literary", "characters", "prose", "sequel", "narrator"]},
+      "B": {"gloss": "new", "anchors": ["new", "approach", "unique", "innovative", "technique", "method", "concept"], "indicators": ["novelty", "unprecedented", "emerging", "proposed", "discovery", "breakthrough", "unusual"]}
+    },
+    "mine": {
+      "A": {"gloss": "excavation", "anchors": ["coal", "mining", "ore", "underground", "miners", "gold", "shaft"], "indicators": ["mines", "quarry", "extraction", "tunnel", "deposits", "excavation", "minerals"]},
+      "B": {"gloss": "possessive", "anchors": ["yours", "ours", "hers", "own", "friend", "told", "husband"], "indicators": ["theirs", "mom", "sister", "boyfriend", "somebody", "myself", "everybody"]}
+    },
+    "bark": {
+      "A": {"gloss": "tree", "anchors": ["tree", "trunk", "wood", "trees", "leaves", "cinnamon", "layer"], "indicators": ["birch", "mulch", "sapwood", "cambium", "oak", "peeling", "shrub"]},
+      "B": {"gloss": "dog", "anchors": ["dog", "dogs", "puppy", "barking", "noise", "neighbors", "training"], "indicators": ["collar", "howl", "leash", "growl", "obedience", "whining", "canine"]}
+    },
+    "palm": {
+      "A": {"gloss": "tree", "anchors": ["tree", "coconut", "tropical", "oil", "leaves", "beach", "trees"], "indicators": ["fronds", "dates", "plantation", "florida", "canopy", "island", "sago"]},
+      "B": {"gloss": "hand", "anchors": ["hand", "fingers", "wrist", "thumb", "skin", "grip", "hands"], "indicators": ["palms", "knuckles", "sweaty", "massage", "gently", "press", "forearm"]}
+    },
+    "pupil": {
+      "A": {"gloss": "eye", "anchors": ["eye", "iris", "retina", "light", "vision", "cornea", "eyes"], "indicators": ["dilated", "optic", "lens", "constrict", "ophthalmologist", "blurred", "reflex"]},
+      "B": {"gloss": "student", "anchors": ["student", "teacher", "school", "class", "students", "learning", "education"], "indicators": ["pupils", "classroom", "curriculum", "grades", "primary", "attainment", "headteacher"]}
+    },
+    "race": {
+      "A": {"gloss": "competition", "anchors": ["running", "finish", "runners", "marathon", "competition", "won", "track"], "indicators": ["laps", "sprint", "racers", "nascar", "kilometers", "podium", "qualifying"]},
+      "B": {"gloss": "ethnicity", "anchors": ["ethnicity", "white", "population", "racial", "black", "census", "discrimination"], "indicators": ["hispanic", "minority", "ethnic", "segregation", "gender", "demographics", "diversity"]}
+    },
+    "rock": {
+      "A": {"gloss": "stone", "anchors": ["stone", "granite", "sediment", "mineral", "rocks", "igneous", "formation"], "indicators": ["limestone", "basalt", "geology", "erosion", "layers", "boulders", "quartz"]},
+      "B": {"gloss": "music", "anchors": ["band", "music", "album", "song", "guitar", "roll", "songs"], "indicators": ["concert", "singer", "hits", "punk", "tour", "billboard", "drummer"]}
+    },
+    "scale": {
+      "A": {"gloss": "weighing", "anchors": ["weight", "pounds", "measure", "weighing", "kilograms", "measurement", "balance"], "indicators": ["digital", "scales", "ounces", "calibration", "readings", "bathroom", "accurate"]},
+      "B": {"gloss": "magnitude", "anchors": ["large", "size", "level", "magnitude", "range", "scope", "proportion"], "indicators": ["scaling", "economies", "massive", "scaled", "extent", "logarithmic", "ratio"]}
+    },
+    "star": {
+      "A": {"gloss": "astronomy", "anchors": ["sun", "galaxy", "stars", "solar", "universe", "planets", "light"], "indicators": ["nebula", "constellation", "astronomers", "orbit", "telescope", "brightness", "supernova"]},
+      "B": {"gloss": "celebrity", "anchors": ["actress", "actor", "movie", "film", "hollywood", "celebrity", "show"], "indicators": ["starring", "cast", "fame", "singer", "career", "role", "tv"]}
+    },
+    "trunk": {
+      "A": {"gloss": "tree/body", "anchors": ["tree", "bark", "branches", "roots", "wood", "diameter", "leaves"], "indicators": ["trunks", "canopy", "sapling", "girth", "elephant", "torso", "growth"]},
+      "B": {"gloss": "car/luggage", "anchors": ["car", "vehicle", "luggage", "cargo", "storage", "seat", "space"], "indicators": ["hatchback", "sedan", "suitcase", "spare", "latch", "boot", "compartment"]}
+    },
+    "wave": {
+      "A": {"gloss": "physics/water", "anchors": ["ocean", "waves", "frequency", "sound", "surf", "energy", "light"], "indicators": ["wavelength", "amplitude", "tsunami", "beach", "radio", "oscillation", "crest"]},
+      "B": {"gloss": "gesture/surge", "anchors": ["hand", "gesture", "crowd", "goodbye", "arms", "signal", "flag"], "indicators": ["waving", "waved", "hello", "greeting", "fans", "stadium", "cheering"]}
+    }
+  }
+}

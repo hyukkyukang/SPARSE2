@@ -1,0 +1,35 @@
+00:09:30 I refruns | [start] SPLADE++ full-collection
+Attempting to initialize prebuilt index msmarco-v1-passage.splade-pp-ed.
+Downloading index at https://huggingface.co/datasets/castorini/prebuilt-indexes-msmarco-v1/resolve/main/passage/original/lucene-inverted/splade-pp/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz...
+Extracting /workspace/SPARSE/dvlsr/pyserini_cache/indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.tar.gz into /workspace/SPARSE/dvlsr/pyserini_cache/indexes/lucene-inverted.msmarco-v1-passage.splade-pp-ed.20230524.a59610.2c008fc36131e27966a72292932358e6...
+Initializing msmarco-v1-passage.splade-pp-ed...
+00:17:26 I refruns | splade 200/6980 (9s)
+
+2026-09-03 00:17:26,497 - refruns - INFO - splade 200/6980 (9s)
+00:18:02 I refruns | splade 1200/6980 (45s)
+
+2026-09-03 00:18:02,262 - refruns - INFO - splade 1200/6980 (45s)
+00:18:30 I refruns | splade 2200/6980 (74s)
+
+2026-09-03 00:18:30,801 - refruns - INFO - splade 2200/6980 (74s)
+00:18:56 I refruns | splade 3200/6980 (100s)
+
+2026-09-03 00:18:56,896 - refruns - INFO - splade 3200/6980 (100s)
+00:19:22 I refruns | splade 4200/6980 (125s)
+
+2026-09-03 00:19:22,139 - refruns - INFO - splade 4200/6980 (125s)
+00:19:45 I refruns | splade 5200/6980 (149s)
+
+2026-09-03 00:19:45,873 - refruns - INFO - splade 5200/6980 (149s)
+00:20:09 I refruns | splade 6200/6980 (173s)
+
+2026-09-03 00:20:09,742 - refruns - INFO - splade 6200/6980 (173s)
+00:20:28 I refruns | saved run spladepp_full_top100: (6980, 100)
+
+2026-09-03 00:20:28,247 - refruns - INFO - saved run spladepp_full_top100: (6980, 100)
+00:20:28 I refruns | [done ] SPLADE++ full-collection (658.2s)
+
+2026-09-03 00:20:28,255 - refruns - INFO - [done ] SPLADE++ full-collection (658.2s)
+00:20:50 I refruns | spladepp_full_top100: {'mrr@10': 0.38265821849274567, 'r@10': 0.6705109837631327, 'r@100': 0.9091929321872014, 'r@1000': 0.9091929321872014, 'mrr@10_ci': (0.3734720573520716, 0.39207305026834044)}
+
+2026-09-03 00:20:50,995 - refruns - INFO - spladepp_full_top100: {'mrr@10': 0.38265821849274567, 'r@10': 0.6705109837631327, 'r@100': 0.9091929321872014, 'r@1000': 0.9091929321872014, 'mrr@10_ci': (0.3734720573520716, 0.39207305026834044)}

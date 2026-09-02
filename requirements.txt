@@ -1,0 +1,11 @@
+torch>=2.13
+transformers>=5.13
+peft>=0.19
+datasets>=5.0
+scipy>=1.18
+scikit-learn>=1.9
+numpy>=2.5
+pandas>=2.3
+ir_measures
+pyserini
+tqdm
