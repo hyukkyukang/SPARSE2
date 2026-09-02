@@ -1,0 +1,12 @@
+02:13:52 I qside | [start] build index
+02:14:17 I qside | [done ] build index (25.5s)
+02:14:17 I qside | [start] encode queries [own_query_transform]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3460.22it/s]
+02:14:28 I qside | [done ] encode queries [own_query_transform] (10.5s)
+02:14:34 I qside | own_query_transform: MRR@10=0.1250 R@100=0.5863 tau_q=0.2246
+02:14:34 I qside | [start] encode queries [shared_doc_transform]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2967.97it/s]
+02:14:37 I qside | [done ] encode queries [shared_doc_transform] (3.2s)
+02:14:40 I qside | shared_doc_transform: MRR@10=0.1237 R@100=0.5758 tau_q=0.2198
+02:14:41 I qside | {"diff": 0.0012565379542456903, "lo": -0.0013465485286760356, "hi": 0.0037877652135352704, "p_two_sided": 0.3526, "excludes_zero": false}

@@ -1,0 +1,96 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3938.13it/s]
+02:14:04 I pilotB | [start] build representations (layer 12)
+02:15:57 I pilotB | [done ] build representations (layer 12) (113.5s)
+02:16:06 I pilotB | taus: {'R1': 0.1592, 'R1-shared': 0.1782, 'R2': 0.2203, 'R3': 0.2698}
+02:16:06 I pilotB | [start] hubness R1
+/home/user/tmp/dvlsr/scripts/20_pilotB.py:115: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:213.)
+  H = tf(torch.as_tensor(bank[s:s + chunk], device=DEV)).half()
+02:16:06 I pilotB | [done ] hubness R1 (0.3s)
+02:16:06 I pilotB | hubness R1: skew=4.1 share=0.074 top: ['tenth', 'ten', 'five', 'twenty', 'four', 'fifteen', 'seven', 'costs']
+02:16:06 I pilotB | [start] hubness R1-shared
+02:16:06 I pilotB | [done ] hubness R1-shared (0.3s)
+02:16:06 I pilotB | hubness R1-shared: skew=30.8 share=0.108 top: ['negative', 'positive', 'flattering', 'no', 'dissatisfied', 'satisfied', 'yes', 'decrease']
+02:16:06 I pilotB | [start] hubness R2
+02:16:07 I pilotB | [done ] hubness R2 (0.3s)
+02:16:07 I pilotB | hubness R2: skew=8.7 share=0.098 top: ['and', 'that', 'therein', 'aforementioned', 'accordingly', 'etc', 'which', 'or']
+02:16:07 I pilotB | [start] hubness R3
+02:16:08 I pilotB | [done ] hubness R3 (1.2s)
+02:16:08 I pilotB | hubness R3: skew=6.5 share=0.092 top: ['and', 'that', 'nor', 'albeit', 'but', 'you', 'etc', 'nonetheless']
+02:16:08 I pilotB | [start] df pass over S
+02:18:22 I pilotB | [done ] df pass over S (134.3s)
+02:18:22 I pilotB | df R1: spearman=0.253 runaway=0.0000 dead=0.000 nnz/doc=120.1
+02:18:22 I pilotB | df R1-shared: spearman=-0.217 runaway=0.0000 dead=0.111 nnz/doc=1.3
+02:18:22 I pilotB | df R2: spearman=0.546 runaway=0.0000 dead=0.000 nnz/doc=120.0
+02:18:22 I pilotB | df R3: spearman=0.576 runaway=0.0000 dead=0.000 nnz/doc=113.2
+02:18:26 I pilotB | in-context R1: hit10=0.789 sense=0.850 selfact_rank=1 P(rank1)=0.998
+02:18:29 I pilotB | in-context R1-shared: hit10=0.763 sense=0.839 selfact_rank=1 P(rank1)=0.997
+02:18:31 I pilotB | in-context R2: hit10=0.972 sense=0.850 selfact_rank=1 P(rank1)=0.902
+02:18:35 I pilotB | in-context R3: hit10=0.980 sense=0.862 selfact_rank=1 P(rank1)=0.929
+02:18:35 I pilotB | [start] stability curve
+02:18:36 I pilotB | stability k=1: jaccard=0.073 cos=0.264
+02:18:38 I pilotB | stability k=3: jaccard=0.166 cos=0.440
+02:18:40 I pilotB | stability k=5: jaccard=0.222 cos=0.531
+02:18:42 I pilotB | stability k=10: jaccard=0.308 cos=0.654
+02:18:44 I pilotB | stability k=20: jaccard=0.402 cos=0.766
+02:18:46 I pilotB | stability k=50: jaccard=0.532 cos=0.877
+02:18:46 I pilotB | [done ] stability curve (11.7s)
+02:18:46 I pilotB | k* (smallest k reaching 0.8 x k=50 Jaccard) = 50
+02:18:46 I pilotB | saved /home/user/tmp/dvlsr/results/20_pilotB_e5_L12.json
+02:18:54 I pilotB-rep | {
+  "e5_L9": {
+    "chosen_rep": "R2",
+    "chosen_rep_by_skew": "R3",
+    "eligible": [
+      "R2",
+      "R3"
+    ],
+    "unusable": [],
+    "hub_share": {
+      "R1": 0.04434850066900253,
+      "R2": 0.16079850494861603,
+      "R3": 0.18497949838638306
+    },
+    "hub_skew": {
+      "R1": 3.614572048187256,
+      "R2": 17.154434204101562,
+      "R3": 15.827569007873535
+    },
+    "k_star": 20,
+    "H5": {
+      "hub_skew_ratio": 0.21070773918751717,
+      "spearman_R1": 0.2489120663116368,
+      "spearman_R2": 0.5660657177388423,
+      "in_context_R1": 0.9230877192982456,
+      "in_context_R2": 0.9977263157894737
+    },
+    "H7": {
+      "own": 0.9230877192982456,
+      "shared": 0.8366315789473684
+    },
+    "runaway_max": 0.0009333333333333333,
+    "H5_verdict": "reversed: R1 is markedly LESS hubby than R2",
+    "H6_k10_ratio": 0.7884511631186724,
+    "H6_verdict": "narrowly not supported",
+    "H7_verdict": "supported",
+    "pilotE_mandatory": false,
+    "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
+  },
+  "e5_L10": {
+    "chosen_rep": "R2",
+    "chosen_rep_by_skew": "R2",
+    "eligible": [
+      "R2"
+    ],
+    "unusable": [
+      "R3"
+    ],
+    "hub_sh
+Traceback (most recent call last):
+  File "/home/user/tmp/dvlsr/scripts/32_pilotC_decision.py", line 89, in <module>
+    main(a.file, a.r1_prefix)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/tmp/dvlsr/scripts/32_pilotC_decision.py", line 17, in main
+    bm25 = refs["bm25"]["mrr@10"]
+           ~~~~^^^^^^^^
+KeyError: 'bm25'

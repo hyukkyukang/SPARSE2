@@ -81,3 +81,13 @@ the protocol's checklist implies but does not name.
 contexts. We re-encode k=50 contexts per refreshed entry, as at initialisation, so
 refreshed and unrefreshed entries stay comparable; the refresh is what dominates
 V2's wall-clock, which is reported alongside its effectiveness.
+
+## D10 — V2's refresh interval
+§D.3 refreshes 10% of entries every 100 steps. At the protocol's own batch size
+(32 queries x 8 passages) a two-epoch run is 12,500 steps, so 100-step refreshes
+would mean 125 re-encodings of ~118k prototype contexts each — about 4.6 GPU-hours
+of refresh on top of ~1.7 hours of training, five times the cost of the arm it is
+meant to support. We refresh every **250** steps instead, keeping the 10% fraction
+and the full k=50 contexts. Each entry is still re-encoded ~5 times over the run,
+so the entry matrix never drifts more than 250 steps stale, and the staggering that
+motivates the design is preserved. The interval is a flag (`--refresh-every`).

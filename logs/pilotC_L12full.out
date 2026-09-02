@@ -1,0 +1,119 @@
+02:05:11 I pilotC | C1 store: docs (1852472, 256), queries (6980, 128)
+02:05:11 I pilotC | [start] fit taus
+02:05:35 I pilotC | [done ] fit taus (23.5s)
+02:05:35 I pilotC | tau_d: {120: 0.22, 60: 0.2678} tau_q: {30: 0.2249, 15: 0.2769}
+02:05:35 I pilotC | [start] build inverted index
+02:05:59 I pilotC | [done ] build inverted index (23.7s)
+02:05:59 I pilotC | [start] cell kd64_kq16_nnz120_none
+02:06:01 I pilotC | [done ] cell kd64_kq16_nnz120_none (2.5s)
+02:06:03 I pilotC | kd64_kq16_nnz120_none: MRR@10=0.1191 R@100=0.5727 R@1000=0.8413
+02:06:03 I pilotC | [start] cell kd64_kq16_nnz120_log1p
+02:06:05 I pilotC | [done ] cell kd64_kq16_nnz120_log1p (1.6s)
+02:06:07 I pilotC | kd64_kq16_nnz120_log1p: MRR@10=0.1249 R@100=0.5866 R@1000=0.8423
+02:06:07 I pilotC | [start] cell kd64_kq16_nnz60_none
+02:06:08 I pilotC | [done ] cell kd64_kq16_nnz60_none (1.4s)
+02:06:10 I pilotC | kd64_kq16_nnz60_none: MRR@10=0.1019 R@100=0.5356 R@1000=0.8170
+02:06:10 I pilotC | [start] cell kd64_kq16_nnz60_log1p
+02:06:11 I pilotC | [done ] cell kd64_kq16_nnz60_log1p (1.3s)
+02:06:13 I pilotC | kd64_kq16_nnz60_log1p: MRR@10=0.1098 R@100=0.5460 R@1000=0.8197
+02:06:13 I pilotC | [start] cell kd64_kq32_nnz120_none
+02:06:15 I pilotC | [done ] cell kd64_kq32_nnz120_none (2.2s)
+02:06:17 I pilotC | kd64_kq32_nnz120_none: MRR@10=0.1202 R@100=0.5727 R@1000=0.8427
+02:06:17 I pilotC | [start] cell kd64_kq32_nnz120_log1p
+02:06:19 I pilotC | [done ] cell kd64_kq32_nnz120_log1p (2.2s)
+02:06:21 I pilotC | kd64_kq32_nnz120_log1p: MRR@10=0.1245 R@100=0.5831 R@1000=0.8426
+02:06:21 I pilotC | [start] cell kd64_kq32_nnz60_none
+02:06:22 I pilotC | [done ] cell kd64_kq32_nnz60_none (1.6s)
+02:06:24 I pilotC | kd64_kq32_nnz60_none: MRR@10=0.1026 R@100=0.5354 R@1000=0.8182
+02:06:24 I pilotC | [start] cell kd64_kq32_nnz60_log1p
+02:06:26 I pilotC | [done ] cell kd64_kq32_nnz60_log1p (1.6s)
+02:06:28 I pilotC | kd64_kq32_nnz60_log1p: MRR@10=0.1103 R@100=0.5455 R@1000=0.8206
+02:06:28 I pilotC | [start] cell kd64_kq64_nnz120_none
+02:06:30 I pilotC | [done ] cell kd64_kq64_nnz120_none (2.5s)
+02:06:32 I pilotC | kd64_kq64_nnz120_none: MRR@10=0.1200 R@100=0.5726 R@1000=0.8430
+02:06:32 I pilotC | [start] cell kd64_kq64_nnz120_log1p
+02:06:35 I pilotC | [done ] cell kd64_kq64_nnz120_log1p (2.6s)
+02:06:37 I pilotC | kd64_kq64_nnz120_log1p: MRR@10=0.1243 R@100=0.5834 R@1000=0.8427
+02:06:37 I pilotC | [start] cell kd64_kq64_nnz60_none
+02:06:38 I pilotC | [done ] cell kd64_kq64_nnz60_none (1.6s)
+02:06:40 I pilotC | kd64_kq64_nnz60_none: MRR@10=0.1027 R@100=0.5354 R@1000=0.8182
+02:06:40 I pilotC | [start] cell kd64_kq64_nnz60_log1p
+02:06:42 I pilotC | [done ] cell kd64_kq64_nnz60_log1p (1.6s)
+02:06:43 I pilotC | kd64_kq64_nnz60_log1p: MRR@10=0.1104 R@100=0.5455 R@1000=0.8206
+02:06:43 I pilotC | [start] cell kd128_kq16_nnz120_none
+02:06:45 I pilotC | [done ] cell kd128_kq16_nnz120_none (1.6s)
+02:06:47 I pilotC | kd128_kq16_nnz120_none: MRR@10=0.1197 R@100=0.5756 R@1000=0.8431
+02:06:47 I pilotC | [start] cell kd128_kq16_nnz120_log1p
+02:06:48 I pilotC | [done ] cell kd128_kq16_nnz120_log1p (1.6s)
+02:06:50 I pilotC | kd128_kq16_nnz120_log1p: MRR@10=0.1251 R@100=0.5862 R@1000=0.8457
+02:06:50 I pilotC | [start] cell kd128_kq16_nnz60_none
+02:06:52 I pilotC | [done ] cell kd128_kq16_nnz60_none (1.3s)
+02:06:53 I pilotC | kd128_kq16_nnz60_none: MRR@10=0.1020 R@100=0.5347 R@1000=0.8172
+02:06:53 I pilotC | [start] cell kd128_kq16_nnz60_log1p
+02:06:55 I pilotC | [done ] cell kd128_kq16_nnz60_log1p (1.3s)
+02:06:57 I pilotC | kd128_kq16_nnz60_log1p: MRR@10=0.1098 R@100=0.5455 R@1000=0.8190
+02:06:57 I pilotC | [start] cell kd128_kq32_nnz120_none
+02:06:59 I pilotC | [done ] cell kd128_kq32_nnz120_none (2.2s)
+02:07:01 I pilotC | kd128_kq32_nnz120_none: MRR@10=0.1203 R@100=0.5743 R@1000=0.8441
+02:07:01 I pilotC | [start] cell kd128_kq32_nnz120_log1p
+02:07:03 I pilotC | [done ] cell kd128_kq32_nnz120_log1p (2.3s)
+02:07:05 I pilotC | kd128_kq32_nnz120_log1p: MRR@10=0.1246 R@100=0.5828 R@1000=0.8457
+02:07:05 I pilotC | [start] cell kd128_kq32_nnz60_none
+02:07:06 I pilotC | [done ] cell kd128_kq32_nnz60_none (1.6s)
+02:07:08 I pilotC | kd128_kq32_nnz60_none: MRR@10=0.1029 R@100=0.5342 R@1000=0.8178
+02:07:08 I pilotC | [start] cell kd128_kq32_nnz60_log1p
+02:07:10 I pilotC | [done ] cell kd128_kq32_nnz60_log1p (1.6s)
+02:07:11 I pilotC | kd128_kq32_nnz60_log1p: MRR@10=0.1101 R@100=0.5456 R@1000=0.8197
+02:07:11 I pilotC | [start] cell kd128_kq64_nnz120_none
+02:07:14 I pilotC | [done ] cell kd128_kq64_nnz120_none (2.6s)
+02:07:16 I pilotC | kd128_kq64_nnz120_none: MRR@10=0.1200 R@100=0.5741 R@1000=0.8446
+02:07:16 I pilotC | [start] cell kd128_kq64_nnz120_log1p
+02:07:19 I pilotC | [done ] cell kd128_kq64_nnz120_log1p (2.7s)
+02:07:20 I pilotC | kd128_kq64_nnz120_log1p: MRR@10=0.1243 R@100=0.5822 R@1000=0.8460
+02:07:20 I pilotC | [start] cell kd128_kq64_nnz60_none
+02:07:22 I pilotC | [done ] cell kd128_kq64_nnz60_none (1.6s)
+02:07:24 I pilotC | kd128_kq64_nnz60_none: MRR@10=0.1029 R@100=0.5342 R@1000=0.8176
+02:07:24 I pilotC | [start] cell kd128_kq64_nnz60_log1p
+02:07:25 I pilotC | [done ] cell kd128_kq64_nnz60_log1p (1.6s)
+02:07:27 I pilotC | kd128_kq64_nnz60_log1p: MRR@10=0.1099 R@100=0.5456 R@1000=0.8197
+02:07:27 I pilotC | [start] cell kd256_kq16_nnz120_none
+02:07:29 I pilotC | [done ] cell kd256_kq16_nnz120_none (1.6s)
+02:07:31 I pilotC | kd256_kq16_nnz120_none: MRR@10=0.1193 R@100=0.5750 R@1000=0.8431
+02:07:31 I pilotC | [start] cell kd256_kq16_nnz120_log1p
+02:07:32 I pilotC | [done ] cell kd256_kq16_nnz120_log1p (1.6s)
+02:07:34 I pilotC | kd256_kq16_nnz120_log1p: MRR@10=0.1249 R@100=0.5853 R@1000=0.8452
+02:07:34 I pilotC | [start] cell kd256_kq16_nnz60_none
+02:07:35 I pilotC | [done ] cell kd256_kq16_nnz60_none (1.3s)
+02:07:37 I pilotC | kd256_kq16_nnz60_none: MRR@10=0.1020 R@100=0.5346 R@1000=0.8170
+02:07:37 I pilotC | [start] cell kd256_kq16_nnz60_log1p
+02:07:39 I pilotC | [done ] cell kd256_kq16_nnz60_log1p (1.3s)
+02:07:41 I pilotC | kd256_kq16_nnz60_log1p: MRR@10=0.1099 R@100=0.5455 R@1000=0.8190
+02:07:41 I pilotC | [start] cell kd256_kq32_nnz120_none
+02:07:43 I pilotC | [done ] cell kd256_kq32_nnz120_none (2.2s)
+02:07:45 I pilotC | kd256_kq32_nnz120_none: MRR@10=0.1200 R@100=0.5725 R@1000=0.8430
+02:07:45 I pilotC | [start] cell kd256_kq32_nnz120_log1p
+02:07:47 I pilotC | [done ] cell kd256_kq32_nnz120_log1p (2.3s)
+02:07:49 I pilotC | kd256_kq32_nnz120_log1p: MRR@10=0.1241 R@100=0.5816 R@1000=0.8454
+02:07:49 I pilotC | [start] cell kd256_kq32_nnz60_none
+02:07:50 I pilotC | [done ] cell kd256_kq32_nnz60_none (1.6s)
+02:07:52 I pilotC | kd256_kq32_nnz60_none: MRR@10=0.1029 R@100=0.5342 R@1000=0.8178
+02:07:52 I pilotC | [start] cell kd256_kq32_nnz60_log1p
+02:07:54 I pilotC | [done ] cell kd256_kq32_nnz60_log1p (1.6s)
+02:07:56 I pilotC | kd256_kq32_nnz60_log1p: MRR@10=0.1100 R@100=0.5456 R@1000=0.8197
+02:07:56 I pilotC | [start] cell kd256_kq64_nnz120_none
+02:07:58 I pilotC | [done ] cell kd256_kq64_nnz120_none (2.6s)
+02:08:00 I pilotC | kd256_kq64_nnz120_none: MRR@10=0.1196 R@100=0.5723 R@1000=0.8438
+02:08:00 I pilotC | [start] cell kd256_kq64_nnz120_log1p
+02:08:03 I pilotC | [done ] cell kd256_kq64_nnz120_log1p (2.7s)
+02:08:05 I pilotC | kd256_kq64_nnz120_log1p: MRR@10=0.1237 R@100=0.5817 R@1000=0.8452
+02:08:05 I pilotC | [start] cell kd256_kq64_nnz60_none
+02:08:06 I pilotC | [done ] cell kd256_kq64_nnz60_none (1.6s)
+02:08:08 I pilotC | kd256_kq64_nnz60_none: MRR@10=0.1031 R@100=0.5342 R@1000=0.8176
+02:08:08 I pilotC | [start] cell kd256_kq64_nnz60_log1p
+02:08:10 I pilotC | [done ] cell kd256_kq64_nnz60_log1p (1.6s)
+02:08:11 I pilotC | kd256_kq64_nnz60_log1p: MRR@10=0.1101 R@100=0.5456 R@1000=0.8197
+/home/user/tmp/dvlsr/scripts/31_pilotC.py:174: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  sp_rho.append(sps.spearmanr(dsc[m], osc[m]).statistic)
+02:08:17 I pilotC | score preservation: spearman=0.296 jaccard@100=0.224
+02:08:17 I pilotC | SPLADE overlap (truncated): J=0.357 cov=0.85
+02:08:17 I pilotC | best cell: kd128_kq16_nnz120_log1p MRR@10=0.1251

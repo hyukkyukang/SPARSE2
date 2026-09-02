@@ -75,5 +75,43 @@
     "H7_verdict": "supported",
     "pilotE_mandatory": false,
     "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
+  },
+  "e5_L12": {
+    "chosen_rep": "R3",
+    "chosen_rep_by_skew": "R3",
+    "eligible": [
+      "R2",
+      "R3"
+    ],
+    "unusable": [],
+    "hub_share": {
+      "R1": 0.07355199754238129,
+      "R2": 0.09764599800109863,
+      "R3": 0.09223199635744095
+    },
+    "hub_skew": {
+      "R1": 4.098466873168945,
+      "R2": 8.708099365234375,
+      "R3": 6.455414295196533
+    },
+    "k_star": 50,
+    "H5": {
+      "hub_skew_ratio": 0.4706499893112596,
+      "spearman_R1": 0.25300895743105656,
+      "spearman_R2": 0.545906501637659,
+      "in_context_R1": 0.7887438596491229,
+      "in_context_R2": 0.9724070175438596
+    },
+    "H7": {
+      "own": 0.7887438596491229,
+      "shared": 0.7630035087719298
+    },
+    "runaway_max": 0.0,
+    "H5_verdict": "reversed: R1 is markedly LESS hubby than R2",
+    "H6_k10_ratio": 0.5790298027793997,
+    "H6_verdict": "narrowly not supported",
+    "H7_verdict": "supported",
+    "pilotE_mandatory": false,
+    "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
   }
 }

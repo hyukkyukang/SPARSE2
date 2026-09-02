@@ -136,3 +136,71 @@
   "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
 }
 ```
+
+## e5_L12
+
+| rep | hub skew | hub share | Gini | Spearman df~freq | runaway % | dead % | nnz/doc | in-context hit@10 | self-act rank | P(rank1) | sense |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| R1 | 4.1 | 0.074 | 0.489 | 0.253 | 0.00 | 0.00 | 120 | 0.789 | 1 | 0.998 | 0.850 |
+| R1-shared | 30.8 | 0.108 | 0.506 | -0.217 | 0.00 | 11.13 | 1 | 0.763 | 1 | 0.997 | 0.839 |
+| R2 | 8.7 | 0.098 | 0.522 | 0.546 | 0.00 | 0.00 | 120 | 0.972 | 1 | 0.902 | 0.850 |
+| R3 | 6.5 | 0.092 | 0.507 | 0.576 | 0.00 | 0.00 | 113 | 0.980 | 1 | 0.929 | 0.862 |
+
+### 20 largest hubs
+
+* **R1**: `tenth`(1486), `ten`(1479), `five`(1146), `twenty`(1124), `four`(1105), `fifteen`(1095), `seven`(1084), `costs`(1077), `sixth`(969), `fifteenth`(936), `fourths`(933), `six`(923), `tenths`(914), `eight`(907), `fifths`(905), `fifth`(905), `seventh`(903), `texas`(886), `fourth`(883), `twelve`(844)
+* **R1-shared**: `negative`(7678), `positive`(7517), `flattering`(6487), `no`(5812), `dissatisfied`(5312), `satisfied`(5204), `yes`(4915), `decrease`(4824), `inconclusive`(4734), `increase`(3971), `maybe`(2852), `b`(2655), `sports`(2585), `d`(2531), `c`(2149), `false`(1992), `business`(1959), `never`(1905), `neither`(1793), `film`(1792)
+* **R2**: `and`(3207), `that`(2850), `therein`(2615), `aforementioned`(2529), `accordingly`(2298), `etc`(1941), `which`(1920), `or`(1872), `you`(1789), `your`(1668), `downright`(1543), `accompanies`(1497), `nonetheless`(1445), `but`(1438), `youre`(1400), `otherwise`(1272), `herefore`(1261), `nor`(1249), `though`(1245), `albeit`(1207)
+* **R3**: `and`(2205), `that`(2142), `nor`(1963), `albeit`(1727), `but`(1698), `you`(1651), `etc`(1586), `nonetheless`(1527), `your`(1490), `or`(1444), `though`(1439), `moreover`(1438), `whom`(1425), `which`(1382), `also`(1313), `tho`(1142), `youre`(1105), `downright`(1063), `que`(1031), `although`(1014)
+
+### Stability curve (R2, disjoint occurrence sets)
+
+| k | 1 | 3 | 5 | 10 | 20 | 50 |
+|---|---|---|---|---|---|---|
+| Jaccard@50 | 0.073 | 0.166 | 0.222 | 0.308 | 0.402 | 0.532 |
+| whitened cos | 0.264 | 0.440 | 0.531 | 0.654 | 0.766 | 0.877 |
+
+**k\*** (smallest k reaching 0.8 x the k=50 Jaccard) = 50
+
+### Decision (§B.4)
+
+```json
+{
+  "chosen_rep": "R3",
+  "chosen_rep_by_skew": "R3",
+  "eligible": [
+    "R2",
+    "R3"
+  ],
+  "unusable": [],
+  "hub_share": {
+    "R1": 0.07355199754238129,
+    "R2": 0.09764599800109863,
+    "R3": 0.09223199635744095
+  },
+  "hub_skew": {
+    "R1": 4.098466873168945,
+    "R2": 8.708099365234375,
+    "R3": 6.455414295196533
+  },
+  "k_star": 50,
+  "H5": {
+    "hub_skew_ratio": 0.4706499893112596,
+    "spearman_R1": 0.25300895743105656,
+    "spearman_R2": 0.545906501637659,
+    "in_context_R1": 0.7887438596491229,
+    "in_context_R2": 0.9724070175438596
+  },
+  "H7": {
+    "own": 0.7887438596491229,
+    "shared": 0.7630035087719298
+  },
+  "runaway_max": 0.0,
+  "H5_verdict": "reversed: R1 is markedly LESS hubby than R2",
+  "H6_k10_ratio": 0.5790298027793997,
+  "H6_verdict": "narrowly not supported",
+  "H7_verdict": "supported",
+  "pilotE_mandatory": false,
+  "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
+}
+```

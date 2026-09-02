@@ -625,3 +625,986 @@ shard 6 done 2s
 01:42:51 I encC1 | launch shard 21 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 21 --n-shards 24 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened
 01:42:51 I encC1 | launch shard 22 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 22 --n-shards 24 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened
 01:42:51 I encC1 | launch shard 23 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 23 --n-shards 24 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened
+01:46:13 I encC1 | shard 11 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 11: 0/77187 313/s
+shard 11: 19200/77187 524/s
+shard 11: 38400/77187 512/s
+shard 11: 57600/77187 510/s
+shard 11: 76800/77187 504/s
+shard 11 done 154s
+01:46:14 I encC1 | shard 9 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 9: 0/77186 267/s
+shard 9: 19200/77186 514/s
+shard 9: 38400/77186 505/s
+shard 9: 57600/77186 507/s
+shard 9: 76800/77186 507/s
+shard 9 done 152s
+01:46:15 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/77187 258/s
+shard 2: 19200/77187 526/s
+shard 2: 38400/77187 518/s
+shard 2: 57600/77187 520/s
+shard 2: 76800/77187 519/s
+shard 2 done 149s
+01:46:15 I encC1 | shard 10 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 10: 0/77186 290/s
+shard 10: 19200/77186 512/s
+shard 10: 38400/77186 503/s
+shard 10: 57600/77186 505/s
+shard 10: 76800/77186 505/s
+shard 10 done 153s
+01:46:15 I encC1 | shard 17 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 17: 0/77187 322/s
+shard 17: 19200/77187 576/s
+shard 17: 38400/77187 519/s
+shard 17: 57600/77187 501/s
+shard 17: 76800/77187 500/s
+shard 17 done 154s
+01:46:15 I encC1 | shard 22 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 22: 0/77186 292/s
+shard 22: 19200/77186 546/s
+shard 22: 38400/77186 539/s
+shard 22: 57600/77186 525/s
+shard 22: 76800/77186 526/s
+shard 22 done 147s
+01:46:16 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/77186 246/s
+shard 1: 19200/77186 519/s
+shard 1: 38400/77186 513/s
+shard 1: 57600/77186 517/s
+shard 1: 76800/77186 518/s
+shard 1 done 149s
+01:46:16 I encC1 | shard 21 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 21: 0/77186 275/s
+shard 21: 19200/77186 545/s
+shard 21: 38400/77186 534/s
+shard 21: 57600/77186 529/s
+shard 21: 76800/77186 525/s
+shard 21 done 147s
+01:46:17 I encC1 | shard 23 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 23: 0/77187 244/s
+shard 23: 19200/77187 533/s
+shard 23: 38400/77187 532/s
+shard 23: 57600/77187 528/s
+shard 23: 76800/77187 526/s
+shard 23 done 147s
+01:46:18 I encC1 | shard 12 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 12: 0/77186 335/s
+shard 12: 19200/77186 488/s
+shard 12: 38400/77186 491/s
+shard 12: 57600/77186 495/s
+shard 12: 76800/77186 502/s
+shard 12 done 154s
+01:46:19 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/77186 225/s
+shard 0: 19200/77186 527/s
+shard 0: 38400/77186 516/s
+shard 0: 57600/77186 519/s
+shard 0: 76800/77186 519/s
+shard 0 done 149s
+01:46:19 I encC1 | shard 13 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 13: 0/77186 261/s
+shard 13: 19200/77186 487/s
+shard 13: 38400/77186 496/s
+shard 13: 57600/77186 496/s
+shard 13: 76800/77186 500/s
+shard 13 done 154s
+01:46:20 I encC1 | shard 19 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 19: 0/77186 285/s
+shard 19: 19200/77186 535/s
+shard 19: 38400/77186 530/s
+shard 19: 57600/77186 534/s
+shard 19: 76800/77186 531/s
+shard 19 done 145s
+01:46:21 I encC1 | shard 14 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 14: 0/77187 254/s
+shard 14: 19200/77187 485/s
+shard 14: 38400/77187 490/s
+shard 14: 57600/77187 490/s
+shard 14: 76800/77187 496/s
+shard 14 done 155s
+01:46:22 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/77186 331/s
+shard 4: 19200/77186 566/s
+shard 4: 38400/77186 516/s
+shard 4: 57600/77186 511/s
+shard 4: 76800/77186 515/s
+shard 4 done 150s
+01:46:24 I encC1 | shard 20 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 20: 0/77187 256/s
+shard 20: 19200/77187 526/s
+shard 20: 38400/77187 518/s
+shard 20: 57600/77187 523/s
+shard 20: 76800/77187 525/s
+shard 20 done 147s
+01:46:25 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/77186 283/s
+shard 3: 19200/77186 548/s
+shard 3: 38400/77186 526/s
+shard 3: 57600/77186 509/s
+shard 3: 76800/77186 517/s
+shard 3 done 149s
+01:46:25 I encC1 | shard 15 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 15: 0/77186 292/s
+shard 15: 19200/77186 486/s
+shard 15: 38400/77186 485/s
+shard 15: 57600/77186 486/s
+shard 15: 76800/77186 497/s
+shard 15 done 155s
+01:46:25 I encC1 | shard 18 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 18: 0/77186 295/s
+shard 18: 19200/77186 521/s
+shard 18: 38400/77186 509/s
+shard 18: 57600/77186 515/s
+shard 18: 76800/77186 517/s
+shard 18 done 150s
+01:46:26 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/77186 284/s
+shard 6: 19200/77186 499/s
+shard 6: 38400/77186 503/s
+shard 6: 57600/77186 506/s
+shard 6: 76800/77186 507/s
+shard 6 done 152s
+01:46:28 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/77187 262/s
+shard 5: 19200/77187 543/s
+shard 5: 38400/77187 521/s
+shard 5: 57600/77187 507/s
+shard 5: 76800/77187 518/s
+shard 5 done 149s
+01:46:28 I encC1 | shard 8 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 8: 0/77187 314/s
+shard 8: 19200/77187 511/s
+shard 8: 38400/77187 502/s
+shard 8: 57600/77187 502/s
+shard 8: 76800/77187 499/s
+shard 8 done 155s
+01:46:31 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/77186 249/s
+shard 7: 19200/77186 499/s
+shard 7: 38400/77186 497/s
+shard 7: 57600/77186 500/s
+shard 7: 76800/77186 503/s
+shard 7 done 153s
+01:46:39 I encC1 | shard 16 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 16: 0/77186 257/s
+shard 16: 19200/77186 476/s
+shard 16: 38400/77186 468/s
+shard 16: 57600/77186 460/s
+shard 16: 76800/77186 480/s
+shard 16 done 161s
+01:46:39 I encC1 | [done ] encode C1 d (1852472) (228.5s)
+01:46:39 I encC1 | [start] encode C1 q (6980)
+01:46:39 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:46:39 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 8 --encoder e5 --layer 9 --rep R3 --r1-prefix none --bs 192 --transform whitened --queries
+01:47:16 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/872 258/s
+shard 0 done 1s
+01:47:16 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/872 166/s
+shard 2 done 1s
+01:47:16 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/873 241/s
+shard 3 done 1s
+01:47:16 I encC1 | shard 4 ok (gpu 1) shard 4: 0/872 210/s
+shard 4 done 1s
+01:47:16 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/873 202/s
+shard 5 done 1s
+01:47:16 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/872 206/s
+shard 6 done 1s
+01:47:16 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/873 165/s
+shard 7 done 1s
+01:47:17 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/873 244/s
+shard 1 done 1s
+01:47:17 I encC1 | [done ] encode C1 q (6980) (38.0s)
+=== EVAL e5 L9 R3 whitened ===
+01:47:26 I pilotC | C1 store: docs (1852472, 256), queries (6980, 128)
+01:47:26 I pilotC | [start] fit taus
+01:47:58 I pilotC | [done ] fit taus (31.9s)
+01:47:58 I pilotC | tau_d: {120: 0.405, 60: 0.4956} tau_q: {30: 0.3113, 15: 0.3821}
+01:47:58 I pilotC | [start] build inverted index
+01:48:41 I pilotC | [done ] build inverted index (43.6s)
+01:48:41 I pilotC | [start] cell kd128_kq32_nnz120_none
+01:48:49 I pilotC | [done ] cell kd128_kq32_nnz120_none (7.5s)
+01:48:51 I pilotC | kd128_kq32_nnz120_none: MRR@10=0.0960 R@100=0.4848 R@1000=0.7444
+01:48:51 I pilotC | [start] cell kd128_kq32_nnz120_log1p
+01:48:54 I pilotC | [done ] cell kd128_kq32_nnz120_log1p (3.2s)
+01:48:55 I pilotC | kd128_kq32_nnz120_log1p: MRR@10=0.0962 R@100=0.4807 R@1000=0.7414
+01:48:55 I pilotC | [start] cell kd128_kq32_nnz60_none
+01:48:58 I pilotC | [done ] cell kd128_kq32_nnz60_none (2.2s)
+01:48:59 I pilotC | kd128_kq32_nnz60_none: MRR@10=0.0886 R@100=0.4634 R@1000=0.7285
+01:48:59 I pilotC | [start] cell kd128_kq32_nnz60_log1p
+01:49:01 I pilotC | [done ] cell kd128_kq32_nnz60_log1p (2.2s)
+01:49:03 I pilotC | kd128_kq32_nnz60_log1p: MRR@10=0.0895 R@100=0.4652 R@1000=0.7278
+/home/user/tmp/dvlsr/scripts/31_pilotC.py:174: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  sp_rho.append(sps.spearmanr(dsc[m], osc[m]).statistic)
+01:49:08 I pilotC | score preservation: spearman=0.214 jaccard@100=0.134
+01:49:09 I pilotC | SPLADE overlap (truncated): J=0.368 cov=0.85
+01:49:09 I pilotC | best cell: kd128_kq32_nnz120_log1p MRR@10=0.0962
+=== ENCODE e5 L12 R2 whitened ===
+01:49:18 I encC1 | [start] encode C1 d (1852472)
+01:49:18 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 8 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 9 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 10 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 11 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 12 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 12 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 13 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 13 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 14 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 14 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 15 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 15 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 16 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 16 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 17 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 17 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 18 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 18 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 19 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 19 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 20 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 20 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 21 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 21 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 22 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 22 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:49:18 I encC1 | launch shard 23 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 23 --n-shards 24 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:51:49 I encC1 | shard 21 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 21: 0/77186 264/s
+shard 21: 19200/77186 645/s
+shard 21: 38400/77186 656/s
+shard 21: 57600/77186 674/s
+shard 21: 76800/77186 675/s
+shard 21 done 114s
+01:51:49 I encC1 | shard 23 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 23: 0/77187 261/s
+shard 23: 19200/77187 646/s
+shard 23: 38400/77187 664/s
+shard 23: 57600/77187 682/s
+shard 23: 76800/77187 679/s
+shard 23 done 114s
+01:51:51 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/77186 308/s
+shard 0: 19200/77186 662/s
+shard 0: 38400/77186 667/s
+shard 0: 57600/77186 661/s
+shard 0: 76800/77186 653/s
+shard 0 done 118s
+01:51:51 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/77186 234/s
+shard 6: 19200/77186 649/s
+shard 6: 38400/77186 656/s
+shard 6: 57600/77186 664/s
+shard 6: 76800/77186 665/s
+shard 6 done 116s
+01:51:52 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/77186 271/s
+shard 7: 19200/77186 648/s
+shard 7: 38400/77186 648/s
+shard 7: 57600/77186 657/s
+shard 7: 76800/77186 657/s
+shard 7 done 118s
+01:51:52 I encC1 | shard 22 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 22: 0/77186 275/s
+shard 22: 19200/77186 645/s
+shard 22: 38400/77186 649/s
+shard 22: 57600/77186 661/s
+shard 22: 76800/77186 661/s
+shard 22 done 117s
+01:51:53 I encC1 | shard 8 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 8: 0/77187 262/s
+shard 8: 19200/77187 654/s
+shard 8: 38400/77187 652/s
+shard 8: 57600/77187 658/s
+shard 8: 76800/77187 655/s
+shard 8 done 118s
+01:51:54 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/77186 269/s
+shard 1: 19200/77186 662/s
+shard 1: 38400/77186 658/s
+shard 1: 57600/77186 651/s
+shard 1: 76800/77186 647/s
+shard 1 done 119s
+01:51:54 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/77187 201/s
+shard 2: 19200/77187 672/s
+shard 2: 38400/77187 663/s
+shard 2: 57600/77187 651/s
+shard 2: 76800/77187 648/s
+shard 2 done 119s
+01:51:54 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/77186 270/s
+shard 3: 19200/77186 634/s
+shard 3: 38400/77186 649/s
+shard 3: 57600/77186 649/s
+shard 3: 76800/77186 650/s
+shard 3 done 119s
+01:51:54 I encC1 | shard 12 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 12: 0/77186 272/s
+shard 12: 19200/77186 638/s
+shard 12: 38400/77186 648/s
+shard 12: 57600/77186 653/s
+shard 12: 76800/77186 649/s
+shard 12 done 119s
+01:51:54 I encC1 | shard 15 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 15: 0/77186 285/s
+shard 15: 19200/77186 629/s
+shard 15: 38400/77186 637/s
+shard 15: 57600/77186 642/s
+shard 15: 76800/77186 641/s
+shard 15 done 121s
+01:51:54 I encC1 | shard 19 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 19: 0/77186 274/s
+shard 19: 19200/77186 642/s
+shard 19: 38400/77186 650/s
+shard 19: 57600/77186 654/s
+shard 19: 76800/77186 652/s
+shard 19 done 118s
+01:51:54 I encC1 | shard 20 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 20: 0/77187 211/s
+shard 20: 19200/77187 651/s
+shard 20: 38400/77187 656/s
+shard 20: 57600/77187 649/s
+shard 20: 76800/77187 644/s
+shard 20 done 120s
+01:51:55 I encC1 | shard 9 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 9: 0/77186 271/s
+shard 9: 19200/77186 652/s
+shard 9: 38400/77186 658/s
+shard 9: 57600/77186 653/s
+shard 9: 76800/77186 647/s
+shard 9 done 119s
+01:51:55 I encC1 | shard 17 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 17: 0/77187 113/s
+shard 17: 19200/77187 613/s
+shard 17: 38400/77187 627/s
+shard 17: 57600/77187 634/s
+shard 17: 76800/77187 636/s
+shard 17 done 121s
+01:51:56 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/77186 300/s
+shard 4: 19200/77186 621/s
+shard 4: 38400/77186 636/s
+shard 4: 57600/77186 638/s
+shard 4: 76800/77186 643/s
+shard 4 done 120s
+01:51:56 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/77187 288/s
+shard 5: 19200/77187 631/s
+shard 5: 38400/77187 633/s
+shard 5: 57600/77187 635/s
+shard 5: 76800/77187 640/s
+shard 5 done 121s
+01:51:56 I encC1 | shard 13 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 13: 0/77186 314/s
+shard 13: 19200/77186 615/s
+shard 13: 38400/77186 615/s
+shard 13: 57600/77186 618/s
+shard 13: 76800/77186 627/s
+shard 13 done 123s
+01:51:56 I encC1 | shard 14 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 14: 0/77187 272/s
+shard 14: 19200/77187 626/s
+shard 14: 38400/77187 639/s
+shard 14: 57600/77187 641/s
+shard 14: 76800/77187 642/s
+shard 14 done 120s
+01:51:57 I encC1 | shard 11 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 11: 0/77187 280/s
+shard 11: 19200/77187 647/s
+shard 11: 38400/77187 639/s
+shard 11: 57600/77187 642/s
+shard 11: 76800/77187 639/s
+shard 11 done 121s
+01:51:59 I encC1 | shard 10 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 10: 0/77186 256/s
+shard 10: 19200/77186 639/s
+shard 10: 38400/77186 625/s
+shard 10: 57600/77186 627/s
+shard 10: 76800/77186 631/s
+shard 10 done 123s
+01:52:00 I encC1 | shard 16 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 16: 0/77186 260/s
+shard 16: 19200/77186 617/s
+shard 16: 38400/77186 639/s
+shard 16: 57600/77186 620/s
+shard 16: 76800/77186 626/s
+shard 16 done 123s
+01:52:00 I encC1 | shard 18 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 18: 0/77186 210/s
+shard 18: 19200/77186 624/s
+shard 18: 38400/77186 628/s
+shard 18: 57600/77186 620/s
+shard 18: 76800/77186 627/s
+shard 18 done 123s
+01:52:00 I encC1 | [done ] encode C1 d (1852472) (162.2s)
+01:52:00 I encC1 | [start] encode C1 q (6980)
+01:52:00 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:00 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 8 --encoder e5 --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+01:52:29 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/873 119/s
+shard 1 done 2s
+01:52:29 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/872 108/s
+shard 2 done 2s
+01:52:29 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/872 129/s
+shard 4 done 2s
+01:52:29 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/873 120/s
+shard 5 done 2s
+01:52:29 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/872 118/s
+shard 6 done 2s
+01:52:29 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/873 254/s
+shard 7 done 1s
+01:52:31 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/873 116/s
+shard 3 done 2s
+01:52:32 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/872 123/s
+shard 0 done 2s
+01:52:32 I encC1 | [done ] encode C1 q (6980) (32.0s)
+=== EVAL e5 L12 R2 whitened ===
+01:52:37 I pilotC | C1 store: docs (1852472, 256), queries (6980, 128)
+01:52:37 I pilotC | [start] fit taus
+01:53:05 I pilotC | [done ] fit taus (28.6s)
+01:53:05 I pilotC | tau_d: {120: 0.22, 60: 0.2678} tau_q: {30: 0.2249, 15: 0.2769}
+01:53:05 I pilotC | [start] build inverted index
+01:53:58 I pilotC | [done ] build inverted index (53.1s)
+01:53:58 I pilotC | [start] cell kd128_kq32_nnz120_none
+01:54:01 I pilotC | [done ] cell kd128_kq32_nnz120_none (2.8s)
+01:54:03 I pilotC | kd128_kq32_nnz120_none: MRR@10=0.1202 R@100=0.5743 R@1000=0.8441
+01:54:03 I pilotC | [start] cell kd128_kq32_nnz120_log1p
+01:54:05 I pilotC | [done ] cell kd128_kq32_nnz120_log1p (2.2s)
+01:54:07 I pilotC | kd128_kq32_nnz120_log1p: MRR@10=0.1246 R@100=0.5828 R@1000=0.8457
+01:54:07 I pilotC | [start] cell kd128_kq32_nnz60_none
+01:54:08 I pilotC | [done ] cell kd128_kq32_nnz60_none (1.6s)
+01:54:10 I pilotC | kd128_kq32_nnz60_none: MRR@10=0.1029 R@100=0.5342 R@1000=0.8178
+01:54:10 I pilotC | [start] cell kd128_kq32_nnz60_log1p
+01:54:12 I pilotC | [done ] cell kd128_kq32_nnz60_log1p (1.6s)
+01:54:13 I pilotC | kd128_kq32_nnz60_log1p: MRR@10=0.1099 R@100=0.5456 R@1000=0.8197
+/home/user/tmp/dvlsr/scripts/31_pilotC.py:174: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  sp_rho.append(sps.spearmanr(dsc[m], osc[m]).statistic)
+01:54:19 I pilotC | score preservation: spearman=0.296 jaccard@100=0.225
+01:54:19 I pilotC | SPLADE overlap (truncated): J=0.357 cov=0.85
+01:54:19 I pilotC | best cell: kd128_kq32_nnz120_log1p MRR@10=0.1246
+=== ENCODE e5 L9 R2 centered ===
+01:54:32 I encC1 | [start] encode C1 d (1852472)
+01:54:33 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 8 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 9 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 10 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 11 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 12 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 12 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 13 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 13 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 14 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 14 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 15 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 15 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 16 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 16 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 17 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 17 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 18 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 18 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 19 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 19 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 20 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 20 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 21 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 21 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 22 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 22 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:54:33 I encC1 | launch shard 23 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 23 --n-shards 24 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered
+01:56:56 I encC1 | shard 9 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 9: 0/77186 176/s
+shard 9: 19200/77186 663/s
+shard 9: 38400/77186 658/s
+shard 9: 57600/77186 675/s
+shard 9: 76800/77186 678/s
+shard 9 done 115s
+01:56:57 I encC1 | shard 11 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 11: 0/77187 227/s
+shard 11: 19200/77187 652/s
+shard 11: 38400/77187 648/s
+shard 11: 57600/77187 670/s
+shard 11: 76800/77187 672/s
+shard 11 done 115s
+01:56:58 I encC1 | shard 10 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 10: 0/77186 252/s
+shard 10: 19200/77186 654/s
+shard 10: 38400/77186 649/s
+shard 10: 57600/77186 661/s
+shard 10: 76800/77186 668/s
+shard 10 done 116s
+01:56:59 I encC1 | shard 22 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 22: 0/77186 243/s
+shard 22: 19200/77186 671/s
+shard 22: 38400/77186 671/s
+shard 22: 57600/77186 663/s
+shard 22: 76800/77186 665/s
+shard 22 done 116s
+01:57:00 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/77186 251/s
+shard 3: 19200/77186 642/s
+shard 3: 38400/77186 659/s
+shard 3: 57600/77186 658/s
+shard 3: 76800/77186 659/s
+shard 3 done 117s
+01:57:00 I encC1 | shard 12 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 12: 0/77186 188/s
+shard 12: 19200/77186 631/s
+shard 12: 38400/77186 641/s
+shard 12: 57600/77186 643/s
+shard 12: 76800/77186 648/s
+shard 12 done 119s
+01:57:00 I encC1 | shard 13 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 13: 0/77186 240/s
+shard 13: 19200/77186 642/s
+shard 13: 38400/77186 652/s
+shard 13: 57600/77186 650/s
+shard 13: 76800/77186 654/s
+shard 13 done 118s
+01:57:00 I encC1 | shard 23 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 23: 0/77187 211/s
+shard 23: 19200/77187 641/s
+shard 23: 38400/77187 650/s
+shard 23: 57600/77187 653/s
+shard 23: 76800/77187 655/s
+shard 23 done 118s
+01:57:01 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/77186 265/s
+shard 0: 19200/77186 658/s
+shard 0: 38400/77186 650/s
+shard 0: 57600/77186 651/s
+shard 0: 76800/77186 651/s
+shard 0 done 119s
+01:57:01 I encC1 | shard 19 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 19: 0/77186 256/s
+shard 19: 19200/77186 647/s
+shard 19: 38400/77186 657/s
+shard 19: 57600/77186 666/s
+shard 19: 76800/77186 656/s
+shard 19 done 118s
+01:57:02 I encC1 | shard 20 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 20: 0/77187 259/s
+shard 20: 19200/77187 659/s
+shard 20: 38400/77187 651/s
+shard 20: 57600/77187 655/s
+shard 20: 76800/77187 651/s
+shard 20 done 119s
+01:57:02 I encC1 | shard 21 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 21: 0/77186 258/s
+shard 21: 19200/77186 656/s
+shard 21: 38400/77186 647/s
+shard 21: 57600/77186 647/s
+shard 21: 76800/77186 651/s
+shard 21 done 118s
+01:57:03 I encC1 | shard 18 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 18: 0/77186 231/s
+shard 18: 19200/77186 644/s
+shard 18: 38400/77186 641/s
+shard 18: 57600/77186 645/s
+shard 18: 76800/77186 644/s
+shard 18 done 120s
+01:57:04 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/77186 228/s
+shard 6: 19200/77186 618/s
+shard 6: 38400/77186 629/s
+shard 6: 57600/77186 637/s
+shard 6: 76800/77186 642/s
+shard 6 done 120s
+01:57:05 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/77187 209/s
+shard 2: 19200/77187 639/s
+shard 2: 38400/77187 640/s
+shard 2: 57600/77187 633/s
+shard 2: 76800/77187 633/s
+shard 2 done 122s
+01:57:05 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/77186 246/s
+shard 4: 19200/77186 628/s
+shard 4: 38400/77186 640/s
+shard 4: 57600/77186 639/s
+shard 4: 76800/77186 642/s
+shard 4 done 120s
+01:57:05 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/77187 252/s
+shard 5: 19200/77187 635/s
+shard 5: 38400/77187 645/s
+shard 5: 57600/77187 640/s
+shard 5: 76800/77187 640/s
+shard 5 done 121s
+01:57:05 I encC1 | shard 14 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 14: 0/77187 268/s
+shard 14: 19200/77187 604/s
+shard 14: 38400/77187 616/s
+shard 14: 57600/77187 625/s
+shard 14: 76800/77187 638/s
+shard 14 done 121s
+01:57:05 I encC1 | shard 15 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 15: 0/77186 289/s
+shard 15: 19200/77186 639/s
+shard 15: 38400/77186 632/s
+shard 15: 57600/77186 644/s
+shard 15: 76800/77186 643/s
+shard 15 done 120s
+01:57:05 I encC1 | shard 16 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 16: 0/77186 270/s
+shard 16: 19200/77186 638/s
+shard 16: 38400/77186 638/s
+shard 16: 57600/77186 641/s
+shard 16: 76800/77186 634/s
+shard 16 done 122s
+01:57:06 I encC1 | shard 8 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 8: 0/77187 251/s
+shard 8: 19200/77187 617/s
+shard 8: 38400/77187 618/s
+shard 8: 57600/77187 630/s
+shard 8: 76800/77187 633/s
+shard 8 done 122s
+01:57:09 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/77186 198/s
+shard 1: 19200/77186 613/s
+shard 1: 38400/77186 613/s
+shard 1: 57600/77186 621/s
+shard 1: 76800/77186 629/s
+shard 1 done 123s
+01:57:09 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/77186 243/s
+shard 7: 19200/77186 632/s
+shard 7: 38400/77186 629/s
+shard 7: 57600/77186 635/s
+shard 7: 76800/77186 634/s
+shard 7 done 122s
+01:57:09 I encC1 | shard 17 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 17: 0/77187 255/s
+shard 17: 19200/77187 619/s
+shard 17: 38400/77187 613/s
+shard 17: 57600/77187 632/s
+shard 17: 76800/77187 637/s
+shard 17 done 121s
+01:57:09 I encC1 | [done ] encode C1 d (1852472) (156.5s)
+01:57:09 I encC1 | [start] encode C1 q (6980)
+01:57:09 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:09 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 8 --encoder e5 --layer 9 --rep R2 --r1-prefix none --bs 192 --transform centered --queries
+01:57:31 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/872 115/s
+shard 0 done 3s
+01:57:31 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/872 119/s
+shard 2 done 2s
+01:57:31 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/872 73/s
+shard 6 done 3s
+01:57:32 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/873 72/s
+shard 1 done 3s
+01:57:32 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/873 78/s
+shard 3 done 3s
+01:57:32 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/872 124/s
+shard 4 done 2s
+01:57:32 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/873 77/s
+shard 5 done 3s
+01:57:32 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/873 72/s
+shard 7 done 3s
+01:57:32 I encC1 | [done ] encode C1 q (6980) (23.0s)
+=== EVAL e5 L9 R2 centered ===
+01:57:36 I pilotC | C1 store: docs (1852472, 256), queries (6980, 128)
+01:57:36 I pilotC | [start] fit taus
+01:58:06 I pilotC | [done ] fit taus (29.7s)
+01:58:06 I pilotC | tau_d: {120: 0.5698, 60: 0.6348} tau_q: {30: 0.4583, 15: 0.5225}
+01:58:06 I pilotC | [start] build inverted index
+01:59:03 I pilotC | [done ] build inverted index (57.4s)
+01:59:03 I pilotC | [start] cell kd128_kq32_nnz120_none
+01:59:11 I pilotC | [done ] cell kd128_kq32_nnz120_none (7.7s)
+01:59:12 I pilotC | kd128_kq32_nnz120_none: MRR@10=0.0557 R@100=0.3441 R@1000=0.6037
+01:59:12 I pilotC | [start] cell kd128_kq32_nnz120_log1p
+01:59:18 I pilotC | [done ] cell kd128_kq32_nnz120_log1p (5.4s)
+01:59:20 I pilotC | kd128_kq32_nnz120_log1p: MRR@10=0.0563 R@100=0.3425 R@1000=0.6006
+01:59:20 I pilotC | [start] cell kd128_kq32_nnz60_none
+01:59:23 I pilotC | [done ] cell kd128_kq32_nnz60_none (3.3s)
+01:59:25 I pilotC | kd128_kq32_nnz60_none: MRR@10=0.0502 R@100=0.3086 R@1000=0.5762
+01:59:25 I pilotC | [start] cell kd128_kq32_nnz60_log1p
+01:59:27 I pilotC | [done ] cell kd128_kq32_nnz60_log1p (2.8s)
+01:59:29 I pilotC | kd128_kq32_nnz60_log1p: MRR@10=0.0507 R@100=0.3120 R@1000=0.5754
+/home/user/tmp/dvlsr/scripts/31_pilotC.py:174: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  sp_rho.append(sps.spearmanr(dsc[m], osc[m]).statistic)
+01:59:35 I pilotC | score preservation: spearman=0.158 jaccard@100=0.093
+01:59:35 I pilotC | SPLADE overlap (truncated): J=0.305 cov=0.85
+01:59:35 I pilotC | best cell: kd128_kq32_nnz120_log1p MRR@10=0.0563
+=== ENCODE bge L12 R2 whitened ===
+01:59:47 I encC1 | [start] encode C1 d (1852472)
+01:59:47 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 8 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 9 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 10 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 11 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 12 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 12 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 13 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 13 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 14 on gpu 4: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 14 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 15 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 15 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 16 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 16 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 17 on gpu 5: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 17 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 18 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 18 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 19 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 19 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 20 on gpu 6: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 20 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 21 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 21 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 22 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 22 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+01:59:47 I encC1 | launch shard 23 on gpu 7: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 23 --n-shards 24 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened
+02:02:11 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/77187 260/s
+shard 2: 19200/77187 642/s
+shard 2: 38400/77187 643/s
+shard 2: 57600/77187 653/s
+shard 2: 76800/77187 662/s
+shard 2 done 117s
+02:02:11 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/77186 251/s
+shard 6: 19200/77186 656/s
+shard 6: 38400/77186 678/s
+shard 6: 57600/77186 676/s
+shard 6: 76800/77186 670/s
+shard 6 done 116s
+02:02:11 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/77186 174/s
+shard 7: 19200/77186 654/s
+shard 7: 38400/77186 671/s
+shard 7: 57600/77186 671/s
+shard 7: 76800/77186 664/s
+shard 7 done 117s
+02:02:11 I encC1 | shard 18 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 18: 0/77186 171/s
+shard 18: 19200/77186 645/s
+shard 18: 38400/77186 649/s
+shard 18: 57600/77186 654/s
+shard 18: 76800/77186 657/s
+shard 18 done 118s
+02:02:11 I encC1 | shard 21 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 21: 0/77186 231/s
+shard 21: 19200/77186 654/s
+shard 21: 38400/77186 651/s
+shard 21: 57600/77186 653/s
+shard 21: 76800/77186 662/s
+shard 21 done 117s
+02:02:12 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/77186 185/s
+shard 3: 19200/77186 646/s
+shard 3: 38400/77186 645/s
+shard 3: 57600/77186 650/s
+shard 3: 76800/77186 652/s
+shard 3 done 119s
+02:02:12 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/77187 271/s
+shard 5: 19200/77187 643/s
+shard 5: 38400/77187 642/s
+shard 5: 57600/77187 655/s
+shard 5: 76800/77187 655/s
+shard 5 done 118s
+02:02:12 I encC1 | shard 8 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 8: 0/77187 274/s
+shard 8: 19200/77187 658/s
+shard 8: 38400/77187 677/s
+shard 8: 57600/77187 670/s
+shard 8: 76800/77187 664/s
+shard 8 done 116s
+02:02:12 I encC1 | shard 20 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 20: 0/77187 249/s
+shard 20: 19200/77187 640/s
+shard 20: 38400/77187 642/s
+shard 20: 57600/77187 650/s
+shard 20: 76800/77187 657/s
+shard 20 done 117s
+02:02:12 I encC1 | shard 23 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 23: 0/77187 249/s
+shard 23: 19200/77187 645/s
+shard 23: 38400/77187 654/s
+shard 23: 57600/77187 654/s
+shard 23: 76800/77187 660/s
+shard 23 done 117s
+02:02:13 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/77186 270/s
+shard 0: 19200/77186 642/s
+shard 0: 38400/77186 638/s
+shard 0: 57600/77186 643/s
+shard 0: 76800/77186 653/s
+shard 0 done 118s
+02:02:13 I encC1 | shard 13 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 13: 0/77186 273/s
+shard 13: 19200/77186 661/s
+shard 13: 38400/77186 645/s
+shard 13: 57600/77186 646/s
+shard 13: 76800/77186 656/s
+shard 13 done 118s
+02:02:13 I encC1 | shard 19 ok (gpu 6) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 19: 0/77186 229/s
+shard 19: 19200/77186 649/s
+shard 19: 38400/77186 654/s
+shard 19: 57600/77186 657/s
+shard 19: 76800/77186 657/s
+shard 19 done 118s
+02:02:14 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/77186 292/s
+shard 4: 19200/77186 645/s
+shard 4: 38400/77186 636/s
+shard 4: 57600/77186 642/s
+shard 4: 76800/77186 650/s
+shard 4 done 119s
+02:02:14 I encC1 | shard 12 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 12: 0/77186 263/s
+shard 12: 19200/77186 647/s
+shard 12: 38400/77186 640/s
+shard 12: 57600/77186 648/s
+shard 12: 76800/77186 652/s
+shard 12 done 118s
+02:02:14 I encC1 | shard 22 ok (gpu 7) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 22: 0/77186 229/s
+shard 22: 19200/77186 653/s
+shard 22: 38400/77186 656/s
+shard 22: 57600/77186 644/s
+shard 22: 76800/77186 652/s
+shard 22 done 118s
+02:02:15 I encC1 | shard 14 ok (gpu 4) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 14: 0/77187 247/s
+shard 14: 19200/77187 652/s
+shard 14: 38400/77187 637/s
+shard 14: 57600/77187 639/s
+shard 14: 76800/77187 648/s
+shard 14 done 119s
+02:02:16 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/77186 285/s
+shard 1: 19200/77186 626/s
+shard 1: 38400/77186 630/s
+shard 1: 57600/77186 636/s
+shard 1: 76800/77186 649/s
+shard 1 done 119s
+02:02:16 I encC1 | shard 10 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 10: 0/77186 264/s
+shard 10: 19200/77186 616/s
+shard 10: 38400/77186 626/s
+shard 10: 57600/77186 627/s
+shard 10: 76800/77186 638/s
+shard 10 done 121s
+02:02:16 I encC1 | shard 11 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 11: 0/77187 248/s
+shard 11: 19200/77187 626/s
+shard 11: 38400/77187 641/s
+shard 11: 57600/77187 646/s
+shard 11: 76800/77187 646/s
+shard 11 done 119s
+02:02:16 I encC1 | shard 17 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 17: 0/77187 264/s
+shard 17: 19200/77187 638/s
+shard 17: 38400/77187 632/s
+shard 17: 57600/77187 640/s
+shard 17: 76800/77187 647/s
+shard 17 done 119s
+02:02:17 I encC1 | shard 15 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 15: 0/77186 251/s
+shard 15: 19200/77186 633/s
+shard 15: 38400/77186 621/s
+shard 15: 57600/77186 628/s
+shard 15: 76800/77186 638/s
+shard 15 done 121s
+02:02:19 I encC1 | shard 9 ok (gpu 3) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 9: 0/77186 241/s
+shard 9: 19200/77186 624/s
+shard 9: 38400/77186 630/s
+shard 9: 57600/77186 630/s
+shard 9: 76800/77186 638/s
+shard 9 done 121s
+02:02:21 I encC1 | shard 16 ok (gpu 5) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 16: 0/77186 250/s
+shard 16: 19200/77186 631/s
+shard 16: 38400/77186 637/s
+shard 16: 57600/77186 632/s
+shard 16: 76800/77186 633/s
+shard 16 done 122s
+02:02:21 I encC1 | [done ] encode C1 d (1852472) (154.6s)
+02:02:21 I encC1 | [start] encode C1 q (6980)
+02:02:21 I encC1 | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 0 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 1 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 2 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 3 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 4 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 5 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 6 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:21 I encC1 | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/30_encode_c1.py --shard 7 --n-shards 8 --encoder bge --layer 12 --rep R2 --r1-prefix none --bs 192 --transform whitened --queries
+02:02:45 I encC1 | shard 0 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 0: 0/872 294/s
+shard 0 done 2s
+02:02:49 I encC1 | shard 6 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 6: 0/872 57/s
+shard 6 done 4s
+02:02:50 I encC1 | shard 3 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 3: 0/873 61/s
+shard 3 done 3s
+02:02:51 I encC1 | shard 2 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 2: 0/872 56/s
+shard 2 done 4s
+02:02:51 I encC1 | shard 5 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 5: 0/873 61/s
+shard 5 done 3s
+02:02:52 I encC1 | shard 1 ok (gpu 0) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 1: 0/873 60/s
+shard 1 done 3s
+02:02:52 I encC1 | shard 4 ok (gpu 1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 4: 0/872 54/s
+shard 4 done 4s
+02:02:52 I encC1 | shard 7 ok (gpu 2) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 7: 0/873 55/s
+shard 7 done 4s
+02:02:52 I encC1 | [done ] encode C1 q (6980) (31.0s)
+=== EVAL bge L12 R2 whitened ===
+02:02:57 I pilotC | C1 store: docs (1852472, 256), queries (6980, 128)
+02:02:57 I pilotC | [start] fit taus
+02:03:26 I pilotC | [done ] fit taus (29.5s)
+02:03:26 I pilotC | tau_d: {120: 0.229, 60: 0.2861} tau_q: {30: 0.2288, 15: 0.2844}
+02:03:26 I pilotC | [start] build inverted index
+02:04:07 I pilotC | [done ] build inverted index (41.2s)
+02:04:07 I pilotC | [start] cell kd128_kq32_nnz120_none
+02:04:13 I pilotC | [done ] cell kd128_kq32_nnz120_none (5.5s)
+02:04:15 I pilotC | kd128_kq32_nnz120_none: MRR@10=0.1042 R@100=0.5358 R@1000=0.8085
+02:04:15 I pilotC | [start] cell kd128_kq32_nnz120_log1p
+02:04:17 I pilotC | [done ] cell kd128_kq32_nnz120_log1p (2.5s)
+02:04:19 I pilotC | kd128_kq32_nnz120_log1p: MRR@10=0.1083 R@100=0.5436 R@1000=0.8104
+02:04:19 I pilotC | [start] cell kd128_kq32_nnz60_none
+02:04:21 I pilotC | [done ] cell kd128_kq32_nnz60_none (1.7s)
+02:04:22 I pilotC | kd128_kq32_nnz60_none: MRR@10=0.0912 R@100=0.4927 R@1000=0.7726
+02:04:22 I pilotC | [start] cell kd128_kq32_nnz60_log1p
+02:04:24 I pilotC | [done ] cell kd128_kq32_nnz60_log1p (1.7s)
+02:04:26 I pilotC | kd128_kq32_nnz60_log1p: MRR@10=0.0956 R@100=0.5046 R@1000=0.7764
+02:04:26 I pilotC | SPLADE overlap (truncated): J=0.347 cov=0.85
+02:04:26 I pilotC | best cell: kd128_kq32_nnz120_log1p MRR@10=0.1083
+PILOTC_DONE

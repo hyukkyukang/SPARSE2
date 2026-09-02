@@ -1,0 +1,147 @@
+02:05:05 I perocc | allocated /workspace/SPARSE/dvlsr/artifacts/occ_e5_L12.npy
+02:05:05 I perocc | [start] per-occurrence states e5 L[12]
+02:05:05 I perocc | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 0 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 1 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 2 on gpu 0: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 2 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 3 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 4 on gpu 1: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 4 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 5 on gpu 1: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 5 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 6 on gpu 2: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 6 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 7 on gpu 2: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 7 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 8 on gpu 2: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 8 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 9 on gpu 3: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 9 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 10 on gpu 3: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 10 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:05:05 I perocc | launch shard 11 on gpu 3: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 11 --n-shards 12 --encoder e5 --layers 12 --bs 192
+02:13:09 I perocc | shard 3 ok (gpu 1) ard 3: 19200/206301 259/s
+shard 3: 38400/206301 272/s
+shard 3: 57600/206301 291/s
+shard 3: 76800/206301 342/s
+shard 3: 96000/206301 375/s
+shard 3: 115200/206301 412/s
+shard 3: 134400/206301 423/s
+shard 3: 153600/206301 450/s
+shard 3: 172800/206301 451/s
+shard 3: 192000/206301 462/s
+shard 3 done 453s
+02:13:11 I perocc | shard 11 ok (gpu 3) 00/206301 261/s
+shard 11: 38400/206301 274/s
+shard 11: 57600/206301 291/s
+shard 11: 76800/206301 341/s
+shard 11: 96000/206301 374/s
+shard 11: 115200/206301 413/s
+shard 11: 134400/206301 422/s
+shard 11: 153600/206301 450/s
+shard 11: 172800/206301 450/s
+shard 11: 192000/206301 460/s
+shard 11 done 455s
+02:13:12 I perocc | shard 5 ok (gpu 1) ard 5: 19200/206301 258/s
+shard 5: 38400/206301 270/s
+shard 5: 57600/206301 289/s
+shard 5: 76800/206301 341/s
+shard 5: 96000/206301 374/s
+shard 5: 115200/206301 412/s
+shard 5: 134400/206301 419/s
+shard 5: 153600/206301 442/s
+shard 5: 172800/206301 443/s
+shard 5: 192000/206301 453/s
+shard 5 done 458s
+02:13:12 I perocc | shard 6 ok (gpu 2) ard 6: 19200/206301 257/s
+shard 6: 38400/206301 272/s
+shard 6: 57600/206301 290/s
+shard 6: 76800/206301 342/s
+shard 6: 96000/206301 375/s
+shard 6: 115200/206301 414/s
+shard 6: 134400/206301 430/s
+shard 6: 153600/206301 451/s
+shard 6: 172800/206301 451/s
+shard 6: 192000/206301 460/s
+shard 6 done 456s
+02:13:12 I perocc | shard 7 ok (gpu 2) ard 7: 19200/206301 259/s
+shard 7: 38400/206301 272/s
+shard 7: 57600/206301 290/s
+shard 7: 76800/206301 341/s
+shard 7: 96000/206301 374/s
+shard 7: 115200/206301 413/s
+shard 7: 134400/206301 422/s
+shard 7: 153600/206301 444/s
+shard 7: 172800/206301 444/s
+shard 7: 192000/206301 452/s
+shard 7 done 459s
+02:13:13 I perocc | shard 1 ok (gpu 0) ard 1: 19200/206301 259/s
+shard 1: 38400/206301 272/s
+shard 1: 57600/206301 291/s
+shard 1: 76800/206301 342/s
+shard 1: 96000/206301 373/s
+shard 1: 115200/206301 411/s
+shard 1: 134400/206301 421/s
+shard 1: 153600/206301 444/s
+shard 1: 172800/206301 446/s
+shard 1: 192000/206301 453/s
+shard 1 done 458s
+02:13:13 I perocc | shard 2 ok (gpu 0) ard 2: 19200/206301 257/s
+shard 2: 38400/206301 270/s
+shard 2: 57600/206301 289/s
+shard 2: 76800/206301 340/s
+shard 2: 96000/206301 373/s
+shard 2: 115200/206301 410/s
+shard 2: 134400/206301 419/s
+shard 2: 153600/206301 441/s
+shard 2: 172800/206301 442/s
+shard 2: 192000/206301 451/s
+shard 2 done 459s
+02:13:13 I perocc | shard 4 ok (gpu 1) ard 4: 19200/206301 258/s
+shard 4: 38400/206301 272/s
+shard 4: 57600/206301 290/s
+shard 4: 76800/206301 342/s
+shard 4: 96000/206301 373/s
+shard 4: 115200/206301 412/s
+shard 4: 134400/206301 420/s
+shard 4: 153600/206301 442/s
+shard 4: 172800/206301 444/s
+shard 4: 192000/206301 452/s
+shard 4 done 458s
+02:13:13 I perocc | shard 9 ok (gpu 3) ard 9: 19200/206301 265/s
+shard 9: 38400/206301 276/s
+shard 9: 57600/206301 293/s
+shard 9: 76800/206301 342/s
+shard 9: 96000/206301 375/s
+shard 9: 115200/206301 413/s
+shard 9: 134400/206301 421/s
+shard 9: 153600/206301 444/s
+shard 9: 172800/206301 445/s
+shard 9: 192000/206301 454/s
+shard 9 done 457s
+02:13:13 I perocc | shard 10 ok (gpu 3) 00/206301 263/s
+shard 10: 38400/206301 275/s
+shard 10: 57600/206301 294/s
+shard 10: 76800/206301 341/s
+shard 10: 96000/206301 373/s
+shard 10: 115200/206301 411/s
+shard 10: 134400/206301 421/s
+shard 10: 153600/206301 443/s
+shard 10: 172800/206301 445/s
+shard 10: 192000/206301 453/s
+shard 10 done 457s
+02:13:20 I perocc | shard 0 ok (gpu 0) ard 0: 19200/206300 259/s
+shard 0: 38400/206300 271/s
+shard 0: 57600/206300 290/s
+shard 0: 76800/206300 341/s
+shard 0: 96000/206300 374/s
+shard 0: 115200/206300 411/s
+shard 0: 134400/206300 421/s
+shard 0: 153600/206300 441/s
+shard 0: 172800/206300 442/s
+shard 0: 192000/206300 446/s
+shard 0 done 462s
+02:13:20 I perocc | shard 8 ok (gpu 2) ard 8: 19200/206301 255/s
+shard 8: 38400/206301 270/s
+shard 8: 57600/206301 288/s
+shard 8: 76800/206301 337/s
+shard 8: 96000/206301 370/s
+shard 8: 115200/206301 403/s
+shard 8: 134400/206301 415/s
+shard 8: 153600/206301 432/s
+shard 8: 172800/206301 437/s
+shard 8: 192000/206301 439/s
+shard 8 done 463s
+02:13:20 I perocc | [done ] per-occurrence states e5 L[12] (495.1s)

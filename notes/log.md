@@ -80,3 +80,33 @@ Selected **R2 (contextual prototype)**; insertion cost k\* = 20 occurrences.
   space" story does need a per-space transform.
 * R3 (5 centroids per entry) is competitive at layer 9 but degenerate at layer 10
   (its threshold cannot reach the common density target), so it is not carried.
+
+## Pilot C
+
+Configuration selected by A and B: **e5, layer 9, R2 (contextual prototype),
+whitened**, evaluated on C1 = 1,852,472 passages with dev-small (6,980 queries).
+The 36-cell grid is 36 re-truncations of one stored profile set, as §C.1 requires.
+
+References on C1: BM25 **0.1882**, e5-base-v2 dense **0.3542**, SPLADE++ **0.3817**.
+
+* Best cell **k_d = 128, k_q = 16, nnz≈120, log1p**: MRR@10 **0.0963**,
+  R@100 0.490, R@1000 0.751.
+* **H8 not met.** 0.0963 / 0.1882 = **0.51x BM25**, inside the "weak" band
+  (0.4–0.8x), so §C.4 says proceed to Pilot D *with the LoRA arm from the start* —
+  which the run list already includes.
+* **H9 not met on score preservation.** Spearman against the dense encoder over its
+  own top-100 within C1 is **0.211** (expected 0.5–0.7) and Jaccard@100 is 0.137.
+  The sparse projection is not a lossy copy of the dense score; it is a different,
+  weaker signal.
+* **H9 met on plausibility.** 39 of 40 annotated lists are plausible (single
+  annotator, reported as such). Expansion is real: a nursing passage activates
+  `midwives`, a cortisol passage `pituitary` and `gland`, a rash passage `ringworm`
+  and `fungal`, a SWIFT-code passage `aba`.
+* SPLADE++ top-20 Jaccard on the truncated representation: 0.358 at coverage 0.85.
+* **Why the number is low, quantified.** Query profiles are peaked (top-1 carries
+  18.5% of the mass; participation ratio 14 of 30 non-zeros) but document profiles
+  are nearly flat (top-1 3.5%; participation ratio **63 of 119**). Untrained
+  max-pooled cosine gives a document ~63 effectively-equal dimensions, so
+  discriminative terms are not up-weighted. This is precisely what Pilot D's
+  learned threshold and scale exist to fix, and it is consistent with the term
+  lists being good while the ranking is not.

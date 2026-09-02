@@ -144,7 +144,11 @@ def nearest_seen(name, held_mask):
     return alias
 
 
-def evaluate_model(name, oracle_name, split, k=1000, do_alias=True):
+def _cache_path(name, split):
+    return paths.RUNS / f"D_eval_{name}_{split}.npz"
+
+
+def evaluate_model(name, oracle_name, split, k=1000, do_alias=True, use_cache=True):
     z = np.load(paths.ART / "vocab.npz")
     words = [str(w) for w in z["words"]]
     decile = z["decile"]
@@ -155,6 +159,15 @@ def evaluate_model(name, oracle_name, split, k=1000, do_alias=True):
     qids, qtexts = load_queries(paths.QUERIES_DEV_SMALL)
     qrels = {int(a): set(int(x) for x in b)
              for a, b in qrels_dict(paths.QRELS_DEV_SMALL).items()}
+
+    cp = _cache_path(name, split)
+    if use_cache and cp.exists():
+        z = np.load(cp, allow_pickle=True)
+        per_q = {t: {k2: z[f"{t}__{k2}"] for k2 in ("mrr@10", "r@100", "r@1000", "qids")}
+                 for t in [str(x) for x in z["tags"]]}
+        res = json.loads(str(z["res"]))
+        lg.info(f"{name}: reusing cached evaluation ({cp.name})")
+        return res, per_q, held, decile, qids, qtexts, qrels, loc, words
 
     res = dict(name=name, oracle=oracle_name, split=split, n_held=int(held.sum()))
     di, dv = store(name, "d")
@@ -184,6 +197,9 @@ def evaluate_model(name, oracle_name, split, k=1000, do_alias=True):
         lg.info(f"{name} [{tag}]: MRR@10={m['mrr@10']:.4f} R@100={m['r@100']:.4f}")
     del ix
     torch.cuda.empty_cache()
+    flat = {f"{t}__{k2}": v for t, per in per_q.items()
+            for k2, v in per.items() if k2 in ("mrr@10", "r@100", "r@1000", "qids")}
+    np.savez(cp, tags=np.asarray(list(per_q)), res=np.asarray(json.dumps(res)), **flat)
     return res, per_q, held, decile, qids, qtexts, qrels, loc, words
 
 

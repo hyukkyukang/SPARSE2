@@ -102,12 +102,20 @@ class Trainer:
         lg.info(f"{self.n_q} queries, batch {self.bs}x8, {self.steps} steps")
 
     # ---------------------------------------------------------------- entries
-    def refresh_entries(self, step):
-        """V2: re-encode a random 10% of the seen entries' contexts (§D.3)."""
+    def refresh_entries(self, step, frac=None, over_all=False):
+        """V2: re-encode entry contexts with the current encoder (§D.3).
+
+        During training only *seen* entries are refreshed. At save time the whole
+        vocabulary is re-encoded once, because §D.4 defines insertion for V2 as
+        "a re-encoding with the trained LoRA encoder" -- so held-out rows must come
+        from the final encoder, exactly as a genuinely new entry would.
+        """
         a = self.a
+        frac = a.refresh_frac if frac is None else frac
+        pool = np.arange(self.nV) if over_all else np.flatnonzero(self.seen)
         g = np.random.default_rng(a.seed * 1000 + step)
-        pick = g.choice(np.flatnonzero(self.seen),
-                        size=int(a.refresh_frac * self.seen.sum()), replace=False)
+        n = len(pool) if frac >= 1.0 else int(frac * len(pool))
+        pick = pool if frac >= 1.0 else g.choice(pool, size=n, replace=False)
         occ = np.load(paths.ART / "vocab.npz")["occ_pid"][pick, : a.refresh_k]
         pids = np.unique(occ.reshape(-1))
         inv = {self.words[j]: j for j in pick}
@@ -216,6 +224,10 @@ class Trainer:
 
     def save(self, hist):
         a = self.a
+        if a.variant == "V2":
+            with Timer("final full re-encode of the entry matrix (V2 insertion)", lg):
+                n = self.refresh_entries(10 ** 9, frac=1.0, over_all=True)
+            lg.info(f"[{a.name}] re-encoded {n} entries with the trained encoder")
         d = paths.CKPT / a.name
         d.mkdir(parents=True, exist_ok=True)
         torch.save(dict(head=self.head.state_dict(),
@@ -252,7 +264,7 @@ def build_args(argv=None):
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--batch-queries", type=int, default=None)
     ap.add_argument("--warmup", type=int, default=500)
-    ap.add_argument("--refresh-every", type=int, default=100)
+    ap.add_argument("--refresh-every", type=int, default=250)
     ap.add_argument("--refresh-frac", type=float, default=0.10)
     ap.add_argument("--refresh-k", type=int, default=50)
     ap.add_argument("--max-steps", type=int, default=0)

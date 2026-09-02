@@ -1,0 +1,18 @@
+{
+  "encoder": "e5",
+  "layer": 12,
+  "rep": "R2",
+  "r1_prefix": "none",
+  "tau": 0.21997069567419203,
+  "tau_q": 0.22485350817373728,
+  "k_d": 128,
+  "k_q": 16,
+  "saturation": "log1p",
+  "nnz_d": 120,
+  "nnz_q": 30,
+  "lam_d": 0.0003,
+  "lam_q": 0.0009,
+  "verdict": "weak",
+  "ratio_to_bm25": 0.6650116250685782,
+  "include_lora_arm": true
+}
