@@ -12,7 +12,7 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dvlsr import paths
 from dvlsr.data import Collection, load_splits, load_queries
-from dvlsr.encoders import Encoder
+from dvlsr.encoders import get_encoder
 from dvlsr.util import get_logger, rng, save_json, Timer
 
 lg = get_logger("probes", "10_probes_banks.log")
@@ -92,8 +92,8 @@ def build_states(enc_name: str, force=False):
         lg.info(f"{enc_name}: exists"); return
     pl = plan()
     col = Collection()
-    enc = Encoder(enc_name)
-    L = paths.LAYERS
+    enc = get_encoder(enc_name)
+    L = paths.layers_for(enc_name)
     z = np.load(paths.ART / "vocab.npz")
     words = [str(w) for w in z["words"]]
     inv = {w: i for i, w in enumerate(words)}
@@ -168,8 +168,8 @@ def build_aux(enc_name: str, force=False):
     S = load_splits()["S"]
     g = rng("tau-sample")
     pids = np.sort(g.choice(S, size=5000, replace=False))
-    enc = Encoder(enc_name)
-    L = paths.LAYERS
+    enc = get_encoder(enc_name)
+    L = paths.layers_for(enc_name)
 
     def dump(texts, is_query, path, tag):
         rows, st, words = [], [], []

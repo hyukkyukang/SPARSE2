@@ -145,6 +145,82 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
                 f"R@1000={m['r@1000']:.4f}")
         if best is None or m["mrr@10"] > best[1]["mrr@10"]:
             best = (name, m, (k_d, k_q, nd, nq_, sat))
+    # ---- score preservation vs the dense encoder (§C.2.4) -------------------
+    k_d, k_q, nd, nq_, sat = best[2]
+    dpath = paths.RUNS / f"dense_{enc}_c1.npz"
+    if dpath.exists():
+        dz = np.load(dpath)
+        d_qids, d_docs, d_scores = dz["qids"], dz["docs"], dz["scores"]
+        dq = {int(q): i for i, q in enumerate(d_qids)}
+        sp_rho, jac = [], []
+        ours_run = np.load(paths.RUNS /
+                           f"pilotC_{enc}_L{layer}_{rep}_{best[0]}.npz")["docs"]
+        for i, q in enumerate(qids):
+            r = dq.get(int(q))
+            if r is None:
+                continue
+            top = d_docs[r][:100]
+            dsc = d_scores[r][:100]
+            local = np.array([loc.get(int(p), -1) for p in top])
+            osc = our_scores_for(local[None, :], qi_np[i:i + 1], qv_np[i:i + 1],
+                                 di, dv, tq[nq_]["tau"], td[nd]["tau"], k_q, k_d, sat)[0]
+            m = local >= 0
+            if m.sum() > 5:
+                sp_rho.append(sps.spearmanr(dsc[m], osc[m]).statistic)
+            jac.append(len(set(top.tolist()) & set(ours_run[i][:100].tolist())) /
+                       len(set(top.tolist()) | set(ours_run[i][:100].tolist())))
+        res["score_preservation"] = dict(
+            spearman_mean=float(np.nanmean(sp_rho)),
+            spearman_median=float(np.nanmedian(sp_rho)),
+            jaccard_top100=float(np.mean(jac)), n=int(len(sp_rho)))
+        lg.info(f"score preservation: spearman={np.nanmean(sp_rho):.3f} "
+                f"jaccard@100={np.mean(jac):.3f}")
+
+    # ---- qualitative dump (§C.2.6) and SPLADE overlap (§C.2.7) ---------------
+    z = np.load(paths.ART / "vocab.npz")
+    words = [str(w) for w in z["words"]]
+    col = Collection()
+    g = rng("qualitative")
+    dsel = np.sort(g.choice(len(pids), size=20, replace=False))
+    qsel = np.sort(g.choice(len(qids), size=20, replace=False))
+    lines = ["# Pilot C — qualitative top-10 entries", "",
+             f"encoder={enc} layer={layer} rep={rep} cell={best[0]}", ""]
+    for tag, sel, I, V, texts, tau in (
+            ("passage", dsel, di, dv, [col[int(pids[i])] for i in dsel], td[nd]["tau"]),
+            ("query", qsel, qi, qv, [qtexts[i] for i in qsel], tq[nq_]["tau"])):
+        lines.append(f"## {tag}s")
+        for r, i in enumerate(sel):
+            w = np.maximum(np.asarray(V[i][:10], np.float32) - tau, 0)
+            terms = ", ".join(f"{words[int(e)]}:{x:.2f}"
+                              for e, x in zip(I[i][:10], w) if x > 0)
+            lines.append(f"- *{texts[r][:150]}*")
+            lines.append(f"  - {terms}")
+        lines.append("")
+    (paths.REPORTS / f"pilotC_qualitative_{enc}_L{layer}_{rep}.md").write_text(
+        "\n".join(lines))
+
+    exp = np.load(paths.ART / "splade_expansions.npz", allow_pickle=True)
+    sp_vocab = [str(x) for x in exp["vocab"]]
+    inv = {w: i for i, w in enumerate(words)}
+    in_splade = np.array([w in set(sp_vocab) for w in words])
+    pid2e = {int(p): i for i, p in enumerate(exp["pids"])}
+    jj, cc = [], []
+    ov = [int(p) for p in exp["overlap_pids"] if int(p) in loc]
+    for p in ov[:1000]:
+        d = loc[p]
+        w = np.maximum(np.asarray(dv[d][:k_d], np.float32) - td[nd]["tau"], 0)
+        ours = {int(e) for e, x in zip(di[d][:k_d], w) if x > 0}
+        ours = set(sorted(ours, key=lambda e: -w[list(di[d][:k_d]).index(e)])[:20])
+        ours = {e for e in ours if in_splade[e]}
+        toks = [sp_vocab[t] for t in exp["idx"][pid2e[p]][:20]]
+        S = {inv[t] for t in toks if t in inv}
+        cc.append(len(S) / 20)
+        if S or ours:
+            jj.append(len(S & ours) / max(len(S | ours), 1))
+    res["splade_overlap_truncated"] = dict(jaccard=float(np.mean(jj)),
+                                           coverage=float(np.mean(cc)), n=len(jj))
+    lg.info(f"SPLADE overlap (truncated): J={np.mean(jj):.3f} cov={np.mean(cc):.2f}")
+
     res["best"] = dict(name=best[0], **best[1])
     res["best_cfg"] = dict(k_d=best[2][0], k_q=best[2][1], nnz_d=best[2][2],
                            nnz_q=best[2][3], saturation=best[2][4])

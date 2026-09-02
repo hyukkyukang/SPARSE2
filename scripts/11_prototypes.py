@@ -12,7 +12,7 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dvlsr import paths
 from dvlsr.data import Collection
-from dvlsr.encoders import Encoder
+from dvlsr.encoders import get_encoder
 from dvlsr.util import get_logger, gpu_map, Timer
 
 lg = get_logger("proto", "11_prototypes.log")
@@ -40,9 +40,9 @@ def worker(shard, n_shards, enc_name, bs):
     z = np.load(paths.ART / "vocab.npz")
     words = [str(w) for w in z["words"]]
     inv = {w: i for i, w in enumerate(words)}
-    L = paths.LAYERS
+    L = paths.layers_for(enc_name)
     col = Collection()
-    enc = Encoder(enc_name)
+    enc = get_encoder(enc_name)
     dev = "cuda"
     sums = torch.zeros(2, nV, len(L), enc.dim, device=dev, dtype=torch.float32)
     cnts = torch.zeros(2, nV, device=dev, dtype=torch.float32)
@@ -89,7 +89,7 @@ def merge(enc_name, n_shards):
     proto = S / np.maximum(C, 1)[:, :, None, None]
     np.savez(paths.ART / f"proto_{enc_name}.npz",
              protoA=proto[0].astype(np.float16), protoB=proto[1].astype(np.float16),
-             cntA=C[0], cntB=C[1], layers=np.asarray(paths.LAYERS))
+             cntA=C[0], cntB=C[1], layers=np.asarray(paths.layers_for(enc_name)))
     lg.info(f"{enc_name}: prototypes {proto.shape[1:]} "
             f"countA min={C[0].min():.0f} med={np.median(C[0]):.0f} "
             f"countB min={C[1].min():.0f} med={np.median(C[1]):.0f}")

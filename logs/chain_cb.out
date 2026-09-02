@@ -1,0 +1,50 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3932.08it/s]
+[transformers] [1mBertModel LOAD REPORT[0m from: colbert-ir/colbertv2.0
+Key           | Status     |  | 
+--------------+------------+--+-
+linear.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+00:53:51 I probes | [start] colbert: probe states
+00:54:20 I probes | [done ] colbert: probe states (29.5s)
+00:54:20 I probes | colbert: probes filled 0.9896
+00:54:20 I probes | [start] colbert: bank H
+00:54:24 I probes | [done ] colbert: bank H (4.0s)
+00:54:25 I probes | colbert: H bank (200000, 1, 128) (from 234307 units)
+00:54:25 I probes | [start] colbert: bank Q
+00:54:32 I probes | [done ] colbert: bank Q (7.3s)
+00:54:32 I probes | colbert: Q bank (200000, 1, 128) (from 231450 units)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2110.46it/s]
+[transformers] [1mBertModel LOAD REPORT[0m from: colbert-ir/colbertv2.0
+Key           | Status     |  | 
+--------------+------------+--+-
+linear.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+00:54:48 I probes | [start] colbert: tau sample S
+00:54:54 I probes | [done ] colbert: tau sample S (6.2s)
+00:54:54 I probes | colbert: S (286940, 1, 128) over 5000 texts
+00:54:54 I probes | [start] colbert: tau sample devq
+00:54:56 I probes | [done ] colbert: tau sample devq (1.5s)
+00:54:56 I probes | colbert: devq (41576, 1, 128) over 6980 texts
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2436.29it/s]
+[transformers] [1mBertModel LOAD REPORT[0m from: colbert-ir/colbertv2.0
+Key           | Status     |  | 
+--------------+------------+--+-
+linear.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+00:55:11 I r1 | [start] R1 colbert/none
+00:55:15 I r1 | [done ] R1 colbert/none (4.2s)
+00:55:15 I r1 | [start] R1 colbert/doc
+00:55:18 I r1 | [done ] R1 colbert/doc (3.0s)
+00:55:18 I r1 | [start] R1 colbert/query
+00:55:21 I r1 | [done ] R1 colbert/query (2.2s)
+00:55:21 I r1 | saved R1 colbert: {'none': (30000, 128), 'doc': (30000, 128), 'query': (30000, 128)}
+CHAIN_CB_LIGHT_DONE

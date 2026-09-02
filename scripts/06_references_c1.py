@@ -103,15 +103,24 @@ def splade_c1(k=1000, n_shards=24, per_gpu=3):
             gpu_map(os.path.abspath(__file__), n_shards, ["--what", "splade-shard"],
                     logger=lg, per_gpu=per_gpu)
     from dvlsr.encoders import SpladeEncoder
+    from dvlsr.retrieval import InvertedIndex
     sp = SpladeEncoder()
     qids, texts = load_queries(paths.QUERIES_DEV_SMALL)
     qreps = sp.encode(texts, maxlen=paths.MAXLEN_QRY)
     del sp
     torch.cuda.empty_cache()
-    import scipy.sparse as sps_
-    AI = np.load(pi, mmap_mode="r"); AV = np.load(paths.EMB / "c1_splade_val.npy", mmap_mode="r")
-    nV = 30522
-    docs = _sparse_search(AI, AV, qreps, nV, len(pids), k)
+    QTOP = 256
+    qi = np.zeros((len(qreps), QTOP), np.int32)
+    qv = np.zeros((len(qreps), QTOP), np.float32)
+    for r, (ii, vv) in enumerate(qreps):
+        o = np.argsort(-vv)[:QTOP]
+        qi[r, : len(o)] = ii[o]; qv[r, : len(o)] = vv[o]
+    AI = np.load(pi, mmap_mode="r")
+    AV = np.load(paths.EMB / "c1_splade_val.npy", mmap_mode="r")
+    with Timer("index + search SPLADE++ on C1", lg):
+        ix = InvertedIndex(np.asarray(AI), np.asarray(AV), 30522, min_val=0.0)
+        docs, _ = ix.search(qi, qv, tau_q=0.0, tau_d=0.0, k_q=QTOP, k_d=256,
+                            saturation="none", k=k)
     np.savez(paths.RUNS / "spladepp_c1.npz", qids=np.asarray(qids),
              docs=pids[docs].astype(np.int32))
     return "spladepp_c1"
@@ -150,7 +159,8 @@ def _sparse_search(AI, AV, qreps, nV, n_docs, k, qbatch=256, dbatch=400_000):
 
 def score(name, tag=None):
     z = np.load(paths.RUNS / f"{name}.npz")
-    run = {int(q): z["docs"][i] for i, q in enumerate(z["qids"])}
+    docs, qq = z["docs"], z["qids"]
+    run = {int(q): docs[i] for i, q in enumerate(qq)}
     qr = {int(a): set(int(x) for x in b) for a, b in qrels_dict(paths.QRELS_DEV_SMALL).items()}
     m, per = evaluate(run, qr)
     m["mrr@10_ci"] = bootstrap_ci(per["mrr@10"])

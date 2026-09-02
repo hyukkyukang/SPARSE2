@@ -1,0 +1,9 @@
+00:59:52 I refC1 | wrote /workspace/SPARSE/dvlsr/data/prep/c1_jsonl/docs.jsonl
+00:59:52 I refC1 | [start] index C1 with Lucene
+01:00:53 I refC1 | [done ] index C1 with Lucene (61.0s)
+01:01:03 I refC1 | [start] BM25 search on C1
+
+2026-09-03 01:01:03,924 - refC1 - INFO - [start] BM25 search on C1
+01:02:14 I refC1 | [done ] BM25 search on C1 (70.8s)
+
+2026-09-03 01:02:14,686 - refC1 - INFO - [done ] BM25 search on C1 (70.8s)

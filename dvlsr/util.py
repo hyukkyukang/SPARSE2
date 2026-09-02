@@ -76,6 +76,16 @@ class Timer:
         self.lg.info(f"[done ] {self.msg} ({time.time()-self.t:.1f}s)")
 
 
+
+def _visible_gpus():
+    """Physical GPU ids this process can see, so children get the right pinning."""
+    v = os.environ.get("CUDA_VISIBLE_DEVICES")
+    if v:
+        return [x.strip() for x in v.split(",") if x.strip() != ""]
+    import torch
+    return [str(i) for i in range(torch.cuda.device_count())]
+
+
 def gpu_map(worker_path: str, n_shards: int, extra_args: list[str] | None = None,
             gpus: list[int] | None = None, logger=None, per_gpu: int = 1):
     """Run `python worker_path --shard i --n-shards N` once per shard, pinned to a GPU.
@@ -85,8 +95,8 @@ def gpu_map(worker_path: str, n_shards: int, extra_args: list[str] | None = None
     """
     lg = logger or get_logger()
     if gpus is None:
-        import torch
-        gpus = list(range(torch.cuda.device_count()))
+        gpus = _visible_gpus()
+    gpus = [str(g) for g in gpus]
     slots = [g for g in gpus for _ in range(per_gpu)]
     procs, running = [], []
     todo = list(range(n_shards))
@@ -97,7 +107,7 @@ def gpu_map(worker_path: str, n_shards: int, extra_args: list[str] | None = None
             used = [r[1] for r in running]
             free = next(g for g in slots if used.count(g) < per_gpu)
             s = todo.pop(0)
-            env = dict(env_base); env["CUDA_VISIBLE_DEVICES"] = str(free)
+            env = dict(env_base); env["CUDA_VISIBLE_DEVICES"] = free
             cmd = [sys.executable, worker_path, "--shard", str(s), "--n-shards", str(n_shards)]
             if extra_args:
                 cmd += extra_args
@@ -119,3 +129,39 @@ def gpu_map(worker_path: str, n_shards: int, extra_args: list[str] | None = None
                 running.remove(r)
                 procs.append(s)
     return procs
+
+
+def run_queue(jobs, gpus=None, per_gpu=1, logger=None, env_extra=None):
+    """Run heterogeneous commands across GPUs. jobs = [(name, [argv...]), ...]."""
+    lg = logger or get_logger()
+    if gpus is None:
+        gpus = _visible_gpus()
+    gpus = [str(g) for g in gpus]
+    slots = [g for g in gpus for _ in range(per_gpu)]
+    todo, running, done, failed = list(jobs), [], [], []
+    env_base = dict(os.environ)
+    env_base["PYTHONPATH"] = str(paths.REPO) + ":" + env_base.get("PYTHONPATH", "")
+    env_base.update(env_extra or {})
+    while todo or running:
+        while todo and len(running) < len(slots):
+            used = [r[1] for r in running]
+            free = next(g for g in slots if used.count(g) < per_gpu)
+            name, cmd = todo.pop(0)
+            env = dict(env_base); env["CUDA_VISIBLE_DEVICES"] = free
+            log = open(paths.LOGS / f"{name}.log", "w")
+            lg.info(f"[queue] start {name} on gpu {free}")
+            p = subprocess.Popen(cmd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            running.append((p, free, name, log))
+        time.sleep(2.0)
+        for r in list(running):
+            p, g, name, log = r
+            if p.poll() is not None:
+                log.close()
+                running.remove(r)
+                if p.returncode != 0:
+                    lg.error(f"[queue] FAILED {name} (see logs/{name}.log)")
+                    failed.append(name)
+                else:
+                    lg.info(f"[queue] done {name}")
+                    done.append(name)
+    return done, failed

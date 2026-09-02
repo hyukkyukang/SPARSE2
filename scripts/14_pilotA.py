@@ -11,13 +11,14 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dvlsr import paths, whitening
 from dvlsr.data import Collection
-from dvlsr.encoders import Encoder
+from dvlsr.encoders import get_encoder
 from dvlsr.sparse import profile_maxpool, find_tau
 from dvlsr.util import get_logger, save_json, rng, Timer
 
 lg = get_logger("pilotA", "14_pilotA.log")
 WD = paths.ART / "whiten"
 DEV = "cuda"
+LAYERS_CUR = list(paths.LAYERS)
 CHUNK = 4096
 
 
@@ -30,8 +31,8 @@ def aux_states(enc_name, force=False):
     col = Collection()
     exp = np.load(paths.ART / "splade_expansions.npz", allow_pickle=True)
     poly = np.load(paths.ART / "polysemy.npz", allow_pickle=True)
-    enc = Encoder(enc_name)
-    L = paths.LAYERS
+    enc = get_encoder(enc_name)
+    L = paths.layers_for(enc_name)
     out = {}
 
     ov = exp["overlap_pids"]
@@ -78,12 +79,12 @@ def make_tf(mode, side_path):
 def entry_matrix(rep, enc_name, li, r1_prefix, r1_shared=False):
     if rep == "R2":
         E = np.load(paths.ART / f"proto_{enc_name}.npz")["protoA"][:, li]
-        wpath = WD / f"{enc_name}_L{paths.LAYERS[li]}_V_R2.npz"
+        wpath = WD / f"{enc_name}_L{LAYERS_CUR[li]}_V_R2.npz"
     else:
         E = np.load(paths.ART / f"r1_{enc_name}.npz")[r1_prefix]
         wpath = WD / f"{enc_name}_R1{r1_prefix}_V.npz"
     if r1_shared:
-        wpath = WD / f"{enc_name}_L{paths.LAYERS[li]}_H.npz"
+        wpath = WD / f"{enc_name}_L{LAYERS_CUR[li]}_H.npz"
     return np.asarray(E, np.float32), wpath
 
 
@@ -127,7 +128,9 @@ def run(enc_name, layers=None, reps=("R1", "R2"),
     is_stop_v, decile_v = z["is_stop"], z["decile"]
     pr = np.load(paths.ART / f"probes_{enc_name}.npz", allow_pickle=True)
     probes, slice_id, filled = pr["probes"], pr["slice_id"], pr["filled"]
-    L = list(paths.LAYERS)
+    global LAYERS_CUR
+    L = list(paths.layers_for(enc_name))
+    LAYERS_CUR = L
     layers = layers or L
     tauS = np.load(paths.ART / f"tauS_{enc_name}.npz", allow_pickle=True)
     exp = np.load(paths.ART / "splade_expansions.npz", allow_pickle=True)

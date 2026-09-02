@@ -158,3 +158,89 @@ shard 11: 64000/77187 331/s
 shard 11: 76800/77187 331/s
 shard 11 done
 00:49:06 I refC1 | launch shard 23 on gpu 1: /home/user/tmp/dvlsr/scripts/06_references_c1.py --shard 23 --n-shards 24 --what splade-shard
+00:50:29 I refC1 | shard 23 ok (gpu 1) s to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 23: 0/77187 99/s
+shard 23: 12800/77187 1101/s
+shard 23: 25600/77187 1157/s
+shard 23: 38400/77187 1172/s
+shard 23: 51200/77187 1190/s
+shard 23: 64000/77187 1198/s
+shard 23: 76800/77187 1202/s
+shard 23 done
+00:52:07 I refC1 | shard 21 ok (gpu 3) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 21: 0/77186 92/s
+shard 21: 12800/77186 465/s
+shard 21: 25600/77186 474/s
+shard 21: 38400/77186 479/s
+shard 21: 51200/77186 481/s
+shard 21: 64000/77186 481/s
+shard 21: 76800/77186 482/s
+shard 21 done
+00:52:07 I refC1 | shard 22 ok (gpu 3) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 22: 0/77186 92/s
+shard 22: 12800/77186 473/s
+shard 22: 25600/77186 481/s
+shard 22: 38400/77186 484/s
+shard 22: 51200/77186 484/s
+shard 22: 64000/77186 484/s
+shard 22: 76800/77186 484/s
+shard 22 done
+00:52:49 I refC1 | shard 15 ok (gpu 0) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 15: 0/77186 49/s
+shard 15: 12800/77186 707/s
+shard 15: 25600/77186 451/s
+shard 15: 38400/77186 402/s
+shard 15: 51200/77186 381/s
+shard 15: 64000/77186 370/s
+shard 15: 76800/77186 363/s
+shard 15 done
+00:53:13 I refC1 | shard 16 ok (gpu 0) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 16: 0/77186 83/s
+shard 16: 12800/77186 320/s
+shard 16: 25600/77186 325/s
+shard 16: 38400/77186 327/s
+shard 16: 51200/77186 328/s
+shard 16: 64000/77186 328/s
+shard 16: 76800/77186 342/s
+shard 16 done
+00:53:14 I refC1 | shard 17 ok (gpu 0) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 17: 0/77187 84/s
+shard 17: 12800/77187 320/s
+shard 17: 25600/77187 325/s
+shard 17: 38400/77187 327/s
+shard 17: 51200/77187 328/s
+shard 17: 64000/77187 328/s
+shard 17: 76800/77187 342/s
+shard 17 done
+00:53:17 I refC1 | shard 19 ok (gpu 4) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 19: 0/77186 82/s
+shard 19: 12800/77186 324/s
+shard 19: 25600/77186 331/s
+shard 19: 38400/77186 332/s
+shard 19: 51200/77186 334/s
+shard 19: 64000/77186 334/s
+shard 19: 76800/77186 335/s
+shard 19 done
+00:53:17 I refC1 | shard 20 ok (gpu 4) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 20: 0/77187 81/s
+shard 20: 12800/77187 324/s
+shard 20: 25600/77187 331/s
+shard 20: 38400/77187 332/s
+shard 20: 51200/77187 334/s
+shard 20: 64000/77187 334/s
+shard 20: 76800/77187 335/s
+shard 20 done
+00:53:18 I refC1 | shard 18 ok (gpu 4) equests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+shard 18: 0/77186 81/s
+shard 18: 12800/77186 327/s
+shard 18: 25600/77186 332/s
+shard 18: 38400/77186 334/s
+shard 18: 51200/77186 334/s
+shard 18: 64000/77186 335/s
+shard 18: 76800/77186 335/s
+shard 18 done
+00:53:18 I refC1 | [done ] encode C1 with SPLADE++ (509.6s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/usr/local/lib/python3.14/multiprocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-317097-9_r779_o'}
+  warnings.warn(
+Terminated

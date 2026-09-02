@@ -73,7 +73,8 @@ def splade(k: int, threads=48):
 def score_run(name):
     from dvlsr.metrics import evaluate, bootstrap_ci
     z = np.load(paths.RUNS / f"{name}.npz")
-    run = {int(q): z["docs"][i] for i, q in enumerate(z["qids"])}
+    docs, qq = z["docs"], z["qids"]
+    run = {int(q): docs[i] for i, q in enumerate(qq)}
     qr = {int(k): set(int(x) for x in v) for k, v in qrels_dict(paths.QRELS_DEV_SMALL).items()}
     m, per = evaluate(run, qr)
     m["mrr@10_ci"] = bootstrap_ci(per["mrr@10"])

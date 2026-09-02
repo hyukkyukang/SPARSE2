@@ -41,11 +41,21 @@ ENCODERS = {
         hf="BAAI/bge-base-en-v1.5", pooling="cls",
         q_prefix="Represent this sentence for searching relevant passages: ",
         d_prefix="", dim=768),
+    "colbert": dict(
+        hf="colbert-ir/colbertv2.0", pooling="token",
+        q_prefix="[unused0] ", d_prefix="[unused1] ", dim=128),
 }
 COLBERT = "colbert-ir/colbertv2.0"
 SPLADE = "naver/splade-cocondenser-ensembledistil"
 
 LAYERS = list(range(4, 13))            # §0.1 sweep indices 4..12
+
+
+def layers_for(enc: str) -> list[int]:
+    """ColBERTv2 is the Pilot A ceiling and is used at its final layer only (§0.1)."""
+    return [12] if enc == "colbert" else LAYERS
+
+
 MAXLEN_DOC = 192
 MAXLEN_QRY = 64
 

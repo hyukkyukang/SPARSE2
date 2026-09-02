@@ -1,0 +1,5 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+00:59:54 I dense | [start] load corpus e5 to gpu
+00:59:57 I dense | [done ] load corpus e5 to gpu (2.5s)
+00:59:57 I dense | [start] search e5 C1 (1852472 docs)
+00:59:59 I dense | [done ] search e5 C1 (1852472 docs) (2.0s)

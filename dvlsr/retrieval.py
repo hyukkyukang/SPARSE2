@@ -20,13 +20,13 @@ class InvertedIndex:
     """Postings grouped by entry, with the per-document rank kept for k_d masking."""
 
     def __init__(self, idx: np.ndarray, val: np.ndarray, n_entries: int,
-                 device="cuda", dtype=torch.float32):
+                 device="cuda", dtype=torch.float32, min_val: float = -1e3):
         n_docs, top = idx.shape
         e = torch.as_tensor(idx.reshape(-1).astype(np.int64))
         d = torch.arange(n_docs, dtype=torch.int64).repeat_interleave(top)
         p = torch.as_tensor(val.reshape(-1).astype(np.float32))
         r = torch.arange(top, dtype=torch.int16).repeat(n_docs)
-        keep = p > -1e3
+        keep = p > min_val
         e, d, p, r = e[keep], d[keep], p[keep], r[keep]
         order = torch.argsort(e)
         self.doc = d[order].to(device=device, dtype=torch.int32)

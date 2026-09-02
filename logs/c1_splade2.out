@@ -1,0 +1,5 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+00:59:55 I refC1 | [start] index + search SPLADE++ on C1
+01:00:18 I refC1 | [done ] index + search SPLADE++ on C1 (22.6s)
+/usr/local/lib/python3.14/multiprocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-373616-tki_axyu'}
+  warnings.warn(

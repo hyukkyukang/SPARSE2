@@ -10,7 +10,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dvlsr import paths
-from dvlsr.encoders import Encoder
+from dvlsr.encoders import get_encoder
 from dvlsr.util import get_logger, Timer
 
 lg = get_logger("r1", "12_r1.log")
@@ -19,7 +19,7 @@ lg = get_logger("r1", "12_r1.log")
 def main(enc_name):
     z = np.load(paths.ART / "vocab.npz")
     words = [str(w) for w in z["words"]]
-    enc = Encoder(enc_name)
+    enc = get_encoder(enc_name)
     out = {}
     variants = {"none": "", "doc": enc.cfg["d_prefix"], "query": enc.cfg["q_prefix"]}
     for tag, pre in variants.items():

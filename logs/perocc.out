@@ -1,0 +1,10 @@
+01:02:32 I perocc | allocated /workspace/SPARSE/dvlsr/artifacts/occ_e5_L9-10.npy
+01:02:32 I perocc | [start] per-occurrence states e5 L[9, 10]
+01:02:33 I perocc | launch shard 0 on gpu 0: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 0 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 1 on gpu 0: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 1 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 2 on gpu 1: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 2 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 3 on gpu 1: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 3 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 4 on gpu 2: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 4 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 5 on gpu 2: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 5 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 6 on gpu 3: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 6 --n-shards 12 --encoder e5 --layers 9,10 --bs 192
+01:02:33 I perocc | launch shard 7 on gpu 3: /home/user/tmp/dvlsr/scripts/18_per_occurrence.py --shard 7 --n-shards 12 --encoder e5 --layers 9,10 --bs 192

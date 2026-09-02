@@ -25,7 +25,7 @@ def _cov(X):
 
 
 def main(enc_name):
-    L = paths.LAYERS
+    L = paths.layers_for(enc_name)
     bH = np.load(paths.ART / f"bankH_{enc_name}.npy")        # (n, |L|, d)
     bQ = np.load(paths.ART / f"bankQ_{enc_name}.npy")
     proto = np.load(paths.ART / f"proto_{enc_name}.npz")["protoA"]

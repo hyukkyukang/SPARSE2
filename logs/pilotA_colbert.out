@@ -1,0 +1,5 @@
+01:02:29 I pilotA | [start] pilot A colbert [report]
+01:02:38 I pilotA | colbert [report]: 44533 probes, 9442 with related terms
+01:03:18 I pilotA | colbert L12|R1-none|raw: hit10=0.985 (stop 0.198) relMRR=0.0254/77.3x z=7.02 PR=3.1 nnz/tok=5.4 sense=0.762 jac=0.341/cov=0.86
+01:03:58 I pilotA | colbert L12|R2|raw: hit10=0.998 (stop 0.407) relMRR=0.0182/52.5x z=7.92 PR=3.0 nnz/tok=5.1 sense=0.715 jac=0.384/cov=0.86
+01:04:36 I pilotA | colbert L12|R1-none|centered: hit10=0.987 (stop 0.199) relMRR=0.0263/81.1x z=7.07 PR=3.2 nnz/tok=5.2 sense=0.766 jac=0.360/cov=0.86
