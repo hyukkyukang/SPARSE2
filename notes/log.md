@@ -166,3 +166,28 @@ does **not** translate into retrieval impact.
   by restricting accumulation to the sampled (passage, entry) pairs; the corrected
   refresh reproduces the original prototypes to cosine 0.999998 when the encoder has
   not yet moved.
+
+### Pilot D — the LoRA arm collapses without vocabulary dropout
+
+Three configurations of V2 (LoRA, no VD) were run to completion of their warmup:
+seed 1 at warmup 500, seed 2 at warmup 500, and seed 1 at warmup 2000. **All three
+collapsed** in the same way — mean non-zeros per document falling to 13–20,
+cross-entropy rising from ~1.8 to 3.7–5.7, in-batch accuracy to 0.03 — while
+**V2+VD, trained with identical settings, stayed healthy** (CE ~1.6, accuracy 0.53,
+nnz_d ~67) and V3 (full fine-tuning at lr 2e-5, no VD) was stable throughout.
+
+The mechanism is structural, not a tuning accident. `s_j = log(1 + ReLU(z_j))` is a
+hard gate: an entry that falls below threshold for a whole batch receives no
+gradient and cannot come back. A trainable encoder moving at LoRA's learning rate
+can switch most of the vocabulary off within a few dozen steps, and the entry matrix
+it is being scored against is *stale* between refreshes, which pushes it further.
+The frozen arm cannot do this — its residual head starts at the identity and moves
+slowly — and full fine-tuning at a 5x lower learning rate does not either.
+
+Vocabulary dropout prevents it for a reason that follows from the same mechanism:
+masking a random 30% of entries every step stops the model from settling on a small
+fixed active set, so entries keep receiving gradient and the gate never latches.
+
+This is the sharpest thing Pilot D says about the architecture so far, and it is a
+*positive* result for the frozen-encoder design the study is really testing.
+Collapsed runs are kept as `logs/V2_*_collapsed.log`.
