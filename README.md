@@ -16,6 +16,10 @@ Nothing in the model is indexed by *j*. This repository runs the pilot protocol
 (`notes/protocol.md`) that tests whether entries added **after** training behave like
 entries seen during it.
 
+**Start here:** [`SUMMARY.md`](SUMMARY.md) — what was run, what it found, what it means.
+[`PROTOCOL.md`](PROTOCOL.md) is the source protocol, reproduced as written, so every
+result can be checked against what was specified.
+
 ## Headline result
 
 **They do, and most clearly in the case the idea was designed for.** The recovery
@@ -96,7 +100,9 @@ scripts/    numbered stages, each writing a JSON artifact into results/
 configs/    polysemy set (sense probe) and run configs
 results/    small JSON results, versioned
 reports/    FINDINGS.md plus a report per pilot and qualitative dumps
-notes/      protocol summary, deviations, running log
+notes/      condensed protocol, deviations, running log
+PROTOCOL.md the source protocol, verbatim
+SUMMARY.md  the executive account of the study
 run_all.sh  the whole study in order
 ```
 
