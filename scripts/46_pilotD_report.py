@@ -23,7 +23,11 @@ def row(name, d):
     qh = d.get("Q_H", {})
     a, s = d.get("overall_all", {}), d.get("overall_seen", {})
     act = d.get("activation", {})
-    r = dict(name=name, split=d.get("split"),
+    arch = "V3" if name.startswith("V3") else "V2" if name.startswith("V2") else "V1"
+    orc = d.get("oracle", "")
+    orc_arch = "V3" if orc.startswith("V3") else "V2" if orc.startswith("V2") else "V1"
+    r = dict(name=name, split=d.get("split"), oracle=orc,
+             oracle_arch_match=bool(arch == orc_arch),
              mrr_all=a.get("mrr@10"), mrr_seen=s.get("mrr@10"),
              r100_all=a.get("r@100"), nnz_d=d.get("nnz_d"), nnz_q=d.get("nnz_q"),
              n_QH=qh.get("n"), n_QH_lex=qh.get("n_lex"),
@@ -65,11 +69,17 @@ def main():
         return
     rows = {n: row(n, d) for n, d in res.items()}
     md = ["# Pilot D — held-out vocabulary generalisation", "",
-          "| run | split | MRR@10 all | seen-only | rho (Q_H) | 95% CI | denom | valid |",
-          "|---|---|---|---|---|---|---|---|"]
+          "rho compares a model to an oracle of its **own architecture** (§D.3). Rows",
+          "marked (arch\\*) have no same-architecture oracle on their split — the",
+          "protocol's own run list provides only a V1 oracle for the cluster and rare",
+          "splits — so their rho is reported for completeness but is not a like-for-like",
+          "recovery ratio.", "",
+          "| run | split | oracle | MRR@10 all | seen-only | rho (Q_H) | 95% CI | denom | valid |",
+          "|---|---|---|---|---|---|---|---|---|"]
     for n, r in sorted(rows.items()):
         md.append(
-            f"| {n} | {r['split']} | {r['mrr_all']:.4f} | {r['mrr_seen']:.4f} | "
+            f"| {n}{'' if r['oracle_arch_match'] else ' (arch\\*)'} | {r['split']} | "
+            f"{r['oracle']} | {r['mrr_all']:.4f} | {r['mrr_seen']:.4f} | "
             + (f"{r['Q_H_rho']:.3f} | [{r['Q_H_rho_lo']:.2f}, {r['Q_H_rho_hi']:.2f}] | "
                f"{r['Q_H_den']:.4f} | {r['Q_H_den_valid']} |"
                if r.get("Q_H_rho") is not None else "— | — | — | — |"))

@@ -1,5 +1,8 @@
 {
-  "done": [],
+  "done": [
+    "V3",
+    "V3vd"
+  ],
   "failed": [
     "V2",
     "V2vd"

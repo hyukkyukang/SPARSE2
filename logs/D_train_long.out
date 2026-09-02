@@ -6,3 +6,5 @@
 02:51:42 E runD | [queue] FAILED V2 (see logs/V2.log)
 02:51:42 E runD | [queue] FAILED V2vd (see logs/V2vd.log)
 04:39:04 I runD | [queue] done V3
+05:04:14 I runD | [queue] done V3vd
+05:04:14 I runD | [done ] Pilot D training runs (8664.6s)

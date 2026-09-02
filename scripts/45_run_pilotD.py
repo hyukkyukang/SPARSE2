@@ -105,6 +105,10 @@ def main(a):
         names = [n for n, _ in run_list(cfg)]
         if a.only:
             names = [n for n in names if n in set(a.only.split(","))]
+        missing = [n for n in names if not (paths.CKPT / n / "head.pt").exists()]
+        if missing:
+            lg.warning(f"skipping (no checkpoint): {missing}")
+        names = [n for n in names if n not in set(missing)]
         done, failed = [], []
         env = dict(os.environ, PYTHONPATH=str(paths.REPO))
         for n in names:
@@ -130,6 +134,9 @@ def main(a):
         if a.only:
             keep = set(a.only.split(","))
             pairs = [p for p in pairs if p[0] in keep]
+        pairs = [p for p in pairs
+                 if (paths.CKPT / p[0] / "head.pt").exists()
+                 and (paths.CKPT / p[1] / "head.pt").exists()]
         jobs = [(f"eval_{n}", [PY, EVAL, "--name", n, "--oracle", o, "--split", s])
                 for n, o, s in pairs]
         with Timer("Pilot D evaluation", lg):
