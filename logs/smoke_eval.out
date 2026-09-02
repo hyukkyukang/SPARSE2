@@ -1,0 +1,283 @@
+02:26:47 I encD | [start] encode q for smoke_V1 (6980)
+02:26:47 I encD | launch shard 0 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 0 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:26:47 I encD | launch shard 1 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 1 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:26:47 I encD | launch shard 2 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 2 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:26:47 I encD | launch shard 3 on gpu 6: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 3 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:26:47 I encD | launch shard 4 on gpu 7: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 4 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:27:07 I encD | shard 0 ok (gpu 3) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7951.10it/s]
+shard 0: 0/872 329/s
+shard 0 done 1s
+02:27:07 I encD | shard 2 ok (gpu 5) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8569.91it/s]
+shard 2: 0/872 331/s
+shard 2 done 1s
+02:27:07 I encD | launch shard 5 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 5 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:27:07 I encD | launch shard 6 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 6 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:27:08 I encD | shard 1 ok (gpu 4) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8135.86it/s]
+shard 1: 0/873 312/s
+shard 1 done 1s
+02:27:08 I encD | shard 3 ok (gpu 6) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8469.73it/s]
+shard 3: 0/873 338/s
+shard 3 done 1s
+02:27:08 I encD | shard 4 ok (gpu 7) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8166.19it/s]
+shard 4: 0/872 324/s
+shard 4 done 1s
+02:27:08 I encD | launch shard 7 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 7 --n-shards 8 --name smoke_V1 --kind q --bs 192
+02:27:26 I encD | shard 5 ok (gpu 3) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8280.26it/s]
+shard 5: 0/873 179/s
+shard 5 done 1s
+02:27:26 I encD | shard 6 ok (gpu 5) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 6958.74it/s]
+shard 6: 0/872 183/s
+shard 6 done 1s
+02:27:26 I encD | shard 7 ok (gpu 4) arning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7671.78it/s]
+shard 7: 0/873 179/s
+shard 7 done 1s
+02:27:26 I encD | [done ] encode q for smoke_V1 (6980) (39.0s)
+02:27:29 I encD | [start] encode s for smoke_V1 (100000)
+02:27:29 I encD | launch shard 0 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 0 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 1 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 1 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 2 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 2 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 3 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 3 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 4 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 4 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 5 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 5 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 6 on gpu 6: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 6 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 7 on gpu 6: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 7 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 8 on gpu 7: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 8 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:27:29 I encD | launch shard 9 on gpu 7: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 9 --n-shards 10 --name smoke_V1 --kind s --bs 192
+02:28:00 I encD | shard 9 ok (gpu 7) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8100.26it/s]
+shard 9: 0/10000 221/s
+shard 9 done 14s
+02:28:01 I encD | shard 8 ok (gpu 7) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7986.47it/s]
+shard 8: 0/10000 237/s
+shard 8 done 14s
+02:28:02 I encD | shard 0 ok (gpu 3) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7834.60it/s]
+shard 0: 0/10000 240/s
+shard 0 done 15s
+02:28:02 I encD | shard 1 ok (gpu 3) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8019.55it/s]
+shard 1: 0/10000 250/s
+shard 1 done 15s
+02:28:03 I encD | shard 2 ok (gpu 4) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7518.91it/s]
+shard 2: 0/10000 238/s
+shard 2 done 16s
+02:28:03 I encD | shard 3 ok (gpu 4) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8791.42it/s]
+shard 3: 0/10000 231/s
+shard 3 done 16s
+02:28:06 I encD | shard 5 ok (gpu 5) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8634.00it/s]
+shard 5: 0/10000 243/s
+shard 5 done 17s
+02:28:07 I encD | shard 4 ok (gpu 5) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7712.97it/s]
+shard 4: 0/10000 233/s
+shard 4 done 17s
+02:28:07 I encD | shard 6 ok (gpu 6) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7736.13it/s]
+shard 6: 0/10000 220/s
+shard 6 done 17s
+02:28:07 I encD | shard 7 ok (gpu 6) ing: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7654.61it/s]
+shard 7: 0/10000 228/s
+shard 7 done 17s
+02:28:07 I encD | [done ] encode s for smoke_V1 (100000) (38.0s)
+02:28:09 I encD | [start] encode d for smoke_V1 (1852472)
+02:28:09 I encD | launch shard 0 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 0 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 1 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 1 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 2 on gpu 3: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 2 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 3 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 3 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 4 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 4 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 5 on gpu 4: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 5 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 6 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 6 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 7 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 7 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 8 on gpu 5: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 8 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 9 on gpu 6: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 9 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 10 on gpu 6: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 10 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 11 on gpu 6: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 11 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 12 on gpu 7: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 12 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 13 on gpu 7: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 13 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:28:09 I encD | launch shard 14 on gpu 7: /home/user/tmp/dvlsr/scripts/43_encode_eval.py --shard 14 --n-shards 15 --name smoke_V1 --kind d --bs 192
+02:32:06 I encD | shard 0 ok (gpu 3) : 0/123498 59/s
+shard 0: 38400/123498 565/s
+[W903 02:30:29.530755706 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 759169024 bytes (free: 642056192, total: 42404806656).
+shard 0: 76800/123498 552/s
+shard 0: 115200/123498 549/s
+shard 0 done 227s
+02:32:09 I encD | shard 12 ok (gpu 7) 23498 225/s
+shard 12: 38400/123498 583/s
+[W903 02:29:52.224550880 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 731906048 bytes (free: 728104960, total: 42404806656).
+shard 12: 76800/123498 568/s
+shard 12: 115200/123498 563/s
+shard 12 done 220s
+02:32:09 I encD | shard 13 ok (gpu 7)  higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8401.02it/s]
+shard 13: 0/123498 229/s
+shard 13: 38400/123498 569/s
+shard 13: 76800/123498 563/s
+shard 13: 115200/123498 562/s
+shard 13 done 220s
+02:32:11 I encD | shard 14 ok (gpu 7)  higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8873.30it/s]
+shard 14: 0/123499 253/s
+shard 14: 38400/123499 566/s
+shard 14: 76800/123499 560/s
+shard 14: 115200/123499 556/s
+shard 14 done 221s
+02:32:12 I encD | shard 1 ok (gpu 3) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8069.01it/s]
+shard 1: 0/123498 218/s
+shard 1: 38400/123498 554/s
+shard 1: 76800/123498 552/s
+shard 1: 115200/123498 551/s
+shard 1 done 223s
+02:32:12 I encD | shard 2 ok (gpu 3) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 5457.48it/s]
+shard 2: 0/123498 232/s
+shard 2: 38400/123498 559/s
+shard 2: 76800/123498 553/s
+shard 2: 115200/123498 550/s
+shard 2 done 223s
+02:32:16 I encD | shard 4 ok (gpu 4) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7801.35it/s]
+shard 4: 0/123498 214/s
+shard 4: 38400/123498 549/s
+shard 4: 76800/123498 553/s
+shard 4: 115200/123498 546/s
+shard 4 done 227s
+02:32:17 I encD | shard 3 ok (gpu 4) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7539.49it/s]
+shard 3: 0/123498 242/s
+shard 3: 38400/123498 541/s
+shard 3: 76800/123498 549/s
+shard 3: 115200/123498 542/s
+shard 3 done 228s
+02:32:17 I encD | shard 11 ok (gpu 6)  higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8328.18it/s]
+shard 11: 0/123498 251/s
+shard 11: 38400/123498 535/s
+shard 11: 76800/123498 539/s
+shard 11: 115200/123498 540/s
+shard 11 done 228s
+02:32:18 I encD | shard 5 ok (gpu 4) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7409.12it/s]
+shard 5: 0/123498 217/s
+shard 5: 38400/123498 532/s
+shard 5: 76800/123498 544/s
+shard 5: 115200/123498 537/s
+shard 5 done 229s
+02:32:18 I encD | shard 7 ok (gpu 5) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8419.49it/s]
+shard 7: 0/123499 201/s
+shard 7: 38400/123499 538/s
+shard 7: 76800/123499 537/s
+shard 7: 115200/123499 538/s
+shard 7 done 229s
+02:32:19 I encD | shard 6 ok (gpu 5)  0/123498 254/s
+shard 6: 38400/123498 553/s
+[W903 02:30:47.648167176 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 765460480 bytes (free: 455475200, total: 42404806656).
+shard 6: 76800/123498 540/s
+shard 6: 115200/123498 538/s
+shard 6 done 229s
+02:32:20 I encD | shard 8 ok (gpu 5) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7953.29it/s]
+shard 8: 0/123498 204/s
+shard 8: 38400/123498 538/s
+shard 8: 76800/123498 536/s
+shard 8: 115200/123498 536/s
+shard 8 done 230s
+02:32:22 I encD | shard 9 ok (gpu 6) nable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 199/199 [00:00<00:00, 8735.48it/s]
+shard 9: 0/123498 212/s
+shard 9: 38400/123498 529/s
+shard 9: 76800/123498 527/s
+shard 9: 115200/123498 527/s
+shard 9 done 233s
+02:32:32 I encD | shard 10 ok (gpu 6) 23498 202/s
+shard 10: 38400/123498 528/s
+[W903 02:29:49.417972869 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 882900992 bytes (free: 488898560, total: 42404806656).
+shard 10: 76800/123498 504/s
+shard 10: 115200/123498 502/s
+shard 10 done 240s
+02:32:32 I encD | [done ] encode d for smoke_V1 (1852472) (263.1s)
+02:33:46 I evalD | [start] index smoke_V1
+02:35:51 I evalD | [done ] index smoke_V1 (124.7s)
+02:36:04 I evalD | smoke_V1 [all]: MRR@10=0.1179 R@100=0.5520
+02:36:13 I evalD | smoke_V1 [seen]: MRR@10=0.1098 R@100=0.5349
+02:36:25 I evalD | smoke_V1 [alias]: MRR@10=0.1062 R@100=0.5284
+02:36:31 I evalD | smoke_V1: reusing cached evaluation (D_eval_smoke_V1_random.npz)
+02:36:36 I evalD | |Q_H| = 3009  |Q_H-lex| = 2511
+02:36:37 I evalD | Q_H: rho=1.000 [1.00,1.00] den=0.0209 valid=True
+02:36:38 I evalD | Q_H_lex: rho=1.000 [1.00,1.00] den=0.0252 valid=True
+02:36:38 I evalD | [start] activation statistics
+02:36:40 I evalD | [done ] activation statistics (2.2s)
+02:36:40 I evalD | signed gap_r = -0.0311 |gap_r| = 0.0416
+SMOKE_EVAL_DONE

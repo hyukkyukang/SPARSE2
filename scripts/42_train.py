@@ -119,21 +119,36 @@ class Trainer:
         occ = np.load(paths.ART / "vocab.npz")["occ_pid"][pick, : a.refresh_k]
         pids = np.unique(occ.reshape(-1))
         inv = {self.words[j]: j for j in pick}
+        # Only the entry's *own* sampled contexts may contribute, exactly as the
+        # initial prototype build does. Accumulating every occurrence of the word in
+        # the gathered passages instead pulls frequent entries towards the corpus mean
+        # and turns them into hubs.
+        key = np.sort(occ.reshape(-1).astype(np.int64) * self.nV
+                      + np.repeat(pick.astype(np.int64), occ.shape[1]))
+        key_t = torch.from_numpy(key).to(DEV)
         acc = torch.zeros(self.nV, 768, device=DEV)
         cnt = torch.zeros(self.nV, device=DEV)
         order = np.argsort([self.col.off[p + 1] - self.col.off[p] for p in pids])
         was = self.enc.model.training
         self.enc.model.eval()
         with torch.no_grad():
-            for s in range(0, len(order), 384):
-                sel = pids[order[s:s + 384]]
+            for st in range(0, len(order), 384):
+                sel = pids[order[st:st + 384]]
                 wu = self.enc.encode_word_units(self.col.texts(sel), [a.layer],
                                                 keep=lambda w: w in inv)
                 if len(wu.word) == 0:
                     continue
-                j = torch.tensor([inv[w.lower()] for w in wu.word], device=DEV)
-                acc.index_add_(0, j, wu.states[:, 0].float())
-                cnt.index_add_(0, j, torch.ones(len(j), device=DEV))
+                j = torch.tensor([inv[w.lower()] for w in wu.word], device=DEV,
+                                 dtype=torch.int64)
+                pp = torch.from_numpy(sel.astype(np.int64)).to(DEV)[
+                    torch.from_numpy(wu.row.astype(np.int64)).to(DEV)]
+                q = pp * self.nV + j
+                pos = torch.searchsorted(key_t, q).clamp(max=len(key_t) - 1)
+                hit = key_t[pos] == q
+                if not hit.any():
+                    continue
+                acc.index_add_(0, j[hit], wu.states[hit, 0].float())
+                cnt.index_add_(0, j[hit], torch.ones(int(hit.sum()), device=DEV))
         if was:
             self.enc.model.train()
         upd = cnt > 0
@@ -195,7 +210,8 @@ class Trainer:
                     ramp = min(1.0, ((step + 1) / max(self.ramp, 1)) ** 2)
                     lq = a.lam_q * ramp * lam_scale
                     ld = a.lam_d * ramp * lam_scale
-                    loss = ce + lq * flops(sq.float()) + ld * flops(sd.float())
+                    fq, fd = flops(sq.float()), flops(sd.float())
+                    loss = ce + lq * fq + ld * fd
 
                 self.opt.zero_grad(set_to_none=True)
                 loss.backward()
@@ -210,10 +226,13 @@ class Trainer:
                         nd = float((sd > 0).sum(1).float().mean())
                         acc = float((scores.argmax(1) == pos_idx).float().mean())
                     hist.append(dict(step=step, ce=float(ce), nnz_q=nq, nnz_d=nd,
-                                     acc=acc, t=float(self.head.t), b=float(self.head.b)))
+                                     acc=acc, t=float(self.head.t), b=float(self.head.b),
+                                     flops_q=float(fq), flops_d=float(fd),
+                                     reg_share=float((lq * fq + ld * fd) / max(float(ce), 1e-9))))
                     lg.info(f"[{a.name}] step {step}/{self.steps} ce={float(ce):.4f} "
                             f"acc={acc:.3f} nnz_q={nq:.0f} nnz_d={nd:.0f} "
                             f"t={float(self.head.t):.2f} b={float(self.head.b):.2f} "
+                            f"reg/ce={float((lq*fq+ld*fd)/max(float(ce),1e-9)):.2e} "
                             f"({(time.time()-t0)/step:.2f}s/step)")
                 if a.max_steps and step >= a.max_steps:
                     self.save(hist); return
