@@ -1,0 +1,8 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3265.57it/s]
+01:18:57 I pilotA | e5: aux2 saved (overlap units (57550, 9, 768), polysemy filled 0.995)
+rebuilt aux2 e5
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2938.36it/s]
+01:19:09 I pilotA | bge: aux2 saved (overlap units (57556, 9, 768), polysemy filled 0.995)
+rebuilt aux2 bge
+AUX_E5_DONE

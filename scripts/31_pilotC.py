@@ -25,20 +25,21 @@ GRID_KQ = [16, 32, 64]
 GRID_SAT = ["none", "log1p"]
 
 
-def store(enc, layer, rep, kind):
-    b = paths.EMB / f"c1_{enc}_L{layer}_{rep}"
+def store(enc, layer, rep, kind, transform="whitened"):
+    sfx = "" if transform == "whitened" else f"_{transform}"
+    b = paths.EMB / f"c1_{enc}_L{layer}_{rep}{sfx}"
     return (np.load(b.with_name(b.name + f"_{kind}_idx.npy"), mmap_mode="r"),
             np.load(b.with_name(b.name + f"_{kind}_val.npy"), mmap_mode="r"))
 
 
-def doc_taus(enc, layer, rep, r1_prefix, targets=(120, 60)):
+def doc_taus(enc, layer, rep, r1_prefix, targets=(120, 60), transform="whitened"):
     """tau_d fitted on the 5,000 S passages of §0.6, in this exact space."""
     sys.path.insert(0, str(paths.REPO / "scripts"))
     import importlib.util as iu
     spec = iu.spec_from_file_location("e30", paths.REPO / "scripts" / "30_encode_c1.py")
     m = iu.module_from_spec(spec); spec.loader.exec_module(m)
-    E = m.entry_matrix(enc, layer, rep, r1_prefix)
-    tf = m.token_tf(enc, layer, False)
+    E = m.entry_matrix(enc, layer, rep, r1_prefix, transform)
+    tf = m.token_tf(enc, layer, False, transform)
     tauS = np.load(paths.ART / f"tauS_{enc}.npz", allow_pickle=True)
     li = list(tauS["layers"]).index(layer)
     H = tf(torch.as_tensor(tauS["states"][:, li], device=DEV)).half()
@@ -97,17 +98,17 @@ def our_scores_for(docs_local, qi, qv, di, dv, tau_q, tau_d, k_q, k_d, sat):
     return out
 
 
-def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
+def main(enc, layer, rep, r1_prefix, k=1000, fast=False, transform="whitened"):
     pids = np.load(paths.PREP / "c1_pids.npy")
     loc = {int(p): i for i, p in enumerate(pids)}
     qids, qtexts = load_queries(paths.QUERIES_DEV_SMALL)
     qr = {int(a): set(int(x) for x in b) for a, b in qrels_dict(paths.QRELS_DEV_SMALL).items()}
-    di, dv = store(enc, layer, rep, "d")
-    qi, qv = store(enc, layer, rep, "q")
+    di, dv = store(enc, layer, rep, "d", transform)
+    qi, qv = store(enc, layer, rep, "q", transform)
     lg.info(f"C1 store: docs {di.shape}, queries {qi.shape}")
 
     with Timer("fit taus", lg):
-        td = doc_taus(enc, layer, rep, r1_prefix)
+        td = doc_taus(enc, layer, rep, r1_prefix, transform=transform)
         tq = query_taus(np.asarray(qv))
     lg.info(f"tau_d: { {k2: round(v['tau'],4) for k2,v in td.items()} } "
             f"tau_q: { {k2: round(v['tau'],4) for k2,v in tq.items()} }")
@@ -115,7 +116,8 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
     with Timer("build inverted index", lg):
         ix = InvertedIndex(np.asarray(di), np.asarray(dv), 30000)
 
-    res = dict(encoder=enc, layer=layer, rep=rep, tau_d=td, tau_q=tq,
+    res = dict(encoder=enc, layer=layer, rep=rep, transform=transform,
+               tau_d=td, tau_q=tq,
                n_docs=int(len(pids)), grid={})
     # natural sparsity (§C.2.5) measured where it is uncensored: the S sample
     for t in td:
@@ -139,7 +141,7 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
         m, per = evaluate(run, qr)
         m["mrr@10_ci"] = bootstrap_ci(per["mrr@10"])
         res["grid"][name] = m
-        np.savez(paths.RUNS / f"pilotC_{enc}_L{layer}_{rep}_{name}.npz",
+        np.savez(paths.RUNS / f"pilotC_{enc}_L{layer}_{rep}_{transform}_{name}.npz",
                  qids=np.asarray(qids), docs=pids[docs].astype(np.int32), scores=scores)
         lg.info(f"{name}: MRR@10={m['mrr@10']:.4f} R@100={m['r@100']:.4f} "
                 f"R@1000={m['r@1000']:.4f}")
@@ -154,7 +156,7 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
         dq = {int(q): i for i, q in enumerate(d_qids)}
         sp_rho, jac = [], []
         ours_run = np.load(paths.RUNS /
-                           f"pilotC_{enc}_L{layer}_{rep}_{best[0]}.npz")["docs"]
+                           f"pilotC_{enc}_L{layer}_{rep}_{transform}_{best[0]}.npz")["docs"]
         for i, q in enumerate(qids):
             r = dq.get(int(q))
             if r is None:
@@ -183,6 +185,7 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
     g = rng("qualitative")
     dsel = np.sort(g.choice(len(pids), size=20, replace=False))
     qsel = np.sort(g.choice(len(qids), size=20, replace=False))
+    tag2 = "" if transform == "whitened" else f"_{transform}"
     lines = ["# Pilot C — qualitative top-10 entries", "",
              f"encoder={enc} layer={layer} rep={rep} cell={best[0]}", ""]
     for tag, sel, I, V, texts, tau in (
@@ -196,22 +199,23 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
             lines.append(f"- *{texts[r][:150]}*")
             lines.append(f"  - {terms}")
         lines.append("")
-    (paths.REPORTS / f"pilotC_qualitative_{enc}_L{layer}_{rep}.md").write_text(
+    (paths.REPORTS / f"pilotC_qualitative_{enc}_L{layer}_{rep}{tag2}.md").write_text(
         "\n".join(lines))
 
     exp = np.load(paths.ART / "splade_expansions.npz", allow_pickle=True)
     sp_vocab = [str(x) for x in exp["vocab"]]
     inv = {w: i for i, w in enumerate(words)}
-    in_splade = np.array([w in set(sp_vocab) for w in words])
+    sp_set = set(sp_vocab)
+    in_splade = np.array([w in sp_set for w in words])
     pid2e = {int(p): i for i, p in enumerate(exp["pids"])}
     jj, cc = [], []
     ov = [int(p) for p in exp["overlap_pids"] if int(p) in loc]
     for p in ov[:1000]:
         d = loc[p]
+        ids = np.asarray(di[d][:k_d])
         w = np.maximum(np.asarray(dv[d][:k_d], np.float32) - td[nd]["tau"], 0)
-        ours = {int(e) for e, x in zip(di[d][:k_d], w) if x > 0}
-        ours = set(sorted(ours, key=lambda e: -w[list(di[d][:k_d]).index(e)])[:20])
-        ours = {e for e in ours if in_splade[e]}
+        order = np.argsort(-w)[:20]
+        ours = {int(ids[o]) for o in order if w[o] > 0 and in_splade[ids[o]]}
         toks = [sp_vocab[t] for t in exp["idx"][pid2e[p]][:20]]
         S = {inv[t] for t in toks if t in inv}
         cc.append(len(S) / 20)
@@ -224,7 +228,8 @@ def main(enc, layer, rep, r1_prefix, k=1000, fast=False):
     res["best"] = dict(name=best[0], **best[1])
     res["best_cfg"] = dict(k_d=best[2][0], k_q=best[2][1], nnz_d=best[2][2],
                            nnz_q=best[2][3], saturation=best[2][4])
-    save_json(res, paths.RESULTS / f"31_pilotC_{enc}_L{layer}_{rep}.json")
+    tag = "" if transform == "whitened" else f"_{transform}"
+    save_json(res, paths.RESULTS / f"31_pilotC_{enc}_L{layer}_{rep}{tag}.json")
     lg.info(f"best cell: {best[0]} MRR@10={best[1]['mrr@10']:.4f}")
     return res
 
@@ -236,5 +241,7 @@ if __name__ == "__main__":
     ap.add_argument("--rep", default="R2")
     ap.add_argument("--r1-prefix", default="doc")
     ap.add_argument("--fast", action="store_true")
+    ap.add_argument("--transform", default="whitened",
+                    choices=["raw", "centered", "whitened"])
     a = ap.parse_args()
-    main(a.encoder, a.layer, a.rep, a.r1_prefix, fast=a.fast)
+    main(a.encoder, a.layer, a.rep, a.r1_prefix, fast=a.fast, transform=a.transform)

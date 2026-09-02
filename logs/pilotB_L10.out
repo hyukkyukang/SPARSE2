@@ -1,0 +1,39 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 4583.84it/s]
+01:23:26 I pilotB | [start] build representations (layer 10)
+01:23:55 I pilotB | [done ] build representations (layer 10) (28.8s)
+01:24:02 I pilotB | taus: {'R1': 0.1619, 'R1-shared': 0.4509, 'R2': 0.4026, 'R3': 0.8633}
+01:24:02 I pilotB | [start] hubness R1
+/home/user/tmp/dvlsr/scripts/20_pilotB.py:115: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:213.)
+  H = tf(torch.as_tensor(bank[s:s + chunk], device=DEV)).half()
+01:24:03 I pilotB | [done ] hubness R1 (0.4s)
+01:24:03 I pilotB | hubness R1: skew=17.0 share=0.067 top: ['natalie', 'criminal', 'networking', 'geological', 'cybersecurity', 'ipl', 'phishing', 'guaranteed']
+01:24:03 I pilotB | [start] hubness R1-shared
+01:24:03 I pilotB | [done ] hubness R1-shared (0.3s)
+01:24:03 I pilotB | hubness R1-shared: skew=24.2 share=0.075 top: ['false', 'd', 'satisfied', 'incorrect', 'dissatisfied', 'bad', 'b', 'positive']
+01:24:03 I pilotB | [start] hubness R2
+01:24:03 I pilotB | [done ] hubness R2 (0.3s)
+01:24:03 I pilotB | hubness R2: skew=16.4 share=0.166 top: ['pok', 'that', 'and', 'saut', 'fianc', 'espa', 'or', 'beyonc']
+01:24:03 I pilotB | [start] hubness R3
+01:24:04 I pilotB | [done ] hubness R3 (1.2s)
+01:24:04 I pilotB | hubness R3: skew=16.1 share=0.178 top: ['here', 's', 'aren', 'para', 'se', 'bis', 'cant', 'm']
+01:24:04 I pilotB | [start] df pass over S
+01:26:19 I pilotB | [done ] df pass over S (134.3s)
+01:26:19 I pilotB | df R1: spearman=0.241 runaway=0.0000 dead=0.000 nnz/doc=120.1
+01:26:19 I pilotB | df R1-shared: spearman=0.157 runaway=0.0000 dead=0.961 nnz/doc=1.2
+01:26:19 I pilotB | df R2: spearman=0.651 runaway=0.0026 dead=0.001 nnz/doc=120.1
+01:26:19 I pilotB | df R3: spearman=0.160 runaway=0.0001 dead=0.658 nnz/doc=11.8
+01:26:22 I pilotB | in-context R1: hit10=0.923 sense=0.740 selfact_rank=1 P(rank1)=0.964
+01:26:26 I pilotB | in-context R1-shared: hit10=0.811 sense=0.758 selfact_rank=1 P(rank1)=0.950
+01:26:29 I pilotB | in-context R2: hit10=0.996 sense=0.797 selfact_rank=1 P(rank1)=0.948
+01:26:32 I pilotB | in-context R3: hit10=0.998 sense=0.808 selfact_rank=1 P(rank1)=0.972
+01:26:32 I pilotB | [start] stability curve
+01:26:34 I pilotB | stability k=1: jaccard=0.299 cos=0.569
+01:26:36 I pilotB | stability k=3: jaccard=0.424 cos=0.748
+01:26:38 I pilotB | stability k=5: jaccard=0.494 cos=0.815
+01:26:40 I pilotB | stability k=10: jaccard=0.583 cos=0.884
+01:26:43 I pilotB | stability k=20: jaccard=0.663 cos=0.931
+01:26:45 I pilotB | stability k=50: jaccard=0.753 cos=0.967
+01:26:45 I pilotB | [done ] stability curve (12.6s)
+01:26:45 I pilotB | k* (smallest k reaching 0.8 x k=50 Jaccard) = 20
+01:26:45 I pilotB | saved /home/user/tmp/dvlsr/results/20_pilotB_e5_L10.json

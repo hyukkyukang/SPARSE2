@@ -1,0 +1,79 @@
+{
+  "e5_L9": {
+    "chosen_rep": "R2",
+    "chosen_rep_by_skew": "R3",
+    "eligible": [
+      "R2",
+      "R3"
+    ],
+    "unusable": [],
+    "hub_share": {
+      "R1": 0.04434850066900253,
+      "R2": 0.16079850494861603,
+      "R3": 0.18497949838638306
+    },
+    "hub_skew": {
+      "R1": 3.614572048187256,
+      "R2": 17.154434204101562,
+      "R3": 15.827569007873535
+    },
+    "k_star": 20,
+    "H5": {
+      "hub_skew_ratio": 0.21070773918751717,
+      "spearman_R1": 0.2489120663116368,
+      "spearman_R2": 0.5660657177388423,
+      "in_context_R1": 0.9230877192982456,
+      "in_context_R2": 0.9977263157894737
+    },
+    "H7": {
+      "own": 0.9230877192982456,
+      "shared": 0.8366315789473684
+    },
+    "runaway_max": 0.0009333333333333333,
+    "H5_verdict": "reversed: R1 is markedly LESS hubby than R2",
+    "H6_k10_ratio": 0.7884511631186724,
+    "H6_verdict": "narrowly not supported",
+    "H7_verdict": "supported",
+    "pilotE_mandatory": false,
+    "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
+  },
+  "e5_L10": {
+    "chosen_rep": "R2",
+    "chosen_rep_by_skew": "R2",
+    "eligible": [
+      "R2"
+    ],
+    "unusable": [
+      "R3"
+    ],
+    "hub_share": {
+      "R1": 0.06672199815511703,
+      "R2": 0.16585299372673035,
+      "R3": 0.17823849618434906
+    },
+    "hub_skew": {
+      "R1": 16.95754051208496,
+      "R2": 16.38713836669922,
+      "R3": 16.064083099365234
+    },
+    "k_star": 20,
+    "H5": {
+      "hub_skew_ratio": 1.0348079165881015,
+      "spearman_R1": 0.24055703535294848,
+      "spearman_R2": 0.6513278006305605,
+      "in_context_R1": 0.9226947368421052,
+      "in_context_R2": 0.9959298245614036
+    },
+    "H7": {
+      "own": 0.9226947368421052,
+      "shared": 0.8108912280701754
+    },
+    "runaway_max": 0.0025666666666666667,
+    "H5_verdict": "supported",
+    "H6_k10_ratio": 0.7744312613505638,
+    "H6_verdict": "narrowly not supported",
+    "H7_verdict": "supported",
+    "pilotE_mandatory": false,
+    "note": "The rule ranks by hubness among representations not worse on in-context self-hit. R1 is excluded because its in-context self-hit is ~7 points below R2/R3 -- but note that self-hit against R2/R3 is structurally favoured (a prototype is an average of token states of the same word), so Pilot C evaluates R1, R2 and R3 end to end and lets retrieval arbitrate."
+  }
+}

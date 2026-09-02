@@ -52,3 +52,16 @@
 01:15:37 I pilotA | e5 L11|R1-none|raw: hit10=0.895 (stop 0.094) relMRR=0.0319/87.0x z=7.03 PR=1.6 nnz/tok=2.8 sense=0.819 jac=0.204/cov=0.86
 01:16:15 I pilotA | e5 L11|R2|raw: hit10=0.954 (stop 0.467) relMRR=0.0137/38.2x z=6.18 PR=2.5 nnz/tok=3.7 sense=0.796 jac=0.207/cov=0.86
 01:16:54 I pilotA | e5 L11|R1-none|centered: hit10=0.908 (stop 0.065) relMRR=0.0373/103.7x z=7.89 PR=3.9 nnz/tok=7.1 sense=0.825 jac=0.306/cov=0.86
+01:17:34 I pilotA | e5 L11|R2|centered: hit10=0.952 (stop 0.288) relMRR=0.0211/61.8x z=6.28 PR=1.4 nnz/tok=1.8 sense=0.776 jac=0.147/cov=0.86
+01:18:12 I pilotA | e5 L11|R1-none|whitened: hit10=0.875 (stop 0.089) relMRR=0.0284/77.7x z=7.32 PR=3.3 nnz/tok=6.3 sense=0.766 jac=0.294/cov=0.86
+01:18:48 I pilotA | e5 L11|R1-none-shared|whitened: hit10=0.666 (stop 0.031) relMRR=0.0212/53.2x z=5.36 PR=1.7 nnz/tok=1.7 sense=0.779 jac=0.003/cov=0.86
+01:19:27 I pilotA | e5 L11|R2|whitened: hit10=0.992 (stop 0.437) relMRR=0.0159/44.7x z=17.01 PR=2.6 nnz/tok=4.5 sense=0.763 jac=0.375/cov=0.86
+01:20:14 I pilotA | e5 L12|R1-none|raw: hit10=0.723 (stop 0.014) relMRR=0.0633/174.1x z=6.80 PR=7.6 nnz/tok=14.9 sense=0.843 jac=0.160/cov=0.86
+01:20:50 I pilotA | e5 L12|R2|raw: hit10=0.922 (stop 0.349) relMRR=0.0299/83.7x z=5.53 PR=3.3 nnz/tok=5.8 sense=0.854 jac=0.221/cov=0.86
+01:21:27 I pilotA | e5 L12|R1-none|centered: hit10=0.747 (stop 0.013) relMRR=0.0819/213.8x z=7.86 PR=11.9 nnz/tok=23.9 sense=0.854 jac=0.293/cov=0.86
+01:22:06 I pilotA | e5 L12|R2|centered: hit10=0.894 (stop 0.109) relMRR=0.0425/118.6x z=7.03 PR=1.0 nnz/tok=1.4 sense=0.851 jac=0.045/cov=0.86
+01:22:43 I pilotA | e5 L12|R1-none|whitened: hit10=0.789 (stop 0.043) relMRR=0.0791/209.9x z=8.68 PR=7.6 nnz/tok=15.7 sense=0.793 jac=0.302/cov=0.86
+01:23:21 I pilotA | e5 L12|R1-none-shared|whitened: hit10=0.763 (stop 0.045) relMRR=0.0710/204.4x z=8.00 PR=0.8 nnz/tok=0.8 sense=0.798 jac=0.003/cov=0.86
+01:23:58 I pilotA | e5 L12|R2|whitened: hit10=0.972 (stop 0.237) relMRR=0.0342/98.1x z=12.40 PR=3.7 nnz/tok=7.0 sense=0.799 jac=0.366/cov=0.86
+01:23:58 I pilotA | [done ] pilot A e5 [report] (2482.4s)
+01:23:58 I pilotA | saved /home/user/tmp/dvlsr/results/14_pilotA_e5_report.json

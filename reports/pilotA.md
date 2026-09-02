@@ -1,0 +1,501 @@
+# Pilot A — token-state geometry against a text-defined vocabulary
+
+**Cross-representation self-hit@10** = a probe's contextual token state scored
+against **R1** (the pooled embedding of the *bare word*): does a contextual
+state align with the embedding of the text that names it? This is the metric
+§A.4 selects on. Prototype self-hit (rep = R2) is the floor check.
+
+## Whitened condition, all layers
+
+| encoder | layer | rep | cross-rep hit@10 | stop | rel-MRR | vs random | z-gap | PR | nnz/tok | sense | SPLADE J | cov |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| bge | 4 | R1-query | 0.288 | 0.012 | 0.0030 | 9x | 4.37 | 1.8 | 2.69 | 0.596 | 0.078 | 0.86 |
+| bge | 5 | R1-query | 0.331 | 0.012 | 0.0036 | 10x | 4.45 | 1.9 | 2.81 | 0.602 | 0.088 | 0.86 |
+| bge | 6 | R1-query | 0.376 | 0.015 | 0.0042 | 10x | 4.55 | 1.9 | 2.93 | 0.617 | 0.103 | 0.86 |
+| bge | 7 | R1-query | 0.428 | 0.015 | 0.0052 | 12x | 4.68 | 2.0 | 3.18 | 0.644 | 0.115 | 0.86 |
+| bge | 8 | R1-query | 0.482 | 0.027 | 0.0058 | 15x | 4.82 | 2.1 | 3.40 | 0.651 | 0.130 | 0.86 |
+| bge | 9 | R1-query | 0.540 | 0.058 | 0.0067 | 18x | 5.02 | 2.2 | 3.61 | 0.674 | 0.146 | 0.86 |
+| bge | 10 | R1-query | 0.595 | 0.077 | 0.0113 | 31x | 5.33 | 2.4 | 3.97 | 0.700 | 0.167 | 0.86 |
+| bge | 11 | R1-query | 0.571 | 0.039 | 0.0460 | 132x | 6.02 | 3.9 | 6.89 | 0.763 | 0.206 | 0.86 |
+| bge | 12 | R1-query | 0.507 | 0.012 | 0.1027 | 282x | 8.20 | 11.8 | 23.63 | 0.814 | 0.235 | 0.86 |
+| bge | 4 | R2 | 1.000 | 0.986 | 0.0106 | 29x | 22.15 | 2.2 | 4.29 | 0.628 | 0.355 | 0.86 |
+| bge | 5 | R2 | 1.000 | 0.965 | 0.0105 | 30x | 21.60 | 2.2 | 3.94 | 0.661 | 0.354 | 0.86 |
+| bge | 6 | R2 | 1.000 | 0.910 | 0.0104 | 29x | 21.01 | 2.2 | 3.95 | 0.682 | 0.357 | 0.86 |
+| bge | 7 | R2 | 0.999 | 0.865 | 0.0102 | 29x | 20.45 | 2.2 | 3.82 | 0.681 | 0.357 | 0.86 |
+| bge | 8 | R2 | 0.999 | 0.795 | 0.0105 | 31x | 19.87 | 2.3 | 3.78 | 0.692 | 0.354 | 0.86 |
+| bge | 9 | R2 | 0.998 | 0.712 | 0.0108 | 29x | 19.54 | 2.3 | 3.85 | 0.701 | 0.356 | 0.86 |
+| bge | 10 | R2 | 0.996 | 0.600 | 0.0118 | 34x | 19.23 | 2.4 | 3.90 | 0.743 | 0.355 | 0.86 |
+| bge | 11 | R2 | 0.992 | 0.435 | 0.0169 | 50x | 17.08 | 2.7 | 4.43 | 0.763 | 0.356 | 0.86 |
+| bge | 12 | R2 | 0.959 | 0.196 | 0.0334 | 91x | 12.41 | 3.7 | 6.73 | 0.793 | 0.352 | 0.86 |
+| colbert | 12 | R1-none | 0.991 | 0.228 | 0.0242 | 74x | 7.47 | 3.1 | 5.02 | 0.774 | 0.361 | 0.86 |
+| colbert | 12 | R2 | 0.997 | 0.326 | 0.0190 | 55x | 9.03 | 2.8 | 4.52 | 0.748 | 0.390 | 0.86 |
+| e5 | 4 | R1-none | 0.858 | 0.184 | 0.0062 | 16x | 5.68 | 2.0 | 3.50 | 0.612 | 0.266 | 0.86 |
+| e5 | 5 | R1-none | 0.880 | 0.173 | 0.0063 | 17x | 6.02 | 2.1 | 3.74 | 0.623 | 0.276 | 0.86 |
+| e5 | 6 | R1-none | 0.891 | 0.155 | 0.0066 | 17x | 6.33 | 2.2 | 4.00 | 0.626 | 0.285 | 0.86 |
+| e5 | 7 | R1-none | 0.903 | 0.153 | 0.0070 | 20x | 6.69 | 2.2 | 4.30 | 0.642 | 0.292 | 0.86 |
+| e5 | 8 | R1-none | 0.916 | 0.160 | 0.0073 | 22x | 6.97 | 2.3 | 4.46 | 0.671 | 0.291 | 0.86 |
+| e5 | 9 | R1-none | 0.923 | 0.170 | 0.0079 | 23x | 7.31 | 2.5 | 4.59 | 0.681 | 0.286 | 0.86 |
+| e5 | 10 | R1-none | 0.923 | 0.150 | 0.0099 | 26x | 7.60 | 2.6 | 4.80 | 0.695 | 0.284 | 0.86 |
+| e5 | 11 | R1-none | 0.875 | 0.089 | 0.0284 | 78x | 7.32 | 3.3 | 6.32 | 0.766 | 0.294 | 0.86 |
+| e5 | 12 | R1-none | 0.789 | 0.043 | 0.0791 | 210x | 8.68 | 7.6 | 15.71 | 0.793 | 0.302 | 0.86 |
+| e5 | 4 | R2 | 1.000 | 0.988 | 0.0109 | 30x | 22.35 | 2.3 | 4.33 | 0.644 | 0.358 | 0.86 |
+| e5 | 5 | R2 | 1.000 | 0.961 | 0.0108 | 30x | 21.79 | 2.2 | 4.05 | 0.702 | 0.359 | 0.86 |
+| e5 | 6 | R2 | 1.000 | 0.901 | 0.0107 | 30x | 21.16 | 2.3 | 4.07 | 0.717 | 0.363 | 0.86 |
+| e5 | 7 | R2 | 0.999 | 0.848 | 0.0107 | 29x | 20.59 | 2.3 | 4.00 | 0.708 | 0.365 | 0.86 |
+| e5 | 8 | R2 | 0.999 | 0.760 | 0.0109 | 30x | 20.06 | 2.3 | 3.94 | 0.738 | 0.363 | 0.86 |
+| e5 | 9 | R2 | 0.998 | 0.679 | 0.0112 | 31x | 19.73 | 2.4 | 3.95 | 0.729 | 0.363 | 0.86 |
+| e5 | 10 | R2 | 0.996 | 0.577 | 0.0121 | 34x | 19.24 | 2.2 | 3.57 | 0.747 | 0.340 | 0.86 |
+| e5 | 11 | R2 | 0.992 | 0.437 | 0.0159 | 45x | 17.01 | 2.6 | 4.52 | 0.763 | 0.375 | 0.86 |
+| e5 | 12 | R2 | 0.972 | 0.237 | 0.0342 | 98x | 12.40 | 3.7 | 6.99 | 0.799 | 0.366 | 0.86 |
+
+## Raw vs centered vs whitened (R1, selected layer per encoder)
+
+| encoder | layer | rep | cross-rep hit@10 | stop | rel-MRR | vs random | z-gap | PR | nnz/tok | sense | SPLADE J | cov |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| bge | 10 | R1-query | 0.938 | 0.176 | 0.0147 | 39x | 7.41 | 2.3 | 3.81 | 0.744 | 0.186 | 0.86 |  <!-- raw -->
+| bge | 10 | R1-query | 0.947 | 0.180 | 0.0167 | 47x | 7.50 | 2.7 | 4.35 | 0.754 | 0.247 | 0.86 |  <!-- centered -->
+| bge | 10 | R1-query | 0.595 | 0.077 | 0.0113 | 31x | 5.33 | 2.4 | 3.97 | 0.700 | 0.167 | 0.86 |  <!-- whitened -->
+| e5 | 9 | R1-none | 0.966 | 0.261 | 0.0107 | 30x | 7.89 | 4.6 | 10.09 | 0.744 | 0.273 | 0.86 |  <!-- raw -->
+| e5 | 9 | R1-none | 0.969 | 0.230 | 0.0105 | 31x | 8.16 | 2.7 | 4.61 | 0.762 | 0.292 | 0.86 |  <!-- centered -->
+| e5 | 9 | R1-none | 0.923 | 0.170 | 0.0079 | 23x | 7.31 | 2.5 | 4.59 | 0.681 | 0.286 | 0.86 |  <!-- whitened -->
+
+H3 predicted whitening would raise z-gap >= 2x and cut nnz/token by an
+order of magnitude. It does neither: most of the density reduction comes from
+**centering**, and whitening *lowers* cross-representation self-hit at every
+layer below 11. See `H3_detail` in the decision block.
+
+## R1 under its own transform vs the shared token-side transform (H7)
+
+| config | own hit@10 | shared hit@10 | own SPLADE J | shared SPLADE J | shared nnz/tok |
+|---|---|---|---|---|---|
+| e5_L4 | 0.858 | 0.647 | 0.266 | 0.002 | 1.29 |
+| e5_L5 | 0.880 | 0.733 | 0.276 | 0.002 | 0.00 |
+| e5_L6 | 0.891 | 0.783 | 0.285 | 0.002 | 0.00 |
+| e5_L7 | 0.903 | 0.807 | 0.292 | 0.002 | 0.00 |
+| e5_L8 | 0.916 | 0.820 | 0.291 | 0.002 | 0.00 |
+| e5_L9 | 0.923 | 0.837 | 0.286 | 0.002 | 0.00 |
+| e5_L10 | 0.923 | 0.811 | 0.284 | 0.002 | 0.00 |
+| e5_L11 | 0.875 | 0.666 | 0.294 | 0.003 | 1.68 |
+| e5_L12 | 0.789 | 0.763 | 0.302 | 0.003 | 0.84 |
+| bge_L4 | 0.288 | 0.203 | 0.078 | 0.002 | 1.97 |
+| bge_L5 | 0.331 | 0.258 | 0.088 | 0.002 | 1.24 |
+| bge_L6 | 0.376 | 0.325 | 0.103 | 0.002 | 0.00 |
+| bge_L7 | 0.428 | 0.381 | 0.115 | 0.002 | 1.68 |
+| bge_L8 | 0.482 | 0.439 | 0.130 | 0.002 | 0.84 |
+| bge_L9 | 0.540 | 0.507 | 0.146 | 0.002 | 0.00 |
+| bge_L10 | 0.595 | 0.464 | 0.167 | 0.002 | 0.00 |
+| bge_L11 | 0.571 | 0.279 | 0.206 | 0.002 | 0.00 |
+| bge_L12 | 0.507 | 0.446 | 0.235 | 0.003 | 5.16 |
+| colbert_L12 | 0.991 | 0.988 | 0.361 | 0.350 | 7.19 |
+
+## Decision (§A.4)
+
+```json
+{
+  "chosen_encoder": "e5",
+  "chosen_layer": 9,
+  "chosen_hit10": 0.9230877192982456,
+  "chosen_sense": 0.6805205709487825,
+  "chosen_related_ratio": 22.632313464267085,
+  "top2_layers": [
+    9,
+    10
+  ],
+  "r1_prefix": "none (e5) / query (bge) \u2014 fixed on the tuning slice",
+  "H1_hit10_ge_0p4": true,
+  "H1_related_ge_3x": true,
+  "H1_verdict": "supported",
+  "H2_best_layer_by_encoder": {
+    "bge": 10,
+    "e5": 9
+  },
+  "H2_verdict": "supported",
+  "H3_detail": {
+    "e5_L4": {
+      "zgap_ratio_whi_over_raw": 0.848256480608122,
+      "nnz_ratio_whi_over_raw": 0.4204340525855118,
+      "nnz_ratio_cen_over_raw": 0.5360268309375257,
+      "hit10_raw": 0.9706666666666667,
+      "hit10_centered": 0.979621052631579,
+      "hit10_whitened": 0.8580491228070175
+    },
+    "e5_L5": {
+      "zgap_ratio_whi_over_raw": 0.858781583575966,
+      "nnz_ratio_whi_over_raw": 0.38236254558610666,
+      "nnz_ratio_cen_over_raw": 0.4930097647153907,
+      "hit10_raw": 0.9732771929824562,
+      "hit10_centered": 0.9802105263157894,
+      "hit10_whitened": 0.8804491228070176
+    },
+    "e5_L6": {
+      "zgap_ratio_whi_over_raw": 0.8665558136873509,
+      "nnz_ratio_whi_over_raw": 0.37066420558152535,
+      "nnz_ratio_cen_over_raw": 0.45702863985030096,
+      "hit10_raw": 0.9764771929824562,
+      "hit10_centered": 0.9792280701754386,
+      "hit10_whitened": 0.8913964912280702
+    },
+    "e5_L7": {
+      "zgap_ratio_whi_over_raw": 0.8740759498814824,
+      "nnz_ratio_whi_over_raw": 0.3813545944734845,
+      "nnz_ratio_cen_over_raw": 0.46385093246473796,
+      "hit10_raw": 0.9768701754385964,
+      "hit10_centered": 0.9785824561403509,
+      "hit10_whitened": 0.9025964912280702
+    },
+    "e5_L8": {
+      "zgap_ratio_whi_over_raw": 0.8969972570699671,
+      "nnz_ratio_whi_over_raw": 0.41055552605140716,
+      "nnz_ratio_cen_over_raw": 0.45779365247263537,
+      "hit10_raw": 0.9717614035087719,
+      "hit10_centered": 0.9743719298245614,
+      "hit10_whitened": 0.9160421052631579
+    },
+    "e5_L9": {
+      "zgap_ratio_whi_over_raw": 0.9268871779150597,
+      "nnz_ratio_whi_over_raw": 0.4544744060768586,
+      "nnz_ratio_cen_over_raw": 0.4570586303441269,
+      "hit10_raw": 0.9659228070175438,
+      "hit10_centered": 0.9687578947368422,
+      "hit10_whitened": 0.9230877192982456
+    },
+    "e5_L10": {
+      "zgap_ratio_whi_over_raw": 0.9515826161993559,
+      "nnz_ratio_whi_over_raw": 0.6277512680655107,
+      "nnz_ratio_cen_over_raw": 0.5998612773271975,
+      "hit10_raw": 0.9493052631578948,
+      "hit10_centered": 0.9563508771929825,
+      "hit10_whitened": 0.9226947368421052
+    },
+    "e5_L11": {
+      "zgap_ratio_whi_over_raw": 1.0412298834129854,
+      "nnz_ratio_whi_over_raw": 2.2497800999890423,
+      "nnz_ratio_cen_over_raw": 2.537764362761895,
+      "hit10_raw": 0.8951859649122808,
+      "hit10_centered": 0.9084631578947369,
+      "hit10_whitened": 0.8749473684210526
+    },
+    "e5_L12": {
+      "zgap_ratio_whi_over_raw": 1.2772730717306922,
+      "nnz_ratio_whi_over_raw": 1.0519931982770432,
+      "nnz_ratio_cen_over_raw": 1.603212097831721,
+      "hit10_raw": 0.723340350877193,
+      "hit10_centered": 0.7470877192982456,
+      "hit10_whitened": 0.7887438596491229
+    },
+    "bge_L4": {
+      "zgap_ratio_whi_over_raw": 0.8648504834136821,
+      "nnz_ratio_whi_over_raw": 2.4539175991179785,
+      "nnz_ratio_cen_over_raw": 3.791676393940523,
+      "hit10_raw": 0.7321543859649123,
+      "hit10_centered": 0.7818385964912281,
+      "hit10_whitened": 0.28766315789473684
+    },
+    "bge_L5": {
+      "zgap_ratio_whi_over_raw": 0.8517874708736547,
+      "nnz_ratio_whi_over_raw": 1.2667947962582635,
+      "nnz_ratio_cen_over_raw": 2.0276130765670466,
+      "hit10_raw": 0.7982877192982456,
+      "hit10_centered": 0.8477473684210526,
+      "hit10_whitened": 0.3310315789473684
+    },
+    "bge_L6": {
+      "zgap_ratio_whi_over_raw": 0.8291036886639117,
+      "nnz_ratio_whi_over_raw": 0.5400970087079181,
+      "nnz_ratio_cen_over_raw": 0.8408630785960555,
+      "hit10_raw": 0.8531649122807018,
+      "hit10_centered": 0.8897122807017543,
+      "hit10_whitened": 0.3760561403508772
+    },
+    "bge_L7": {
+      "zgap_ratio_whi_over_raw": 0.783751028699212,
+      "nnz_ratio_whi_over_raw": 0.5845753866930514,
+      "nnz_ratio_cen_over_raw": 0.9195602275425958,
+      "hit10_raw": 0.9093614035087719,
+      "hit10_centered": 0.9276912280701755,
+      "hit10_whitened": 0.4283228070175439
+    },
+    "bge_L8": {
+      "zgap_ratio_whi_over_raw": 0.7570491565469181,
+      "nnz_ratio_whi_over_raw": 0.6147121950782549,
+      "nnz_ratio_cen_over_raw": 0.8709132564156165,
+      "hit10_raw": 0.937880701754386,
+      "hit10_centered": 0.9497824561403508,
+      "hit10_whitened": 0.48174035087719297
+    },
+    "bge_L9": {
+      "zgap_ratio_whi_over_raw": 0.7379499923737234,
+      "nnz_ratio_whi_over_raw": 0.710968924340782,
+      "nnz_ratio_cen_over_raw": 0.8558712160676369,
+      "hit10_raw": 0.9478456140350877,
+      "hit10_centered": 0.9547508771929825,
+      "hit10_whitened": 0.5400701754385965
+    },
+    "bge_L10": {
+      "zgap_ratio_whi_over_raw": 0.7192637327114442,
+      "nnz_ratio_whi_over_raw": 1.0401168967188492,
+      "nnz_ratio_cen_over_raw": 1.1403134501625296,
+      "hit10_raw": 0.937740350877193,
+      "hit10_centered": 0.9466105263157895,
+      "hit10_whitened": 0.5946666666666667
+    },
+    "bge_L11": {
+      "zgap_ratio_whi_over_raw": 0.7943238833522595,
+      "nnz_ratio_whi_over_raw": 2.4874832714480486,
+      "nnz_ratio_cen_over_raw": 2.899025733607051,
+      "hit10_raw": 0.8714105263157895,
+      "hit10_centered": 0.8796350877192982,
+      "hit10_whitened": 0.5714807017543859
+    },
+    "bge_L12": {
+      "zgap_ratio_whi_over_raw": 1.4729490293652023,
+      "nnz_ratio_whi_over_raw": 0.629170563859919,
+      "nnz_ratio_cen_over_raw": 0.9993856239248545,
+      "hit10_raw": 0.5541052631578948,
+      "hit10_centered": 0.5948070175438597,
+      "hit10_whitened": 0.5070035087719298
+    },
+    "colbert_L12": {
+      "zgap_ratio_whi_over_raw": 1.0651265679431794,
+      "nnz_ratio_whi_over_raw": 0.9323930643704786,
+      "nnz_ratio_cen_over_raw": 0.9653254850786999,
+      "hit10_raw": 0.9848421052631579,
+      "hit10_centered": 0.9872,
+      "hit10_whitened": 0.9909052631578947
+    }
+  },
+  "H3_verdict": "not supported",
+  "H4_sense_max": 0.8136020151133502,
+  "H4_sense_constraint_met": true,
+  "H4_colbert_vs_candidates": {
+    "R1-none": {
+      "hit10": {
+        "colbert": 0.9909052631578947,
+        "best_candidate": 0.9230877192982456,
+        "colbert_higher": true
+      },
+      "rel_mrr": {
+        "colbert": 0.024195251986384392,
+        "best_candidate": 0.007869607768952847,
+        "colbert_higher": true
+      },
+      "sense": {
+        "colbert": 0.7739093959731543,
+        "best_candidate": 0.6805205709487825,
+        "colbert_higher": true
+      },
+      "jaccard": {
+        "colbert": 0.3607227170577169,
+        "best_candidate": 0.28600732339461327,
+        "colbert_higher": true
+      },
+      "zgap": {
+        "colbert": 7.47382116317749,
+        "best_candidate": 7.312333106994629,
+        "colbert_higher": true
+      }
+    },
+    "R2": {
+      "hit10": {
+        "colbert": 0.9967719298245614,
+        "best_candidate": 0.9976982456140351,
+        "colbert_higher": false
+      },
+      "rel_mrr": {
+        "colbert": 0.019026197493076324,
+        "best_candidate": 0.01116512343287468,
+        "colbert_higher": true
+      },
+      "sense": {
+        "colbert": 0.7479026845637584,
+        "best_candidate": 0.7287993282955499,
+        "colbert_higher": true
+      },
+      "jaccard": {
+        "colbert": 0.3903319881020168,
+        "best_candidate": 0.36310586211200074,
+        "colbert_higher": true
+      },
+      "zgap": {
+        "colbert": 9.033806800842285,
+        "best_candidate": 19.733806610107422,
+        "colbert_higher": false
+      }
+    }
+  },
+  "H7_detail": {
+    "e5_L4": {
+      "own": 0.8580491228070175,
+      "shared": 0.6469052631578948,
+      "own_jaccard": 0.26589147770891336,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 1.2873543500900269
+    },
+    "e5_L5": {
+      "own": 0.8804491228070176,
+      "shared": 0.7327719298245614,
+      "own_jaccard": 0.27600241189014585,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "e5_L6": {
+      "own": 0.8913964912280702,
+      "shared": 0.7825684210526316,
+      "own_jaccard": 0.28515920142800577,
+      "shared_jaccard": 0.002085331292900827,
+      "shared_nnz_tok": 0.0
+    },
+    "e5_L7": {
+      "own": 0.9025964912280702,
+      "shared": 0.8074385964912281,
+      "own_jaccard": 0.29160748442693546,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "e5_L8": {
+      "own": 0.9160421052631579,
+      "shared": 0.8200140350877193,
+      "own_jaccard": 0.2911627791136371,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "e5_L9": {
+      "own": 0.9230877192982456,
+      "shared": 0.8366315789473684,
+      "own_jaccard": 0.28600732339461327,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "e5_L10": {
+      "own": 0.9226947368421052,
+      "shared": 0.8108912280701754,
+      "own_jaccard": 0.28388521964358204,
+      "shared_jaccard": 0.002029775737345272,
+      "shared_nnz_tok": 0.0
+    },
+    "e5_L11": {
+      "own": 0.8749473684210526,
+      "shared": 0.6659929824561404,
+      "own_jaccard": 0.2938360618766509,
+      "shared_jaccard": 0.0025234694310389658,
+      "shared_nnz_tok": 1.6842105388641357
+    },
+    "e5_L12": {
+      "own": 0.7887438596491229,
+      "shared": 0.7630035087719298,
+      "own_jaccard": 0.3019210695389866,
+      "shared_jaccard": 0.0028851965248855257,
+      "shared_nnz_tok": 0.8421052694320679
+    },
+    "bge_L4": {
+      "own": 0.28766315789473684,
+      "shared": 0.20345263157894736,
+      "own_jaccard": 0.07778423179026253,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 1.9717053174972534
+    },
+    "bge_L5": {
+      "own": 0.3310315789473684,
+      "shared": 0.2582175438596491,
+      "own_jaccard": 0.08756894490823754,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 1.2437052726745605
+    },
+    "bge_L6": {
+      "own": 0.3760561403508772,
+      "shared": 0.3249122807017544,
+      "own_jaccard": 0.10344612637780011,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0011508772149682045
+    },
+    "bge_L7": {
+      "own": 0.4283228070175439,
+      "shared": 0.38077192982456143,
+      "own_jaccard": 0.11511008977827589,
+      "shared_jaccard": 0.002087105794675329,
+      "shared_nnz_tok": 1.6842105388641357
+    },
+    "bge_L8": {
+      "own": 0.48174035087719297,
+      "shared": 0.43893333333333334,
+      "own_jaccard": 0.12977500017222915,
+      "shared_jaccard": 0.002110856818426353,
+      "shared_nnz_tok": 0.8421052694320679
+    },
+    "bge_L9": {
+      "own": 0.5400701754385965,
+      "shared": 0.507059649122807,
+      "own_jaccard": 0.14614943594710678,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "bge_L10": {
+      "own": 0.5946666666666667,
+      "shared": 0.46383157894736843,
+      "own_jaccard": 0.16664740007598278,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "bge_L11": {
+      "own": 0.5714807017543859,
+      "shared": 0.278680701754386,
+      "own_jaccard": 0.2055523042696178,
+      "shared_jaccard": 0.002056802764372299,
+      "shared_nnz_tok": 0.0
+    },
+    "bge_L12": {
+      "own": 0.5070035087719298,
+      "shared": 0.4458105263157895,
+      "own_jaccard": 0.23525205317594436,
+      "shared_jaccard": 0.002801813837057395,
+      "shared_nnz_tok": 5.157220840454102
+    },
+    "colbert_L12": {
+      "own": 0.9909052631578947,
+      "shared": 0.9883228070175438,
+      "own_jaccard": 0.3607227170577169,
+      "shared_jaccard": 0.3495744432318523,
+      "shared_nnz_tok": 7.191522598266602
+    }
+  },
+  "metric_peaks_by_layer": {
+    "e5": {
+      "hit10": 9,
+      "related_mrr": 12,
+      "sense": 12
+    },
+    "bge": {
+      "hit10": 10,
+      "related_mrr": 12,
+      "sense": 12
+    },
+    "colbert": {
+      "hit10": 12,
+      "related_mrr": 12,
+      "sense": 12
+    }
+  },
+  "best_by_encoder": {
+    "bge": {
+      "layer": 10,
+      "hit10": 0.5946666666666667,
+      "sense": 0.6998320738874895,
+      "related_ratio": 30.695849919939818
+    },
+    "e5": {
+      "layer": 9,
+      "hit10": 0.9230877192982456,
+      "sense": 0.6805205709487825,
+      "related_ratio": 22.632313464267085
+    }
+  },
+  "literal_rule_pick": {
+    "encoder": "bge",
+    "layer": 12,
+    "hit10": 0.5070035087719298,
+    "sense": 0.8136020151133502
+  },
+  "selection_conflict": true,
+  "selection_note": "Sense accuracy and cross-representation self-hit point in opposite directions. Applying the >= 0.8 sense constraint verbatim selects a configuration far worse on the primary metric (see `literal_rule_pick`), because sense accuracy rises with layer while identity peaks at layers 9-10 and because our sense labels are themselves a limited proxy (label agreement 0.963 after correction, see results/17_sense_verification.json). We therefore select on the primary metric, report the conflict, and let Pilot C arbitrate end to end between the selected configuration, layer 12, and the configuration the literal rule would have chosen."
+}
+```

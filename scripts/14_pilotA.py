@@ -4,7 +4,7 @@ Sweeps (encoder x layer x transform x entry representation) and streams every
 similarity profile: nothing of size |probes| x |V| is ever stored (§0.7).
 """
 from __future__ import annotations
-import argparse, json, os, sys, time
+import argparse, functools, json, os, sys, time
 import numpy as np
 import torch
 
@@ -76,12 +76,22 @@ def make_tf(mode, side_path):
     return whitening.Transform(mode, mu, W, DEV)
 
 
+@functools.lru_cache(maxsize=4)
+def _proto(enc_name):
+    return np.load(paths.ART / f"proto_{enc_name}.npz")["protoA"]
+
+
+@functools.lru_cache(maxsize=4)
+def _r1(enc_name):
+    return dict(np.load(paths.ART / f"r1_{enc_name}.npz"))
+
+
 def entry_matrix(rep, enc_name, li, r1_prefix, r1_shared=False):
     if rep == "R2":
-        E = np.load(paths.ART / f"proto_{enc_name}.npz")["protoA"][:, li]
+        E = _proto(enc_name)[:, li]
         wpath = WD / f"{enc_name}_L{LAYERS_CUR[li]}_V_R2.npz"
     else:
-        E = np.load(paths.ART / f"r1_{enc_name}.npz")[r1_prefix]
+        E = _r1(enc_name)[r1_prefix]
         wpath = WD / f"{enc_name}_R1{r1_prefix}_V.npz"
     if r1_shared:
         wpath = WD / f"{enc_name}_L{LAYERS_CUR[li]}_H.npz"

@@ -117,7 +117,8 @@ def splade_overlap(aux, exp, tfH, E, tau, vocab_words, inv, splade_vocab, li, to
     ours = torch.topk(torch.relu(P - tau), topn, dim=1).indices.cpu().numpy()
     pid2i = {int(p): i for i, p in enumerate(exp["pids"])}
     sp_vocab = [str(x) for x in splade_vocab]
-    in_splade = np.array([w in set(sp_vocab) for w in vocab_words])
+    sp_set = set(sp_vocab)
+    in_splade = np.array([w in sp_set for w in vocab_words])
     jac, cov = [], []
     for i, pid in enumerate(aux["ov_pids"]):
         e = pid2i[int(pid)]

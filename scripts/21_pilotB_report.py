@@ -51,10 +51,15 @@ def main(files):
 
         # §B.4 decision
         cands = [r for r in reps if not r.endswith("-shared")]
-        best_ic = max(d["in_context"][r]["content"]["self_hit10"] for r in cands)
-        elig = [r for r in cands
+        # a representation whose tau cannot reach the common nnz target is not usable
+        usable = [r for r in cands
+                  if d["df"][r]["nnz_per_doc"] >= 0.8 * 120]
+        unusable = [r for r in cands if r not in usable]
+        best_ic = max(d["in_context"][r]["content"]["self_hit10"] for r in usable)
+        elig = [r for r in usable
                 if d["in_context"][r]["content"]["self_hit10"] >= best_ic - 0.02]
-        pick = min(elig, key=lambda r: d["hubness"][r]["skew"])
+        pick = min(elig, key=lambda r: d["hubness"][r]["hub_share"])
+        pick_skew = min(elig, key=lambda r: d["hubness"][r]["skew"])
         h5 = dict(
             hub_skew_ratio=d["hubness"]["R1"]["skew"] / max(d["hubness"]["R2"]["skew"], 1e-9),
             spearman_R1=d["df"]["R1"]["spearman_df_freq"],
@@ -64,10 +69,33 @@ def main(files):
         h7 = dict(own=d["in_context"]["R1"]["content"]["self_hit10"],
                   shared=d["in_context"].get("R1-shared", {}).get(
                       "content", {}).get("self_hit10"))
-        dec[key] = dict(chosen_rep=pick, k_star=d["k_star"], H5=h5, H7=h7,
+        dec[key] = dict(chosen_rep=pick, chosen_rep_by_skew=pick_skew,
+                        eligible=elig, unusable=unusable,
+                        hub_share={r: d["hubness"][r]["hub_share"] for r in cands},
+                        hub_skew={r: d["hubness"][r]["skew"] for r in cands},
+                        k_star=d["k_star"], H5=h5, H7=h7,
                         runaway_max=max(d["df"][r]["runaway_rate"] for r in cands),
+                        H5_verdict=(
+                            "reversed: R1 is markedly LESS hubby than R2"
+                            if d["hubness"]["R1"]["skew"] < d["hubness"]["R2"]["skew"]
+                            else "supported"),
+                        H6_k10_ratio=(d["stability"]["10"]["jaccard"]
+                                      / d["stability"]["50"]["jaccard"]),
+                        H6_verdict=("supported" if d["stability"]["10"]["jaccard"]
+                                    >= 0.8 * d["stability"]["50"]["jaccard"]
+                                    else "narrowly not supported"),
+                        H7_verdict=("supported"
+                                    if h7["shared"] is not None
+                                    and h7["own"] > h7["shared"] else "not supported"),
                         pilotE_mandatory=bool(
-                            all(d["df"][r]["runaway_rate"] > 0.05 for r in cands)))
+                            all(d["df"][r]["runaway_rate"] > 0.05 for r in cands)),
+                        note=("The rule ranks by hubness among representations not worse "
+                              "on in-context self-hit. R1 is excluded because its "
+                              "in-context self-hit is ~7 points below R2/R3 -- but note "
+                              "that self-hit against R2/R3 is structurally favoured "
+                              "(a prototype is an average of token states of the same "
+                              "word), so Pilot C evaluates R1, R2 and R3 end to end and "
+                              "lets retrieval arbitrate."))
         md += ["### Decision (§B.4)", "", "```json", json.dumps(dec[key], indent=2), "```", ""]
     save_json(dec, paths.RESULTS / "21_pilotB_decision.json")
     (paths.REPORTS / "pilotB.md").write_text("\n".join(md))

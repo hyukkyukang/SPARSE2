@@ -13,13 +13,21 @@ import torch
 def profile_maxpool(H: torch.Tensor, row: torch.Tensor, n_rows: int,
                     V: torch.Tensor, chunk_units: int = 8192,
                     chunk_entries: int = 30000) -> torch.Tensor:
-    """max_i cos(h_i, v_j) grouped by row. H, V must already be whitened+normalised."""
+    """max_i cos(h_i, v_j) grouped by row. H, V must already be whitened+normalised.
+
+    V may be (|V|, d) or (|V|, m, d) for a multi-prototype representation.
+    """
     out = torch.full((n_rows, V.shape[0]), -1.0, device=V.device, dtype=torch.float32)
     for s in range(0, H.shape[0], chunk_units):
         h = H[s:s + chunk_units]
         r = row[s:s + chunk_units]
         for e in range(0, V.shape[0], chunk_entries):
-            a = (h @ V[e:e + chunk_entries].T).float()
+            Vc = V[e:e + chunk_entries]
+            if Vc.dim() == 3:                 # multi-prototype: max over an entry's atoms
+                n, m, d = Vc.shape
+                a = (h @ Vc.reshape(-1, d).T).float().reshape(h.shape[0], n, m).amax(-1)
+            else:
+                a = (h @ Vc.T).float()
             out[:, e:e + chunk_entries].scatter_reduce_(
                 0, r.unsqueeze(1).expand(-1, a.shape[1]), a, reduce="amax")
     return out

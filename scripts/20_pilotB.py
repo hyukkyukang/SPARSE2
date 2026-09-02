@@ -40,25 +40,44 @@ def build_reps(enc, layer, layers_in_store, r1_prefix, want_r3=False):
     reps["R1"] = r1
     # k-curve on two disjoint occurrence sets
     for half, base in (("S1", 0), ("S2", 50)):
-        run = None
         for k in K_CURVE:
             blk = np.asarray(occ[:, base:base + k, li], np.float32)
             reps[f"R2-{half}-k{k}"] = blk.mean(1)
     reps["R2"] = reps["R2-S1-k50"]
     reps["R2p"] = reps["R2-S2-k50"]
     if want_r3:
-        from sklearn.cluster import KMeans
-        cents = np.zeros((len(r1), 5, r1.shape[1]), np.float32)
-        for j in range(len(r1)):
-            X = np.asarray(occ[j, : int(occ_n[j]), li], np.float32)
-            k = min(5, len(X))
-            km = KMeans(n_clusters=k, n_init=3, random_state=0).fit(X)
-            c = km.cluster_centers_
-            cents[j, :len(c)] = c
-            if len(c) < 5:
-                cents[j, len(c):] = c[0]
-        reps["R3"] = cents                       # (|V|, 5, d) -> max over centroids
+        reps["R3"] = _batched_kmeans(occ, li, n_clusters=5)                       # (|V|, 5, d) -> max over centroids
     return reps
+
+
+def _batched_kmeans(occ, li, n_clusters=5, iters=20, chunk=4096, seed=0):
+    """5 centroids per entry over its (up to 100) occurrences -- Lloyd's on GPU.
+
+    30,000 independent tiny k-means problems: one batched implementation is
+    seconds where 30,000 sklearn fits would be minutes.
+    """
+    nV, K = occ.shape[0], occ.shape[1]
+    out = np.zeros((nV, n_clusters, occ.shape[-1]), np.float32)
+    g = torch.Generator(device=DEV); g.manual_seed(seed)
+    for s in range(0, nV, chunk):
+        X = torch.as_tensor(np.asarray(occ[s:s + chunk, :, li], np.float32), device=DEV)
+        b = X.shape[0]
+        pick = torch.stack([torch.randperm(K, generator=g, device=DEV)[:n_clusters]
+                            for _ in range(b)])
+        C = torch.gather(X, 1, pick.unsqueeze(-1).expand(-1, -1, X.shape[-1])).clone()
+        for _ in range(iters):
+            d = torch.cdist(X, C)                       # (b, K, n_clusters)
+            a = d.argmin(-1)
+            oh = torch.zeros(b, K, n_clusters, device=DEV)
+            oh.scatter_(2, a.unsqueeze(-1), 1.0)
+            cnt = oh.sum(1).clamp(min=1e-6)
+            C = torch.einsum("bkc,bkd->bcd", oh, X) / cnt.unsqueeze(-1)
+            empty = oh.sum(1) < 0.5
+            if empty.any():                             # keep empty clusters usable
+                C[empty] = X[:, 0].unsqueeze(1).expand(-1, n_clusters, -1)[empty]
+        out[s:s + b] = C.cpu().numpy()
+        del X, C
+    return out
 
 
 def whiten_rep(name, X, enc, layer, shared=False):
@@ -118,7 +137,7 @@ def self_activation(E, enc_obj, tf, words, layer_idx, layers, bs=512):
     for s in range(0, len(words), bs):
         chunk = words[s:s + bs]
         wu = enc_obj.encode_word_units(chunk, layers)
-        H = tf(wu.states[:, layer_idx].to(DEV)).half()
+        H = tf(wu.states[:, 0].to(DEV)).half()
         row = torch.as_tensor(wu.row.astype(np.int64), device=DEV)
         P = profile_maxpool(H, row, len(chunk), E) if E.dim() == 2 else None
         if P is None:                       # multi-prototype: pool manually
@@ -173,7 +192,7 @@ def df_pass(reps_w, enc_obj, tf, layer_idx, layers, taus, n_docs=None, bs=192):
         wu = enc_obj.encode_word_units(col.texts(pids), layers)
         if len(wu.word) == 0:
             continue
-        H = tf(wu.states[:, layer_idx].to(DEV)).half()
+        H = tf(wu.states[:, 0].to(DEV)).half()
         row = torch.as_tensor(wu.row.astype(np.int64), device=DEV)
         for k, E in reps_w.items():
             P = profile_maxpool(H, row, len(pids), E)
@@ -241,7 +260,7 @@ def main(enc, layer, layers_in_store, r1_prefix, want_r3, n_docs, tag=""):
 
     # ---- df calibration ----------------------------------------------------
     with Timer("df pass over S", lg):
-        dfs = df_pass(reps_w, enc_obj, tf, li_tau, list(tauS["layers"]), taus, n_docs)
+        dfs = df_pass(reps_w, enc_obj, tf, 0, [layer], taus, n_docs)
     dfres = {}
     for name, d in dfs.items():
         df, n = d["df"], d["n_docs"]
@@ -277,8 +296,7 @@ def main(enc, layer, layers_in_store, r1_prefix, want_r3, n_docs, tag=""):
         m = probe_metrics(H, own, E, taus[name])
         s = summarize(m, pstop, pdec)
         s["sense"] = sense_accuracy(aux["poly_states"][:, li_aux], poly, tf, E)
-        s["self_activation"] = self_activation(E, enc_obj, tf, words, li_aux,
-                                               paths.LAYERS)
+        s["self_activation"] = self_activation(E, enc_obj, tf, words, 0, [layer])
         ic[name] = s
         lg.info(f"in-context {name}: hit10={s['content']['self_hit10']:.3f} "
                 f"sense={s['sense']['accuracy']:.3f} "
