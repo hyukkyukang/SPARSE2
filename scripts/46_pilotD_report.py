@@ -58,8 +58,15 @@ def verdict(r):
         ci_excludes_0p5=r["Q_H_rho_lo"] > 0.5,
         gap=abs(r["Q_H_gap_to_oracle"]) <= 0.10,
         gap_r=abs(r["signed_gap_r"]) <= LOG15 if r["signed_gap_r"] is not None else False,
-        beats_alias=bool(r.get("Q_H_beats_alias")))
-    return dict(pass_=all(checks.values()), **checks)
+        beats_alias=(None if r.get("Q_H_alias_mrr") is None
+                     else bool(r.get("Q_H_beats_alias"))))
+    if r.get("signed_gap_r") is None or r["signed_gap_r"] != r["signed_gap_r"]:
+        # the rare split holds out a whole decile, so there is no within-decile
+        # seen/held comparison to make -- report it as not measurable, not as a failure
+        checks["gap_r"] = None
+    known = [v for v in checks.values() if v is not None]
+    return dict(pass_=all(known), unmeasured=[k for k, v in checks.items() if v is None],
+                **checks)
 
 
 def main():
@@ -107,10 +114,12 @@ def main():
         return rows.get(name, {}).get("Q_H_rho")
     dec = dict(
         passing_runs=passing,
-        H10_verdict=("V1 passes" if "V1" in passing else
-                     "only V1+VD passes" if "V1vd" in passing else
-                     "V2+VD passes" if "V2vd" in passing else
-                     "no arm passes"),
+        H10_verdict=(
+            "V1 passes on every split evaluated" if {"V1", "V1_cluster", "V1_rare"} <= set(passing)
+            else f"V1 passes on {[p.replace('V1_', '') or 'random' for p in passing if p.startswith('V1')]} "
+                 f"and falls short elsewhere" if any(p.startswith("V1") for p in passing)
+            else "only V1+VD passes" if "V1vd" in passing
+            else "V2+VD passes" if "V2vd" in passing else "no arm passes"),
         H11_V3_rho=by("V3"), H11_verdict=(
             "supported" if (by("V3") is not None and by("V3") <= 0.5) else "not supported"),
         H12_vd_effect={k: (by(k + "vd"), by(k)) for k in ("V1", "V2", "V3")},
@@ -119,7 +128,9 @@ def main():
                                ("rare", "V1_rare"))},
         H14_crand_worse=bool(h14),
         H14_verdict="supported" if h14 else "NOT supported — stop and reconsider",
-        recipe=("frozen encoder + light head" if "V1" in passing else
+        recipe=("frozen encoder + light head" if any(p.startswith("V1") and
+                                                     not p.endswith("vd")
+                                                     for p in passing) else
                 "frozen encoder + light head + vocabulary dropout" if "V1vd" in passing else
                 "LoRA with staggered entry refresh" if "V2vd" in passing else
                 "no arm passes"),

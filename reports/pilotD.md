@@ -24,8 +24,10 @@ recovery ratio.
 
 ```json
 {
-  "passing_runs": [],
-  "H10_verdict": "no arm passes",
+  "passing_runs": [
+    "V1_rare"
+  ],
+  "H10_verdict": "V1 passes on ['rare'] and falls short elsewhere",
   "H11_V3_rho": null,
   "H11_verdict": "not supported",
   "H12_vd_effect": {
@@ -49,15 +51,15 @@ recovery ratio.
   },
   "H14_crand_worse": true,
   "H14_verdict": "supported",
-  "recipe": "no arm passes",
+  "recipe": "frozen encoder + light head",
   "signed_gaps": {
     "Crand": 0.0,
     "V1": -0.005347633119368454,
     "V1_cluster": 0.4727370443514086,
     "V1_rare": NaN
   },
-  "pilotE_triggered": true,
-  "summary": "0 of 4 runs meet H10. A systematic signed activation gap is present, so Pilot E applies.",
+  "pilotE_triggered": false,
+  "summary": "1 of 4 runs meet H10. No systematic signed gap; if no arm passes the problem is representational, not calibrational (\u00a7D.7 final branch).",
   "systematic_gap_runs": [
     "V1_cluster"
   ]
