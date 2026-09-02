@@ -154,7 +154,9 @@ class Trainer:
         upd = cnt > 0
         V = acc[upd] / cnt[upd].unsqueeze(1)
         V = (V - torch.as_tensor(self.muV, device=DEV)) @ torch.as_tensor(self.WV, device=DEV)
-        self.E_all[upd] = F.normalize(V, dim=-1)
+        V = F.normalize(V, dim=-1)
+        self.last_drift = float(F.cosine_similarity(self.E_all[upd], V, dim=-1).mean())
+        self.E_all[upd] = V
         self.E_seen = self.E_all[self.seen_idx]
         return int(upd.sum())
 
@@ -237,8 +239,9 @@ class Trainer:
                 if a.max_steps and step >= a.max_steps:
                     self.save(hist); return
                 if a.variant == "V2" and step % a.refresh_every == 0:
-                    n = self.refresh_entries(step)
-                    lg.info(f"[{a.name}] refreshed {n} entries at step {step}")
+                    n = self.refresh_entries(step, frac=a.refresh_frac)
+                    lg.info(f"[{a.name}] refreshed {n} entries at step {step} "
+                            f"(mean cos to previous rows {self.last_drift:.4f})")
         self.save(hist)
 
     def save(self, hist):
@@ -283,8 +286,8 @@ def build_args(argv=None):
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--batch-queries", type=int, default=None)
     ap.add_argument("--warmup", type=int, default=500)
-    ap.add_argument("--refresh-every", type=int, default=250)
-    ap.add_argument("--refresh-frac", type=float, default=0.10)
+    ap.add_argument("--refresh-every", type=int, default=3000)
+    ap.add_argument("--refresh-frac", type=float, default=1.0)
     ap.add_argument("--refresh-k", type=int, default=50)
     ap.add_argument("--max-steps", type=int, default=0)
     a = ap.parse_args(argv)

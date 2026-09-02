@@ -1,0 +1,3 @@
+03:14:32 I runD | [start] Pilot D training runs
+03:14:32 I runD | [queue] start V2 on gpu 3
+03:14:32 I runD | [queue] start V2vd on gpu 4

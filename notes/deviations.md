@@ -82,12 +82,24 @@ contexts. We re-encode k=50 contexts per refreshed entry, as at initialisation, 
 refreshed and unrefreshed entries stay comparable; the refresh is what dominates
 V2's wall-clock, which is reported alongside its effectiveness.
 
-## D10 — V2's refresh interval
-§D.3 refreshes 10% of entries every 100 steps. At the protocol's own batch size
-(32 queries x 8 passages) a two-epoch run is 12,500 steps, so 100-step refreshes
-would mean 125 re-encodings of ~118k prototype contexts each — about 4.6 GPU-hours
-of refresh on top of ~1.7 hours of training, five times the cost of the arm it is
-meant to support. We refresh every **250** steps instead, keeping the 10% fraction
-and the full k=50 contexts. Each entry is still re-encoded ~5 times over the run,
-so the entry matrix never drifts more than 250 steps stale, and the staggering that
-motivates the design is preserved. The interval is a flag (`--refresh-every`).
+## D10 — V2 refreshes the whole vocabulary, not a staggered 10%
+§D.3 refreshes a random 10% of entries every 100 steps, on the reasoning that "a
+full refresh lets the entry matrix drift stale between updates and produces a loss
+discontinuity at each one". **Measured, the staggered version is the one that
+breaks.** With 10% refreshed at step 250, mean non-zeros per document jumped from
+39 to 519 in the next fifty steps and in-batch accuracy fell from 0.44 to 0.25; the
+same thing happened in both V2 arms.
+
+The cause is not the interval but the *heterogeneity*: after a partial refresh, 10%
+of the entry matrix has been produced by the current LoRA encoder and 90% by the
+encoder as it was at initialisation. Token states come from the current encoder, so
+the freshly-encoded tenth is systematically better aligned with every token than the
+stale nine-tenths — the refreshed group becomes a block of hubs, and the threshold
+that was calibrated against a homogeneous matrix admits hundreds of them.
+
+**What we do instead.** Refresh **all seen entries at once, every 3,000 steps**
+(4 refreshes over a two-epoch run), so the entry matrix is always internally
+consistent, and log the mean cosine between each entry's old and new row so the
+drift the protocol worried about is measured rather than assumed. Both knobs remain
+flags (`--refresh-frac`, `--refresh-every`); the partial-refresh failure is
+reproducible by setting them back.
