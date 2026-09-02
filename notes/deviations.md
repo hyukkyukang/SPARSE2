@@ -103,3 +103,24 @@ consistent, and log the mean cosine between each entry's old and new row so the
 drift the protocol worried about is measured rather than assumed. Both knobs remain
 flags (`--refresh-frac`, `--refresh-every`); the partial-refresh failure is
 reproducible by setting them back.
+
+## D11 — warmup for the encoder-training arms
+§D.2 gives one warmup (500 steps) for every arm, but the arms do not have the same
+number of steps: V1 trains 128 queries per step (3,125 steps, so 500 warmup is 16%
+of training) while V2 and V3 train 32 (12,500 steps, so 500 warmup is 4%).
+
+At 4%, **the LoRA arm collapses**. On both seeds tried, mean non-zeros per document
+fell to ~13 within 50 steps of warmup ending and cross-entropy rose from ~1.8 to
+~5.1, with in-batch accuracy at 0.03. The failure is irrecoverable by construction:
+`s_j = log(1 + ReLU(z_j))` is a hard gate, so an entry that switches off for the
+whole batch receives no gradient and cannot come back. A trainable encoder can
+switch most of the vocabulary off in a few steps; a frozen one with a
+zero-initialised residual head cannot.
+
+**What we do instead.** Warmup for the 32-query arms is set to **2,000 steps**, the
+same 16% of training that V1 gets. Both LoRA arms are trained this way so the VD
+comparison inside the arm is not confounded. The collapsed runs are kept as
+`logs/V2_seed1_collapsed.log` and `logs/V2_seed2_collapsed.log`; the instability
+itself is reported, because it says something real about the architecture: the
+representation's hard gate makes encoder training fragile in a way the frozen arm
+is not.
