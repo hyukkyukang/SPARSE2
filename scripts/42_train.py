@@ -167,10 +167,29 @@ class Trainer:
         self.head = Head(768, 768, t_init=20.0, b_init=20.0 * a.tau, kind=a.head).to(DEV)
 
         self.E_head = None
+        self.map_holdout = None
         if a.entry_head:
             self.E_head = EntryHead(768, 768).to(DEV)
             lg.info(f"entry-side head: {sum(p.numel() for p in self.E_head.parameters()):,} "
                     f"shared parameters, identity at step 0")
+            if a.eh_holdout > 0:
+                # whole regions of the SEEN entry space that the map is never fitted on.
+                # They stay in the ranking loss, so during training they play the role an
+                # inserted entry plays at test time. Pilot I showed the map's damage is
+                # not miscalibration but the space being reshaped around the entries it saw.
+                if self.vd_labels is None:
+                    with Timer(f"k-means k={a.vd_clusters} for the map holdout", lg):
+                        self.vd_labels = kmeans_labels(self.E_seen.float(), a.vd_clusters,
+                                                       seed=a.seed)
+                g = np.random.default_rng(a.seed * 17 + 3)
+                m = torch.zeros(self.n_seen, dtype=torch.bool, device=DEV)
+                for c in g.permutation(a.vd_clusters):
+                    if int(m.sum()) >= a.eh_holdout * self.n_seen:
+                        break
+                    m |= self.vd_labels == int(c)
+                self.map_holdout = m
+                lg.info(f"map holdout: {int(m.sum())} of {self.n_seen} seen entries "
+                        f"({float(m.float().mean()):.3f}) never fit the entry map")
 
         self.E_param = None
         if a.entry_param:
@@ -389,7 +408,7 @@ class Trainer:
         under --entry-param, or the text-defined rows passed through the shared
         entry-side map under --entry-head."""
         E = self.E_seen if self.E_param is None else F.normalize(self.E_param, dim=-1)
-        return E if self.E_head is None else self.E_head(E)
+        return E if self.E_head is None else self.E_head(E, self.map_holdout)
 
     def rep(self, h, row, n, mask):
         """sparse_rep over text chunks under activation checkpointing.
@@ -487,7 +506,13 @@ class Trainer:
                     ld = a.lam_d * ramp * lam_scale
                     fq, fd = flops(sq.float()), flops(sd.float())
                     loss = ce + lq * fq + ld * fd
-                    cal = kl = torch.zeros((), device=DEV)
+                    cal = kl = disp = torch.zeros((), device=DEV)
+                    if self.E_head is not None and a.eh_l2 > 0:
+                        # keep the map conservative: it should move an entry only where
+                        # moving it demonstrably helps, so that extrapolating to an unseen
+                        # region degrades toward the identity rather than to noise
+                        disp = (self.E_head.displacement(self.E_seen) ** 2).sum(-1).mean()
+                        loss = loss + a.eh_l2 * disp
                     if full_needed:
                         cal = calibration_loss(Sd.float(), self.meta, keep, self.seen_decile)
                         loss = loss + a.meta_weight * cal
@@ -516,7 +541,8 @@ class Trainer:
                     rec = dict(step=step, ce=float(ce), nnz_q=nq, nnz_d=nd, acc=acc,
                                t=float(self.head.t), b=float(self.head.b),
                                flops_q=float(fq), flops_d=float(fd), reg_share=reg,
-                               kept=int(keep.sum()), cal=float(cal), kl=float(kl))
+                               kept=int(keep.sum()), cal=float(cal), kl=float(kl),
+                               disp=float(disp))
                     hist.append(rec)
                     lg.info(f"[{a.name}] step {step}/{self.steps} ce={float(ce):.4f} "
                             f"acc={acc:.3f} nnz_q={nq:.0f} nnz_d={nd:.0f} "
@@ -558,6 +584,8 @@ class Trainer:
             with torch.no_grad():
                 E_out = torch.cat([self.E_head(E_out[i:i + 8192])
                                    for i in range(0, E_out.shape[0], 8192)], 0)
+            lg.info(f"[{a.name}] mean map displacement over all entries: "
+                    f"{float((self.E_head.displacement(self.E_all) ** 2).sum(-1).mean()):.5f}")
         torch.save(dict(head=self.head.state_dict(),
                         muV=self.muV, WV=self.WV,
                         E_all=E_out.cpu(),
@@ -611,6 +639,10 @@ def build_args(argv=None):
                     help="how far to move each entry toward its decile target (1 = fully)")
     ap.add_argument("--min-free-gb", type=float, default=9.0,
                     help="wait for this much free GPU memory before starting (0 disables)")
+    ap.add_argument("--eh-holdout", type=float, default=0.0,
+                    help="fraction of seen entry-space regions the map is never fitted on")
+    ap.add_argument("--eh-l2", type=float, default=0.0,
+                    help="penalty on the map's displacement, keeping it near the identity")
     ap.add_argument("--entry-head", action="store_true",
                     help="learn a shared residual map on the entry side (Pilot I)")
     ap.add_argument("--entry-param", action="store_true",

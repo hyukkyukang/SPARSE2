@@ -111,6 +111,31 @@ random split, and −0.09 on the rare split, because it removes per-entry variat
 sometimes miscalibration and sometimes signal. Whether an entry needs it is computable at
 insertion time from its own statistics.
 
+## Real vocabulary shift
+
+A model trained only on MS MARCO, given entries for terminology a different corpus uses,
+evaluated on that corpus. Entries selected from corpus text by frequency alone, never from
+queries or labels.
+
+| corpus | this corpus's terms | random vectors | wrong-domain terms |
+|---|---|---|---|
+| nfcorpus, 3.6k passages | **+0.027** (sig) | 0.000 | +0.000 |
+| scifact, 5.2k passages | **+0.054** (sig) | 0.000 | +0.005 |
+| trec-covid, 171k passages | **−0.257** (sig) | 0.000 | +0.020 |
+
+Random vectors change retrieval by exactly zero everywhere, so the gain is not capacity;
+another corpus's terminology is non-significant everywhere, so it is not "any real words".
+Two corpora gain and one is badly harmed, and R@100 moves the same way as MRR in all three
+(0.747 → 0.832 on scifact; 0.074 → 0.027 on trec-covid).
+
+**The harm is topical dominance.** The top inserted trec-covid entries are `covid`,
+`coronavirus`, `wuhan`, and every query in that benchmark is about COVID: terms in most
+documents *and* most queries add no discrimination. Calibration does not rescue it, and
+the activation gap is ~+5 on all three corpora, so over-firing does not predict the
+outcome. **Adding vocabulary helps when the terms discriminate within the target corpus
+and hurts when they are corpus-defining** — a property computable at insertion time from
+document frequency, with no labels.
+
 ## Two negatives that close off explanations
 
 * **Prototype quality is not the limit.** Doubling the occurrence sample from 50 to 100

@@ -1,0 +1,9 @@
+{
+  "name": "nfcorpus",
+  "split": "test",
+  "n_passages": 3633,
+  "n_queries": 323,
+  "n_qrels": 12334,
+  "mean_rel_per_query": 38.18575851393189,
+  "bytes": 5787895
+}

@@ -1,0 +1,9 @@
+{
+  "name": "trec-covid",
+  "split": "test",
+  "n_passages": 171332,
+  "n_queries": 50,
+  "n_qrels": 24673,
+  "mean_rel_per_query": 493.46,
+  "bytes": 191888323
+}

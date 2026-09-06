@@ -130,13 +130,18 @@ stage_pilotI() {           # a shared learned map on the entry side
 stage_pilotJ() {           # k=100 prototypes: is the residual gap prototype noise?
   pd J "V1oracle_k100_cluster,V1k100_cluster"
 }
+stage_pilotK() {           # making the entry map generalise: region holdout + displacement penalty
+  pd K1 "V1oracle_ehh_cluster,V1ehh_cluster"
+  pd K2 "V1oracle_ehh,V1ehh"
+  pd K3 "V1oracle_ehl2,V1ehl2"
+}
 stage_pilotD_enc() {       # encoder-training arms (slowest; last)
   # V2 (LoRA without vocabulary dropout) is the collapse case; it belongs here so the
   # dropout effect can be stated from this rebuild rather than from the A100 logs
   pd F "V3oracle,V3,V3vd,V2vd,V2,V3_cluster"
 }
 
-STAGES=${STAGES:-"refs art pilotC pilotD_cluster pilotE pilotD_R1 pilotD_Wh pilotF pilotG pilotH pilotI pilotJ pilotD_random pilotD_rare phrase pilotD_enc"}
+STAGES=${STAGES:-"refs art pilotC pilotD_cluster pilotE pilotD_R1 pilotD_Wh pilotF pilotG pilotH pilotI pilotJ pilotK pilotD_random pilotD_rare phrase pilotD_enc"}
 say "===== run_followups: stages [$STAGES] ====="
 for s in $STAGES; do
   say "----- stage $s -----"

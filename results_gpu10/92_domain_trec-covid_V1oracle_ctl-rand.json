@@ -1,0 +1,53 @@
+{
+  "model": "V1oracle",
+  "corpus": "trec-covid",
+  "norm": false,
+  "control": "rand",
+  "n_passages": 171332,
+  "n_queries": 50,
+  "n_inserted": 2974,
+  "with": {
+    "mrr": 0.6941904761904761,
+    "ndcg": 0.554265821925384,
+    "r100": 0.08924438934625385,
+    "mrr_ci": [
+      0.5848523809523809,
+      0.8010547619047619
+    ],
+    "nnz_d": 61.48808745593351,
+    "n_scored": 50
+  },
+  "without": {
+    "mrr": 0.6941904761904761,
+    "ndcg": 0.554265821925384,
+    "r100": 0.08924438934625385,
+    "mrr_ci": [
+      0.5848523809523809,
+      0.8010547619047619
+    ],
+    "nnz_d": 61.487678892442744,
+    "n_scored": 50
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -13.059066054979198
+}

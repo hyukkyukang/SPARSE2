@@ -85,8 +85,19 @@ class EntryHead(nn.Module):
         nn.init.zeros_(self.lin2.weight)
         nn.init.zeros_(self.lin2.bias)
 
-    def forward(self, E):
-        return F.normalize(E + self.lin2(F.gelu(self.lin1(E))), dim=-1)
+    def displacement(self, E):
+        return self.lin2(F.gelu(self.lin1(E)))
+
+    def forward(self, E, detach_mask=None):
+        """detach_mask marks entries the map is NOT fitted on this step: their transformed
+        vectors still enter the ranking loss, but no gradient reaches the map through them.
+        During training they therefore behave the way an inserted entry behaves at test
+        time -- transformed by a map that was never fitted to their region -- so the rest
+        of the model is optimised to cope with exactly that."""
+        d = self.displacement(E)
+        if detach_mask is not None:
+            d = torch.where(detach_mask.unsqueeze(1), d.detach(), d)
+        return F.normalize(E + d, dim=-1)
 
 
 def segment_max(z, row, n_rows):

@@ -1,0 +1,53 @@
+{
+  "model": "V1oracle",
+  "corpus": "nfcorpus",
+  "norm": false,
+  "control": "rand",
+  "n_passages": 3633,
+  "n_queries": 323,
+  "n_inserted": 957,
+  "with": {
+    "mrr": 0.48987910953855224,
+    "ndcg": 0.29434329091328376,
+    "r100": 0.27047063482508155,
+    "mrr_ci": [
+      0.4415646960538601,
+      0.537984237554671
+    ],
+    "nnz_d": 77.41480869804569,
+    "n_scored": 323
+  },
+  "without": {
+    "mrr": 0.48987910953855224,
+    "ndcg": 0.29434329091328376,
+    "r100": 0.27047063482508155,
+    "mrr_ci": [
+      0.4415646960538601,
+      0.537984237554671
+    ],
+    "nnz_d": 77.4131571703826,
+    "n_scored": 323
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -13.844981637281947
+}

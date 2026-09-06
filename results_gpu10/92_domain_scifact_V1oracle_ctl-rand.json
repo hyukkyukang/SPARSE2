@@ -1,0 +1,53 @@
+{
+  "model": "V1oracle",
+  "corpus": "scifact",
+  "norm": false,
+  "control": "rand",
+  "n_passages": 5183,
+  "n_queries": 300,
+  "n_inserted": 2003,
+  "with": {
+    "mrr": 0.41186904761904763,
+    "ndcg": 0.4373198882158048,
+    "r100": 0.77,
+    "mrr_ci": [
+      0.361555787037037,
+      0.4621739417989418
+    ],
+    "nnz_d": 72.66139301562801,
+    "n_scored": 300
+  },
+  "without": {
+    "mrr": 0.41186904761904763,
+    "ndcg": 0.4373198882158048,
+    "r100": 0.77,
+    "mrr_ci": [
+      0.361555787037037,
+      0.4621739417989418
+    ],
+    "nnz_d": 72.66100713872275,
+    "n_scored": 300
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -13.61531398139747
+}

@@ -1,0 +1,9 @@
+{
+  "name": "scifact",
+  "split": "test",
+  "n_passages": 5183,
+  "n_queries": 300,
+  "n_qrels": 339,
+  "mean_rel_per_query": 1.13,
+  "bytes": 7778363
+}

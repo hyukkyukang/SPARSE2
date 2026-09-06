@@ -200,6 +200,22 @@ def run_list(cfg, seeds_extra=("V1", "V1vd")):
     add("V1k100_cluster", "V1oracle_k100_cluster", variant="V1", split="cluster",
         vocab_tag="k100")
 
+    # ---- Pilot K: can the entry map be made to generalise? ----
+    # Pilot I: a shared map reaches the per-entry ceiling on effectiveness (0.2780 vs
+    # 0.2750) and halves recovery with the activation gap at ZERO -- it is fit on seen
+    # entries and reshapes the space around them. Two levers, separately and together:
+    #   holdout: whole seen regions the map is never fitted on, still in the ranking loss
+    #   l2:      a penalty on the map's displacement, so it degrades toward the identity
+    for sp in (S, "cluster"):
+        sfx = "" if sp == S else "_cluster"
+        orc_h = f"V1oracle_ehh{sfx}"
+        add(orc_h, None, variant="V1", split=sp, oracle=True, entry_head=True,
+            eh_holdout=0.3, eh_l2=0.01)
+        add(f"V1ehh{sfx}", orc_h, variant="V1", split=sp, entry_head=True,
+            eh_holdout=0.3, eh_l2=0.01)
+    add("V1oracle_ehl2", None, variant="V1", split=S, oracle=True, entry_head=True, eh_l2=0.03)
+    add("V1ehl2", "V1oracle_ehl2", variant="V1", split=S, entry_head=True, eh_l2=0.03)
+
     for n in seeds_extra:
         kw, orc = next((k, o) for nm, k, o in R if nm == n)
         add(f"{n}_s2", orc, **dict(kw, seed=2))

@@ -44,6 +44,9 @@ LABEL = {
     "V1norm_cluster_R1": "V1, bare-string entries + tail normalisation",
     "V1param": "V1, trained entry rows (parameterized-vocabulary control)",
     "V1eh": "V1 + shared entry-side map", "V1eh_cluster": "V1 + shared entry-side map",
+    "V1ehh": "V1 + entry map, regions held out of its fitting",
+    "V1ehh_cluster": "V1 + entry map, regions held out of its fitting",
+    "V1ehl2": "V1 + entry map + displacement penalty",
     "V1ehnorm_cluster": "V1 + entry-side map + tail normalisation",
     "V1k100_cluster": "V1, k=100 prototypes",
     "V1_phrase_norm": "V1oracle + 2,000 phrases + tail normalisation",
@@ -210,7 +213,7 @@ def main():
            "capacity control: if it cannot over-fire, co-adaptation of the MLP is the cause.", ""]
     cl = ["V1_cluster", "V1vd_cluster", "V1cvd_cluster", "V1meta_cluster", "V1lin_cluster",
           "V1_cluster_R1", "V1cvd_cluster_R1", "V1_cluster_Wh",
-          "V1eh_cluster", "V1ehnorm_cluster", "V1k100_cluster", "V1norm_cluster", "V1_cluster_s2", "V1norm_cluster_s2", "V1normz_cluster",
+          "V1eh_cluster", "V1ehh_cluster", "V1ehnorm_cluster", "V1k100_cluster", "V1norm_cluster", "V1_cluster_s2", "V1norm_cluster_s2", "V1normz_cluster",
           "V1normWh_cluster", "V1norm_cluster_R1", "V3_cluster"]
     md += table(cl, COLS_MAIN)
     rows = {n: d_row(n) for n in cl}
@@ -249,7 +252,7 @@ def main():
     # ---- 5. random split ----
     md += ["## 5. Random split: baselines, seeds, capacity, distillation, controls", ""]
     rn = ["V1", "V1_s2", "V1vd", "V1vd_s2", "V1cvd", "V1meta", "V1lin", "V1dist", "V1_R1",
-          "V1_Wh", "V1norm", "V1eh", "V1param", "Crand"]
+          "V1_Wh", "V1norm", "V1eh", "V1ehh", "V1ehl2", "V1param", "Crand"]
     md += table(rn, COLS_MAIN)
     o1 = load("44_pilotD_V1.json")
     dense = (refs.get("dense_e5") or {}).get("mrr@10")

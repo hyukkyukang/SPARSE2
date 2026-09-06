@@ -274,6 +274,53 @@ and an entry below threshold for a whole batch receives no gradient; and after 3
 steps an entry **re-encodes to cosine 0.46** with its previous vector, so the entry space
 moves faster than any practical refresh interval tracks.
 
+### 4.11 Real vocabulary shift: the claim's strongest evidence and its sharpest boundary
+
+Every split above is a synthetic ablation of one collection. **Pilot L** runs the real
+thing: a model trained only on MS MARCO, given entries for terminology a *different*
+corpus uses and the model has never had a dimension for, then evaluated on that corpus.
+Entries are chosen from corpus text by frequency alone — never from queries or relevance
+labels — which is what a deployment indexing a corpus can actually do.
+
+| corpus | inserted entries are... | MRR@10 | zeroed | gain | significant |
+|---|---|---|---|---|---|
+| **nfcorpus** (3.6k passages, nutrition) | this corpus's terminology | 0.5166 | 0.4899 | **+0.027** | yes |
+| | same, tail-calibrated | 0.5039 | 0.4871 | +0.017 | yes |
+| | random vectors (capacity control) | 0.4899 | 0.4899 | 0.000 | no |
+| | wrong-domain terms | 0.4902 | 0.4899 | +0.000 | no |
+| **scifact** (5.2k passages, scientific claims) | this corpus's terminology | 0.4635 | 0.4100 | **+0.054** | yes |
+| | same, tail-calibrated | 0.4625 | 0.4016 | +0.061 | yes |
+| | random vectors | 0.4119 | 0.4119 | 0.000 | no |
+| | wrong-domain terms | 0.4170 | 0.4119 | +0.005 | no |
+| **trec-covid** (171k passages, COVID literature) | this corpus's terminology | 0.3719 | 0.6284 | **−0.257** | yes |
+| | same, tail-calibrated | 0.3275 | 0.5549 | −0.227 | yes |
+| | random vectors | 0.6942 | 0.6942 | 0.000 | no |
+| | wrong-domain terms | 0.7142 | 0.6942 | +0.020 | no |
+
+**The controls are clean on all three.** 2,000–3,000 random unit vectors change retrieval
+by *exactly* zero everywhere: they never clear the firing threshold, so extra dimensions
+are inert without meaning, and the gain is not capacity. The same construction with
+another corpus's terminology — real words, real prototypes, wrong domain — is also
+non-significant everywhere. Whatever the effect is, it is about the terms.
+
+**Two corpora gain, one is badly harmed**, and the harm is the more informative half.
+On scifact, R@100 rises 0.747 → 0.832 with no retraining and no new parameters. On
+trec-covid, R@100 *falls* 0.074 → 0.027, so this is not an artefact of a rank-sensitive
+measure.
+
+**The failure is topical dominance, not miscalibration.** The top inserted trec-covid
+entries are `covid`, `coronavirus`, `cov`, `wuhan` — and all 50 queries in that benchmark
+are also about COVID. Terms that appear in most documents *and* most queries add no
+discrimination and swamp the signal that was working. Calibration does not rescue it, and
+the activation gap is ~+5 on **all three** corpora, so the gap does not predict the
+outcome. What predicts it is whether an inserted term is discriminative *within the corpus
+being searched*; a corpus-defining term is the opposite of discriminative.
+
+**So the operative rule is sharper than "adding vocabulary helps".** It helps when added
+terms are discriminative in the target corpus, and hurts when they are corpus-defining.
+That property is computable at insertion time from document frequency alone, with no
+labels, and a df ceiling is the obvious filter this study did not have.
+
 ---
 
 ## 5. What this means for the idea
@@ -304,6 +351,12 @@ recovery is the first; a gap near zero with low recovery is one of the other two
 The most consequential methodological finding is unchanged from the first pass:
 **identity is the wrong selection criterion**. Semantic organisation tracks effectiveness;
 whether a token state retrieves the embedding of its own word does not.
+
+**Real domain shift is where the claim is strongest and its boundary sharpest** (§4.11).
+Inserting a genuinely foreign vocabulary is worth +0.054 and +0.027 MRR@10 on two corpora
+and costs −0.257 on a third, with random-vector and wrong-domain controls flat everywhere.
+The method extends a vocabulary usefully when the added terms discriminate within the
+target corpus, and damages it when they are corpus-defining.
 
 **Honest positioning.** Our best text-defined configurations reach 0.19–0.25 MRR@10 on C₁
 against BM25 0.189, dense 0.356 and SPLADE++ 0.382. This is a method for *extending* a
