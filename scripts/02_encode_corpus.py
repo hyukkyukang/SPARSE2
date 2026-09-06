@@ -22,14 +22,18 @@ def out_path(enc: str):
     return paths.EMB / f"corpus_{enc}.npy"
 
 
-def worker(shard: int, n_shards: int, enc_name: str, bs: int):
+def worker(shard: int, n_shards: int, enc_name: str, bs: int, subset: str = ""):
     col = Collection()
-    n = len(col)
+    if subset == "c1":                      # only the C1 rows of the full-size memmap
+        allp = np.load(paths.PREP / "c1_pids.npy")
+    else:
+        allp = np.arange(len(col))
+    n = len(allp)
     bounds = np.linspace(0, n, n_shards + 1).astype(np.int64)
     lo, hi = int(bounds[shard]), int(bounds[shard + 1])
     arr = np.lib.format.open_memmap(out_path(enc_name), mode="r+")
     enc = Encoder(enc_name)
-    idx = np.arange(lo, hi)
+    idx = allp[lo:hi]
     lens = np.asarray([col.off[i + 1] - col.off[i] for i in idx])
     order = np.argsort(lens)                      # length-sorted batches: less padding
     t0 = time.time()
@@ -52,9 +56,10 @@ if __name__ == "__main__":
     ap.add_argument("--encoder", default="e5")
     ap.add_argument("--bs", type=int, default=512)
     ap.add_argument("--per-gpu", type=int, default=1)
+    ap.add_argument("--subset", default="", choices=["", "c1"])
     a = ap.parse_args()
     if a.shard >= 0:
-        worker(a.shard, a.n_shards, a.encoder, a.bs)
+        worker(a.shard, a.n_shards, a.encoder, a.bs, a.subset)
     else:
         p = out_path(a.encoder)
         if not p.exists():
@@ -62,5 +67,6 @@ if __name__ == "__main__":
                                       shape=(paths.N_PASSAGES, 768))
             lg.info(f"allocated {p}")
         gpu_map(os.path.abspath(__file__), a.n_shards,
-                ["--encoder", a.encoder, "--bs", str(a.bs)], logger=lg, per_gpu=a.per_gpu)
-        lg.info(f"corpus encoded: {p}")
+                ["--encoder", a.encoder, "--bs", str(a.bs)]
+                + (["--subset", a.subset] if a.subset else []), logger=lg, per_gpu=a.per_gpu)
+        lg.info(f"corpus encoded: {p} (subset={a.subset or 'full'})")

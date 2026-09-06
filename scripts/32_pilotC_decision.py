@@ -15,7 +15,7 @@ def main(f, r1_prefix):
     d = json.load(open(paths.RESULTS / f))
     refs = json.load(open(paths.RESULTS / "06_references_c1.json"))
     bm25 = refs["bm25"]["mrr@10"]
-    dense = refs.get(f"dense_{d['encoder']}", refs.get("dense_e5"))["mrr@10"]
+    dense = (refs.get(f"dense_{d['encoder']}") or refs.get("dense_e5") or {}).get("mrr@10", float("nan"))
     splade = refs["spladepp"]["mrr@10"]
     best = d["best"]
     ratio = best["mrr@10"] / bm25

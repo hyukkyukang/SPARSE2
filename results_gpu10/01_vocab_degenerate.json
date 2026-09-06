@@ -1,0 +1,47 @@
+{
+ "n_flagged": 12,
+ "words": [
+  "pok",
+  "saut",
+  "caf",
+  "espa",
+  "jos",
+  "fianc",
+  "beyonc",
+  "andr",
+  "clich",
+  "speci",
+  "jalape",
+  "nestl"
+ ],
+ "cntA": [
+  0,
+  0,
+  12,
+  0,
+  11,
+  1,
+  0,
+  7,
+  0,
+  9,
+  0,
+  2
+ ],
+ "cntB": [
+  0,
+  0,
+  7,
+  1,
+  6,
+  1,
+  1,
+  1,
+  1,
+  9,
+  1,
+  0
+ ],
+ "is_stop_before": 179,
+ "is_stop_after": 191
+}

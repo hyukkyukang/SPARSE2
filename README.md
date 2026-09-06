@@ -17,60 +17,134 @@ Nothing in the model is indexed by *j*. This repository runs the pilot protocol
 entries seen during it.
 
 **Start here:** [`SUMMARY.md`](SUMMARY.md) — what was run, what it found, what it means.
-[`PROTOCOL.md`](PROTOCOL.md) is the source protocol, reproduced as written, so every
-result can be checked against what was specified.
+[`PROTOCOL.md`](PROTOCOL.md) is the source protocol, reproduced as written.
+[`notes/pilotF.md`](notes/pilotF.md) is the protocol for the follow-up pilot that the
+first round's results made necessary.
 
 ## Headline result
 
-**They do, and most clearly in the case the idea was designed for.** The recovery
-ratio ρ measures how much of the oracle's benefit from a vocabulary entry survives
-when that entry is inserted post-hoc (Pilot D, C₁ = 1.85M passages, dev-small):
+Recovery ratio ρ is the share of an oracle's benefit from a vocabulary entry that
+survives inserting it after training. **The premise holds where the idea was motivated,
+degrades with semantic novelty, and is rescued there by a training-free correction.**
 
-| held-out split | ρ | 95% CI | \|Q_H\| | MRR@10 all → seen-only |
+| held-out split | what it simulates | ρ, base recipe | ρ, + tail normalisation |
+|---|---|---|---|
+| **rare** — whole bottom frequency decile | new low-frequency terms | **0.942** | 0.852 |
+| **random** — 20% within each decile | scattered new terms | **0.774 / 0.801** (2 seeds) | 0.785 |
+| **cluster** — a semantically new region | a new domain | 0.313 / 0.313 (2 seeds) | **0.636 / 0.646** (2 seeds) |
+| **phrase** — 2,000 multi-word entries | entities, product names | −0.783 | 0.012 |
+
+Every denominator passes the validity precondition, and every arm beats the
+nearest-seen-entry alias control.
+
+### The trade-off the study is about
+
+The control that isolates what defining the vocabulary by text actually costs: identical
+head, data and schedule, with the **seen entry rows trained as free parameters** — what
+SPLADE does — while a held-out entry is still inserted as its text-defined vector.
+
+| random split | MRR@10 | R@100 | ρ | nnz(d) |
 |---|---|---|---|---|
-| **rare** — the whole bottom frequency decile; new low-frequency terms | **0.932** | [0.80, 1.07] | 352 | 0.2017 → 0.1961 |
-| random-stratified — 20% within each decile | 0.685 | [0.60, 0.77] | 3346 | 0.2010 → 0.1850 |
-| cluster — a semantically new region of the entry space | 0.567 | [0.49, 0.65] | 1675 | 0.1944 → 0.1765 |
+| text-defined vocabulary | 0.2063 | 0.765 | **0.774** | 72 |
+| trained entry rows | **0.2750** | 0.865 | 0.158 | 251 |
 
-Every denominator is valid (≥ 0.02 absolute MRR, CI excluding zero), so ρ is
-interpretable in all three cases.
+Training the vocabulary buys **+33% MRR@10** and **forfeits insertion**. That is the
+trade, measured on both sides with everything else held fixed.
 
-Supporting evidence for the premise:
+### What a learned vocabulary actually buys
 
-* The trained frozen-encoder model reaches **MRR@10 0.2010** on C₁ — above its own
-  full-vocabulary oracle (0.1991) and above BM25 (0.1882), up from 0.1251 untrained.
-* **Insertion beats aliasing.** Mapping each held-out entry to its nearest seen entry
-  instead of inserting it gives 0.1595 against 0.2010, so the held-out entries are not
-  redundant with the trained vocabulary.
-* **Calibration holds on the random split**: |gap_r| = 0.067, far inside the log(1.5)
-  bound — a held-out entry fires at nearly the same rate as a seen entry of the same
-  frequency.
-* **The control kills the alternative explanation.** Replacing the vocabulary with
-  random unit vectors of the same shape collapses the model to **MRR@10 = 0.0000**.
-  The text-defined vocabulary is carrying the signal, not the architecture.
+The entry side was frozen while the token side had a learned map — an asymmetry with no
+principled justification. Adding the mirror image, **one shared residual map applied to
+every entry vector** (not indexed by *j*, so an inserted entry is transformed exactly like
+a trained one):
 
-The clear negative: on the **cluster** split, signed gap_r = **+0.47** — held-out
-entries systematically *over*-fire when they come from an unseen region of the entry
-space. That is the failure mode insertion-time calibration (Pilot E) exists to fix.
+| random split | MRR@10 | ρ | signed gap_r | nnz(d) |
+|---|---|---|---|---|
+| baseline | 0.2063 | **0.774** | −0.03 | 72 |
+| + shared entry-side map | **0.2780** | 0.376 | +0.01 | 564 |
+| trained rows (per-entry ceiling) | 0.2750 | 0.158 | −0.16 | 251 |
+
+**A single shared function matches the per-entry ceiling.** So essentially *all* of a
+learned vocabulary's advantage is a systematic transformation of the text-defined space;
+per-entry memorisation contributes nothing measurable.
+
+**And it costs half the extensibility with the activation gap at zero.** Inserted entries
+fire at exactly the right rate and still contribute far less, so this is not
+miscalibration and the tail correction does not repair it. The map is *fit on seen
+entries* and reshapes the space around them. That is a **third failure mechanism**,
+distinct from over-firing and from wrong-document firing.
+
+The consequence is a choice: frozen entry side + normalisation for extensibility (ρ 0.64
+on novel regions, 0.94 on rare terms, 0.185 MRR@10), or the entry-side map for
+effectiveness (0.265–0.278 MRR@10, insertion actively harmful). Nothing currently does
+both, and the next lever is to hold regions out of the *map's own* fitting.
+
+### The failure mode, and the fix
+
+On the cluster split held-out entries **over-fire by ~1.5×**. Five training-time
+interventions all failed — entry dropout, cluster dropout, a meta-held-out calibration
+loss, a linear head, a seen-independent entry transform — and dropout is harmful on all
+three splits. The architecture has **one** scale and **one** threshold for 30,000 entries,
+so a per-entry firing rate cannot be expressed at all.
+
+The fix is a per-entry correction inside the score, computed from background statistics
+against a frozen token bank, so insertion stays training-free and nothing is indexed by
+*j*. A diagnostic (`scripts/48_entry_stats.py`) says which statistic to correct: an
+entry's background **standard deviation** correlates 0.08 with how often it fires, its
+**99.9th percentile** correlates 0.63, because the score max-pools and firing is a tail
+property.
+
+| cluster split | ρ | signed gap_r | nnz(d) |
+|---|---|---|---|
+| baseline | 0.313 | +0.386 | 77 |
+| moment matching, after training | 0.494 | +0.229 | 71 |
+| tail matching, after training | 0.539 | +0.154 | 80 |
+| moment matching, trained in | 0.582 | +0.335 | 66 |
+| **tail matching, trained in** | **0.636 / 0.646** | **+0.179** | **58** |
+
+Tail beats moments and trained-in beats patched-afterwards, on both axes independently.
+Documents get *sparser*, so this is not the degenerate fix where ρ rises because
+everything fires more.
+
+**The correction is conditional.** It is worth +0.32 ρ on the cluster split, ~0 on the
+random split, and −0.09 on the rare split, because it removes per-entry variation that is
+sometimes miscalibration and sometimes signal. Whether an entry needs it is computable at
+insertion time from its own statistics.
+
+## Two negatives that close off explanations
+
+* **Prototype quality is not the limit.** Doubling the occurrence sample from 50 to 100
+  (free — the second disjoint half is already stored) leaves recovery unchanged, 0.302 vs
+  0.313. The prototype vectors move by a cosine of only 0.9975, so 50 occurrences already
+  converge; sampling noise does not explain the residual gap.
+* **The headline is not an artefact of the evaluation set.** Q_H is defined from each
+  arm's *own* oracle, so compared arms see slightly different query sets. Re-scoring every
+  cluster arm on one identical set of 1,732 queries moves ρ by at most 0.026, and the
+  tail-normalisation result by 0.012. Orderings unchanged.
+
+## Two representational boundaries
+
+* **Bare-string entries retrieve better and generalise worse.** They beat prototypes end
+  to end (0.2434 vs 0.2063) and have **negative** recovery on the cluster split. Under
+  normalisation their firing rate *and* their weights reach parity with prototypes, and
+  they still recover only 0.289 against 0.636 — so their residual deficit is *which
+  documents they fire on*, not how often. Calibration is necessary, not sufficient.
+* **Multi-word entries do not work.** A phrase prototype averaged from its constituent
+  word states sits close to every document containing either word and is a hub by
+  construction (background tail 0.149 vs the word median 0.109). Inserting 2,000 bigrams
+  makes retrieval *worse*; normalisation makes it merely neutral.
 
 ## Three protocol expectations were falsified
 
 | | expectation | what happened |
 |---|---|---|
-| **H3** | whitening raises z-gap ≥2× and cuts nnz/token ~10× | Neither. **Centering** does most of the density reduction, and whitening *lowers* cross-representation self-hit at every layer below 11. It is still worth 0.096 vs 0.056 MRR@10 end to end — peakiness was simply the wrong yardstick. |
-| **H5** | bare-string entries are hubbier than contextual prototypes | **Reversed.** Hub skewness 3.6 (R1) vs 17.2 (R2); it is the *prototype* hub list that is dominated by function words. The df–frequency half of H5 does hold (Spearman 0.25 vs 0.57). |
-| §A.4 rule | select the layer by cross-representation self-hit@10 | **Anti-correlated with retrieval.** Identity peaks at layer 9, but layer 12 retrieves 30% better (0.1251 vs 0.0963). The rule's *tie-breaker* — related-term MRR, 23× vs 210× random — is what tracks effectiveness. |
+| **H3** | whitening raises z-gap ≥2× and cuts nnz/token ~10× | Neither. **Centering** does most of the density reduction; whitening *lowers* cross-representation self-hit below layer 11, yet is worth 0.096 vs 0.056 MRR@10 end to end. Peakiness was the wrong yardstick. |
+| **H5** | bare-string entries are hubbier than contextual prototypes | **Reversed** at layer 9 (hub skew 3.6 vs 17.2); the *prototype* hub list is dominated by function words. The df–frequency half does hold. |
+| §A.4 rule | select the layer by cross-representation self-hit@10 | **Anti-correlated with retrieval.** Identity peaks at layer 9; layer 12 retrieves 30% better. The rule's *tie-breaker* is what tracks effectiveness. |
 
-Two further findings about training the encoder:
-
-* The **LoRA arm collapses without vocabulary dropout** on every configuration tried
-  (two seeds, two warmup schedules). `log(1+ReLU(·))` is a hard gate: an entry that
-  falls below threshold for a whole batch receives no gradient and cannot return, and a
-  trainable encoder can switch most of the vocabulary off in a few dozen steps. Masking
-  30% of entries per step prevents it.
-* After 3,000 LoRA steps an entry **re-encodes to cosine 0.46** with its previous
-  vector. The entry space moves faster than any practical refresh interval tracks — a
-  concrete cost of making the encoder trainable in this design.
+Plus: the **LoRA arm collapses without vocabulary dropout** (`log(1+ReLU(·))` is a hard
+gate, so an entry below threshold for a whole batch never returns), and after 3,000 LoRA
+steps an entry **re-encodes to cosine 0.46** with its previous vector.
 
 ## Pipeline validation (run before any pilot)
 
@@ -86,47 +160,68 @@ All four reproduce, so the pilots do not inherit a prefix / pooling / normalisat
 ## Selected configuration
 
 e5-base-v2, **hidden layer 12**, entries as **contextual prototypes** (mean word-unit
-state over k=50 occurrences), whitened per space, k_d=128 / k_q=16 / log1p, τ set so
-mean nnz ≈ 120 per document. Vocabulary V = 30,000 lowercase alphabetic words with
-≥100 occurrences in the prototype pool; the bottom decile's minimum collection
-frequency is 498, so no entry has a noisy prototype.
+state over k=50 occurrences), whitened per space, k_d=128 / k_q=16 / log1p, τ set so mean
+nnz ≈ 120 per document, plus **tail normalisation** where the entries to be inserted are
+semantically novel. Vocabulary V = 30,000 lowercase alphabetic words with ≥100 occurrences
+in the prototype pool.
+
+Honest positioning: our best text-defined configurations reach 0.19–0.25 MRR@10 on C₁
+against BM25 0.189, dense 0.356 and SPLADE++ 0.382. This is a method for **extending** a
+vocabulary after training, with a measured boundary — not a replacement for learned sparse
+retrieval.
 
 ## Layout
 
 ```
 dvlsr/      library: paths, data, encoders, whitening, sparse rule, GPU inverted index,
-            model (residual head + text-defined entry side), metrics
+            model (residual head + text-defined entry side, per-entry normalisation),
+            precision (bf16 on Ampere+, fp16 elsewhere), metrics
 scripts/    numbered stages, each writing a JSON artifact into results/
 configs/    polysemy set (sense probe) and run configs
-results/    small JSON results, versioned
+results/    small JSON results from the A100 run, versioned
 reports/    FINDINGS.md plus a report per pilot and qualitative dumps
-notes/      condensed protocol, deviations, running log
+notes/      condensed protocol, pilotF protocol, deviations, running log
 PROTOCOL.md the source protocol, verbatim
 SUMMARY.md  the executive account of the study
-run_all.sh  the whole study in order
+run_all.sh          the original study in order
+run_followups.sh    the rebuild + follow-up pilots, resumable by markers
 ```
 
 Large artifacts (collection binary, corpus embeddings, banks, prototypes, checkpoints)
-live outside the repo under `$DVLSR_DATA` (default `/workspace/SPARSE/dvlsr`).
+live outside the repo under `$DVLSR_DATA`.
 
 ## Reproducing
 
 ```bash
 export DVLSR_DATA=/path/to/scratch
-./run_all.sh          # sets the OpenBLAS thread cap and the JDK path Pyserini needs
+./run_all.sh          # the original study; needs a JDK for Pyserini and ~400 GB scratch
+./run_followups.sh    # the rebuild and follow-up pilots; resumable, stage-selectable
 ```
 
-Requires one or more 40 GB GPUs (the study ran on 8× A100-40GB), a JDK for Pyserini,
-and ~400 GB of scratch. Read `notes/deviations.md` before comparing against the
-protocol: eleven departures are documented there, each with the measurement that
-forced it — including a manual audit of the sense labels that found a 12% error rate
-and corrected it (agreement 0.883 → 0.963).
+`run_followups.sh` takes `STAGES="refs art pilotC pilotD_cluster pilotE ..."` to run a
+subset, keeps per-step markers so an interrupted run resumes, and routes its output to
+`$DVLSR_RESULTS_DIR` / `$DVLSR_REPORTS_DIR` so it never overwrites the original record.
+Trainers and encoders wait for free GPU memory rather than crashing when several stages
+share a card.
+
+Read `notes/deviations.md` before comparing against the protocol: thirteen departures are
+documented there, each with the measurement that forced it — including a manual audit of
+the sense labels that found a 12% error rate, and D12, which records that the follow-up
+pilots ran on different hardware with the §0 setup rebuilt from scratch.
 
 ## Status
 
-Pilots A, B and C are complete. Pilot D reports the four decisive runs above (V1 on
-three splits plus the C-rand control); the LoRA and full-fine-tuning arms are trained
-and their C₁ encodes were in progress when the study was time-boxed. Pilot E and the
-full-corpus confirmation are implemented (`scripts/50_*`, `scripts/51_*`,
-`scripts/60_*`) but not yet run — the cluster-split over-firing above is what would
-trigger them.
+Pilots A–E complete. Pilots F (per-entry normalisation), G (bare strings under
+normalisation, normalisation on rare, the parameterized-vocabulary control), H (seed
+repeats), I (shared entry-side map) and J (k=100 prototypes) complete. **62 models trained
+and 45 evaluated on the rebuild**, on top of the original A100 run.
+
+Not run: the **full-corpus confirmation** (`scripts/60_*`), so every number is on C₁ and
+mildly optimistic for us. The encoder-training arms on the rebuild are capped at 3,000
+steps rather than 12,500.
+
+The experiment the results now define: train the entry-side map with **regions held out of
+its own fitting**, so it cannot reshape the space around exactly the entries it saw. Also
+unrun: **partial normalisation** (`--norm-alpha`), phrase prototypes built from states that
+see the phrase *as a unit*, and an evaluation on **real vocabulary shift** — a different
+corpus with its own terminology — rather than synthetic held-out splits of one collection.

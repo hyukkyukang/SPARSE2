@@ -1,0 +1,87 @@
+# Pilot C — qualitative top-10 entries
+
+encoder=e5 layer=12 rep=R1 cell=kd128_kq32_nnz120_log1p
+
+## passages
+- *The symbiotic association of the mycelium of a fungus with the roots of a plant, as is found in the majority of vascular plants. mycoâ + Greek rhiza*
+  - symbiotic:0.30, root:0.24, mycelium:0.24, roots:0.23, fungus:0.20, rooting:0.19, fungi:0.18, rooted:0.17, fungal:0.16, symbiosis:0.14
+- *WebMD Symptom Checker helps you find the most common medical conditions indicated by the symptoms muscle cramps or spasms (painful) (shin), muscle cra*
+  - hypokalemia:0.25, cramp:0.23, spasms:0.21, cramping:0.21, shin:0.19, cramps:0.19, foot:0.19, hypocalcemia:0.18, potassium:0.17, top:0.16
+- *N Center St, HICKORY, NC, 28601 is a single family home of on a lot of 12,632 sqft (or 0.29 acres). The 3 bed single family home at 1028 4th Street Dr*
+  - hickory:0.36, nc:0.20, nw:0.15, fourths:0.14, fourth:0.12, street:0.12, n:0.11, raleigh:0.11, sqft:0.10, zipcode:0.09
+- *COBRA benefits generally last for a maximum of 18 months for employment termination or reduction of hours of work. Certain qualifying events may permi*
+  - cobra:0.46, coverage:0.18, coverages:0.17, beneficiary:0.15, beneficiaries:0.15, months:0.13, employment:0.10, benefit:0.09, josh:0.09, termination:0.08
+- *The head of the pancreas is located at the juncture where the stomach meets the first part of the small intestine. This is where the stomach empties p*
+  - pancreas:0.36, pancreatic:0.36, pancreatitis:0.22, stomach:0.20, head:0.19, intestine:0.18, stomachs:0.17, neck:0.14, section:0.14, enzymes:0.14
+- *Cloudlifters address this by giving passive microphone signals a major inline boost -up to +25db of ultra-clean gain- while properly loading the micro*
+  - cl:0.25, cla:0.25, microphones:0.19, passive:0.17, cll:0.17, microphone:0.13, cleft:0.12, clonidine:0.11, clonazepam:0.10, clr:0.10
+- *One of the bigger expenses on most rental property ownersâ Schedule E is something called depreciation. Hereâs how it works. When you own property*
+  - depreciation:0.28, hoa:0.19, landlord:0.15, depreciate:0.15, e:0.14, renter:0.14, depreciated:0.14, expend:0.13, rental:0.13, landlords:0.13
+- *Yeast infection symptoms can range from mild to moderate and include: 1  Itching and irritation in the vagina and the tissues at the vaginal opening (*
+  - yeast:0.33, yeasts:0.29, vaginal:0.22, mild:0.21, vulva:0.21, itching:0.17, burning:0.17, vagina:0.17, moderate:0.17, candidiasis:0.14
+- *Definition of repose. 1a : a state of resting after exertion or strain; especially : rest in sleepb : eternal or heavenly rest pray for the repose of *
+  - bayou:0.19, rest:0.17, rests:0.16, resting:0.15, tranquil:0.14, restful:0.14, tranquility:0.14, exertion:0.13, repressor:0.10, repels:0.09
+- *In British English, the term drive shaft is restricted to a transverse shaft that transmits power to the wheels, especially the front wheels. A drive *
+  - propeller:0.25, shaft:0.24, drives:0.21, drive:0.20, british:0.20, rear:0.16, differential:0.16, prop:0.14, shafts:0.14, transverse:0.13
+- *Cellulitis And MRSA. Cellulitis is an infection of the dermis and subcutaneous tissues that usually occurs when bacteria enter the body mostly through*
+  - cellulitis:0.34, mrsa:0.31, subcutaneous:0.28, cellulite:0.25, dermis:0.13, subdural:0.12, bacteria:0.11, mra:0.11, submucosa:0.10, cellulose:0.10
+- *Danica Patrick dishes on relationship with boyfriend Ricky Stenhouse Jr. July 26, 2013. Danica Patrick and Ricky Stenhouse Jr. are the only couple of *
+  - boyfriend:0.22, couple:0.21, ricky:0.21, patrick:0.18, relationship:0.18, nascar:0.14, racers:0.13, racer:0.11, jr:0.10, relations:0.09
+- *In Clare County, Where The North Begins! Offering full service of Northern Michigan Property including Listing and Selling Northern Michigan VACATION *
+  - clare:0.25, michigan:0.22, north:0.21, cottages:0.20, northern:0.18, county:0.15, cottage:0.14, selling:0.13, northernmost:0.12, property:0.11
+- *The current location of the device is set to Seattle (Amazon headquarters) by default and must be changed manually, but can only be set to a location *
+  - amazon:0.29, seattle:0.25, puget:0.16, current:0.14, bezos:0.12, locations:0.11, presently:0.11, aws:0.11, headquarters:0.10, setting:0.09
+- *numerical - of or relating to or denoting numbers; a numeral adjective numeral, numeric. 3. numerical - relating to or having ability to think in or w*
+  - numerical:0.30, numeric:0.25, numerals:0.23, numeral:0.21, numbers:0.20, mathematical:0.18, numerically:0.17, math:0.13, number:0.13, digits:0.11
+- *Investing in Wisconsin's best and brightest. The Wisconsin Academic Excellence Scholarship (WAES) program, established in 1989 by the state Legislatur*
+  - wisconsin:0.30, uw:0.20, scholarships:0.20, wi:0.19, milwaukee:0.18, scholarship:0.18, wis:0.17, kies:0.15, sae:0.13, badgers:0.12
+- *However, if your dogs are mating and the female is receptive, she should be in heat. Female Dogs go into heat at any time between 6-12 months usually.*
+  - vulva:0.22, female:0.16, vulvar:0.14, she:0.14, heat:0.13, females:0.13, canine:0.13, woman:0.11, collie:0.11, canines:0.11
+- *Both acute manic or depressive episodes, as well as long-term bipolar treatment, typically require the use of medications. Medications vary depending *
+  - manic:0.32, bipolar:0.29, antipsychotics:0.24, antipsychotic:0.24, mania:0.20, acute:0.15, medications:0.14, lamictal:0.14, phase:0.14, depress:0.13
+- *The 307 area code is registered in Wyoming. 78.24% of phone numbers within the 307 area code are registered as residential/consumer phone numbers, and*
+  - wyoming:0.31, registered:0.25, cheyenne:0.17, areacode:0.15, wy:0.15, laramie:0.14, registering:0.12, registrations:0.11, dialling:0.11, register:0.11
+- *In section, myelin is white whereas the gray matter is that color due to all the gray nuclei contained in the cells that make it up. The white matter *
+  - myelin:0.42, white:0.27, gray:0.24, myelinated:0.23, grey:0.22, section:0.22, whiter:0.21, whites:0.20, whitish:0.20, brainstem:0.19
+
+## querys
+- *The hormone that does the opposite of calcitonin is*
+  - calcitonin:0.39, opposites:0.20, opposite:0.19, contrary:0.16, hormone:0.13, calcite:0.10, inversely:0.09, conversely:0.07, hormones:0.07, reverses:0.05
+- *webmd symptoms of lupus*
+  - lupus:0.42, webmd:0.37, symptoms:0.19, symptom:0.12, lumbar:0.11, lu:0.11, lutein:0.09, lupin:0.09, lug:0.08, web:0.08
+- *what are casein curds*
+  - curds:0.47, curd:0.43, casein:0.41, culver:0.22, custard:0.12, curie:0.12, cur:0.12, cucumbers:0.08, casing:0.08, cushing:0.06
+- *what conference is bryant for football*
+  - bryant:0.39, football:0.22, conference:0.14, conferences:0.09, kobe:0.04, nfl:0.03, hornets:0.03, hornet:0.01, heisman:0.01, qb:0.01
+- *what are aneurysm*
+  - aneurysm:0.51, aneurysms:0.48, pleurisy:0.11, ans:0.08, anheuser:0.07, anhydrous:0.06, anemic:0.06, anvil:0.06, anemones:0.05, anemone:0.05
+- *how many eggs do rouen ducks lay a year*
+  - ducks:0.22, eggs:0.16, duck:0.14, yearly:0.13, annually:0.12, ducklings:0.12, egg:0.11, laying:0.10, year:0.10, laid:0.08
+- *how many cylinder have the jeep cherokee limited*
+  - cherokee:0.27, jeep:0.26, cylinder:0.19, limited:0.18, cylinders:0.15, limiting:0.05, jamie:0.03, hasn:0.02, limitation:0.02, restrict:0.01
+- *greek pottery and their meaning*
+  - greek:0.30, pottery:0.28, greeks:0.26, greece:0.24, athens:0.17, ceramics:0.14, minoan:0.12, parthenon:0.11, athenian:0.10, hellenistic:0.08
+- *what causes ringworm in adults*
+  - ringworm:0.45, adults:0.33, adult:0.30, adulthood:0.18, ring:0.18, ringed:0.16, hookworms:0.14, rings:0.12, ringer:0.12, twenties:0.08
+- *what kills ants home remedy*
+  - ants:0.31, ant:0.26, kills:0.15, remedy:0.10, home:0.09, kill:0.07, anther:0.07, homes:0.04, insects:0.04, killing:0.04
+- *what oscars has denzel washington won*
+  - oscars:0.31, denzel:0.29, award:0.18, oscar:0.14, winner:0.13, awarded:0.13, awards:0.13, awarding:0.13, nominated:0.11, nomination:0.11
+- *is it still dangerous to go to the place of where the chernobyl happened*
+  - chernobyl:0.23, dangerous:0.16, dangers:0.10, still:0.09, danger:0.09, hazards:0.09, safe:0.07, polonium:0.06, hazardous:0.06, remained:0.06
+- *is paradise township in adams county*
+  - adams:0.31, paradise:0.25, township:0.21, townships:0.12, county:0.06, adam:0.05, hutchinson:0.03, goddard:0.03, phillips:0.02, natasha:0.01
+- *does glycerin tincture need to be refrigerated*
+  - glycerin:0.40, glycerol:0.29, tincture:0.25, refrigerated:0.22, refrigeration:0.19, refrigerate:0.18, nitroglycerin:0.15, glycine:0.13, glycol:0.10, glycosidic:0.09
+- *ismat name meaning*
+  - ism:0.23, ish:0.19, ischemic:0.10, basmati:0.08, mat:0.08, ischemia:0.07, ormal:0.06, mats:0.06, meaning:0.05, meanings:0.05
+- *what is the official site for free credit reports*
+  - free:0.24, websites:0.21, website:0.20, credit:0.18, report:0.12, creditable:0.12, reports:0.11, webpage:0.11, freebase:0.11, reported:0.10
+- *enu protein shake*
+  - shake:0.24, shakes:0.18, shaker:0.15, ene:0.15, ecu:0.12, protein:0.12, amu:0.11, iu:0.08, shaking:0.07, miu:0.07
+- *who are quakers*
+  - quakers:0.53, quaker:0.45, penn:0.07, protestants:0.05, protestant:0.04, puritan:0.03, puritans:0.03, clement:0.03, easton:0.02, founders:0.01
+- *where does microtubule formation occur*
+  - microtubules:0.42, tubule:0.19, tubules:0.17, micron:0.07, organelle:0.07, micro:0.07, occur:0.06, occurs:0.06, formed:0.06, cytoskeleton:0.05
+- *home remedies for lupus pain*
+  - lupus:0.42, remedies:0.28, lu:0.15, lupin:0.14, home:0.12, lutein:0.11, lug:0.09, lumbar:0.08, homegroup:0.07, homes:0.06

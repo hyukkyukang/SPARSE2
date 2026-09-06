@@ -15,9 +15,12 @@ EMB = DATA / "emb"                     # corpus embeddings / sparse reps
 RUNS = DATA / "runs"                   # retrieval runs (trec format / npz)
 CKPT = DATA / "ckpt"                   # pilot D checkpoints
 
-RESULTS = REPO / "results"             # small JSON results, versioned in git
-REPORTS = REPO / "reports"
-LOGS = REPO / "logs"
+# Small JSON results and reports are versioned in git. A rebuild on another machine
+# writes to its own directories (DVLSR_RESULTS_DIR etc.) so the study's record is
+# never overwritten (notes/deviations.md D12).
+RESULTS = REPO / os.environ.get("DVLSR_RESULTS_DIR", "results")
+REPORTS = REPO / os.environ.get("DVLSR_REPORTS_DIR", "reports")
+LOGS = REPO / os.environ.get("DVLSR_LOGS_DIR", "logs")
 
 for _p in (PREP, ART, EMB, RUNS, CKPT, RESULTS, REPORTS, LOGS):
     _p.mkdir(parents=True, exist_ok=True)
@@ -80,4 +83,17 @@ WHITEN_EPS = 0.01
 NNZ_DOC_TARGET = 120
 NNZ_QRY_TARGET = 30
 
-JAVA_HOME = "/workspace/SPARSE/dvlsr/tools/jdk-21.0.5+11"
+JAVA_HOME = os.environ.get("JAVA_HOME", "/workspace/SPARSE/dvlsr/tools/jdk-21.0.5+11")
+
+
+# ---- vocabulary variants (the phrase/entity pilot appends entries to V) ----
+def vocab_file(tag: str = ""):
+    return ART / (f"vocab_{tag}.npz" if tag else "vocab.npz")
+
+
+def proto_file(enc: str, tag: str = ""):
+    return ART / (f"proto_{enc}_{tag}.npz" if tag else f"proto_{enc}.npz")
+
+
+def vsplits_file(tag: str = ""):
+    return PREP / (f"vocab_splits_{tag}.npz" if tag else "vocab_splits.npz")

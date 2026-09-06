@@ -71,12 +71,13 @@ def main(a):
     import importlib.util as iu
     spec = iu.spec_from_file_location("e43", paths.REPO / "scripts" / "43_encode_eval.py")
     e43 = iu.module_from_spec(spec); spec.loader.exec_module(e43)
-    cfg, head, enc, E = e43.load_ckpt(a.name)
+    cfg, head, enc, E, _AB = e43.load_ckpt(a.name)
     layer = cfg["layer"]
-    z = np.load(paths.ART / "vocab.npz")
+    tag = cfg.get("vocab_tag", "") or ""
+    z = np.load(paths.vocab_file(tag))
     words = [str(w) for w in z["words"]]
     decile = z["decile"]
-    sp = np.load(paths.PREP / "vocab_splits.npz")
+    sp = np.load(paths.vsplits_file(tag))
     held = sp[cfg["split"]]
     seen = ~held
     mu, W = whitening.load(paths.ART / "whiten" / f"{cfg['encoder']}_L{layer}_H.npz")

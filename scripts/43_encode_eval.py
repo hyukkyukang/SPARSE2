@@ -10,7 +10,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from dvlsr import paths, whitening
+from dvlsr import paths, whitening, precision
 from dvlsr.data import Collection, load_queries, load_splits
 from dvlsr.encoders import Encoder
 from dvlsr.model import Head, segment_max
@@ -25,7 +25,7 @@ def load_ckpt(name, device="cuda"):
     d = paths.CKPT / name
     cfg = json.load(open(d / "config.json"))
     blob = torch.load(d / "head.pt", map_location=device, weights_only=False)
-    head = Head(768, 768).to(device)
+    head = Head(768, 768, kind=cfg.get("head", "mlp")).to(device)
     head.load_state_dict(blob["head"])
     head.eval()
     enc = Encoder(cfg["encoder"], dtype=torch.float32)
@@ -38,7 +38,9 @@ def load_ckpt(name, device="cuda"):
                                               dtype=torch.float32).to(device)
     enc.model.eval()
     E = blob["E_all"].to(device)
-    return cfg, head, enc, E
+    AB = blob.get("AB")
+    AB = None if AB is None else AB.to(device)      # Pilot F entry normalisation
+    return cfg, head, enc, E, AB
 
 
 def out_paths(name, kind):
@@ -46,8 +48,23 @@ def out_paths(name, kind):
     return b.with_name(b.name + "_idx.npy"), b.with_name(b.name + "_val.npy")
 
 
-def worker(shard, n_shards, name, kind, bs, calib=None, out_tag=None):
-    cfg, head, enc, E = load_ckpt(name)
+def wait_for_gpu(min_free_gb=5.0, timeout_s=600, poll_s=20):
+    """Block until this shard's card has room. Several instances share the cards, so an
+    encode can start just as a trainer allocates; waiting costs minutes, an out-of-memory
+    crash costs the whole encode (and every shard with it)."""
+    t0 = time.time()
+    while True:
+        free = torch.cuda.mem_get_info()[0] / 1e9
+        if free >= min_free_gb or time.time() - t0 > timeout_s:
+            return free
+        print(f"waiting for GPU memory: {free:.1f} GB free, need {min_free_gb:.1f}", flush=True)
+        time.sleep(poll_s)
+
+
+def worker(shard, n_shards, name, kind, bs, calib=None, out_tag=None, min_free_gb=5.0):
+    if min_free_gb > 0:
+        print(f"shard {shard}: {wait_for_gpu(min_free_gb):.1f} GB free at start", flush=True)
+    cfg, head, enc, E, AB = load_ckpt(name)
     cal = None
     if calib:
         c = np.load(calib)
@@ -73,7 +90,7 @@ def worker(shard, n_shards, name, kind, bs, calib=None, out_tag=None):
     AI = np.lib.format.open_memmap(out_paths(tag, kind)[0], mode="r+")
     AV = np.lib.format.open_memmap(out_paths(tag, kind)[1], mode="r+")
     t0 = time.time()
-    with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
+    with torch.no_grad(), precision.autocast():
         for s in range(lo, hi, bs):
             sel = np.arange(s, min(s + bs, hi))
             wu = enc.encode_word_units(get(sel), [layer], is_query=qside,
@@ -83,7 +100,7 @@ def worker(shard, n_shards, name, kind, bs, calib=None, out_tag=None):
                 continue
             h = tf(wu.states[:, 0].cuda(), normalize=False)
             row = torch.as_tensor(wu.row.astype(np.int64), device="cuda")
-            z = head.logits(h.to(E.dtype), E)
+            z = head.logits(h.to(E.dtype), E, AB)
             if cal is not None:
                 z = z * cal[0] + cal[1]
             p = segment_max(z, row, len(sel))
@@ -109,9 +126,10 @@ if __name__ == "__main__":
     ap.add_argument("--per-gpu", type=int, default=2)
     ap.add_argument("--calib", default=None)
     ap.add_argument("--out-tag", default=None)
+    ap.add_argument("--min-free-gb", type=float, default=5.0)
     a = ap.parse_args()
     if a.shard >= 0:
-        worker(a.shard, a.n_shards, a.name, a.kind, a.bs, a.calib, a.out_tag)
+        worker(a.shard, a.n_shards, a.name, a.kind, a.bs, a.calib, a.out_tag, a.min_free_gb)
     else:
         n = {"d": len(np.load(paths.PREP / "c1_pids.npy")),
              "q": len(load_queries(paths.QUERIES_DEV_SMALL)[0]),
@@ -124,7 +142,8 @@ if __name__ == "__main__":
             np.lib.format.open_memmap(pv, mode="w+", dtype=np.float16, shape=(n, cap))
         ns = a.n_shards if a.kind != "q" else 8
         with Timer(f"encode {a.kind} for {a.name} ({n})", lg):
-            extra = ["--name", a.name, "--kind", a.kind, "--bs", str(a.bs)]
+            extra = ["--name", a.name, "--kind", a.kind, "--bs", str(a.bs),
+                     "--min-free-gb", str(a.min_free_gb)]
             if a.calib:
                 extra += ["--calib", a.calib]
             if a.out_tag:

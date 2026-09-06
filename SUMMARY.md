@@ -4,6 +4,15 @@ What was run, what it found, and what it means for the idea. The source protocol
 `PROTOCOL.md`; per-pilot tables are in `reports/`; every departure from the protocol is
 in `notes/deviations.md`, each with the measurement that forced it.
 
+The study has two parts. **Pilots A–E** ran on 8× A100-40GB and are recorded in
+`results/` and `reports/`. **Pilots F–H and the follow-ups** were added afterwards on a
+different machine (5× TITAN RTX 24 GB, `notes/deviations.md` D12), rebuilt the §0 setup
+from the raw collection with the same seeds, and are recorded in `results_gpu10/` and
+`reports_gpu10/FOLLOWUPS.md`. The rebuild reproduces the originals closely — BM25 0.1874
+against 0.1874, SPLADE++ 0.3827 against 0.3827, rare-split recovery 0.942 against 0.932 —
+so the two parts can be read together. **Numbers are never mixed inside a comparison**:
+every follow-up arm is compared to a baseline re-run in the same rebuild.
+
 ---
 
 ## 1. The question
@@ -19,159 +28,307 @@ behave like entries seen during it?**
 
 ---
 
-## 2. What was built and run
+## 2. The answer, in one table
 
-MS MARCO v1 passage (8,841,823 passages) on 8× A100-40GB.
+Recovery ratio ρ is the share of an oracle's benefit from a vocabulary entry that
+survives inserting that entry after training. 1.0 is perfect; 0 means insertion bought
+nothing; negative means it did harm.
 
-* **Setup**: collection binary + P/Q/S splits; a frozen 30,000-entry vocabulary (top
-  lowercase alphabetic words with ≥100 occurrences in the prototype pool); contextual
-  prototypes built in one streaming pass over 2.48M passages per encoder; 200k-token
-  background banks for the document and query sides; ZCA whitening estimated once per
-  space and frozen; a 1.85M-passage retrieval sub-corpus C₁ containing every reference
-  system's own candidates.
-* **Pilot A**: 2 candidate encoders × 9 layers × 3 transforms × 2 entry representations,
-  plus ColBERTv2 as a reference ceiling — 133 configurations, each streaming a
-  45k × 30k similarity profile.
-* **Pilot B**: hubness, document-frequency calibration, in-context self-hit,
-  self-activation, sense accuracy and a stability curve over disjoint occurrence sets,
-  for 4 entry representations at 3 layers.
-* **Pilot C**: C₁ encoded under 6 configurations; a 36-cell (k_d, k_q, τ, saturation)
-  grid on the primary one; score preservation against the dense encoder; a 40-list
-  qualitative annotation.
-* **Pilot D**: 17 models trained (frozen / LoRA / full fine-tuning × vocabulary dropout
-  × three held-out splits, plus oracles, a random-vocabulary control and seed repeats),
-  ~200k train queries with mined BM25 hard negatives, then C₁ retrieval with and without
-  the held-out entries.
+| held-out split | what it simulates | ρ, base recipe | ρ, with tail normalisation |
+|---|---|---|---|
+| **rare** (whole bottom frequency decile) | new low-frequency terms | **0.942** | 0.852 |
+| **random-stratified** (20% per decile) | scattered new terms | **0.774** / 0.801 (2 seeds) | 0.785 |
+| **cluster** (whole regions of entry space) | a semantically new domain | 0.313 | **0.636** / 0.646 (2 seeds) |
+| **phrase** (2,000 multi-word entries) | entities, product names | −0.783 | 0.012 |
+
+Read down the first column: the premise holds where the method was motivated, degrades
+with semantic novelty, and fails for multi-word entries. Read across: a training-free
+per-entry correction, computed at insertion time, roughly doubles recovery exactly where
+the base recipe is weakest and costs a little where it is already strong.
+
+---
+
+## 3. What was built and run
+
+MS MARCO v1 passage (8,841,823 passages). **63 trained models** across the two parts.
+
+* **Setup**: collection binary + P/Q/S splits; a frozen 30,000-entry vocabulary; contextual
+  prototypes over 2.48M passages per encoder; 200k-token background banks; ZCA whitening
+  frozen per space; a retrieval sub-corpus C₁ (1.85M on the A100s, 1.47M on the rebuild).
+* **Pilot A**: 2 encoders × 9 layers × 3 transforms × 2 entry representations + ColBERTv2
+  — 133 configurations.
+* **Pilot B**: hubness, df calibration, self-hit, self-activation, sense, stability.
+* **Pilot C**: C₁ under 6 configurations, a 36-cell operating-point grid, score
+  preservation, a 40-list qualitative annotation.
+* **Pilot D**: the go/no-go — frozen / LoRA / full fine-tuning × vocabulary dropout ×
+  three splits, with oracles and two controls.
+* **Pilot E**: insertion-time calibration, four variants, training-free.
+* **Pilot F** (`notes/pilotF.md`): per-entry normalisation moved *inside* the score.
+* **Pilot G**: the three runs Pilot F's result made worth doing — bare strings under
+  normalisation, normalisation on the rare split, and a parameterized-vocabulary control.
+* **Pilot H**: seed repeats for the arms the final decision rests on.
 * **Infrastructure**: an exact GPU inverted index (verified against brute force) that
-  searches 1.85M documents for 6,980 queries in ~20 s, which is what made a 36-cell grid
-  and 17-model evaluation affordable.
+  searches C₁ for 6,980 queries in ~20 s.
 
 **Pipeline validation before any pilot** — BM25 0.1874 (published 0.1875), SPLADE++
-0.3827 (0.383), e5-base-v2 0.3542 (~0.35), bge-base-en-v1.5 0.3498 (~0.35). All four
-reproduce, so no pilot inherits a prefix/pooling/normalisation bug.
+0.3827 (0.383), e5-base-v2 0.3542 (~0.35), bge-base-en-v1.5 0.3498 (~0.35).
 
 ---
 
-## 3. What it found
+## 4. What it found
 
-### 3.1 The premise holds, most clearly where it matters most
+### 4.1 The premise holds, and it is seed-stable
 
-Recovery ratio ρ — the share of the oracle's benefit from a vocabulary entry that
-survives inserting that entry after training (Pilot D, frozen encoder + light head):
+On the random split the frozen encoder plus a ~1.2M-parameter head recovers **0.774 and
+0.801** across two seeds (spread 0.027, MRR spread 0.0005). On the rare split, the closest
+analogue to the real use case, it recovers **0.942**, independently reproducing the A100
+run's 0.932 on different hardware with a different random split.
 
-| held-out split | ρ | 95% CI | MRR@10 all → seen-only | oracle all → seen-only |
+Three things rule out artefacts:
+
+* **Insertion beats aliasing.** Mapping each held-out entry to its nearest *seen* entry
+  gives 0.164 against 0.206 on the random split, so held-out entries are not redundant.
+* **The random-vocabulary control is dead.** Replacing V with random unit vectors of the
+  same shape collapses the model to **MRR@10 = 0.0000**.
+* **Calibration holds** where the split does not create a systematic gap: |gap_r| = 0.03
+  on the random split, far inside the log(1.5) = 0.405 bound.
+
+### 4.2 The cost of the core constraint, measured
+
+The control the original protocol never specified: identical head, data and schedule, but
+the **seen entry rows trained as free parameters** — what SPLADE does — while a held-out
+entry is still inserted as its text-defined vector.
+
+| random split | MRR@10 | R@100 | ρ | nnz(d) |
 |---|---|---|---|---|
-| **rare** (entire bottom frequency decile) | **0.932** | [0.80, 1.07] | 0.2017 → 0.1961 | 0.1992 → 0.1928 |
-| random-stratified (20% per decile) | 0.685 | [0.60, 0.77] | 0.2010 → 0.1850 | 0.1991 → 0.1713 |
-| cluster (a semantically new region) | 0.567 | [0.49, 0.65] | 0.1944 → 0.1765 | 0.1946 → 0.1690 |
+| text-defined vocabulary | 0.2063 | 0.765 | **0.774** | 72 |
+| trained entry rows | **0.2750** | 0.865 | 0.158 | 251 |
 
-The rare split is the closest analogue to the real use case — new, low-frequency terms
-arriving after training — and it is where the method does best, recovering 93% of the
-benefit. Every denominator passes the validity precondition (≥0.02 absolute MRR, CI
-excluding zero), so all three ρ values are interpretable.
+Training the vocabulary buys **+33% MRR@10** and **destroys insertion**: recovery falls
+to 0.158 and the activation gap flips sign (−0.156), so inserted entries now *under*-fire.
+Once the trained rows drift into a space of their own, a text-defined row is a foreigner.
 
-Three further things support the premise rather than an artefact:
+**This is the paper's central trade-off**, and it is now measured on both sides with
+everything else held fixed.
 
-* The trained model reaches **MRR@10 0.2010** on C₁ — above its own full-vocabulary
-  oracle (0.1991) and above BM25 (0.1882), up from 0.1251 untrained.
-* **Insertion beats aliasing**: mapping each held-out entry to its nearest *seen* entry
-  gives 0.1595 against 0.2010, so held-out entries are not redundant with the trained
-  vocabulary. This is the control that makes a passing ρ mean anything.
-* **The random-vocabulary control is dead**: replacing V with random unit vectors of the
-  same shape collapses the model to **MRR@10 = 0.0000**. The text-defined vocabulary is
-  carrying the signal, not the architecture.
+### 4.3 The failure mode is calibrational, and training cannot fix it
 
-Calibration is good on the random split — |gap_r| = 0.067 against a log(1.5) = 0.405
-bound, i.e. a held-out entry fires at nearly the same rate as a seen entry of the same
-frequency.
+On the cluster split, held-out entries **over-fire by ~1.5×** and recovery is 0.313.
+Five training-time interventions were tried and *all five failed*:
 
-### 3.2 The one clear negative
+| cluster split | ρ | signed gap_r | nnz(d) |
+|---|---|---|---|
+| no dropout | 0.313 / 0.313 (2 seeds) | +0.386 | 77 |
+| entry-wise vocabulary dropout | 0.288 | +0.345 | 117 |
+| cluster-wise vocabulary dropout | 0.273 | +0.394 | 133 |
+| cluster dropout + meta-held-out calibration loss | 0.232 | +0.366 | 170 |
+| linear head (capacity control) | 0.198 | +0.464 | 87 |
 
-On the **cluster** split, signed gap_r = **+0.47**: held-out entries systematically
-*over*-fire when they come from an unseen region of the entry space. This is the failure
-mode insertion-time calibration (Pilot E) is designed for, and it is the direction that
-calibration can fix — over-firing, not silence.
+Dropout is harmful on **all three splits** — 0.774→0.658 on random, 0.942→0.817 on rare —
+while inflating index size by half. The meta arm is the diagnostic one: it drove its
+calibration loss to ~0.04 on the regions it *reserved*, and the genuinely held-out regions
+over-fired exactly as before. It learned a region-specific fix because a region-specific
+fix is the only kind the architecture can express: the score has **one** scale and **one**
+threshold shared by 30,000 entries, since §D.1 forbids any parameter indexed by *j*.
 
-### 3.3 Three of the protocol's own expectations were wrong
+### 4.4 The fix is in the scoring function, and it is the tail
 
-| | expectation | measurement |
+`scripts/48_entry_stats.py` measured what actually separates an over-firing held-out
+entry, within frequency decile, on the trained model:
+
+| statistic of an entry against the token bank | held − seen | Spearman with firing rate |
 |---|---|---|
-| **H3** | whitening raises z-gap ≥2× and cuts nnz/token ~10× | Neither. Whitening *lowers* cross-representation self-hit at every layer below 11 (0.966 raw / 0.969 centered / 0.923 whitened at layer 9), and most of the density reduction comes from **centering** (nnz/token 10.1 → 4.6 centered → 4.6 whitened). Yet whitening is worth 0.096 vs 0.056 MRR@10 end to end: peakiness was the wrong yardstick for it. |
-| **H5** | bare-string entries are hubbier than contextual prototypes | **Reversed.** Hub skewness 3.6 (R1) vs 17.2 (R2), hub share 0.044 vs 0.161, and it is the *prototype* hub list that is dominated by function words (`that, and, but, which, or, the`). The df–frequency half of H5 does hold (Spearman 0.25 vs 0.57). |
-| §A.4 | select the layer by cross-representation self-hit@10 | **Anti-correlated with retrieval.** Identity peaks at layer 9 (0.923) and decays to 0.789 at layer 12, but layer 12 retrieves 30% better (MRR@10 0.1251 vs 0.0963). The rule's *tie-breaker* — related-term MRR, 23× random at layer 9 against 210× at layer 12 — is the metric that tracks effectiveness. |
+| mean | +0.0037 | 0.44 |
+| standard deviation | +0.0003 | **0.08** |
+| 99.9th percentile | +0.0106 | **0.63** |
+| maximum | +0.0200 | 0.50 |
 
-Two more results about training the encoder, both negative for the fine-tuned arms and
-therefore positive for the frozen design the study is really testing:
+The score max-pools over ~60 word units, so firing is a **tail** property. The standard
+deviation carries almost no information about it. Pilot F therefore shifts each entry so
+its background tail matches the median of *seen* entries in the same frequency decile.
+Both statistics are deterministic functions of the entry vector and a frozen bank, so
+**insertion stays training-free and nothing is indexed by *j***.
 
-* **The LoRA arm collapses without vocabulary dropout**, on every configuration tried
-  (two seeds, two warmup schedules): non-zeros per document fall to ~13 and
-  cross-entropy rises to ~5.1 within tens of steps. The cause is structural —
-  `log(1+ReLU(·))` is a hard gate, so an entry that falls below threshold for a whole
-  batch receives no gradient and cannot return, and a trainable encoder can switch most
-  of the vocabulary off very quickly. Masking 30% of entries per step prevents it; the
-  frozen arm, whose residual head starts at the identity, cannot fall into it.
-* **The entry space moves faster than any practical refresh**: after 3,000 LoRA steps an
-  entry re-encodes to cosine **0.46** with its previous vector. The protocol's staggered
-  10%-per-100-steps refresh actively harms the model, because it leaves 90% of entries
-  encoded by a stale encoder and the fresh 10% becomes a block of hubs.
+| cluster split | ρ | signed gap_r | nnz(d) |
+|---|---|---|---|
+| baseline | 0.313 | +0.386 | 77 |
+| moment matching, applied after training (Pilot E `Z`) | 0.494 | +0.229 | 71 |
+| tail matching, applied after training (Pilot E `DF`) | 0.539 | +0.154 | 80 |
+| moment matching, trained in | 0.582 | +0.335 | 66 |
+| **tail matching, trained in** | **0.636 / 0.646** (2 seeds) | **+0.179** | **58** |
 
-### 3.4 Where the untrained method stands, and why
+Two orderings hold on both axes independently: **tail beats moments**, and **trained in
+beats patched afterwards**. Only tail matching actually halves the activation gap, so its
+mechanism and its effect agree. Documents get *sparser* (77 → 58), so this is not the
+degenerate fix where recovery rises because everything fires more.
 
-Training-free retrieval on C₁ reaches MRR@10 0.1251 = **0.665× BM25** — real signal,
-short of the 0.8× the protocol hoped for, and the "weak" branch of §C.4. The term lists
-are not the problem: 39 of 40 annotated lists are plausible, and expansion is genuine
-(a nursing passage activates `midwives`, a cortisol passage `pituitary` and `gland`, a
-rash passage `ringworm` and `fungal`). The weighting is the problem, and it is
-measurable: query profiles are peaked (top-1 carries 18.5% of the mass, participation
-ratio 14 of 30 non-zeros) while document profiles are flat (3.5%, participation ratio
-**63 of 119**). Untrained max-pooled cosine spreads a document's mass over ~63
-effectively-equal dimensions. Training fixes exactly this — MRR@10 goes 0.1251 → 0.2010.
+Four of H10's five conditions now pass on the cluster split against one for the baseline;
+only ρ ≥ 0.8 does not.
 
-### 3.5 Two measurement lessons
+### 4.5 What a learned vocabulary actually buys, decomposed
 
-* **The sense metric was 12% wrong until audited.** A manual check of 240 labels found
-  28 errors, all traceable to ambiguous inflections (`matches`, `palms`, `tanks`,
-  `cellular`) and over-generic cues used as sense indicators. Dropping 61 indicators
-  raised agreement from 0.883 to 0.963, and every sense number reported uses the
-  corrected labels.
-* **The FLOPS regulariser is inert at the protocol's λ.** Document density lands at
-  46.3–46.4 non-zeros across a 10× range of λ_d, and the penalty is ~5·10⁻⁴ of the
-  cross-entropy at the top of the grid. Sparsity comes from the learned threshold —
-  precisely what §A.4's H3-failure branch predicted would happen.
+The parameterized control says training the entry rows is worth +33% MRR@10 with
+L2-normalised rows, so the whole benefit is in the entry *directions*. §D.1 gives the
+token side a learned map and leaves the entry side frozen — an asymmetry with no
+principled justification. **Pilot I** adds the mirror image: one shared residual map
+applied to every entry vector, identity at initialisation, not indexed by *j*, so a newly
+inserted entry is transformed exactly like a trained one.
+
+| | MRR@10 | ρ | signed gap_r | nnz(d) |
+|---|---|---|---|---|
+| random: baseline | 0.2063 | **0.774** | −0.03 | 72 |
+| random: + shared entry-side map | **0.2780** | 0.376 | +0.01 | 564 |
+| random: trained rows (per-entry ceiling) | 0.2750 | 0.158 | −0.16 | 251 |
+| cluster: baseline | 0.1922 | 0.313 | +0.386 | 77 |
+| cluster: + shared entry-side map | 0.2452 | −0.565 | +1.469 | 679 |
+| cluster: + map + tail normalisation | **0.2651** | −0.309 | +1.230 | 698 |
+
+**A single shared function matches the per-entry ceiling** (0.2780 vs 0.2750) and slightly
+exceeds it. So essentially *all* of a learned vocabulary's advantage is a **systematic
+transformation** of the text-defined space; per-entry memorisation contributes nothing
+measurable. That is a positive result about what is learnable in principle, and the
+strongest finding of the follow-up.
+
+**And it costs half the extensibility even on the easy split** (ρ 0.774 → 0.376) — with
+the activation gap at **zero**. Inserted entries fire at exactly the right rate and still
+contribute far less, so this is *not* miscalibration, and adding the tail correction does
+not repair it (ρ −0.565 → −0.309, gap_r barely moves). The map is *fit on seen entries*
+and reshapes the space around them; an untransformed insertion no longer belongs in it.
+This is the co-adaptation failure §D.7 anticipated for the encoder, appearing on the entry
+side, and it is a **third mechanism**, distinct from over-firing and from wrong-document
+firing.
+
+**The consequence is a choice, not a recipe.** For extensibility: frozen entry side + tail
+normalisation, ρ 0.64 on novel regions and 0.94 on rare terms, at 0.185 MRR@10. For
+effectiveness: the entry-side map, 0.265–0.278 MRR@10, with insertion actively harmful.
+No configuration currently does both.
+
+### 4.6 Two negatives that close off explanations
+
+**Prototype quality is not the limit.** Pilot J doubles the occurrence sample from 50 to
+100 by averaging the two disjoint halves `scripts/11_prototypes.py` already stores — no
+new encoding. Recovery is unchanged (0.302 vs 0.313), as are effectiveness and density.
+The prototype vectors move by a cosine of only 0.9975, so 50 occurrences already converge.
+Sampling noise does not explain the residual gap.
+
+**The headline is not an artefact of the evaluation set.** Q_H is defined from each arm's
+*own* oracle (§D.6.3), so compared arms are scored on slightly different query sets (1,732
+vs 1,854 on the cluster split). Re-scoring every cluster arm on the baseline's identical
+1,732 queries moves ρ by at most 0.026, and the tail-normalisation result by 0.012
+(0.636 → 0.624). Orderings are unchanged. Every arm scores slightly *lower* on the shared
+set, which quantifies the protocol's built-in self-selection at under three points.
+
+### 4.7 The correction is conditional, not universal
+
+| split | baseline ρ | normalised ρ | change | MRR cost |
+|---|---|---|---|---|
+| cluster | 0.313 | 0.636 | **+0.32** | −0.007 |
+| random | 0.774 | 0.785 | +0.01 | −0.017 |
+| rare | 0.942 | 0.852 | **−0.09** | −0.021 |
+
+The benefit tracks how badly calibrated the split was to begin with. Normalisation removes
+per-entry variation: where that variation is miscalibration it helps a lot, where there is
+none it is neutral, and where it carries signal it costs. **So it should be applied per
+entry, not globally** — and whether an entry needs it is computable at insertion time from
+its own background statistics, with no labels. `--norm-alpha` exists for the partial case.
+
+### 4.8 Two representational boundaries
+
+**Bare-string entries retrieve better and generalise worse.** They beat prototypes end to
+end (0.2434 vs 0.2063 random; 0.2214 vs 0.1922 cluster) and have **negative** recovery on
+the cluster split (−0.048), over-firing by 2.2×. Normalisation fixes their firing rate and
+their weights to parity with prototypes (gap_r 0.210 vs 0.179, gap_w +0.043 vs −0.021) —
+and they still recover only **0.289** against 0.636. Both quantities §D.6.5 measures are
+calibrated and less than half the benefit survives, so the residual deficit is *which
+documents an entry fires on*: representational, not calibrational. The same framework
+cleanly separates two different failure modes in two different entry representations.
+
+**Multi-word entries do not work.** Inserting 2,000 Title-case bigrams (`united states`,
+`social security`, `supreme court`) into the 30k word vocabulary makes retrieval *worse*
+than leaving them out (0.1880 vs 0.2046), with an activation gap of **+1.70** — 5.5× too
+much firing. The cause is structural: a phrase prototype is the mean of its two constituent
+word states, so it sits close to every document containing *either* word and is a hub by
+construction; its background tail is 0.149 against the word median of 0.109. Normalisation
+takes the gap to +0.69 and recovery to 0.012 — no longer harmful, still not useful. On the
+subset where phrases matter the *retrained* oracle does gain 0.042, so the phrases are
+useful entries; it is post-hoc insertion that fails to capture that.
+
+### 4.9 What the untrained method looks like, and what training is for
+
+Training-free retrieval at layer 12 on C₁ reaches MRR@10 **0.1298 = 0.69× BM25** with
+prototypes, **0.1416** with bare strings. Term lists are excellent (39 of 40 annotated
+lists plausible; a nursing passage activates `midwives`, a cortisol passage `pituitary`);
+the *weighting* is what is missing, and training fixes exactly that (0.1298 → 0.2063).
+
+### 4.10 Three of the protocol's own expectations were wrong
+
+| | expectation | what happened |
+|---|---|---|
+| **H3** | whitening raises z-gap ≥2× and cuts nnz/token ~10× | Neither. **Centering** does most of the density reduction, and whitening *lowers* cross-representation self-hit below layer 11. It is still worth 0.096 vs 0.056 MRR@10 end to end: peakiness was the wrong yardstick. |
+| **H5** | bare-string entries are hubbier than contextual prototypes | **Reversed** at layer 9 (hub skew 3.6 vs 17.2); the *prototype* hub list is the one dominated by function words. The df–frequency half of H5 does hold. |
+| §A.4 rule | select the layer by cross-representation self-hit@10 | **Anti-correlated with retrieval.** Identity peaks at layer 9, layer 12 retrieves 30% better. The rule's *tie-breaker*, related-term MRR, is what tracks effectiveness. |
+
+Two further results about training the encoder: the **LoRA arm collapses without
+vocabulary dropout** on every configuration tried, because `log(1+ReLU(·))` is a hard gate
+and an entry below threshold for a whole batch receives no gradient; and after 3,000 LoRA
+steps an entry **re-encodes to cosine 0.46** with its previous vector, so the entry space
+moves faster than any practical refresh interval tracks.
 
 ---
 
-## 4. What this means for the idea
+## 5. What this means for the idea
 
-**The central claim survives its go/no-go test, with a boundary.** Entries inserted
-after training recover 93% of an oracle's benefit when they are new *rare terms* — the
-case the method was motivated by — and they do so while beating both a nearest-seen-entry
-alias control and a random-vocabulary control that collapses entirely. A frozen encoder
-plus a ~1.2M-parameter head is enough; nothing in the model is indexed by the entry.
+**The claim survives, with a measured boundary and a measured price.**
 
-The boundary is semantic novelty rather than rarity: when the held-out entries form an
-unseen *region* of the entry space, they over-fire (signed gap_r +0.47) and recovery
-falls to 0.57. That is a calibration problem with a known direction, which is what
-Pilot E exists to test, and it should be the next thing run.
+Entries inserted after training recover 94% of an oracle's benefit when they are new rare
+terms, 77–80% when scattered, and — with the insertion-time correction this study added —
+64% when they form a semantically novel region, up from 31%. A frozen encoder plus a
+1.2M-parameter head is enough, and nothing in the model is indexed by the entry.
 
-The most consequential methodological finding is that **identity is the wrong selection
-criterion**. The metric the protocol selects layers on — whether a token state retrieves
-the embedding of its own word — peaks in the middle of the network and is anti-correlated
-with retrieval across layers. Semantic organisation, measured by how highly a passage's
-expansion terms rank in a token's profile, tracks effectiveness instead. Any future
-version of this study should select on that.
+The price is now quantified rather than assumed: **training the vocabulary rows instead
+buys 33% more MRR@10 and forfeits insertion entirely** (ρ 0.774 → 0.158). That is the
+trade the paper is about.
+
+The boundary is **semantic novelty and unit size**. Novel regions are a *calibration*
+problem, and the fix is a per-entry background correction that stays training-free.
+Bare-string entries and multi-word entries are *representational* problems that
+calibration does not solve.
+
+**The study separates three distinct mechanisms**, which is the contribution most likely
+to outlast the specific numbers. An entry can fire **too often** (calibration fixes it),
+fire the right amount **on the wrong documents** (calibration does not), or find that the
+space has been **reshaped around the entries the model saw** (a learned entry side causes
+it). The pair (activation gap, recovery ratio) tells them apart: a large gap with low
+recovery is the first; a gap near zero with low recovery is one of the other two.
+
+The most consequential methodological finding is unchanged from the first pass:
+**identity is the wrong selection criterion**. Semantic organisation tracks effectiveness;
+whether a token state retrieves the embedding of its own word does not.
+
+**Honest positioning.** Our best text-defined configurations reach 0.19–0.25 MRR@10 on C₁
+against BM25 0.189, dense 0.356 and SPLADE++ 0.382. This is a method for *extending* a
+vocabulary after training, with a measured boundary, not a replacement for learned sparse
+retrieval.
 
 ---
 
-## 5. What was not run
+## 6. What was not run
 
-The study was time-boxed. Complete: Pilots A, B, C, and the four decisive Pilot D runs
-(frozen encoder on all three splits plus the random-vocabulary control). Trained but not
-evaluated: the LoRA and full-fine-tuning arms, the vocabulary-dropout arms and the seed
-repeats — their C₁ encodes were about 60% done. Implemented but not run: Pilot E
-(`scripts/50_*`, `scripts/51_*`) and the full-corpus confirmation (`scripts/60_*`).
+The **full-corpus confirmation** (`scripts/60_*`) was not run; every number here is on C₁,
+which contains every reference system's candidates but not ours and is therefore mildly
+optimistic for us. The encoder-training arms on the rebuild are **capped at 3,000 steps**
+rather than 12,500 (`notes/deviations.md`); they reproduce the stability picture but are
+not a full-length comparison.
 
-The cluster-split over-firing is what would trigger Pilot E, and it is the first thing to
-run next; the full-corpus confirmation is the second, since every C₁ number is mildly
-optimistic for us by construction (C₁ contains every reference system's candidates but
-not ours).
+The obvious next experiment, which §4.5 defines rather than leaves open: train the
+entry-side map with **regions held out of its own fitting**, the way the ranking loss
+already holds them out, so the map cannot reshape the space around exactly the entries it
+saw. That is the only known lever on the third mechanism, and the effectiveness ceiling it
+would preserve is already measured.
+
+Also unrun: **partial normalisation** (`--norm-alpha`, for the conditional case of §4.7);
+phrase prototypes built from states that see the phrase *as a unit* rather than by
+averaging its parts (§4.8); and an evaluation on **real vocabulary shift** — a different
+corpus with its own terminology — rather than synthetic held-out splits of one collection.
+That last is the weakest point in the current evidence: every split here is an ablation of
+MS MARCO, while the motivating story is new entities and evolving jargon.

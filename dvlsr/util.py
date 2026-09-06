@@ -86,6 +86,18 @@ def _visible_gpus():
     return [str(i) for i in range(torch.cuda.device_count())]
 
 
+def _least_loaded(gpus, used, per_gpu):
+    """The GPU with the fewest jobs on it, not the first one with room.
+
+    Filling a card to per_gpu before touching the next leaves cards idle whenever the
+    job count is below the slot count, and puts every small group on one card -- which
+    is how two 30k-entry trainers ended up on the same 24 GB card and ran it out of
+    memory.
+    """
+    g = min(gpus, key=lambda x: used.count(x))
+    return g if used.count(g) < per_gpu else None
+
+
 def gpu_map(worker_path: str, n_shards: int, extra_args: list[str] | None = None,
             gpus: list[int] | None = None, logger=None, per_gpu: int = 1):
     """Run `python worker_path --shard i --n-shards N` once per shard, pinned to a GPU.
@@ -105,7 +117,7 @@ def gpu_map(worker_path: str, n_shards: int, extra_args: list[str] | None = None
     while todo or running:
         while todo and len(running) < len(slots):
             used = [r[1] for r in running]
-            free = next(g for g in slots if used.count(g) < per_gpu)
+            free = _least_loaded(gpus, used, per_gpu)
             s = todo.pop(0)
             env = dict(env_base); env["CUDA_VISIBLE_DEVICES"] = free
             cmd = [sys.executable, worker_path, "--shard", str(s), "--n-shards", str(n_shards)]
@@ -145,7 +157,7 @@ def run_queue(jobs, gpus=None, per_gpu=1, logger=None, env_extra=None):
     while todo or running:
         while todo and len(running) < len(slots):
             used = [r[1] for r in running]
-            free = next(g for g in slots if used.count(g) < per_gpu)
+            free = _least_loaded(gpus, used, per_gpu)
             name, cmd = todo.pop(0)
             env = dict(env_base); env["CUDA_VISIBLE_DEVICES"] = free
             log = open(paths.LOGS / f"{name}.log", "w")

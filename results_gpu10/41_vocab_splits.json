@@ -1,0 +1,101 @@
+{
+  "random": {
+    "n_held": 5962,
+    "frac": 0.19873333333333335,
+    "by_decile": {
+      "0": 568,
+      "1": 598,
+      "2": 599,
+      "3": 600,
+      "4": 599,
+      "5": 600,
+      "6": 599,
+      "7": 600,
+      "8": 599,
+      "9": 600
+    },
+    "example_words": [
+      "new",
+      "number",
+      "average",
+      "day",
+      "body",
+      "usually",
+      "right",
+      "must",
+      "place",
+      "however",
+      "american",
+      "data",
+      "free",
+      "disease",
+      "every"
+    ]
+  },
+  "cluster": {
+    "n_held": 4629,
+    "frac": 0.1543,
+    "by_decile": {
+      "0": 386,
+      "1": 443,
+      "2": 453,
+      "3": 467,
+      "4": 456,
+      "5": 494,
+      "6": 515,
+      "7": 505,
+      "8": 463,
+      "9": 447
+    },
+    "example_words": [
+      "number",
+      "world",
+      "made",
+      "three",
+      "c",
+      "food",
+      "based",
+      "cells",
+      "every",
+      "e",
+      "another",
+      "f",
+      "full",
+      "total",
+      "school"
+    ]
+  },
+  "rare": {
+    "n_held": 2999,
+    "frac": 0.09996666666666666,
+    "by_decile": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 2999
+    },
+    "example_words": [
+      "sewers",
+      "terabyte",
+      "timelines",
+      "botanist",
+      "bozeman",
+      "centimetre",
+      "chiral",
+      "cranking",
+      "eagerly",
+      "faraday",
+      "forfeiture",
+      "galena",
+      "geforce",
+      "generics",
+      "lifeguard"
+    ]
+  }
+}

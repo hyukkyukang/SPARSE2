@@ -51,9 +51,17 @@ def bm25(k: int, k1=0.82, b=0.68, threads=48):
 
 def splade(k: int, threads=48):
     from pyserini.search.lucene import LuceneImpactSearcher
-    s = LuceneImpactSearcher.from_prebuilt_index(
-        "msmarco-v1-passage.splade-pp-ed", query_encoder="SpladePlusPlusEnsembleDistil",
-        encoder_type="onnx")
+    try:
+        s = LuceneImpactSearcher.from_prebuilt_index(
+            "msmarco-v1-passage.splade-pp-ed", query_encoder="SpladePlusPlusEnsembleDistil",
+            encoder_type="onnx")
+    except Exception as e:                      # newer pyserini: fall back to the PyTorch encoder
+        lg.warning(f"ONNX SPLADE query encoder unavailable ({type(e).__name__}: {e}); "
+                   f"using the PyTorch encoder for {paths.SPLADE}")
+        from pyserini.encode import SpladeQueryEncoder
+        s = LuceneImpactSearcher.from_prebuilt_index(
+            "msmarco-v1-passage.splade-pp-ed",
+            query_encoder=SpladeQueryEncoder(paths.SPLADE, device="cuda"))
     qids, texts = load_queries(paths.QUERIES_DEV_SMALL)
     ranked, scores = [], []
     t0 = time.time()

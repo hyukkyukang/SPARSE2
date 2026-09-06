@@ -36,6 +36,7 @@ def row(name, d):
     for label in ("Q_H", "Q_H_lex"):
         e = d.get(label)
         if e:
+            r[f"{label}_n"] = e.get("n")
             r[f"{label}_rho"] = e["rho"]["rho"]
             r[f"{label}_rho_lo"] = e["rho"]["lo"]
             r[f"{label}_rho_hi"] = e["rho"]["hi"]
@@ -84,22 +85,26 @@ def main():
           "| run | split | oracle | MRR@10 all | seen-only | rho (Q_H) | 95% CI | denom | valid |",
           "|---|---|---|---|---|---|---|---|---|"]
     for n, r in sorted(rows.items()):
+        arch = "" if r["oracle_arch_match"] else " (arch\\*)"
         md.append(
-            f"| {n}{'' if r['oracle_arch_match'] else ' (arch\\*)'} | {r['split']} | "
+            f"| {n}{arch} | {r['split']} | "
             f"{r['oracle']} | {r['mrr_all']:.4f} | {r['mrr_seen']:.4f} | "
             + (f"{r['Q_H_rho']:.3f} | [{r['Q_H_rho_lo']:.2f}, {r['Q_H_rho_hi']:.2f}] | "
                f"{r['Q_H_den']:.4f} | {r['Q_H_den_valid']} |"
                if r.get("Q_H_rho") is not None else "— | — | — | — |"))
     md += ["", "| run | gap to oracle on Q_H | signed gap_r | abs gap_r | gap_w | "
-           "Wasserstein | nnz(d) | nnz(q) | \\|Q_H\\| | \\|Q_H-lex\\| | C-alias MRR |",
-           "|" + "---|" * 11]
+           "Wasserstein | nnz(d) | nnz(q) | \\|Q_H\\| | \\|Q_H-lex\\| | rho (Q_H-lex) | C-alias MRR |",
+           "|" + "---|" * 12]
     for n, r in sorted(rows.items()):
+        n_lex = r["n_QH_lex"] if r.get("n_QH_lex") is not None else r.get("Q_H_lex_n")
         md.append(
             f"| {n} | " +
             (f"{r['Q_H_gap_to_oracle']:.3f}" if r.get("Q_H_gap_to_oracle") is not None else "—")
             + f" | {r['signed_gap_r']:.4f} | {r['abs_gap_r']:.4f} | {r['gap_w']:.4f} | "
             f"{r['wasserstein']:.5f} | {r['nnz_d']:.0f} | {r['nnz_q']:.0f} | "
-            f"{r['n_QH']} | {r['n_QH_lex']} | " +
+            f"{r['n_QH']} | {n_lex} | " +
+            (f"{r['Q_H_lex_rho']:.3f} [{r['Q_H_lex_rho_lo']:.2f}, {r['Q_H_lex_rho_hi']:.2f}]"
+             if r.get("Q_H_lex_rho") is not None else "—") + " | " +
             (f"{r['Q_H_alias_mrr']:.4f}" if r.get("Q_H_alias_mrr") is not None else "—")
             + " |")
 

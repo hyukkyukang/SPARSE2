@@ -1,0 +1,8 @@
+{
+  "name": "V1_cluster",
+  "split": "cluster",
+  "mean_scale_Z": 0.9782048463821411,
+  "mean_shift_Z": -0.1658235788345337,
+  "mean_scale_SA": 1.0267000198364258,
+  "mean_shift_DF": -0.016285624355077744
+}

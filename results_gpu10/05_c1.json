@@ -1,0 +1,7 @@
+{
+  "qrels": 7433,
+  "bm25_full_top100": 608032,
+  "spladepp_full_top100": 640251,
+  "random": 500000,
+  "union": 1469456
+}

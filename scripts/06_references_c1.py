@@ -176,6 +176,7 @@ if __name__ == "__main__":
     ap.add_argument("--shard", type=int, default=-1)
     ap.add_argument("--n-shards", type=int, default=24)
     ap.add_argument("--bs", type=int, default=128)
+    ap.add_argument("--per-gpu", type=int, default=3)
     ap.add_argument("--encoder", default="e5")
     a = ap.parse_args()
     if a.what == "splade-shard":
@@ -188,7 +189,7 @@ if __name__ == "__main__":
     if a.what in ("all", "bm25"):
         res["bm25"] = score(bm25_c1())
     if a.what in ("all", "splade"):
-        res["spladepp"] = score(splade_c1())
+        res["spladepp"] = score(splade_c1(n_shards=a.n_shards, per_gpu=a.per_gpu))
     if a.what in ("all", "dense"):
         sys.path.insert(0, str(paths.REPO / "scripts"))
         import importlib.util as iu

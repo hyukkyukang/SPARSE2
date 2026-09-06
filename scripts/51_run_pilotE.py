@@ -19,7 +19,8 @@ def main(a):
     env = dict(os.environ, PYTHONPATH=str(paths.REPO))
     cfg = json.load(open(paths.CKPT / a.name / "config.json"))
     split = cfg["split"]
-    oracle = "V1oracle" if split == "random" else f"V1oracle_{split}"
+    oracle = a.oracle or ("V1oracle" if split == "random" else f"V1oracle_{split}")
+    ns_d, pg = a.enc_shards, a.enc_per_gpu
     if not (paths.ART / "calib" / f"{a.name}_Z.npy").exists():
         with Timer("compute calibration vectors", lg):
             subprocess.run([PY, CAL, "--name", a.name], env=env, check=True)
@@ -27,10 +28,10 @@ def main(a):
     for v in VARIANTS:
         tag = f"{a.name}_E{v}"
         calib = str(paths.ART / "calib" / f"{a.name}_{v}.npy")
-        for kind, ns in (("q", 8), ("d", 24), ("s", 24)):
+        for kind, ns in (("q", 8), ("d", ns_d), ("s", ns_d)):
             with open(paths.LOGS / f"encE_{tag}_{kind}.log", "w") as log:
                 subprocess.run([PY, ENC, "--name", a.name, "--kind", kind,
-                                "--n-shards", str(ns), "--per-gpu", "3",
+                                "--n-shards", str(ns), "--per-gpu", str(pg),
                                 "--calib", calib, "--out-tag", tag],
                                env=env, stdout=log, stderr=subprocess.STDOUT, check=True)
         with open(paths.LOGS / f"evalE_{tag}.log", "w") as log:
@@ -88,4 +89,7 @@ def main(a):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
+    ap.add_argument("--oracle", default="")
+    ap.add_argument("--enc-shards", type=int, default=24)
+    ap.add_argument("--enc-per-gpu", type=int, default=3)
     main(ap.parse_args())

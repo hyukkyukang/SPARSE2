@@ -69,26 +69,37 @@ def qh_primary(oracle_q, oracle_d, held_mask, qids, qrels, loc, thresh=0.2):
 
 
 def qh_lex(qids, qtexts, qrels, held_mask, words, loc):
-    """Secondary, easier definition: a held-out word occurs in query and a relevant passage."""
+    """Secondary, easier definition: a held-out word occurs in query and a relevant passage.
+    Multi-word entries (the phrase pilot) are matched as whole strings on the lowercased text."""
     import re
     col = Collection()
     WR = re.compile(r"[A-Za-z0-9]+")
-    inv = {w: i for i, w in enumerate(words)}
+    inv = {w: i for i, w in enumerate(words) if " " not in w}
+    phrases = [w for i, w in enumerate(words) if " " in w and held_mask[i]]
     out = []
     for r, q in enumerate(qids):
+        ql = qtexts[r].lower()
         qt = {t.lower() for t in WR.findall(qtexts[r]) if t.isalpha()}
         hq = {t for t in qt if (j := inv.get(t)) is not None and held_mask[j]}
-        if not hq:
+        hp = {ph for ph in phrases if ph in ql} if phrases else set()
+        if not hq and not hp:
             continue
         for p in qrels.get(int(q), []):
-            dt = {t.lower() for t in WR.findall(col[int(p)]) if t.isalpha()}
-            if hq & dt:
+            txt = col[int(p)]
+            dt = {t.lower() for t in WR.findall(txt) if t.isalpha()}
+            if hq & dt or any(ph in txt.lower() for ph in hp):
                 out.append(int(q)); break
     return np.asarray(out)
 
 
-def activation_stats(name, held_mask, decile, n_docs=None):
-    """§D.6.5 activation statistics on S, compared held vs seen *within decile*."""
+def activation_stats(name, held_mask, decile, n_docs=None, exclude=None, min_seen=20):
+    """§D.6.5 activation statistics on S, compared held vs seen *within decile*.
+
+    A decile contributes only if it still holds `min_seen` usable seen entries. Without
+    that floor the rare split, which holds out a whole decile, compares thousands of
+    held-out entries against the handful of entries that happen to be excluded from
+    holding out, and a single near-dead entry sends the ratio to +3.4. `exclude` drops the
+    degenerate entries of notes/deviations.md D13 from both sides for the same reason."""
     si, sv = store(name, "s")
     n = si.shape[0] if n_docs is None else min(n_docs, si.shape[0])
     nV = len(held_mask)
@@ -105,10 +116,11 @@ def activation_stats(name, held_mask, decile, n_docs=None):
     out = dict(n_docs=int(n), mean_nnz=float(df.sum() / n))
     per_dec, wass = {}, []
     logs, logw = [], []
+    usable = np.ones(nV, bool) if exclude is None else ~exclude
     for d in range(10):
-        sel = decile == d
+        sel = (decile == d) & usable
         hs, ss = sel & held_mask, sel & ~held_mask
-        if hs.sum() == 0 or ss.sum() == 0:
+        if hs.sum() == 0 or ss.sum() < min_seen:
             continue
         mh, ms = float(np.median(r[hs])), float(np.median(r[ss]))
         wh, ws = float(np.median(wbar[hs])), float(np.median(wbar[ss]))
@@ -131,8 +143,17 @@ def activation_stats(name, held_mask, decile, n_docs=None):
     return out
 
 
+def ckpt_name_of(name):
+    """Calibrated encodes (Pilot E: <model>_E<variant>) share their model's checkpoint."""
+    if (paths.CKPT / name / "head.pt").exists():
+        return name
+    base = name.split("_E")[0]
+    return base if (paths.CKPT / base / "head.pt").exists() else name
+
+
 def nearest_seen(name, held_mask):
-    blob = torch.load(paths.CKPT / name / "head.pt", map_location=DEV, weights_only=False)
+    blob = torch.load(paths.CKPT / ckpt_name_of(name) / "head.pt", map_location=DEV,
+                      weights_only=False)
     E = blob["E_all"].to(DEV).float()
     seen = torch.as_tensor(np.flatnonzero(~held_mask), device=DEV)
     alias = np.arange(len(held_mask))
@@ -148,11 +169,22 @@ def _cache_path(name, split):
     return paths.RUNS / f"D_eval_{name}_{split}.npz"
 
 
+def vocab_tag_of(name):
+    p = paths.CKPT / name / "config.json"
+    if p.exists():
+        return json.load(open(p)).get("vocab_tag", "") or ""
+    # calibrated / derived encodes carry the base model's name before the first "_E"
+    base = name.split("_E")[0]
+    q = paths.CKPT / base / "config.json"
+    return (json.load(open(q)).get("vocab_tag", "") or "") if q.exists() else ""
+
+
 def evaluate_model(name, oracle_name, split, k=1000, do_alias=True, use_cache=True):
-    z = np.load(paths.ART / "vocab.npz")
+    tag = vocab_tag_of(name)
+    z = np.load(paths.vocab_file(tag))
     words = [str(w) for w in z["words"]]
     decile = z["decile"]
-    sp = np.load(paths.PREP / "vocab_splits.npz")
+    sp = np.load(paths.vsplits_file(tag))
     held = sp[split]
     pids = np.load(paths.PREP / "c1_pids.npy")
     loc = {int(p): i for i, p in enumerate(pids)}
@@ -209,16 +241,29 @@ if __name__ == "__main__":
     ap.add_argument("--oracle", required=True)
     ap.add_argument("--split", required=True)
     ap.add_argument("--no-alias", action="store_true")
+    ap.add_argument("--qh-from", default="",
+                    help="score on another run's Q_H instead of this arm's own. Q_H is defined "
+                         "from the ORACLE's score attribution (§D.6.3), so arms with different "
+                         "oracles are otherwise compared on different query sets.")
+    ap.add_argument("--tag", default="", help="suffix for the output file")
     a = ap.parse_args()
     res, per_q, held, decile, qids, qtexts, qrels, loc, words = evaluate_model(
         a.name, a.oracle, a.split, do_alias=not a.no_alias)
     # oracle side
     ores, o_per, *_ = evaluate_model(a.oracle, a.oracle, a.split, do_alias=False)
-    QH, ratios = qh_primary(store(a.oracle, "q"), store(a.oracle, "d"), held,
-                            qids, qrels, loc)
+    if a.qh_from:
+        src = json.load(open(paths.RESULTS / f"44_pilotD_{a.qh_from}.json"))
+        QH = np.asarray(src["Q_H_qids"], dtype=np.int64)
+        ratios = np.zeros(1)
+        lg.info(f"Q_H taken from {a.qh_from}: {len(QH)} queries (own definition overridden)")
+    else:
+        QH, ratios = qh_primary(store(a.oracle, "q"), store(a.oracle, "d"), held,
+                                qids, qrels, loc)
     QHl = qh_lex(qids, qtexts, qrels, held, words, loc)
-    res["Q_H"] = dict(n=int(len(QH)), n_lex=int(len(QHl)),
-                      mean_held_ratio=float(np.mean(ratios)))
+    qh_meta = dict(n=int(len(QH)), n_lex=int(len(QHl)),
+                   mean_held_ratio=float(np.mean(ratios)),
+                   qh_from=a.qh_from or None)
+    res["Q_H_qids"] = [int(x) for x in QH]
     lg.info(f"|Q_H| = {len(QH)}  |Q_H-lex| = {len(QHl)}")
     qpos = {int(q): i for i, q in enumerate(per_q["all"]["qids"])}
     for label, Qset in (("Q_H", QH), ("Q_H_lex", QHl)):
@@ -242,9 +287,12 @@ if __name__ == "__main__":
         res[label] = entry
         lg.info(f"{label}: rho={rho['rho']:.3f} [{rho['lo']:.2f},{rho['hi']:.2f}] "
                 f"den={den['diff']:.4f} valid={entry['denominator_valid']}")
+    res.setdefault("Q_H", {}).update(qh_meta)          # |Q_H-lex| used to be lost here
+    zv = np.load(paths.vocab_file(vocab_tag_of(a.name)))
+    degen = zv["degenerate"] if "degenerate" in zv.files else None
     with Timer("activation statistics", lg):
-        res["activation"] = activation_stats(a.name, held, decile)
-        res["activation_oracle"] = activation_stats(a.oracle, held, decile)
+        res["activation"] = activation_stats(a.name, held, decile, exclude=degen)
+        res["activation_oracle"] = activation_stats(a.oracle, held, decile, exclude=degen)
     lg.info(f"signed gap_r = {res['activation']['signed_gap_r']:.4f} "
             f"|gap_r| = {res['activation']['abs_gap_r']:.4f}")
-    save_json(res, paths.RESULTS / f"44_pilotD_{a.name}.json")
+    save_json(res, paths.RESULTS / f"44_pilotD_{a.name}{a.tag}.json")

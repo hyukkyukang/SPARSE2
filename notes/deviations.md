@@ -124,3 +124,53 @@ comparison inside the arm is not confounded. The collapsed runs are kept as
 itself is reported, because it says something real about the architecture: the
 representation's hard gate makes encoder training fragile in a way the frozen arm
 is not.
+
+## D12 — the follow-up experiments run on a different machine
+The pilots ran on 8× A100-40GB with every large artifact under
+`/workspace/SPARSE/dvlsr`. The follow-ups (semantic vocabulary dropout, Pilot E,
+distillation, bare-string entries at layer 12, the phrase insertion test) run on
+`dslab-gpu10`: 5× TITAN RTX 24 GB, where none of those artifacts exist. Three things
+change, none of which touches the variable under test in any comparison:
+
+* **Everything is rebuilt from the raw collection with the same seeds** (collection
+  binary, splits, V, prototypes, banks, whitening, negatives). Numbers are therefore
+  comparable *within* the rebuild, and every follow-up arm is compared to baselines
+  re-run in the same rebuild, never to the A100 numbers.
+* **C₁ is built without the dense candidates' top-100** (§0.2 item iv). The
+  full-collection dense encode is the one setup step that does not fit the time
+  budget on these cards; only the C₁ rows are encoded densely, which is all the dense
+  *reference* on C₁ needs. C₁ is therefore smaller and slightly easier for every
+  system, and it no longer contains the dense encoder's own hard negatives — the
+  dense reference on this C₁ is mildly flattered, in the same direction the protocol
+  already notes for our method.
+* **fp16 autocast with dynamic loss scaling** replaces bf16 (Turing has no native
+  bf16); `dvlsr/precision.py` picks the dtype from the GPU. Encodes use the same
+  sharding scripts with fewer workers per card.
+
+Only e5 is rebuilt (bge and ColBERT were Pilot A comparators and are not needed).
+
+## D13 — twelve vocabulary entries have degenerate prototypes and are never held out
+The rebuild logs what the pilot's prototype build also computed but did not act on:
+seven entries have **zero** contributing occurrences in one or both prototype halves
+and five more have fewer than ten in a half (`pok, saut, caf, espa, jos, fianc, beyonc,
+andr, clich, speci, jalape, nestl`). All are fragments of accented words — `[A-Za-z0-9]+` cuts
+"beyoncé" at the accent, while the encoder's pre-tokenizer keeps the whole word and
+strips the accent, so the sampled occurrences never match a word unit. A zero
+prototype whitens to the same fixed vector for every such entry, which is exactly
+the block of hubs that dominated Pilot B's R2 hub list at layer 10.
+
+**What we do instead.** These twelve entries are flagged as stopwords in `vocab.npz`
+(plus a `degenerate` mask). Stopwords are never held out by any §D.4 split, so a
+degenerate entry can never be *inserted* and masquerade as an over-firing held-out
+entry; they stay in V, so |V| and every seen-side statistic are unchanged. The list
+is in `results_gpu10/01_vocab_degenerate.json`. The pilot's A100 numbers were
+computed with these entries eligible for holding out.
+
+**Correction (2026-09-04).** Flagging those twelve entries as stopwords had a side effect
+on the rare split, which holds out an entire frequency decile: the decile's only remaining
+"seen" entry was `nestl`, a degenerate one, whose activation rate is ~1e-5. The
+within-decile activation comparison of §D.6.5 then reported signed gap_r = +3.37 for
+`V1norm_rare`, an artefact of a single near-dead entry. `activation_stats` now excludes
+degenerate entries and requires 20 usable seen entries in a decile before that decile
+contributes, so the rare split reports the gap as unmeasurable — which is what the A100
+run did, and what the split's construction implies.

@@ -32,7 +32,7 @@ def worker(shard, n_shards, name, bs):
     import importlib.util as iu
     spec = iu.spec_from_file_location("e43", paths.REPO / "scripts" / "43_encode_eval.py")
     e43 = iu.module_from_spec(spec); spec.loader.exec_module(e43)
-    cfg, head, enc, E = e43.load_ckpt(name)
+    cfg, head, enc, E, AB = e43.load_ckpt(name)
     layer = cfg["layer"]
     mu, W = whitening.load(paths.ART / "whiten" / f"{cfg['encoder']}_L{layer}_H.npz")
     tf = whitening.Transform("whitened", mu, W, "cuda")
@@ -53,7 +53,7 @@ def worker(shard, n_shards, name, bs):
                 continue
             h = tf(wu.states[:, 0].cuda(), normalize=False)
             row = torch.as_tensor(wu.row.astype(np.int64), device="cuda")
-            z = head.logits(h.to(E.dtype), E)
+            z = head.logits(h.to(E.dtype), E, AB)
             sv = torch.log1p(torch.relu(segment_max(z, row, len(sel))))
             v, i = torch.topk(sv.float(), CAP, dim=1)
             AI[sel] = i.cpu().numpy().astype(np.int32)

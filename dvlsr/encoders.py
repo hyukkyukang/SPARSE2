@@ -23,6 +23,7 @@ class WordUnits:
     row: np.ndarray
     word: list[str]
     states: torch.Tensor
+    pooled: torch.Tensor | None = None      # (B, d) L2-normalised pooled embedding, if requested
 
 
 class Encoder:
@@ -67,18 +68,29 @@ class Encoder:
 
     # ------------------------------------------------------------------ word units
     def encode_word_units(self, texts, layers, is_query=False, maxlen=None,
-                          keep=None, grad=False) -> WordUnits:
+                          keep=None, grad=False, pooled=False) -> WordUnits:
         """Word-unit states for one batch of texts at the requested hidden layers.
 
-        keep: optional callable(word_lower) -> bool, applied before states are
-              gathered so we never materialise units we do not need.
-        grad: keep the graph (Pilot D's V2/V3, which train the encoder).
+        keep:   optional callable(word_lower) -> bool, applied before states are
+                gathered so we never materialise units we do not need.
+        grad:   keep the graph (Pilot D's V2/V3, which train the encoder).
+        pooled: also return the encoder's own pooled embedding (its dense retrieval
+                vector) for every text, computed from the same forward pass -- the
+                teacher for the distillation arm.
         """
         import contextlib
         with (contextlib.nullcontext() if grad else torch.no_grad()):
-            return self._word_units(texts, layers, is_query, maxlen, keep)
+            return self._word_units(texts, layers, is_query, maxlen, keep, pooled)
 
-    def _word_units(self, texts, layers, is_query, maxlen, keep) -> WordUnits:
+    def _pool(self, hs_last, enc):
+        if self.cfg["pooling"] == "cls":
+            v = hs_last[:, 0]
+        else:
+            m = enc["attention_mask"].unsqueeze(-1).to(hs_last.dtype)
+            v = (hs_last * m).sum(1) / m.sum(1).clamp(min=1e-6)
+        return torch.nn.functional.normalize(v.float(), dim=-1)
+
+    def _word_units(self, texts, layers, is_query, maxlen, keep, pooled=False) -> WordUnits:
         maxlen = maxlen or (paths.MAXLEN_QRY if is_query else paths.MAXLEN_DOC)
         full, enc, plen = self._tok(texts, is_query, maxlen, offsets=True)
         offs = enc.pop("offset_mapping").numpy()
@@ -114,11 +126,15 @@ class Encoder:
         if keep is not None:
             ok &= np.array([keep(w.lower()) if o else False
                             for w, o in zip(words, ok)], dtype=bool)
-        if not ok.any():
-            return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim))
-
         enc = {k: v.to(self.device) for k, v in enc.items()}
+        if not ok.any():
+            pv = None
+            if pooled:
+                pv = self._pool(self.model(**enc).last_hidden_state, enc)
+            return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim), pv)
+
         hs = self.model(**enc, output_hidden_states=True).hidden_states
+        pv = self._pool(hs[-1], enc) if pooled else None
         gid_t = torch.from_numpy(gid.astype(np.int64)).to(self.device)
         idx_t = torch.from_numpy(idx.astype(np.int64)).to(self.device)
         cnt = torch.zeros(n_units, device=self.device, dtype=torch.float32)
@@ -133,7 +149,7 @@ class Encoder:
             acc /= cnt.unsqueeze(1)
             st[:, li] = acc.index_select(0, keep_t).to(torch.float16)
         sel = np.flatnonzero(ok)
-        return WordUnits(u_row[sel].astype(np.int32), [words[i] for i in sel], st)
+        return WordUnits(u_row[sel].astype(np.int32), [words[i] for i in sel], st, pv)
 
 
 class SpladeEncoder:
@@ -194,7 +210,7 @@ class ColbertEncoder(Encoder):
         h = self.model(**enc).last_hidden_state
         return torch.nn.functional.normalize(self.proj(h), dim=-1)
 
-    def _word_units(self, texts, layers, is_query, maxlen, keep) -> WordUnits:
+    def _word_units(self, texts, layers, is_query, maxlen, keep, pooled=False) -> WordUnits:
         maxlen = maxlen or (paths.MAXLEN_QRY if is_query else paths.MAXLEN_DOC)
         full, enc, plen = self._tok(texts, is_query, maxlen, offsets=True)
         offs = enc.pop("offset_mapping").numpy()

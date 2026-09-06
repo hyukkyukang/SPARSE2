@@ -1,0 +1,9 @@
+{
+  "encoder": "e5",
+  "n_entries": 30000,
+  "mean_count_k50": 65.66380310058594,
+  "mean_count_k100": 131.37103271484375,
+  "entries_with_zero": 2,
+  "mean_cos_k50_to_k100_layer12": 0.9975433349609375,
+  "p05_cos_layer12": 0.996444582939148
+}
