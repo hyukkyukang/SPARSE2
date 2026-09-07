@@ -185,3 +185,31 @@ threshold samples ~5 min, prototypes ~30 min on two cards, layer probe ~8 min, t
 over two cards — roughly 3.5 h per backbone, both in parallel.
 
 The e5 rows of the table are final in this repository and need no recomputation.
+
+## Layer choice: the two backbones disagree, and the reason is instructive
+
+`scripts/95_layer_probe.py` on a 106,921-passage probe corpus (every dev-small positive +
+100k random C1 passages), training-free retrieval, MRR@10 per candidate layer:
+
+| layer | octen | jina5s |
+|---|---|---|
+| 12 | 0.2184 | **0.2981** |
+| 16 | 0.2041 | 0.2864 |
+| 20 | 0.1947 | 0.2552 |
+| 24 | 0.2570 | 0.2332 |
+| 28 | **0.2672** | 0.2063 |
+
+Octen is U-shaped and peaks at its last layer; jina5s decreases monotonically and peaks at
+the shallowest candidate. Both winners sit at an edge of the sweep, and both curves dip in
+the middle. The plausible reason is what each model was tuned for: Octen is fine-tuned as
+an embedding model, so its late layers are shaped for the pooled retrieval vector, while
+jina5s is a base LM with a retrieval LoRA, whose late layers still serve next-token
+prediction and whose term-level semantics sit early. This is the §A finding — identity and
+retrieval prefer different depths — reappearing *across models* rather than across layers
+of one model, and it is why a fixed "use the last layer" rule would have cost jina5s ~30%
+relative MRR.
+
+Because jina5s peaked at the edge, the sweep is extended to layers {6, 8, 10} under the
+separate encoder keys `octen_lo`/`jina5s_lo` (identical models and prompts, different
+artifact names, so the extension runs beside a live pipeline). Octen's peak is at its
+maximum depth and cannot be extended.

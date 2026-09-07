@@ -309,12 +309,12 @@ the per-document store cap — the numbers below are the corrected ones).
 | | same, tail calibration of the inserted entries | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) |
 | | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
 | | wrong-domain terms (nfcorpus) | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) |
-| **trec-covid** (171k passages, COVID literature) | *baseline, trained vocabulary only* | **0.6942** | **0.5543** | **0.0892** |
-| | this corpus's terminology, by document frequency | 0.3719 (-0.3223*) | 0.1967 (-0.3576*) | 0.0270 (-0.0622*) |
-| | same, chosen by tf-idf | 0.4432 (-0.2509*) | 0.2322 (-0.3221*) | 0.0291 (-0.0601*) |
-| | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3511*) | 0.0273 (-0.0620*) |
+| **trec-covid** (171k passages, COVID literature) | *baseline, trained vocabulary only* | **0.6942** | **0.5532** | **0.0891** |
+| | this corpus's terminology, by document frequency | 0.3746 (-0.3196*) | 0.1984 (-0.3548*) | 0.0272 (-0.0619*) |
+| | same, chosen by tf-idf | 0.4560 (-0.2382*) | 0.2341 (-0.3191*) | 0.0289 (-0.0601*) |
+| | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3500*) | 0.0273 (-0.0618*) |
 | | same, tail calibration of the inserted entries | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) |
-| | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (-0.0011) | 0.0891 (-0.0002) |
+| | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) |
 | | wrong-domain terms (scifact) | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) |
 
 `*` = paired bootstrap CI over queries excludes zero. Calibration corrects the inserted
@@ -348,7 +348,7 @@ so over-firing does not predict the outcome.
 |---|---|---|---|---|---|---|
 | nfcorpus | 0.5086 | 0.5611 | 0.5817 | … | 0.4899 | 0.5166 |
 | scifact | 0.6290 | 0.6484 | 0.6574 | … | 0.4119 | 0.4629 |
-| trec-covid | 0.7676 | 0.8883 | 0.9153 | 0.9133 | 0.6942 | 0.3719 |
+| trec-covid | 0.7676 | 0.8883 | 0.9153 | 0.9133 | 0.6942 | 0.3746 |
 
 Our sparse projection sits below BM25 on two of the three corpora and well below the dense
 backbone it is projected from. Insertion is a real, significant improvement where it

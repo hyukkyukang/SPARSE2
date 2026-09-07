@@ -1,0 +1,8 @@
+{
+  "name": "nfcorpus",
+  "select": "tfidf",
+  "encoder": "jina5s",
+  "n_added": 982,
+  "n_usable": 961,
+  "median_occurrences": 7.0
+}

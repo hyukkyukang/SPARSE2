@@ -17,6 +17,8 @@ zero. Italic rows are reference systems, not variants of our model.
 | _SPLADE++ CoCondenser-EnsembleDistil_ | — | — | _0.6484_ | _0.6786_ | _0.9203_ | 175 |
 | _SPLADE-v3_ | — | — | _0.6574_ | _0.6858_ | _0.9293_ | 236 |
 | _e5-base-v2 dense (backbone of the block below)_ | — | — | _0.6690_ | _0.7014_ | _0.9460_ | — |
+| _Octen-Embedding-0.6B dense (backbone of the block below)_ | — | — | _0.6703_ | _0.7079_ | _0.9467_ | — |
+| _jina-embeddings-v5-text-small dense (backbone of the block below)_ | — | — | _0.7077_ | _0.7440_ | _0.9483_ | — |
 | **e5-base-v2 — sparse, trained vocabulary only** | 0 | — | **0.4119** | **0.4373** | **0.7700** | 72 |
 | this corpus's terms, by document frequency | 2003 | — | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) | 767 |
 | this corpus's terms, by tf-idf | 2003 | 0.056 | 0.4624 (+0.0505*) | 0.4942 (+0.0569*) | 0.8353 (+0.0653*) | 767 |
@@ -33,6 +35,7 @@ zero. Italic rows are reference systems, not variants of our model.
 | _SPLADE++ CoCondenser-EnsembleDistil_ | — | — | _0.5611_ | _0.3415_ | _0.2822_ | 172 |
 | _SPLADE-v3_ | — | — | _0.5817_ | _0.3511_ | _0.2949_ | 223 |
 | _e5-base-v2 dense (backbone of the block below)_ | — | — | _0.5641_ | _0.3570_ | _0.3171_ | — |
+| _jina-embeddings-v5-text-small dense (backbone of the block below)_ | — | — | _0.6008_ | _0.3907_ | _0.3680_ | — |
 | **e5-base-v2 — sparse, trained vocabulary only** | 0 | — | **0.4899** | **0.2945** | **0.2688** | 77 |
 | this corpus's terms, by document frequency | 957 | — | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) | 358 |
 | this corpus's terms, by tf-idf | 957 | 0.099 | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2838 (+0.0149*) | 358 |
@@ -49,12 +52,12 @@ zero. Italic rows are reference systems, not variants of our model.
 | _SPLADE++ CoCondenser-EnsembleDistil_ | — | — | _0.8883_ | _0.8027_ | _0.1264_ | 153 |
 | _SPLADE-v3_ | — | — | _0.9153_ | _0.8264_ | _0.1368_ | 199 |
 | _e5-base-v2 dense (backbone of the block below)_ | — | — | _0.9133_ | _0.7899_ | _0.1297_ | — |
-| **e5-base-v2 — sparse, trained vocabulary only** | 0 | — | **0.6942** | **0.5543** | **0.0892** | 61 |
-| this corpus's terms, by document frequency | 2974 | — | 0.3719 (-0.3223*) | 0.1967 (-0.3576*) | 0.0270 (-0.0622*) | 736 |
-| this corpus's terms, by tf-idf | 2976 | 0.338 | 0.4432 (-0.2509*) | 0.2322 (-0.3221*) | 0.0291 (-0.0601*) | 677 |
-| this corpus's terms, df ceiling 10% | 2969 | 0.028 | 0.4166 (-0.2776*) | 0.2032 (-0.3511*) | 0.0273 (-0.0620*) | 735 |
+| **e5-base-v2 — sparse, trained vocabulary only** | 0 | — | **0.6942** | **0.5532** | **0.0891** | 61 |
+| this corpus's terms, by document frequency | 2974 | — | 0.3746 (-0.3196*) | 0.1984 (-0.3548*) | 0.0272 (-0.0619*) | 735 |
+| this corpus's terms, by tf-idf | 2976 | 0.338 | 0.4560 (-0.2382*) | 0.2341 (-0.3191*) | 0.0289 (-0.0601*) | 676 |
+| this corpus's terms, df ceiling 10% | 2969 | 0.028 | 0.4166 (-0.2776*) | 0.2032 (-0.3500*) | 0.0273 (-0.0618*) | 735 |
 | df terms + tail calibration | 2974 | — | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) | 700 |
-| random vectors (capacity control) | 2974 | — | 0.6942 (+0.0000) | 0.5532 (-0.0011) | 0.0891 (-0.0002) | 61 |
+| random vectors (capacity control) | 2974 | — | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) | 61 |
 | scifact terms (domain control) | 2003 | — | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) | 354 |
 
 ## Reading it

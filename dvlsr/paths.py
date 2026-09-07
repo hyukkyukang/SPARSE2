@@ -66,6 +66,12 @@ ENCODERS = {
         trust_remote_code=True, adapter="retrieval", merge_adapter=True, fp16_weights=True,
         trim_punct=True),
 }
+# The layer probe (D14) found retrieval improving monotonically toward the shallowest
+# candidate for jina5s (layer 12 of 28). These keys extend the sweep to {6, 8, 10} as
+# separate encoders -- identical models and prompts, different artifact names -- so the
+# extension can run beside a live pipeline without touching its files.
+ENCODERS["octen_lo"] = dict(ENCODERS["octen"], layers=[6, 8, 10])
+ENCODERS["jina5s_lo"] = dict(ENCODERS["jina5s"], layers=[6, 8, 10])
 COLBERT = "colbert-ir/colbertv2.0"
 SPLADE = "naver/splade-cocondenser-ensembledistil"
 

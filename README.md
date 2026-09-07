@@ -122,7 +122,7 @@ own encode (change in MRR@10; `sig` = paired bootstrap CI excludes zero).
 |---|---|---|---|
 | nfcorpus, 3.6k passages | **+0.027 (sig)** | +0.000 | +0.000 |
 | scifact, 5.2k passages | **+0.051 (sig)** | +0.000 | +0.005 |
-| trec-covid, 171k passages | **-0.322 (sig)** | +0.000 | +0.020 |
+| trec-covid, 171k passages | **-0.320 (sig)** | +0.000 | +0.020 |
 
 Random vectors change retrieval by exactly zero everywhere, so the gain is not capacity;
 another corpus's terminology is non-significant in MRR@10 everywhere, so it is not "any real words".

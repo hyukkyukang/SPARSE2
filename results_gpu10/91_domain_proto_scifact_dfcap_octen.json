@@ -1,0 +1,8 @@
+{
+  "name": "scifact",
+  "select": "dfcap",
+  "encoder": "octen",
+  "n_added": 2017,
+  "n_usable": 2006,
+  "median_occurrences": 9.0
+}

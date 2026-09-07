@@ -1,0 +1,27 @@
+{
+  "L12": {
+    "rel_mu_shift": 0.7521148696765264,
+    "rel_cov_frob": 0.9999739005170761,
+    "shared_ok": false
+  },
+  "L16": {
+    "rel_mu_shift": 0.6783674159577747,
+    "rel_cov_frob": 0.9999438784964012,
+    "shared_ok": false
+  },
+  "L20": {
+    "rel_mu_shift": 0.49404189706111595,
+    "rel_cov_frob": 0.9997370444596824,
+    "shared_ok": false
+  },
+  "L24": {
+    "rel_mu_shift": 0.2209998277530316,
+    "rel_cov_frob": 0.9961571260109248,
+    "shared_ok": false
+  },
+  "L28": {
+    "rel_mu_shift": 0.3347192655415255,
+    "rel_cov_frob": 0.7703578262905698,
+    "shared_ok": false
+  }
+}
