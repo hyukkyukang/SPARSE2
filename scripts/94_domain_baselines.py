@@ -170,7 +170,9 @@ def main(a):
         cur = json.load(open(p))
         cur.update(out)
         out = cur
-    save_json(out, p)
+    tmp = p.with_name(p.name + f".tmp{os.getpid()}")
+    save_json(out, tmp)
+    os.replace(tmp, p)
 
 
 if __name__ == "__main__":

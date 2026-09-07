@@ -22,7 +22,7 @@ import torch
 import torch.nn.functional as F
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from dvlsr import paths, whitening
+from dvlsr import paths, whitening, precision
 from dvlsr.metrics import bootstrap_ci, paired_bootstrap
 from dvlsr.util import get_logger, save_json, Timer
 
@@ -167,7 +167,9 @@ def main(a):
     # keyed on the checkpoint's modification time too, so retraining a model never reuses
     # a stale baseline; written atomically so an interrupted run cannot leave a partial file
     ck_mtime = int(os.path.getmtime(paths.CKPT / a.name_model / "head.pt"))
-    bc = paths.DATA / "domain" / a.name / f"base_{a.name_model}_cap{a.cap}_{ck_mtime}.npz"
+    amp = str(precision.autocast_dtype()).replace("torch.", "")
+    bc = (paths.DATA / "domain" / a.name /
+          f"base_{a.name_model}_cap{a.cap}_{ck_mtime}_{amp}.npz")
     if bc.exists():
         z0 = np.load(bc)
         bi, bv, bqi, bqv = z0["di"], z0["dv"], z0["qi"], z0["qv"]

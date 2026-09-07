@@ -132,6 +132,11 @@ card, and the final evaluations split trec-covid (main) from the small corpora (
   piece-level punctuation handling, gated to the BPE backbones (D15).
 * The calibrated (`_norm`) row also recalibrated the 30k trained entries; the correction
   now applies to the inserted rows only, and the e5 rows are redone under that definition.
+* Second review: the committed driver concatenated `$REPO/` onto already-absolute
+  results/log paths → both now come from `dvlsr.paths`; the e5 rows had mixed two baseline
+  encodes (before/after mixed precision was added to the domain evaluator) → every e5
+  cell re-run under one cache keyed on checkpoint mtime *and* autocast dtype; the
+  reference-row writer is atomic.
 * Two drivers writing `94_domain_baselines_<corpus>.json` → merge-before-save plus a
   per-corpus lock; baseline cache keyed on the checkpoint's mtime and written atomically;
   `HF_HUB_OFFLINE=1` so the hub is not a failure mode mid-run.

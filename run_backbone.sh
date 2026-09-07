@@ -12,10 +12,12 @@
 set -uo pipefail
 ENC=$1; G=$2; AUX=$3
 REPO=$(cd "$(dirname "$0")" && pwd); cd "$REPO"
-[ -f "$REPO/env.sh" ] && source "$REPO/env.sh"
+for f in "$REPO/env.sh" "${DVLSR_ENV:-}"; do [ -n "$f" ] && [ -f "$f" ] && source "$f"; done
 : "${DVLSR_DATA:?set DVLSR_DATA (see env.example.sh)}"
 M=$DVLSR_DATA/markers/bb_$ENC; mkdir -p "$M" "$DVLSR_DATA/markers"
-L=$REPO/${DVLSR_LOGS_DIR:-logs}; mkdir -p "$L"
+# results/logs directories exactly as dvlsr/paths.py resolves them (absolute or relative)
+RES=$(python -c "from dvlsr import paths; print(paths.RESULTS)")
+L=$(python -c "from dvlsr import paths; print(paths.LOGS)"); mkdir -p "$L"
 step () {  # step <marker> <cmd...>
   local mk=$1; shift
   [ -f "$M/$mk" ] && { echo "[$(date +%H:%M)] skip $mk"; return 0; }
@@ -33,7 +35,6 @@ step B_protos python scripts/11_prototypes.py --encoder $ENC --n-shards ${BB_PRO
 export CUDA_VISIBLE_DEVICES=$G
 step C1_whiten python scripts/13_whitening.py --encoder $ENC || exit 1
 step C2_probe  python scripts/95_layer_probe.py --encoder $ENC || exit 1
-RES=$REPO/${DVLSR_RESULTS_DIR:-results}
 LAYER=$(python -c "import json;print(json.load(open('$RES/95_layer_probe_$ENC.json'))['layer'])")
 TAU=$(python -c "import json;print(json.load(open('$RES/95_layer_probe_$ENC.json'))['tau'])")
 echo "[$(date +%H:%M)] $ENC: layer $LAYER tau $TAU"
@@ -72,5 +73,5 @@ evals () {  # evals <corpus>
 ( export CUDA_VISIBLE_DEVICES=$AUX; evals scifact && evals nfcorpus ) & P2=$!
 wait $P1 || { echo "[$(date +%H:%M)] trec-covid evaluations failed"; exit 1; }
 wait $P2 || { echo "[$(date +%H:%M)] small-corpus evaluations failed"; exit 1; }
-python scripts/93_domain_report.py > /dev/null 2>&1
+python scripts/93_domain_report.py > "$L/bb_${ENC}_report.log" 2>&1 || echo "[$(date +%H:%M)] report failed (see $L/bb_${ENC}_report.log)"
 echo "[$(date +%H:%M)] BACKBONE_DONE $ENC"

@@ -121,15 +121,15 @@ own encode (change in MRR@10; `sig` = paired bootstrap CI excludes zero).
 | corpus | this corpus's terms | random vectors | wrong-domain terms |
 |---|---|---|---|
 | nfcorpus, 3.6k passages | **+0.027 (sig)** | +0.000 | +0.000 |
-| scifact, 5.2k passages | **+0.052 (sig)** | +0.000 | +0.005 |
-| trec-covid, 171k passages | **-0.322 (sig)** | +0.000 | … |
+| scifact, 5.2k passages | **+0.051 (sig)** | +0.000 | +0.005 |
+| trec-covid, 171k passages | **-0.322 (sig)** | +0.000 | +0.020 |
 
 Random vectors change retrieval by exactly zero everywhere, so the gain is not capacity;
-another corpus's terminology is non-significant everywhere, so it is not "any real words".
+another corpus's terminology is non-significant in MRR@10 everywhere, so it is not "any real words".
 Two corpora gain and one is badly harmed, and R@100 moves the same way as MRR in all three.
 
 **Term selection is not the cause of the harm.** tf-idf ranking or a 10% document-frequency
-ceiling (which removes `covid`, `coronavirus`, `cov`) recovers at most a fifth of the
+ceiling (which removes `covid`, `coronavirus`, `cov`) recovers at most 22% of the
 trec-covid loss; the rest is the inserted entries as a population on a corpus 33x larger
 than the others. Calibration does not rescue it, and over-firing is similar on all three
 corpora. Full tables, with BM25, SPLADE++, SPLADE-v3 and dense references, in

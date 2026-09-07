@@ -295,34 +295,38 @@ the per-document store cap — the numbers below are the corrected ones).
 
 | corpus | inserted entries are... | MRR@10 | nDCG@10 | R@100 |
 |---|---|---|---|---|
-| **nfcorpus** (3.6k passages, nutrition) | *baseline, trained vocabulary only* | **0.4899** | **0.2943** | **0.2705** |
-| | this corpus's terminology, by document frequency | 0.5166 (+0.0267*) | 0.3216 (+0.0273*) | 0.2854 (+0.0149*) |
-| | same, chosen by tf-idf | 0.5166 (+0.0267*) | 0.3216 (+0.0273*) | 0.2854 (+0.0149*) |
-| | same, document-frequency ceiling 10% | 0.5166 (+0.0267*) | 0.3216 (+0.0273*) | 0.2854 (+0.0149*) |
-| | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2943 (+0.0000) | 0.2705 (+0.0000) |
-| | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0043*) | 0.2720 (+0.0015) |
+| **nfcorpus** (3.6k passages, nutrition) | *baseline, trained vocabulary only* | **0.4899** | **0.2945** | **0.2688** |
+| | this corpus's terminology, by document frequency | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
+| | same, chosen by tf-idf | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2838 (+0.0149*) |
+| | same, document-frequency ceiling 10% | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
+| | same, tail calibration of the inserted entries | 0.5106 (+0.0207*) | 0.3202 (+0.0257*) | 0.2879 (+0.0191*) |
+| | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2945 (+0.0000) | 0.2688 (+0.0000) |
+| | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0041*) | 0.2703 (+0.0015) |
 | **scifact** (5.2k passages, scientific claims) | *baseline, trained vocabulary only* | **0.4119** | **0.4373** | **0.7700** |
-| | this corpus's terminology, by document frequency | 0.4635 (+0.0516*) | 0.4944 (+0.0570*) | 0.8320 (+0.0620*) |
-| | same, chosen by tf-idf | 0.4646 (+0.0528*) | 0.4959 (+0.0586*) | 0.8353 (+0.0653*) |
-| | same, document-frequency ceiling 10% | 0.4635 (+0.0516*) | 0.4944 (+0.0570*) | 0.8320 (+0.0620*) |
+| | this corpus's terminology, by document frequency | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
+| | same, chosen by tf-idf | 0.4624 (+0.0505*) | 0.4942 (+0.0569*) | 0.8353 (+0.0653*) |
+| | same, document-frequency ceiling 10% | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
+| | same, tail calibration of the inserted entries | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) |
 | | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
-| | wrong-domain terms (nfcorpus) | 0.4170 (+0.0051) | 0.4421 (+0.0048) | 0.7733 (+0.0033) |
+| | wrong-domain terms (nfcorpus) | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) |
 | **trec-covid** (171k passages, COVID literature) | *baseline, trained vocabulary only* | **0.6942** | **0.5543** | **0.0892** |
 | | this corpus's terminology, by document frequency | 0.3719 (-0.3223*) | 0.1967 (-0.3576*) | 0.0270 (-0.0622*) |
 | | same, chosen by tf-idf | 0.4432 (-0.2509*) | 0.2322 (-0.3221*) | 0.0291 (-0.0601*) |
 | | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3511*) | 0.0273 (-0.0620*) |
+| | same, tail calibration of the inserted entries | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) |
 | | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (-0.0011) | 0.0891 (-0.0002) |
-| | wrong-domain terms (scifact) | … | … | … |
+| | wrong-domain terms (scifact) | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) |
 
-`*` = paired bootstrap CI over queries excludes zero. Rows with the tail calibration
-applied at insertion are being recomputed under the corrected definition (correction on
-the inserted entries only) and appear in `reports_gpu10/DOMAIN.md` as they land.
+`*` = paired bootstrap CI over queries excludes zero. Calibration corrects the inserted
+entries only; it slightly *reduces* the gain on the small corpora, consistent with those
+terms being relatively common in their own corpus, so damping their tails removes signal.
 
 **The controls are clean on all three.** 1,000–3,000 random unit vectors change retrieval
 by *exactly* zero everywhere: they never clear the firing threshold, so extra dimensions
 are inert without meaning, and the gain is not capacity. The same construction with
 another corpus's terminology — real words, real prototypes, wrong domain — is
-non-significant everywhere. Whatever the effect is, it is about the terms.
+non-significant in MRR@10 everywhere (one nDCG@10 delta of +0.004 on nfcorpus clears
+zero). Whatever the effect is, it is about the terms.
 
 **Two corpora gain, one is badly harmed**, and the harm is the more informative half.
 On scifact, R@100 rises 0.770 → 0.832 with no retraining and no new parameters. On
@@ -342,9 +346,9 @@ so over-firing does not predict the outcome.
 
 | corpus | BM25 | SPLADE++ | SPLADE-v3 | e5 dense (our backbone) | ours, no added vocabulary | ours, + domain vocabulary |
 |---|---|---|---|---|---|---|
-| nfcorpus | 0.5086 | 0.5611 | 0.5817 | 0.5641 | 0.4899 | 0.5166 |
-| scifact | 0.6290 | 0.6484 | 0.6574 | 0.6690 | 0.4119 | 0.4635 |
-| trec-covid | … | … | … | … | 0.6942 | 0.3719 |
+| nfcorpus | 0.5086 | 0.5611 | 0.5817 | … | 0.4899 | 0.5166 |
+| scifact | 0.6290 | 0.6484 | 0.6574 | … | 0.4119 | 0.4629 |
+| trec-covid | 0.7676 | 0.8883 | 0.9153 | 0.9133 | 0.6942 | 0.3719 |
 
 Our sparse projection sits below BM25 on two of the three corpora and well below the dense
 backbone it is projected from. Insertion is a real, significant improvement where it
