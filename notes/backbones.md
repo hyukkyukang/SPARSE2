@@ -191,13 +191,10 @@ The e5 rows of the table are final in this repository and need no recomputation.
 `scripts/95_layer_probe.py` on a 106,921-passage probe corpus (every dev-small positive +
 100k random C1 passages), training-free retrieval, MRR@10 per candidate layer:
 
-| layer | octen | jina5s |
-|---|---|---|
-| 12 | 0.2184 | **0.2981** |
-| 16 | 0.2041 | 0.2864 |
-| 20 | 0.1947 | 0.2552 |
-| 24 | 0.2570 | 0.2332 |
-| 28 | **0.2672** | 0.2063 |
+| layer | 6 | 8 | 10 | 12 | 16 | 20 | 24 | 28 |
+|---|---|---|---|---|---|---|---|---|
+| octen | 0.2203 | 0.2233 | 0.2145 | 0.2184 | 0.2041 | 0.1947 | 0.2570 | **0.2672** |
+| jina5s | 0.2905 | 0.3044 | 0.2914 | **0.2981** | 0.2864 | 0.2552 | 0.2332 | 0.2063 |
 
 Octen is U-shaped and peaks at its last layer; jina5s decreases monotonically and peaks at
 the shallowest candidate. Both winners sit at an edge of the sweep, and both curves dip in
