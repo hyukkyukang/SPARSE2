@@ -73,8 +73,11 @@ three BEIR corpora for the domain-shift pilots.
 * **Pilot L**: real vocabulary shift — scifact, nfcorpus, trec-covid — with three term-
   selection rules, a capacity control, a wrong-domain control, and BM25 / SPLADE++ /
   SPLADE-v3 / dense references on the same corpora.
-* **Pilot M** (`notes/backbones.md`, in progress): Pilot L on two more backbones,
-  Octen-Embedding-0.6B and jina-embeddings-v5-text-small.
+* **Pilot M** (`notes/backbones.md`): Pilot L repeated on two more backbones,
+  Octen-Embedding-0.6B and jina-embeddings-v5-text-small (Qwen3-0.6B decoders), each with
+  its own probe-selected layer, prototypes, whitening and threshold — 54 domain
+  evaluations in total, plus a score-decomposition diagnostic (`96`) and a label-free
+  entry filter (`97`).
 * **Infrastructure**: an exact GPU inverted index (verified against brute force) that
   searches C₁ for 6,980 queries in ~20 s.
 
@@ -282,119 +285,96 @@ and an entry below threshold for a whole batch receives no gradient; and after 3
 steps an entry **re-encodes to cosine 0.46** with its previous vector, so the entry space
 moves faster than any practical refresh interval tracks.
 
-### 4.11 Real vocabulary shift: the claim's strongest evidence and its sharpest boundary
+### 4.11 Real vocabulary shift, on three backbones
 
-Every split above is a synthetic ablation of one collection. **Pilot L** runs the real
-thing: a model trained only on MS MARCO, given entries for terminology a *different*
+Every split above is a synthetic ablation of one collection. **Pilots L and M** run the
+real thing: a model trained only on MS MARCO, given entries for terminology a *different*
 corpus uses and the model has never had a dimension for, then evaluated on that corpus.
 Entries are chosen from corpus text by frequency alone — never from queries or relevance
-labels — which is what a deployment indexing a corpus can actually do. The baseline is
-the same model encoded with its trained vocabulary only (its own encode: an earlier
-version derived it by masking and, on the dense corpus, silently lost trained entries to
-the per-document store cap — the numbers below are the corrected ones).
+labels. The baseline is the same model with its trained vocabulary only, as its own encode.
+Three backbones (`notes/backbones.md`): e5-base-v2 (BERT, 12 layers, 768-d, mean pooling),
+Octen-Embedding-0.6B and jina-embeddings-v5-text-small (both Qwen3-0.6B decoders, 28
+layers, 1024-d, last-token pooling), each at its own probe-selected layer and threshold.
 
-| corpus | backbone | inserted entries are... | MRR@10 | nDCG@10 | R@100 |
-|---|---|---|---|---|---|
-| **nfcorpus** (3.6k passages, nutrition) | e5-base-v2 | *baseline, trained vocabulary only* | **0.4899** | **0.2945** | **0.2688** |
-| | | this corpus's terminology, by document frequency | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
-| | | same, chosen by tf-idf | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2838 (+0.0149*) |
-| | | same, document-frequency ceiling 10% | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
-| | | same, tail calibration of the inserted entries | 0.5106 (+0.0207*) | 0.3202 (+0.0257*) | 0.2879 (+0.0191*) |
-| | | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2945 (+0.0000) | 0.2688 (+0.0000) |
-| | | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0041*) | 0.2703 (+0.0015) |
-| **nfcorpus** (3.6k passages, nutrition) | Octen-Embedding-0.6B | *baseline, trained vocabulary only* | **0.4577** | **0.2772** | **0.2471** |
-| | | this corpus's terminology, by document frequency | 0.4875 (+0.0297*) | 0.2980 (+0.0208*) | 0.2597 (+0.0127*) |
-| | | same, chosen by tf-idf | 0.4875 (+0.0297*) | 0.2979 (+0.0207*) | 0.2597 (+0.0127*) |
-| | | same, document-frequency ceiling 10% | 0.4875 (+0.0297*) | 0.2980 (+0.0208*) | 0.2597 (+0.0127*) |
-| | | same, tail calibration of the inserted entries | 0.4874 (+0.0297*) | 0.2976 (+0.0204*) | 0.2606 (+0.0136*) |
-| | | random vectors (capacity control) | 0.4577 (+0.0000) | 0.2772 (+0.0000) | 0.2471 (+0.0000) |
-| | | wrong-domain terms (scifact) | 0.4601 (+0.0024) | 0.2833 (+0.0062*) | 0.2522 (+0.0052*) |
-| **nfcorpus** (3.6k passages, nutrition) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.4960** | **0.3017** | **0.2807** |
-| | | this corpus's terminology, by document frequency | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
-| | | same, chosen by tf-idf | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
-| | | same, document-frequency ceiling 10% | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
-| | | same, tail calibration of the inserted entries | 0.5239 (+0.0279*) | 0.3199 (+0.0182*) | 0.2914 (+0.0106*) |
-| | | random vectors (capacity control) | 0.4960 (+0.0000) | 0.3017 (+0.0000) | 0.2807 (+0.0000) |
-| | | wrong-domain terms (scifact) | 0.5044 (+0.0084*) | 0.3110 (+0.0093*) | 0.2838 (+0.0031) |
-| **scifact** (5.2k passages, scientific claims) | e5-base-v2 | *baseline, trained vocabulary only* | **0.4119** | **0.4373** | **0.7700** |
-| | | this corpus's terminology, by document frequency | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
-| | | same, chosen by tf-idf | 0.4624 (+0.0505*) | 0.4942 (+0.0569*) | 0.8353 (+0.0653*) |
-| | | same, document-frequency ceiling 10% | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
-| | | same, tail calibration of the inserted entries | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) |
-| | | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
-| | | wrong-domain terms (nfcorpus) | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) |
-| **scifact** (5.2k passages, scientific claims) | Octen-Embedding-0.6B | *baseline, trained vocabulary only* | **0.4828** | **0.5162** | **0.8072** |
-| | | this corpus's terminology, by document frequency | 0.5272 (+0.0445*) | 0.5615 (+0.0453*) | 0.8412 (+0.0340*) |
-| | | same, chosen by tf-idf | 0.5270 (+0.0443*) | 0.5621 (+0.0458*) | 0.8446 (+0.0373*) |
-| | | same, document-frequency ceiling 10% | 0.5272 (+0.0445*) | 0.5615 (+0.0453*) | 0.8412 (+0.0340*) |
-| | | same, tail calibration of the inserted entries | 0.5132 (+0.0305) | 0.5460 (+0.0297*) | 0.8379 (+0.0307*) |
-| | | random vectors (capacity control) | 0.4828 (+0.0000) | 0.5162 (+0.0000) | 0.8072 (+0.0000) |
-| | | wrong-domain terms (nfcorpus) | 0.4936 (+0.0108) | 0.5291 (+0.0129*) | 0.8200 (+0.0128) |
-| **scifact** (5.2k passages, scientific claims) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.4179** | **0.4504** | **0.7661** |
-| | | this corpus's terminology, by document frequency | 0.4086 (-0.0092) | 0.4373 (-0.0130) | 0.7576 (-0.0086) |
-| | | same, chosen by tf-idf | 0.4067 (-0.0112) | 0.4358 (-0.0145) | 0.7576 (-0.0086) |
-| | | same, document-frequency ceiling 10% | 0.4086 (-0.0092) | 0.4373 (-0.0130) | 0.7576 (-0.0086) |
-| | | same, tail calibration of the inserted entries | 0.3207 (-0.0972*) | 0.3522 (-0.0981*) | 0.6952 (-0.0709*) |
-| | | random vectors (capacity control) | 0.4179 (+0.0000) | 0.4504 (+0.0000) | 0.7661 (+0.0000) |
-| | | wrong-domain terms (nfcorpus) | 0.4377 (+0.0198) | 0.4680 (+0.0177) | 0.7856 (+0.0194) |
-| **trec-covid** (171k passages, COVID literature) | e5-base-v2 | *baseline, trained vocabulary only* | **0.6942** | **0.5532** | **0.0891** |
-| | | this corpus's terminology, by document frequency | 0.3746 (-0.3196*) | 0.1984 (-0.3548*) | 0.0272 (-0.0619*) |
-| | | same, chosen by tf-idf | 0.4560 (-0.2382*) | 0.2341 (-0.3191*) | 0.0289 (-0.0601*) |
-| | | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3500*) | 0.0273 (-0.0618*) |
-| | | same, tail calibration of the inserted entries | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) |
-| | | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) |
-| | | wrong-domain terms (scifact) | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) |
-| **trec-covid** (171k passages, COVID literature) | Octen-Embedding-0.6B | *baseline, trained vocabulary only* | **0.5927** | **0.4538** | **0.0799** |
-| | | this corpus's terminology, by document frequency | 0.7790 (+0.1863*) | 0.6107 (+0.1569*) | 0.1009 (+0.0210*) |
-| | | same, chosen by tf-idf | 0.7473 (+0.1546*) | 0.5919 (+0.1381*) | 0.0981 (+0.0182) |
-| | | same, document-frequency ceiling 10% | 0.7552 (+0.1624*) | 0.5961 (+0.1423*) | 0.0980 (+0.0180*) |
-| | | same, tail calibration of the inserted entries | 0.7924 (+0.1997*) | 0.6061 (+0.1523*) | 0.0976 (+0.0177) |
-| | | random vectors (capacity control) | 0.5927 (+0.0000) | 0.4538 (+0.0000) | 0.0799 (+0.0000) |
-| | | wrong-domain terms (scifact) | 0.6003 (+0.0075) | 0.4590 (+0.0052) | 0.0805 (+0.0006) |
-| **trec-covid** (171k passages, COVID literature) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.5965** | **0.4909** | **0.0905** |
-| | | this corpus's terminology, by document frequency | 0.8517 (+0.2551*) | 0.6383 (+0.1474*) | 0.0964 (+0.0059) |
-| | | same, chosen by tf-idf | 0.8367 (+0.2401*) | 0.6292 (+0.1383*) | 0.0957 (+0.0052) |
-| | | same, document-frequency ceiling 10% | 0.8133 (+0.2168*) | 0.6154 (+0.1244*) | 0.0990 (+0.0085) |
-| | | same, tail calibration of the inserted entries | 0.8008 (+0.2043*) | 0.5879 (+0.0970) | 0.0850 (-0.0055) |
-| | | random vectors (capacity control) | 0.5965 (+0.0000) | 0.4909 (+0.0000) | 0.0905 (+0.0000) |
-| | | wrong-domain terms (scifact) | 0.6124 (+0.0158) | 0.5076 (+0.0167) | 0.0915 (+0.0010) |
+| corpus | e5-base-v2 | Octen-0.6B | jina-v5-small |
+|---|---|---|---|
+| nfcorpus (3.6k passages) | 0.4899 → 0.5166 **+0.027\*** | 0.4577 → 0.4875 **+0.030\*** | 0.4960 → 0.5248 **+0.029\*** |
+| scifact (5.2k passages) | 0.4119 → 0.4629 **+0.051\*** | 0.4828 → 0.5272 **+0.044\*** | 0.4179 → 0.4086 −0.009 |
+| trec-covid (171k passages) | 0.6942 → 0.3746 **−0.320\*** | 0.5927 → 0.7790 **+0.186\*** | 0.5965 → 0.8517 **+0.255\*** |
 
-`*` = paired bootstrap CI over queries excludes zero. Calibration corrects the inserted
-entries only; it slightly *reduces* the gain on the small corpora, consistent with those
-terms being relatively common in their own corpus, so damping their tails removes signal.
+`*` = paired bootstrap CI over queries excludes zero. Reference systems on the same
+corpora, queries, qrels and metrics:
 
-**The controls are clean on all three.** 1,000–3,000 random unit vectors change retrieval
-by *exactly* zero everywhere: they never clear the firing threshold, so extra dimensions
-are inert without meaning, and the gain is not capacity. The same construction with
-another corpus's terminology — real words, real prototypes, wrong domain — is
-non-significant in MRR@10 everywhere (one nDCG@10 delta of +0.004 on nfcorpus clears
-zero). Whatever the effect is, it is about the terms.
-
-**Two corpora gain, one is badly harmed**, and the harm is the more informative half.
-On scifact, R@100 rises 0.770 → 0.832 with no retraining and no new parameters. On
-trec-covid, MRR@10 falls 0.694 → 0.372 and R@100 falls with it, so this is not an
-artefact of a rank-sensitive measure.
-
-**How the terms are chosen barely matters.** Ranking by tf-idf, or capping document
-frequency at 10% (which removes `covid`, `coronavirus`, `cov` outright), changes
-trec-covid by at most 0.07 of a 0.32 loss; on the two small corpora fewer candidates
-clear the occurrence floor than the cap allows, so all three rules select the identical
-set and the rows coincide by construction. Corpus-defining terms are therefore *not* the
-cause; the inserted entries hurt as a population on a corpus 33x larger than the others.
-Calibration does not rescue it either, and the activation gap is ~+5 on all three corpora,
-so over-firing does not predict the outcome.
-
-**Against the reference systems on the same corpora:**
-
-| corpus | BM25 | SPLADE++ | SPLADE-v3 | e5-base-v2 dense | Octen-Embedding-0.6B dense | jina-embeddings-v5-text-small dense |
+| corpus | BM25 | SPLADE++ | SPLADE-v3 | e5 dense | Octen dense | jina dense |
 |---|---|---|---|---|---|---|
-| nfcorpus | 0.5086 | 0.5611 | 0.5817 | … | 0.5781 | 0.6008 |
-| scifact | 0.6290 | 0.6484 | 0.6574 | … | 0.6703 | 0.7077 |
+| nfcorpus | 0.5086 | 0.5611 | 0.5817 | — | 0.5781 | 0.6008 |
+| scifact | 0.6290 | 0.6484 | 0.6574 | — | 0.6703 | 0.7077 |
 | trec-covid | 0.7676 | 0.8883 | 0.9153 | 0.9133 | 0.9300 | 0.8967 |
 
-Our sparse projection sits below BM25 on two of the three corpora and well below the dense
-backbone it is projected from. Insertion is a real, significant improvement where it
-helps; it is not what closes that gap.
+**Seven of nine cells gain significantly, and the controls are clean everywhere.**
+2,000–3,000 random unit vectors change retrieval by *exactly* zero in all nine cells: they
+never clear the firing threshold, so extra dimensions are inert without meaning and the
+gain is not capacity. Another corpus's terminology — real words, real prototypes, wrong
+domain — is non-significant in eight of nine. The specificity result therefore replicates
+on three independently trained encoders.
+
+**Pilot M overturned a single-backbone conclusion.** With e5 alone (Pilot L) this study
+concluded that inserting corpus-defining terminology into a large single-topic corpus is
+inherently harmful, and that the failure was topical dominance: `covid`, `coronavirus` and
+`cov` appear in most documents *and* most queries, so they add no discrimination. Two other
+backbones gain 0.186 and 0.255 on exactly that corpus with exactly those terms, both from a
+*lower* baseline than e5's. The terms were never the problem; e5's treatment of them was.
+
+**What distinguishes the failures is hub formation.** Insertion multiplies e5's document
+density by 4.6–12x on every corpus (0.23–0.35 extra non-zeros per inserted entry); the two
+0.6B decoders stay at 1.1–2.4x (0.012–0.066). `scripts/96_domain_diagnose.py` decomposes
+the retrieval score and finds inserted entries supplying **96% of the score** of e5's
+top-ranked trec-covid documents, against 70–75% for jina, drowning the trained vocabulary
+that produced e5's 0.694 baseline. For jina/scifact the failure has a different shape:
+inserted entries supply 49.8% of the score on *irrelevant* top-10 documents against 36.4%
+on relevant ones, so their mass is actively mis-directed.
+
+**No measured statistic predicts the outcome across all nine cells.** Query-side firing
+rate separates the six cells it was derived from perfectly (gains 0.0006–0.0048, losses
+0.0158 and 0.0704) but is a property the two regimes share on trec-covid, where `covid`
+fires on 96% of queries for *every* backbone and is destructive for one and valuable for
+two. Density multiplication fails too: e5 gains +0.051 on scifact with the highest
+multiplication of any cell (10.6x). **Why one encoder turns an inserted vocabulary into
+hubs and another does not is the open question Pilot M leaves**, and it is a question about
+the encoder's geometry, not about the vocabulary or the corpus.
+
+**A label-free filter repairs the failures but is not yet a rule.**
+`scripts/97_qf_filter.py` drops inserted entries whose query-side firing rate exceeds a
+threshold, computed from a query sample with no relevance labels:
+
+| cell | before | after dropping high-query-firing entries |
+|---|---|---|
+| e5 / trec-covid | −0.320 | **+0.075** (613 of 2,974 dropped) |
+| jina / scifact | −0.009 | **+0.081\*** (148 of 2,005) |
+| e5 / scifact | +0.051 | **+0.061\*** (27 of 2,003) |
+| jina / trec-covid | +0.255 | +0.069 (31 of 2,974) |
+
+Three cells repaired, one badly damaged: removing 1% of jina's trec-covid entries costs
+0.186 of its 0.255 gain, because there the high-query-firing entries (`covid`,
+`coronavirus`, `cov`) are precisely the valuable ones. A criterion that uses both the
+query and document sides is the obvious next step, and is not yet validated.
+
+**Calibration never helps outside the synthetic splits.** The Pilot F tail correction was
+applied at insertion in all nine cells: six clearly worse, three within noise, none
+improved. It was developed and validated on held-out splits *within* MS MARCO, where
+inserted entries genuinely over-fire relative to trained ones, and there it roughly doubled
+recovery (§4.4). On real vocabulary shift the mismatch it corrects is either absent or not
+what limits performance, and rescaling a non-discriminative entry only amplifies it — which
+is why its worst cell (−0.088 on jina/scifact) is the one where insertion was already
+failing.
+
+**Layer choice is backbone-specific and matters more than any tuning knob.** A probe over
+{6, 8, 10, 12, 16, 20, 24, 28} (D14) gives octen a U-shaped curve peaking at its *final*
+layer (0.2672) and jina a plateau at layers 8–12 falling away after 16 (0.2981 at 12). A
+fixed "use the last layer" rule would cost jina ~30% relative MRR; "use an early layer"
+would cost octen ~20%. Octen is fine-tuned as an embedding model, so its late layers are
+shaped for the pooled retrieval vector; jina is a base LM under a task adapter, whose late
+layers still serve next-token prediction.
 
 ---
 
@@ -427,19 +407,24 @@ The most consequential methodological finding is unchanged from the first pass:
 **identity is the wrong selection criterion**. Semantic organisation tracks effectiveness;
 whether a token state retrieves the embedding of its own word does not.
 
-**Real domain shift is where the claim is strongest and its boundary sharpest** (§4.11).
-Inserting a genuinely foreign vocabulary is worth +0.052 and +0.027 MRR@10 on two small
-corpora and costs −0.322 on a corpus 33x larger, with random-vector and wrong-domain
-controls flat everywhere. How the terms are chosen barely moves either number: the harm is
-the inserted entries as a population, not a few corpus-defining terms, and calibration
-does not repair it. What separates the two outcomes — corpus size, the number of inserted
-dimensions, or the density they add — is the open question Pilot M's second and third
-backbones are meant to help answer.
+**Real domain shift is where the claim is strongest, and it now replicates on three
+backbones** (§4.11). Inserting a genuinely foreign vocabulary gains significantly in seven
+of nine (corpus, backbone) cells, with random-vector controls at *exactly* zero in all nine
+and wrong-domain controls non-significant in eight. The one systematic failure, e5 on
+trec-covid, is a property of that encoder rather than of the corpus or the terms: the other
+two backbones gain 0.186 and 0.255 on the same corpus with the same terms, from lower
+baselines. **The open question Pilot M leaves is why one encoder turns an inserted
+vocabulary into hubs and another does not** — no statistic we measured (query-side firing,
+document-side firing, density multiplication, relevant/irrelevant score split) orders all
+nine cells correctly, and a filter built on the most promising of them repairs three cells
+and damages a fourth.
 
-**Honest positioning.** Our best text-defined configurations reach 0.19–0.25 MRR@10 on C₁
-against BM25 0.189, dense 0.356 and SPLADE++ 0.382. This is a method for *extending* a
-vocabulary after training, with a measured boundary, not a replacement for learned sparse
-retrieval.
+**Honest positioning.** On MS MARCO's C₁ our best text-defined configurations reach
+0.19–0.25 MRR@10 against BM25 0.189, dense 0.356 and SPLADE++ 0.382. On the domain corpora
+the sparse projections sit below BM25 and well below their own dense backbones — except
+jina on trec-covid, where insertion lifts 0.5965 → 0.8517 and clears BM25's 0.7676. This is
+a method for *extending* a vocabulary after training, with a measured boundary, not a
+replacement for learned sparse retrieval.
 
 ---
 

@@ -111,38 +111,51 @@ random split, and −0.09 on the rare split, because it removes per-entry variat
 sometimes miscalibration and sometimes signal. Whether an entry needs it is computable at
 insertion time from its own statistics.
 
-## Real vocabulary shift
+## Real vocabulary shift, on three backbones
 
-A model trained only on MS MARCO, given entries for terminology a different corpus uses,
-evaluated on that corpus. Entries selected from corpus text by frequency alone, never from
-queries or labels. The baseline is the same model with its trained vocabulary only, as its
-own encode (change in MRR@10; `sig` = paired bootstrap CI excludes zero).
+A model trained only on MS MARCO, given entries for terminology a *different* corpus uses
+and it has never had a dimension for, evaluated on that corpus. Entries are chosen from
+corpus text by frequency alone — never from queries or relevance labels. The baseline is
+the same model with its trained vocabulary only, as its own encode. `*` = paired bootstrap
+CI over queries excludes zero.
 
-| corpus | backbone | this corpus's terms | random vectors | wrong-domain terms |
-|---|---|---|---|---|
-| nfcorpus, 3.6k passages | e5-base-v2 | **+0.027 (sig)** | +0.000 | +0.000 |
-| nfcorpus, 3.6k passages | Octen-Embedding-0.6B | **+0.030 (sig)** | +0.000 | +0.002 |
-| nfcorpus, 3.6k passages | jina-embeddings-v5-text-small | **+0.029 (sig)** | +0.000 | +0.008 (sig) |
-| scifact, 5.2k passages | e5-base-v2 | **+0.051 (sig)** | +0.000 | +0.005 |
-| scifact, 5.2k passages | Octen-Embedding-0.6B | **+0.044 (sig)** | +0.000 | +0.011 |
-| scifact, 5.2k passages | jina-embeddings-v5-text-small | **-0.009** | +0.000 | +0.020 |
-| trec-covid, 171k passages | e5-base-v2 | **-0.320 (sig)** | +0.000 | +0.020 |
-| trec-covid, 171k passages | Octen-Embedding-0.6B | **+0.186 (sig)** | +0.000 | +0.008 |
-| trec-covid, 171k passages | jina-embeddings-v5-text-small | **+0.255 (sig)** | +0.000 | +0.016 |
+| corpus | e5-base-v2 | Octen-0.6B | jina-v5-small |
+|---|---|---|---|
+| nfcorpus (3.6k) | 0.4899 → 0.5166 **+0.027\*** | 0.4577 → 0.4875 **+0.030\*** | 0.4960 → 0.5248 **+0.029\*** |
+| scifact (5.2k) | 0.4119 → 0.4629 **+0.051\*** | 0.4828 → 0.5272 **+0.044\*** | 0.4179 → 0.4086 −0.009 |
+| trec-covid (171k) | 0.6942 → 0.3746 **−0.320\*** | 0.5927 → 0.7790 **+0.186\*** | 0.5965 → 0.8517 **+0.255\*** |
 
-Random vectors change retrieval by exactly zero everywhere, so the gain is not capacity;
-another corpus's terminology is non-significant in MRR@10 everywhere, so it is not "any real words".
-Two corpora gain and one is badly harmed, and R@100 moves the same way as MRR in all three.
+**Seven of nine cells gain significantly.** Random-vector controls are *exactly* zero in
+all nine (2,000–3,000 extra dimensions never clear the firing threshold, so the gain is
+not capacity), and wrong-domain terminology is non-significant in eight of nine, so the
+effect is specific to the corpus's own terms. That specificity result now replicates on
+three independently trained encoders.
 
-**Term selection is not the cause of the harm.** tf-idf ranking or a 10% document-frequency
-ceiling (which removes `covid`, `coronavirus`, `cov`) recovers at most 22% of the
-trec-covid loss; the rest is the inserted entries as a population on a corpus 33x larger
-than the others. Calibration does not rescue it, and over-firing is similar on all three
-corpora. Full tables, with BM25, SPLADE++, SPLADE-v3 and dense references, in
-`reports_gpu10/DOMAIN.md`; the same experiment on two more backbones is in progress
-(`notes/backbones.md`).
+**The single-backbone conclusion was wrong.** With e5 alone this study concluded that
+inserting corpus-defining terminology into a large single-topic corpus is inherently
+harmful. Two other backbones *gain* 0.19 and 0.26 on exactly that corpus with exactly
+those terms, both from a lower baseline than e5's. e5 is the outlier, not the corpus.
+
+**What separates them is hub formation, and no measured statistic predicts it yet.**
+Insertion multiplies e5's document density 4.6–12x (0.23–0.35 extra non-zeros per inserted
+entry) on every corpus; the two 0.6B decoders stay at 1.1–2.4x (0.012–0.066). Score
+decomposition (`scripts/96_domain_diagnose.py`) shows inserted entries supplying 96% of
+the score of e5's top-ranked trec-covid documents, drowning the trained vocabulary that
+produced its 0.694 baseline. But neither density multiplication, query-side firing rate,
+nor the relevant/irrelevant score split orders all nine cells correctly — e5 gains on
+scifact with the *highest* density multiplication of any cell. **Why one encoder turns an
+inserted vocabulary into hubs and another does not is the open question this pilot leaves.**
+
+**A label-free filter repairs the failures but is not yet a rule.** Dropping inserted
+entries that fire on many queries (`scripts/97_qf_filter.py`, computed from a query sample
+with no relevance labels) turns e5/trec-covid from −0.320 to +0.075 and jina/scifact from
+−0.009 to +0.081, and improves e5/scifact from +0.051 to +0.061 — but costs jina/trec-covid
+0.186 of its 0.255 gain, because there the high-query-firing entries (`covid`,
+`coronavirus`) are the valuable ones. Three cells repaired, one damaged.
 
 ## Two negatives that close off explanations
+
+
 
 * **Prototype quality is not the limit.** Doubling the occurrence sample from 50 to 100
   (free — the second disjoint half is already stored) leaves recovery unchanged, 0.302 vs
@@ -244,8 +257,10 @@ pilots ran on different hardware with the §0 setup rebuilt from scratch.
 
 Pilots A–E complete. Pilots F (per-entry normalisation), G (bare strings under
 normalisation, normalisation on rare, the parameterized-vocabulary control), H (seed
-repeats), I (shared entry-side map) and J (k=100 prototypes) complete. **62 models trained
-and 45 evaluated on the rebuild**, on top of the original A100 run.
+repeats), I (shared entry-side map), J (k=100 prototypes), K (making the entry map
+generalise), L (real vocabulary shift) and M (the same on two more backbones) complete.
+**68 models trained on the rebuild**, 54 domain-shift evaluations across three backbones
+and three corpora, on top of the original A100 run.
 
 Not run: the **full-corpus confirmation** (`scripts/60_*`), so every number is on C₁ and
 mildly optimistic for us. The encoder-training arms on the rebuild are capped at 3,000
