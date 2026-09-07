@@ -1,0 +1,420 @@
+{
+  "corpus": "trec-covid",
+  "model": "V1oracle",
+  "encoder": "e5",
+  "layer": 12,
+  "n_trained": 30000,
+  "n_inserted": 2974,
+  "n_docs": 171332,
+  "n_queries": 50,
+  "firing": {
+    "trained_df_mean": 0.0014435674596689466,
+    "inserted_df_mean": 0.2325469165832282,
+    "trained_df_median": 0.00015758877500992227,
+    "inserted_df_median": 0.13036385497163402,
+    "trained_qf_mean": 0.0006039999999999999,
+    "inserted_qf_mean": 0.0704371217215871,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 519,
+    "inserted_df_gt_20pct": 1191,
+    "trained_df_gt_20pct": 11,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.929298738849924,
+    "inserted_share_top10_irrelevant": 0.9638416947696009,
+    "n_rel_in_top10": 94,
+    "n_irr_in_top10": 406
+  },
+  "worst_entries": [
+    {
+      "word": "covid",
+      "df": 0.5197336166040203,
+      "qf": 0.98,
+      "mass_irrelevant": 12403747.0,
+      "mass_relevant": 74332.96875
+    },
+    {
+      "word": "coronavirus",
+      "df": 0.5547475077627063,
+      "qf": 0.98,
+      "mass_irrelevant": 10756262.0,
+      "mass_relevant": 63545.62109375
+    },
+    {
+      "word": "cov",
+      "df": 0.5163892326010319,
+      "qf": 0.98,
+      "mass_irrelevant": 9235946.0,
+      "mass_relevant": 59622.94140625
+    },
+    {
+      "word": "coronaviruses",
+      "df": 0.586662153012864,
+      "qf": 0.98,
+      "mass_irrelevant": 7018330.5,
+      "mass_relevant": 41221.1875
+    },
+    {
+      "word": "pandemics",
+      "df": 0.5265916466276002,
+      "qf": 0.98,
+      "mass_irrelevant": 6205946.0,
+      "mass_relevant": 37125.7734375
+    },
+    {
+      "word": "nonessential",
+      "df": 0.7845527980762497,
+      "qf": 0.84,
+      "mass_irrelevant": 5390445.0,
+      "mass_relevant": 28172.009765625
+    },
+    {
+      "word": "coronaviral",
+      "df": 0.5672553872014569,
+      "qf": 0.98,
+      "mass_irrelevant": 5048008.5,
+      "mass_relevant": 31670.30078125
+    },
+    {
+      "word": "pandemia",
+      "df": 0.4502252935820512,
+      "qf": 0.98,
+      "mass_irrelevant": 4681004.5,
+      "mass_relevant": 28290.873046875
+    },
+    {
+      "word": "lockdown",
+      "df": 0.45748021385380433,
+      "qf": 0.98,
+      "mass_irrelevant": 3881090.5,
+      "mass_relevant": 26707.791015625
+    },
+    {
+      "word": "quarantines",
+      "df": 0.4807216398571195,
+      "qf": 0.98,
+      "mass_irrelevant": 3852611.25,
+      "mass_relevant": 27720.0234375
+    },
+    {
+      "word": "remdesivir",
+      "df": 0.4674666728923961,
+      "qf": 0.98,
+      "mass_irrelevant": 3698917.0,
+      "mass_relevant": 28809.08984375
+    },
+    {
+      "word": "evidences",
+      "df": 0.7991560245605024,
+      "qf": 0.88,
+      "mass_irrelevant": 3612780.75,
+      "mass_relevant": 18535.783203125
+    },
+    {
+      "word": "repercussions",
+      "df": 0.8383372633250065,
+      "qf": 0.7,
+      "mass_irrelevant": 3583058.5,
+      "mass_relevant": 15987.0966796875
+    },
+    {
+      "word": "pathophysiological",
+      "df": 0.7762005930007237,
+      "qf": 0.78,
+      "mass_irrelevant": 3556768.5,
+      "mass_relevant": 18788.97265625
+    },
+    {
+      "word": "lockdowns",
+      "df": 0.44004622604066956,
+      "qf": 0.98,
+      "mass_irrelevant": 3526706.5,
+      "mass_relevant": 26962.0546875
+    },
+    {
+      "word": "distancing",
+      "df": 0.4439742721733243,
+      "qf": 0.98,
+      "mass_irrelevant": 3412555.25,
+      "mass_relevant": 24261.263671875
+    },
+    {
+      "word": "dysregulated",
+      "df": 0.7743095277006047,
+      "qf": 0.74,
+      "mass_irrelevant": 3331700.5,
+      "mass_relevant": 18602.873046875
+    },
+    {
+      "word": "quarantined",
+      "df": 0.4781710363504774,
+      "qf": 0.96,
+      "mass_irrelevant": 3290821.0,
+      "mass_relevant": 24914.560546875
+    },
+    {
+      "word": "mitigating",
+      "df": 0.47590642728737187,
+      "qf": 0.88,
+      "mass_irrelevant": 3234655.25,
+      "mass_relevant": 22574.849609375
+    },
+    {
+      "word": "symptomatology",
+      "df": 0.7104744005789928,
+      "qf": 0.76,
+      "mass_irrelevant": 3199987.75,
+      "mass_relevant": 18659.201171875
+    },
+    {
+      "word": "erythematous",
+      "df": 0.5188231036817407,
+      "qf": 0.96,
+      "mass_irrelevant": 3132339.75,
+      "mass_relevant": 22440.455078125
+    },
+    {
+      "word": "literatures",
+      "df": 0.7212429668713375,
+      "qf": 0.82,
+      "mass_irrelevant": 3125851.75,
+      "mass_relevant": 18823.5859375
+    },
+    {
+      "word": "predisposes",
+      "df": 0.8443256367753834,
+      "qf": 0.54,
+      "mass_irrelevant": 3032219.25,
+      "mass_relevant": 13336.6875
+    },
+    {
+      "word": "wuhan",
+      "df": 0.4394158709406299,
+      "qf": 0.94,
+      "mass_irrelevant": 3023363.5,
+      "mass_relevant": 24742.04296875
+    },
+    {
+      "word": "immunopathological",
+      "df": 0.6806025727826676,
+      "qf": 0.76,
+      "mass_irrelevant": 2970117.75,
+      "mass_relevant": 19859.806640625
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "thyroidectomy",
+      "df": 0.047381691686316625,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "epizootic",
+      "df": 0.08225550393388276,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "cerevisiae",
+      "df": 0.1366644876613826,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "bactericidal",
+      "df": 0.04127074918870964,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "antenatal",
+      "df": 0.14471318842948194,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "parechovirus",
+      "df": 0.10557280601405458,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "diferentes",
+      "df": 0.3216737095230313,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "complementarity",
+      "df": 0.5336948147456401,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "chemoradiotherapy",
+      "df": 0.0580393621740247,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "biphasic",
+      "df": 0.4876847290640394,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "atcc",
+      "df": 0.05008404734667196,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "arf",
+      "df": 0.04388555552961502,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "alteplase",
+      "df": 0.018221931688184343,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "bronchoscopic",
+      "df": 0.06042654028436019,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "tumorigenesis",
+      "df": 0.14732215814909067,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 3236697.5,
+    "inserted_on_irrelevant": 440708736.0,
+    "ratio_irr_to_rel": 136.16000366210938
+  },
+  "top_firing_inserted": [
+    {
+      "word": "predisposes",
+      "df": 0.8443256367753834,
+      "qf": 0.54
+    },
+    {
+      "word": "complicating",
+      "df": 0.8402983680806855,
+      "qf": 0.4
+    },
+    {
+      "word": "repercussions",
+      "df": 0.8383372633250065,
+      "qf": 0.7
+    },
+    {
+      "word": "confounded",
+      "df": 0.8223565942147409,
+      "qf": 0.04
+    },
+    {
+      "word": "pathophysiologic",
+      "df": 0.8212009431980015,
+      "qf": 0.42
+    },
+    {
+      "word": "unanticipated",
+      "df": 0.8090724441435342,
+      "qf": 0.26
+    },
+    {
+      "word": "evidences",
+      "df": 0.7991560245605024,
+      "qf": 0.88
+    },
+    {
+      "word": "underscores",
+      "df": 0.7960859617584573,
+      "qf": 0.04
+    },
+    {
+      "word": "manifesting",
+      "df": 0.7883816216468611,
+      "qf": 0.48
+    },
+    {
+      "word": "coinciding",
+      "df": 0.7848154460345995,
+      "qf": 0.0
+    },
+    {
+      "word": "necessitates",
+      "df": 0.7846753671234795,
+      "qf": 0.22
+    },
+    {
+      "word": "nonessential",
+      "df": 0.7845527980762497,
+      "qf": 0.84
+    },
+    {
+      "word": "univariable",
+      "df": 0.7826150398057572,
+      "qf": 0.6
+    },
+    {
+      "word": "pathophysiological",
+      "df": 0.7762005930007237,
+      "qf": 0.78
+    },
+    {
+      "word": "dysregulated",
+      "df": 0.7743095277006047,
+      "qf": 0.74
+    },
+    {
+      "word": "emphasises",
+      "df": 0.7720799383652791,
+      "qf": 0.04
+    },
+    {
+      "word": "coincident",
+      "df": 0.7709067774846496,
+      "qf": 0.14
+    },
+    {
+      "word": "reinforces",
+      "df": 0.7693542362197371,
+      "qf": 0.06
+    },
+    {
+      "word": "heterogenous",
+      "df": 0.7662024607195387,
+      "qf": 0.64
+    },
+    {
+      "word": "cohorts",
+      "df": 0.764130460159223,
+      "qf": 0.42
+    }
+  ]
+}

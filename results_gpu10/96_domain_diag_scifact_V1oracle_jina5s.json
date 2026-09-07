@@ -1,0 +1,420 @@
+{
+  "corpus": "scifact",
+  "model": "V1oracle_jina5s",
+  "encoder": "jina5s",
+  "layer": 12,
+  "n_trained": 30000,
+  "n_inserted": 2005,
+  "n_docs": 5183,
+  "n_queries": 300,
+  "firing": {
+    "trained_df_mean": 0.0031063541063734,
+    "inserted_df_mean": 0.06601997803099814,
+    "trained_df_median": 0.00019293845263360988,
+    "inserted_df_median": 0.030098398610843142,
+    "trained_qf_mean": 0.00047055555555555555,
+    "inserted_qf_mean": 0.015845386533665837,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 20,
+    "inserted_df_gt_20pct": 159,
+    "trained_df_gt_20pct": 19,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.3643598985132378,
+    "inserted_share_top10_irrelevant": 0.49819260843721747,
+    "n_rel_in_top10": 187,
+    "n_irr_in_top10": 2813
+  },
+  "worst_entries": [
+    {
+      "word": "abrogates",
+      "df": 0.41655411923596375,
+      "qf": 0.36666666666666664,
+      "mass_irrelevant": 237870.828125,
+      "mass_relevant": 123.66121673583984
+    },
+    {
+      "word": "mediates",
+      "df": 0.504919930542157,
+      "qf": 0.3566666666666667,
+      "mass_irrelevant": 234948.109375,
+      "mass_relevant": 108.99972534179688
+    },
+    {
+      "word": "crucially",
+      "df": 0.656762492764808,
+      "qf": 0.31333333333333335,
+      "mass_irrelevant": 191821.359375,
+      "mass_relevant": 76.95331573486328
+    },
+    {
+      "word": "attenuates",
+      "df": 0.3698630136986301,
+      "qf": 0.39666666666666667,
+      "mass_irrelevant": 160625.09375,
+      "mass_relevant": 79.47876739501953
+    },
+    {
+      "word": "represses",
+      "df": 0.4101871502990546,
+      "qf": 0.36,
+      "mass_irrelevant": 160457.609375,
+      "mass_relevant": 81.13865661621094
+    },
+    {
+      "word": "abrogated",
+      "df": 0.4003472892147405,
+      "qf": 0.3,
+      "mass_irrelevant": 152321.359375,
+      "mass_relevant": 77.937744140625
+    },
+    {
+      "word": "modulates",
+      "df": 0.4298668724676828,
+      "qf": 0.31333333333333335,
+      "mass_irrelevant": 136913.640625,
+      "mass_relevant": 70.50244903564453
+    },
+    {
+      "word": "inactivation",
+      "df": 0.48504726992089525,
+      "qf": 0.34,
+      "mass_irrelevant": 122480.4375,
+      "mass_relevant": 59.60757064819336
+    },
+    {
+      "word": "underlies",
+      "df": 0.5836388192166699,
+      "qf": 0.23,
+      "mass_irrelevant": 119250.2734375,
+      "mass_relevant": 55.54094314575195
+    },
+    {
+      "word": "implicate",
+      "df": 0.5871117113640748,
+      "qf": 0.26,
+      "mass_irrelevant": 116976.625,
+      "mass_relevant": 52.26155090332031
+    },
+    {
+      "word": "orchestrates",
+      "df": 0.4570711942890218,
+      "qf": 0.24333333333333335,
+      "mass_irrelevant": 97949.421875,
+      "mass_relevant": 52.33101272583008
+    },
+    {
+      "word": "repressed",
+      "df": 0.4725062704997106,
+      "qf": 0.27,
+      "mass_irrelevant": 97205.5,
+      "mass_relevant": 48.26582717895508
+    },
+    {
+      "word": "upregulates",
+      "df": 0.3492185992668339,
+      "qf": 0.3,
+      "mass_irrelevant": 88525.3359375,
+      "mass_relevant": 42.538272857666016
+    },
+    {
+      "word": "inactivates",
+      "df": 0.40555662743584797,
+      "qf": 0.31333333333333335,
+      "mass_irrelevant": 86336.84375,
+      "mass_relevant": 45.36115646362305
+    },
+    {
+      "word": "mechanistically",
+      "df": 0.4701910090681073,
+      "qf": 0.25,
+      "mass_irrelevant": 81708.4375,
+      "mass_relevant": 39.78736877441406
+    },
+    {
+      "word": "rescues",
+      "df": 0.29944047848736255,
+      "qf": 0.2866666666666667,
+      "mass_irrelevant": 78670.0078125,
+      "mass_relevant": 43.887638092041016
+    },
+    {
+      "word": "drosophila",
+      "df": 0.3924368126567625,
+      "qf": 0.19666666666666666,
+      "mass_irrelevant": 70907.8125,
+      "mass_relevant": 40.9501953125
+    },
+    {
+      "word": "sensitizes",
+      "df": 0.2620104186764422,
+      "qf": 0.30333333333333334,
+      "mass_irrelevant": 70390.0703125,
+      "mass_relevant": 43.944000244140625
+    },
+    {
+      "word": "robustly",
+      "df": 0.5836388192166699,
+      "qf": 0.19,
+      "mass_irrelevant": 69249.0078125,
+      "mass_relevant": 31.51287841796875
+    },
+    {
+      "word": "potentiates",
+      "df": 0.2992475400347289,
+      "qf": 0.31,
+      "mass_irrelevant": 61346.07421875,
+      "mass_relevant": 42.008785247802734
+    },
+    {
+      "word": "uncovers",
+      "df": 0.5811306193324329,
+      "qf": 0.17333333333333334,
+      "mass_irrelevant": 57098.6953125,
+      "mass_relevant": 28.836973190307617
+    },
+    {
+      "word": "abolishes",
+      "df": 0.29230175573991896,
+      "qf": 0.14,
+      "mass_irrelevant": 56843.46484375,
+      "mass_relevant": 35.59062957763672
+    },
+    {
+      "word": "maf",
+      "df": 0.3503762299826355,
+      "qf": 0.19333333333333333,
+      "mass_irrelevant": 50697.92578125,
+      "mass_relevant": 28.265579223632812
+    },
+    {
+      "word": "attenuate",
+      "df": 0.26278217248697666,
+      "qf": 0.2733333333333333,
+      "mass_irrelevant": 48330.96875,
+      "mass_relevant": 28.952390670776367
+    },
+    {
+      "word": "transcriptionally",
+      "df": 0.34265869187729114,
+      "qf": 0.17333333333333334,
+      "mass_irrelevant": 48071.80078125,
+      "mass_relevant": 24.132356643676758
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "teratoma",
+      "df": 0.009839861084314104,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "amenable",
+      "df": 0.011769245610650203,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "angiographic",
+      "df": 0.0156280146633224,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "bidirectional",
+      "df": 0.0044375844105730275,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "bisphosphonate",
+      "df": 0.003279953694771368,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "blastocysts",
+      "df": 0.020258537526529036,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "bmd",
+      "df": 0.028169014084507043,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "cinahl",
+      "df": 0.04476172101099749,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "cofactors",
+      "df": 0.025467875747636502,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "conformations",
+      "df": 0.01775033764229211,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "contractility",
+      "df": 0.008875168821146055,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "dextran",
+      "df": 0.01447038394752074,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "dissociated",
+      "df": 0.011962184063283813,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "summarise",
+      "df": 0.10592321049585182,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "symmetrically",
+      "df": 0.0055952151263746865,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 5354.26611328125,
+    "inserted_on_irrelevant": 5192876.0,
+    "ratio_irr_to_rel": 969.857666015625
+  },
+  "top_firing_inserted": [
+    {
+      "word": "undertook",
+      "df": 0.73490256608142,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidate",
+      "df": 0.7296932278603125,
+      "qf": 0.016666666666666666
+    },
+    {
+      "word": "strikingly",
+      "df": 0.6860891375651167,
+      "qf": 0.11666666666666667
+    },
+    {
+      "word": "revisited",
+      "df": 0.6633224001543507,
+      "qf": 0.0
+    },
+    {
+      "word": "crucially",
+      "df": 0.656762492764808,
+      "qf": 0.31333333333333335
+    },
+    {
+      "word": "dissected",
+      "df": 0.6249276480802624,
+      "qf": 0.006666666666666667
+    },
+    {
+      "word": "elucidating",
+      "df": 0.5957939417325873,
+      "qf": 0.01
+    },
+    {
+      "word": "implicate",
+      "df": 0.5871117113640748,
+      "qf": 0.26
+    },
+    {
+      "word": "intriguingly",
+      "df": 0.5838317576693035,
+      "qf": 0.013333333333333334
+    },
+    {
+      "word": "robustly",
+      "df": 0.5836388192166699,
+      "qf": 0.19
+    },
+    {
+      "word": "underlies",
+      "df": 0.5836388192166699,
+      "qf": 0.23
+    },
+    {
+      "word": "uncovers",
+      "df": 0.5811306193324329,
+      "qf": 0.17333333333333334
+    },
+    {
+      "word": "unlabelled",
+      "df": 0.5537333590584603,
+      "qf": 0.0
+    },
+    {
+      "word": "implicates",
+      "df": 0.5415782365425429,
+      "qf": 0.11
+    },
+    {
+      "word": "dissecting",
+      "df": 0.5319313139108625,
+      "qf": 0.03666666666666667
+    },
+    {
+      "word": "constitutively",
+      "df": 0.5224773297318156,
+      "qf": 0.16333333333333333
+    },
+    {
+      "word": "implicating",
+      "df": 0.5195832529423114,
+      "qf": 0.006666666666666667
+    },
+    {
+      "word": "postulate",
+      "df": 0.5190044375844106,
+      "qf": 0.0
+    },
+    {
+      "word": "incompletely",
+      "df": 0.511865714836967,
+      "qf": 0.006666666666666667
+    },
+    {
+      "word": "mediates",
+      "df": 0.504919930542157,
+      "qf": 0.3566666666666667
+    }
+  ]
+}

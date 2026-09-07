@@ -1,0 +1,420 @@
+{
+  "corpus": "nfcorpus",
+  "model": "V1oracle",
+  "encoder": "e5",
+  "layer": 12,
+  "n_trained": 30000,
+  "n_inserted": 957,
+  "n_docs": 3633,
+  "n_queries": 323,
+  "firing": {
+    "trained_df_mean": 0.0025669052206624457,
+    "inserted_df_mean": 0.2934470131998535,
+    "trained_df_median": 0.0,
+    "inserted_df_median": 0.17038260390861548,
+    "trained_qf_mean": 0.0004017543859649123,
+    "inserted_qf_mean": 0.0005726098391839825,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 210,
+    "inserted_df_gt_20pct": 444,
+    "trained_df_gt_20pct": 31,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.1242961217809126,
+    "inserted_share_top10_irrelevant": 0.04351456308331814,
+    "n_rel_in_top10": 772,
+    "n_irr_in_top10": 2458
+  },
+  "worst_entries": [
+    {
+      "word": "carcinogenesis",
+      "df": 0.41260666116157446,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1884.3709716796875,
+      "mass_relevant": 145.3897705078125
+    },
+    {
+      "word": "dioxin",
+      "df": 0.2678227360308285,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1758.6373291015625,
+      "mass_relevant": 86.90484619140625
+    },
+    {
+      "word": "dioxins",
+      "df": 0.22736030828516376,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1524.628173828125,
+      "mass_relevant": 75.71134948730469
+    },
+    {
+      "word": "pharmacologically",
+      "df": 0.8634737131846958,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 1458.085693359375,
+      "mass_relevant": 35.96823501586914
+    },
+    {
+      "word": "phytosterols",
+      "df": 0.1907514450867052,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1194.2236328125,
+      "mass_relevant": 29.492876052856445
+    },
+    {
+      "word": "carcinogenicity",
+      "df": 0.34544453619598126,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1252.9730224609375,
+      "mass_relevant": 108.73726654052734
+    },
+    {
+      "word": "bifidobacterium",
+      "df": 0.6240022020368842,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 869.8068237304688,
+      "mass_relevant": 6.170196533203125
+    },
+    {
+      "word": "paradoxically",
+      "df": 0.9504541701073493,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 760.9639892578125,
+      "mass_relevant": 18.03219223022461
+    },
+    {
+      "word": "estrogenic",
+      "df": 0.33470960638590697,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 781.3355102539062,
+      "mass_relevant": 42.71018981933594
+    },
+    {
+      "word": "polychlorinated",
+      "df": 0.276355628956785,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 788.071533203125,
+      "mass_relevant": 73.62770080566406
+    },
+    {
+      "word": "modulators",
+      "df": 0.6674924304982108,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 721.844970703125,
+      "mass_relevant": 16.323974609375
+    },
+    {
+      "word": "angiogenic",
+      "df": 0.45637214423341593,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 727.976318359375,
+      "mass_relevant": 23.45132827758789
+    },
+    {
+      "word": "evidences",
+      "df": 0.8841178089733003,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 705.427734375,
+      "mass_relevant": 9.818364143371582
+    },
+    {
+      "word": "angiogenesis",
+      "df": 0.2565372969997247,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 676.9747924804688,
+      "mass_relevant": 31.350372314453125
+    },
+    {
+      "word": "disruptors",
+      "df": 0.13927883292045143,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 786.4884643554688,
+      "mass_relevant": 141.17837524414062
+    },
+    {
+      "word": "curcuma",
+      "df": 0.0853289292595651,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 664.1361694335938,
+      "mass_relevant": 67.08628845214844
+    },
+    {
+      "word": "hypercholesterolemia",
+      "df": 0.6567575006881365,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 601.3779296875,
+      "mass_relevant": 10.932437896728516
+    },
+    {
+      "word": "alkylphenols",
+      "df": 0.10817506193228736,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 708.9908447265625,
+      "mass_relevant": 134.63870239257812
+    },
+    {
+      "word": "peroxidation",
+      "df": 0.6507018992568125,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 574.5810546875,
+      "mass_relevant": 1.0909901857376099
+    },
+    {
+      "word": "antioxidative",
+      "df": 0.3633360858794385,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 533.06298828125,
+      "mass_relevant": 1.4428502321243286
+    },
+    {
+      "word": "dichlorodiphenyldichloroethylene",
+      "df": 0.8491604734379301,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 523.6951293945312,
+      "mass_relevant": 21.12688446044922
+    },
+    {
+      "word": "prognostic",
+      "df": 0.697495183044316,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 512.179931640625,
+      "mass_relevant": 11.928718566894531
+    },
+    {
+      "word": "asthmatic",
+      "df": 0.3927883292045142,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 515.2247314453125,
+      "mass_relevant": 25.869747161865234
+    },
+    {
+      "word": "nonylphenol",
+      "df": 0.11835948252133223,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 529.9248657226562,
+      "mass_relevant": 80.51347351074219
+    },
+    {
+      "word": "organochlorines",
+      "df": 0.13102119460500963,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 513.264404296875,
+      "mass_relevant": 67.85445404052734
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "neurocysticercosis",
+      "df": 0.00853289292595651,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 10.32571792602539,
+      "mass_relevant": 63.78147888183594
+    },
+    {
+      "word": "cysticercosis",
+      "df": 0.010734929810074319,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 10.492059707641602,
+      "mass_relevant": 49.99671173095703
+    },
+    {
+      "word": "taenia",
+      "df": 0.005229837599779796,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 1.203153133392334,
+      "mass_relevant": 33.91600799560547
+    },
+    {
+      "word": "cysticerci",
+      "df": 0.005780346820809248,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 1.3502373695373535,
+      "mass_relevant": 23.9677734375
+    },
+    {
+      "word": "ncc",
+      "df": 0.011835948252133223,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 12.491482734680176,
+      "mass_relevant": 26.498394012451172
+    },
+    {
+      "word": "cycad",
+      "df": 0.010734929810074319,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 0.8030796051025391,
+      "mass_relevant": 3.7434582710266113
+    },
+    {
+      "word": "sirtuins",
+      "df": 0.011010184420589045,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 24.759746551513672,
+      "mass_relevant": 25.755615234375
+    },
+    {
+      "word": "adherent",
+      "df": 0.8326451968070465,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "selectivity",
+      "df": 0.014588494357280485,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "pesco",
+      "df": 0.04101293696669419,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "pfge",
+      "df": 0.029452243325075695,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "steatohepatitis",
+      "df": 0.11368015414258188,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "subclasses",
+      "df": 0.4142581888246628,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "tbars",
+      "df": 0.07101568951279934,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "teac",
+      "df": 0.06496008808147537,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 3018.38818359375,
+    "inserted_on_irrelevant": 32958.265625,
+    "ratio_irr_to_rel": 10.919160842895508
+  },
+  "top_firing_inserted": [
+    {
+      "word": "abstracted",
+      "df": 0.9881640517478668,
+      "qf": 0.0
+    },
+    {
+      "word": "incompletely",
+      "df": 0.9837599779796311,
+      "qf": 0.0
+    },
+    {
+      "word": "multifaceted",
+      "df": 0.9832094687586017,
+      "qf": 0.0
+    },
+    {
+      "word": "ascertained",
+      "df": 0.9832094687586017,
+      "qf": 0.0
+    },
+    {
+      "word": "hypothesize",
+      "df": 0.982934214148087,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidated",
+      "df": 0.9821084503165428,
+      "qf": 0.0
+    },
+    {
+      "word": "hitherto",
+      "df": 0.9801816680429397,
+      "qf": 0.0
+    },
+    {
+      "word": "underlie",
+      "df": 0.979906413432425,
+      "qf": 0.0
+    },
+    {
+      "word": "correspondingly",
+      "df": 0.9782548857693366,
+      "qf": 0.0
+    },
+    {
+      "word": "strikingly",
+      "df": 0.9771538673272777,
+      "qf": 0.0
+    },
+    {
+      "word": "undertook",
+      "df": 0.9771538673272777,
+      "qf": 0.0
+    },
+    {
+      "word": "qualitatively",
+      "df": 0.9763281034957335,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidate",
+      "df": 0.9760528488852188,
+      "qf": 0.0
+    },
+    {
+      "word": "elicited",
+      "df": 0.9755023396641894,
+      "qf": 0.0
+    },
+    {
+      "word": "summarises",
+      "df": 0.9746765758326452,
+      "qf": 0.0
+    },
+    {
+      "word": "putative",
+      "df": 0.970823011285439,
+      "qf": 0.0
+    },
+    {
+      "word": "univariate",
+      "df": 0.9691714836223507,
+      "qf": 0.0
+    },
+    {
+      "word": "predispose",
+      "df": 0.9680704651802917,
+      "qf": 0.0
+    },
+    {
+      "word": "immunologic",
+      "df": 0.9680704651802917,
+      "qf": 0.0
+    },
+    {
+      "word": "twofold",
+      "df": 0.9675199559592623,
+      "qf": 0.0
+    }
+  ]
+}

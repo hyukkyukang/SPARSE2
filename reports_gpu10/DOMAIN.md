@@ -26,6 +26,13 @@ zero. Italic rows are reference systems, not variants of our model.
 | df terms + tail calibration | 2003 | — | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) | 779 |
 | random vectors (capacity control) | 2003 | — | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) | 72 |
 | nfcorpus terms (domain control) | 957 | — | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) | 270 |
+| **Octen-Embedding-0.6B — sparse, trained vocabulary only** | 0 | — | **0.4828** | **0.5162** | **0.8072** | 87 |
+| this corpus's terms, by document frequency | 2006 | — | 0.5272 (+0.0445*) | 0.5615 (+0.0453*) | 0.8412 (+0.0340*) | 123 |
+| this corpus's terms, by tf-idf | 2006 | 0.056 | 0.5270 (+0.0443*) | 0.5621 (+0.0458*) | 0.8446 (+0.0373*) | 123 |
+| this corpus's terms, df ceiling 10% | 2006 | 0.056 | 0.5272 (+0.0445*) | 0.5615 (+0.0453*) | 0.8412 (+0.0340*) | 123 |
+| df terms + tail calibration | 2006 | — | 0.5132 (+0.0305) | 0.5460 (+0.0297*) | 0.8379 (+0.0307*) | 144 |
+| random vectors (capacity control) | 2006 | — | 0.4828 (+0.0000) | 0.5162 (+0.0000) | 0.8072 (+0.0000) | 87 |
+| nfcorpus terms (domain control) | 961 | — | 0.4936 (+0.0108) | 0.5291 (+0.0129*) | 0.8200 (+0.0128) | 96 |
 | **jina-embeddings-v5-text-small — sparse, trained vocabulary only** | 0 | — | **0.4179** | **0.4504** | **0.7661** | 93 |
 | this corpus's terms, by document frequency | 2005 | — | 0.4086 (-0.0092) | 0.4373 (-0.0130) | 0.7576 (-0.0086) | 226 |
 | this corpus's terms, by tf-idf | 2005 | 0.056 | 0.4067 (-0.0112) | 0.4358 (-0.0145) | 0.7576 (-0.0086) | 226 |
@@ -51,6 +58,13 @@ zero. Italic rows are reference systems, not variants of our model.
 | df terms + tail calibration | 957 | — | 0.5106 (+0.0207*) | 0.3202 (+0.0257*) | 0.2879 (+0.0191*) | 415 |
 | random vectors (capacity control) | 957 | — | 0.4899 (+0.0000) | 0.2945 (+0.0000) | 0.2688 (+0.0000) | 77 |
 | scifact terms (domain control) | 957 | — | 0.4902 (+0.0003) | 0.2986 (+0.0041*) | 0.2703 (+0.0015) | 346 |
+| **Octen-Embedding-0.6B — sparse, trained vocabulary only** | 0 | — | **0.4577** | **0.2772** | **0.2471** | 90 |
+| this corpus's terms, by document frequency | 961 | — | 0.4875 (+0.0297*) | 0.2980 (+0.0208*) | 0.2597 (+0.0127*) | 103 |
+| this corpus's terms, by tf-idf | 961 | 0.099 | 0.4875 (+0.0297*) | 0.2979 (+0.0207*) | 0.2597 (+0.0127*) | 103 |
+| this corpus's terms, df ceiling 10% | 961 | 0.099 | 0.4875 (+0.0297*) | 0.2980 (+0.0208*) | 0.2597 (+0.0127*) | 103 |
+| df terms + tail calibration | 961 | — | 0.4874 (+0.0297*) | 0.2976 (+0.0204*) | 0.2606 (+0.0136*) | 108 |
+| random vectors (capacity control) | 961 | — | 0.4577 (+0.0000) | 0.2772 (+0.0000) | 0.2471 (+0.0000) | 90 |
+| scifact terms (domain control) | 961 | — | 0.4601 (+0.0024) | 0.2833 (+0.0062*) | 0.2522 (+0.0052*) | 97 |
 | **jina-embeddings-v5-text-small — sparse, trained vocabulary only** | 0 | — | **0.4960** | **0.3017** | **0.2807** | 98 |
 | this corpus's terms, by document frequency | 961 | — | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) | 134 |
 | this corpus's terms, by tf-idf | 961 | 0.099 | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) | 134 |
@@ -76,6 +90,13 @@ zero. Italic rows are reference systems, not variants of our model.
 | df terms + tail calibration | 2974 | — | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) | 700 |
 | random vectors (capacity control) | 2974 | — | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) | 61 |
 | scifact terms (domain control) | 2003 | — | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) | 354 |
+| **Octen-Embedding-0.6B — sparse, trained vocabulary only** | 0 | — | **0.5927** | **0.4538** | **0.0799** | 70 |
+| this corpus's terms, by document frequency | 2974 | — | 0.7790 (+0.1863*) | 0.6107 (+0.1569*) | 0.1009 (+0.0210*) | 105 |
+| this corpus's terms, by tf-idf | 2976 | 0.338 | 0.7473 (+0.1546*) | 0.5919 (+0.1381*) | 0.0981 (+0.0182) | 106 |
+| this corpus's terms, df ceiling 10% | 2969 | 0.028 | 0.7552 (+0.1624*) | 0.5961 (+0.1423*) | 0.0980 (+0.0180*) | 103 |
+| df terms + tail calibration | 2974 | — | 0.7924 (+0.1997*) | 0.6061 (+0.1523*) | 0.0976 (+0.0177) | 113 |
+| random vectors (capacity control) | 2974 | — | 0.5927 (+0.0000) | 0.4538 (+0.0000) | 0.0799 (+0.0000) | 70 |
+| scifact terms (domain control) | 2006 | — | 0.6003 (+0.0075) | 0.4590 (+0.0052) | 0.0805 (+0.0006) | 80 |
 | **jina-embeddings-v5-text-small — sparse, trained vocabulary only** | 0 | — | **0.5965** | **0.4909** | **0.0905** | 78 |
 | this corpus's terms, by document frequency | 2974 | — | 0.8517 (+0.2551*) | 0.6383 (+0.1474*) | 0.0964 (+0.0059) | 165 |
 | this corpus's terms, by tf-idf | 2976 | 0.338 | 0.8367 (+0.2401*) | 0.6292 (+0.1383*) | 0.0957 (+0.0052) | 177 |

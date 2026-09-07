@@ -1,0 +1,56 @@
+{
+  "model": "V1oracle_octen",
+  "corpus": "trec-covid",
+  "norm": false,
+  "control": "rand",
+  "select": "df",
+  "n_passages": 171332,
+  "n_queries": 50,
+  "n_inserted": 2974,
+  "with": {
+    "mrr": 0.5927460317460317,
+    "ndcg": 0.4538303795162579,
+    "r100": 0.07991204991660168,
+    "mrr_ci": [
+      0.4809992063492064,
+      0.7030484126984127
+    ],
+    "nnz_d": 69.85456307052974,
+    "cap_hit": 0.0,
+    "n_scored": 50
+  },
+  "without": {
+    "mrr": 0.5927460317460317,
+    "ndcg": 0.4538303795162579,
+    "r100": 0.07991204991660168,
+    "mrr_ci": [
+      0.4809992063492064,
+      0.7030484126984127
+    ],
+    "nnz_d": 69.85456307052974,
+    "cap_hit": 0.0,
+    "n_scored": 50
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -13.231870806865215
+}

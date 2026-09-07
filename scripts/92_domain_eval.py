@@ -267,5 +267,5 @@ if __name__ == "__main__":
                          "vocabulary: both keep the dimension count and remove the terminology")
     ap.add_argument("--cap", type=int, default=1024)
     ap.add_argument("--dchunk", type=int, default=20000)
-    ap.add_argument("--select", default="df", choices=["df", "tfidf", "dfcap"])
+    ap.add_argument("--select", default="df", choices=["df", "tfidf", "dfcap", "qf"])
     main(ap.parse_args())

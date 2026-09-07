@@ -1,0 +1,420 @@
+{
+  "corpus": "nfcorpus",
+  "model": "V1oracle_jina5s",
+  "encoder": "jina5s",
+  "layer": 12,
+  "n_trained": 30000,
+  "n_inserted": 961,
+  "n_docs": 3633,
+  "n_queries": 323,
+  "firing": {
+    "trained_df_mean": 0.003256344618772364,
+    "inserted_df_mean": 0.03749477632054187,
+    "trained_df_median": 0.0002752546105147261,
+    "inserted_df_median": 0.020368841178089733,
+    "trained_qf_mean": 0.0002484004127966976,
+    "inserted_qf_mean": 0.0007345289832894657,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 4,
+    "inserted_df_gt_20pct": 20,
+    "trained_df_gt_20pct": 17,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.11228952738329052,
+    "inserted_share_top10_irrelevant": 0.04867817442975641,
+    "n_rel_in_top10": 786,
+    "n_irr_in_top10": 2444
+  },
+  "worst_entries": [
+    {
+      "word": "malignancies",
+      "df": 0.17093311312964493,
+      "qf": 0.02476780185758514,
+      "mass_irrelevant": 2391.12109375,
+      "mass_relevant": 165.15550231933594
+    },
+    {
+      "word": "carcinogenesis",
+      "df": 0.13955408753096615,
+      "qf": 0.018575851393188854,
+      "mass_irrelevant": 2299.434326171875,
+      "mass_relevant": 280.74560546875
+    },
+    {
+      "word": "evidences",
+      "df": 0.17864024222405725,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1368.0452880859375,
+      "mass_relevant": 25.198030471801758
+    },
+    {
+      "word": "carcinogenicity",
+      "df": 0.10514726121662538,
+      "qf": 0.015479876160990712,
+      "mass_irrelevant": 1552.060302734375,
+      "mass_relevant": 248.09674072265625
+    },
+    {
+      "word": "attenuates",
+      "df": 0.3448940269749518,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 1285.4814453125,
+      "mass_relevant": 8.668863296508789
+    },
+    {
+      "word": "anticancer",
+      "df": 0.1255161023947151,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 1341.8006591796875,
+      "mass_relevant": 78.40511322021484
+    },
+    {
+      "word": "antioxidative",
+      "df": 0.10404624277456648,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 1207.896240234375,
+      "mass_relevant": 7.445643424987793
+    },
+    {
+      "word": "oncogenic",
+      "df": 0.11973575557390587,
+      "qf": 0.018575851393188854,
+      "mass_irrelevant": 1351.29833984375,
+      "mass_relevant": 170.47340393066406
+    },
+    {
+      "word": "organochlorines",
+      "df": 0.0674373795761079,
+      "qf": 0.015479876160990712,
+      "mass_irrelevant": 1265.11279296875,
+      "mass_relevant": 123.21631622314453
+    },
+    {
+      "word": "dioxins",
+      "df": 0.06633636113404899,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 1260.368408203125,
+      "mass_relevant": 151.09927368164062
+    },
+    {
+      "word": "dioxin",
+      "df": 0.07431874483897605,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 1178.095458984375,
+      "mass_relevant": 118.95689392089844
+    },
+    {
+      "word": "oncogenesis",
+      "df": 0.11643270024772914,
+      "qf": 0.015479876160990712,
+      "mass_irrelevant": 1110.11279296875,
+      "mass_relevant": 130.633056640625
+    },
+    {
+      "word": "biphenyls",
+      "df": 0.05394990366088632,
+      "qf": 0.015479876160990712,
+      "mass_irrelevant": 974.016357421875,
+      "mass_relevant": 146.79783630371094
+    },
+    {
+      "word": "oxidants",
+      "df": 0.09606385906963942,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 797.1312866210938,
+      "mass_relevant": 4.585268020629883
+    },
+    {
+      "word": "organochlorine",
+      "df": 0.05835397742912194,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 860.0433349609375,
+      "mass_relevant": 78.66567993164062
+    },
+    {
+      "word": "biphenyl",
+      "df": 0.04789430222956235,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 824.2504272460938,
+      "mass_relevant": 125.99405670166016
+    },
+    {
+      "word": "dibenzo",
+      "df": 0.07569501789154968,
+      "qf": 0.015479876160990712,
+      "mass_irrelevant": 654.1665649414062,
+      "mass_relevant": 50.92664337158203
+    },
+    {
+      "word": "disruptors",
+      "df": 0.05037159372419488,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 764.2262573242188,
+      "mass_relevant": 181.60682678222656
+    },
+    {
+      "word": "alkylphenols",
+      "df": 0.06826314340765208,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 689.7731323242188,
+      "mass_relevant": 117.26138305664062
+    },
+    {
+      "word": "anticarcinogenic",
+      "df": 0.10514726121662538,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 641.858642578125,
+      "mass_relevant": 70.52011108398438
+    },
+    {
+      "word": "curcuminoids",
+      "df": 0.057803468208092484,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 627.7218017578125,
+      "mass_relevant": 74.99501037597656
+    },
+    {
+      "word": "pcbs",
+      "df": 0.05422515827140104,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 591.7843017578125,
+      "mass_relevant": 77.01844787597656
+    },
+    {
+      "word": "pbdes",
+      "df": 0.0611065235342692,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 508.0931396484375,
+      "mass_relevant": 59.3306770324707
+    },
+    {
+      "word": "ethers",
+      "df": 0.04982108450316543,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 482.94268798828125,
+      "mass_relevant": 64.72792053222656
+    },
+    {
+      "word": "diphenyl",
+      "df": 0.06716212496559318,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 475.1705017089844,
+      "mass_relevant": 58.11914825439453
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "parkinsonism",
+      "df": 0.012936966694192129,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 14.525666236877441,
+      "mass_relevant": 95.90394592285156
+    },
+    {
+      "word": "neurocysticercosis",
+      "df": 0.005780346820809248,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 6.998734951019287,
+      "mass_relevant": 70.22874450683594
+    },
+    {
+      "word": "parkinsonian",
+      "df": 0.009083402146985962,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 6.945138454437256,
+      "mass_relevant": 56.20328140258789
+    },
+    {
+      "word": "cysticercosis",
+      "df": 0.006330856041838701,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 11.306500434875488,
+      "mass_relevant": 56.191192626953125
+    },
+    {
+      "word": "rapamycin",
+      "df": 0.007707129094412331,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 33.52804946899414,
+      "mass_relevant": 72.29938507080078
+    },
+    {
+      "word": "cysticerci",
+      "df": 0.00853289292595651,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 15.607949256896973,
+      "mass_relevant": 45.19573211669922
+    },
+    {
+      "word": "carrageenan",
+      "df": 0.004404073768235618,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 5.988617420196533,
+      "mass_relevant": 28.686248779296875
+    },
+    {
+      "word": "igf",
+      "df": 0.019267822736030827,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 57.9280891418457,
+      "mass_relevant": 72.97089385986328
+    },
+    {
+      "word": "sirtuins",
+      "df": 0.007982383704927057,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 12.187644958496094,
+      "mass_relevant": 19.41248321533203
+    },
+    {
+      "word": "phytic",
+      "df": 0.0033030553261767133,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 19.71870231628418,
+      "mass_relevant": 24.401657104492188
+    },
+    {
+      "word": "wheeze",
+      "df": 0.008257638315441783,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "selectivity",
+      "df": 0.01211120286264795,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "sensitized",
+      "df": 0.046242774566473986,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "sequelae",
+      "df": 0.0016515276630883566,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "smd",
+      "df": 0.2455271125791357,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 4280.1318359375,
+    "inserted_on_irrelevant": 35382.21875,
+    "ratio_irr_to_rel": 8.266618728637695
+  },
+  "top_firing_inserted": [
+    {
+      "word": "ascertained",
+      "df": 0.7060280759702725,
+      "qf": 0.0
+    },
+    {
+      "word": "undertook",
+      "df": 0.6581337737407101,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidate",
+      "df": 0.643270024772915,
+      "qf": 0.0
+    },
+    {
+      "word": "consequent",
+      "df": 0.5593173685659235,
+      "qf": 0.0
+    },
+    {
+      "word": "retrospectively",
+      "df": 0.4580236718965043,
+      "qf": 0.0
+    },
+    {
+      "word": "beneficially",
+      "df": 0.45554638040187173,
+      "qf": 0.0
+    },
+    {
+      "word": "assayed",
+      "df": 0.4340765207817231,
+      "qf": 0.0
+    },
+    {
+      "word": "attenuates",
+      "df": 0.3448940269749518,
+      "qf": 0.009287925696594427
+    },
+    {
+      "word": "correspondingly",
+      "df": 0.32342416735480317,
+      "qf": 0.0
+    },
+    {
+      "word": "predictors",
+      "df": 0.24938067712634188,
+      "qf": 0.0
+    },
+    {
+      "word": "incompletely",
+      "df": 0.24690338563170933,
+      "qf": 0.0
+    },
+    {
+      "word": "strikingly",
+      "df": 0.24635287641067988,
+      "qf": 0.0
+    },
+    {
+      "word": "smd",
+      "df": 0.2455271125791357,
+      "qf": 0.0
+    },
+    {
+      "word": "hampered",
+      "df": 0.24497660335810625,
+      "qf": 0.0
+    },
+    {
+      "word": "foci",
+      "df": 0.21827690613817782,
+      "qf": 0.0
+    },
+    {
+      "word": "regressions",
+      "df": 0.21772639691714837,
+      "qf": 0.0
+    },
+    {
+      "word": "epidemiologic",
+      "df": 0.2045141756124415,
+      "qf": 0.0
+    },
+    {
+      "word": "elicited",
+      "df": 0.20423892100192678,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidated",
+      "df": 0.2014863748967795,
+      "qf": 0.0
+    },
+    {
+      "word": "inasmuch",
+      "df": 0.2014863748967795,
+      "qf": 0.0
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "model": "V1oracle_octen",
+  "corpus": "nfcorpus",
+  "norm": false,
+  "control": "rand",
+  "select": "df",
+  "n_passages": 3633,
+  "n_queries": 323,
+  "n_inserted": 961,
+  "with": {
+    "mrr": 0.45773625239569504,
+    "ndcg": 0.2771737780355968,
+    "r100": 0.24705209233536193,
+    "mrr_ci": [
+      0.40820848076072536,
+      0.5062460993169197
+    ],
+    "nnz_d": 90.13542526837324,
+    "cap_hit": 0.0,
+    "n_scored": 323
+  },
+  "without": {
+    "mrr": 0.45773625239569504,
+    "ndcg": 0.2771737780355968,
+    "r100": 0.24705209233536193,
+    "mrr_ci": [
+      0.40820848076072536,
+      0.5062460993169197
+    ],
+    "nnz_d": 90.13542526837324,
+    "cap_hit": 0.0,
+    "n_scored": 323
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -13.911747301156723
+}

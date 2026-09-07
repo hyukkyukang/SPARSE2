@@ -1,0 +1,420 @@
+{
+  "corpus": "scifact",
+  "model": "V1oracle",
+  "encoder": "e5",
+  "layer": 12,
+  "n_trained": 30000,
+  "n_inserted": 2003,
+  "n_docs": 5183,
+  "n_queries": 300,
+  "firing": {
+    "trained_df_mean": 0.0022125988809569746,
+    "inserted_df_mean": 0.34992851259479674,
+    "trained_df_median": 0.00019293845263360988,
+    "inserted_df_median": 0.24348832722361566,
+    "trained_qf_mean": 0.0006136666666666667,
+    "inserted_qf_mean": 0.004415044100515892,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 618,
+    "inserted_df_gt_20pct": 1078,
+    "trained_df_gt_20pct": 14,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.2784523838511601,
+    "inserted_share_top10_irrelevant": 0.27286611977517766,
+    "n_rel_in_top10": 209,
+    "n_irr_in_top10": 2791
+  },
+  "worst_entries": [
+    {
+      "word": "modulates",
+      "df": 0.851630329924754,
+      "qf": 0.20666666666666667,
+      "mass_irrelevant": 131165.953125,
+      "mass_relevant": 47.803871154785156
+    },
+    {
+      "word": "mediates",
+      "df": 0.7833301176924561,
+      "qf": 0.15333333333333332,
+      "mass_irrelevant": 89405.8359375,
+      "mass_relevant": 36.99494171142578
+    },
+    {
+      "word": "kinases",
+      "df": 0.7815936716187536,
+      "qf": 0.12,
+      "mass_irrelevant": 75521.3125,
+      "mass_relevant": 36.9360466003418
+    },
+    {
+      "word": "potentiates",
+      "df": 0.7543893497974147,
+      "qf": 0.13666666666666666,
+      "mass_irrelevant": 72564.4375,
+      "mass_relevant": 30.752450942993164
+    },
+    {
+      "word": "attenuates",
+      "df": 0.9091259888095697,
+      "qf": 0.13666666666666666,
+      "mass_irrelevant": 71552.8984375,
+      "mass_relevant": 25.155258178710938
+    },
+    {
+      "word": "upregulation",
+      "df": 0.9357514952730079,
+      "qf": 0.09333333333333334,
+      "mass_irrelevant": 53880.4453125,
+      "mass_relevant": 15.881851196289062
+    },
+    {
+      "word": "represses",
+      "df": 0.8377387613351341,
+      "qf": 0.10333333333333333,
+      "mass_irrelevant": 52616.46484375,
+      "mass_relevant": 18.86310386657715
+    },
+    {
+      "word": "augments",
+      "df": 0.7281497202392437,
+      "qf": 0.16,
+      "mass_irrelevant": 51924.3515625,
+      "mass_relevant": 21.16249656677246
+    },
+    {
+      "word": "rnas",
+      "df": 0.7964499324715416,
+      "qf": 0.1,
+      "mass_irrelevant": 47443.9140625,
+      "mass_relevant": 17.198598861694336
+    },
+    {
+      "word": "downregulation",
+      "df": 0.8552961605247926,
+      "qf": 0.10333333333333333,
+      "mass_irrelevant": 45376.015625,
+      "mass_relevant": 15.30430793762207
+    },
+    {
+      "word": "upregulating",
+      "df": 0.7570904881342851,
+      "qf": 0.15666666666666668,
+      "mass_irrelevant": 41403.3359375,
+      "mass_relevant": 17.555858612060547
+    },
+    {
+      "word": "localizes",
+      "df": 0.7183098591549296,
+      "qf": 0.08666666666666667,
+      "mass_irrelevant": 40764.8984375,
+      "mass_relevant": 20.786970138549805
+    },
+    {
+      "word": "ameliorates",
+      "df": 0.7594057495658885,
+      "qf": 0.12666666666666668,
+      "mass_irrelevant": 39836.90625,
+      "mass_relevant": 19.606224060058594
+    },
+    {
+      "word": "gtpase",
+      "df": 0.7163804746285934,
+      "qf": 0.08333333333333333,
+      "mass_irrelevant": 37326.55859375,
+      "mass_relevant": 19.997455596923828
+    },
+    {
+      "word": "downregulated",
+      "df": 0.7877677021030292,
+      "qf": 0.07666666666666666,
+      "mass_irrelevant": 36010.38671875,
+      "mass_relevant": 13.848258972167969
+    },
+    {
+      "word": "mediating",
+      "df": 0.9112483117885395,
+      "qf": 0.07666666666666666,
+      "mass_irrelevant": 32140.23828125,
+      "mass_relevant": 10.420669555664062
+    },
+    {
+      "word": "interleukin",
+      "df": 0.7831371792398225,
+      "qf": 0.08,
+      "mass_irrelevant": 26846.07421875,
+      "mass_relevant": 16.54649543762207
+    },
+    {
+      "word": "ortholog",
+      "df": 0.8388963920509358,
+      "qf": 0.07666666666666666,
+      "mass_irrelevant": 26810.861328125,
+      "mass_relevant": 10.397356033325195
+    },
+    {
+      "word": "transcriptional",
+      "df": 0.852595022187922,
+      "qf": 0.04666666666666667,
+      "mass_irrelevant": 26299.60546875,
+      "mass_relevant": 8.029109954833984
+    },
+    {
+      "word": "chemokines",
+      "df": 0.8963920509357515,
+      "qf": 0.056666666666666664,
+      "mass_irrelevant": 26224.5703125,
+      "mass_relevant": 9.853322982788086
+    },
+    {
+      "word": "upregulated",
+      "df": 0.9272622033571291,
+      "qf": 0.06,
+      "mass_irrelevant": 25601.970703125,
+      "mass_relevant": 6.795627593994141
+    },
+    {
+      "word": "phosphorylated",
+      "df": 0.7306579201234806,
+      "qf": 0.05333333333333334,
+      "mass_irrelevant": 24260.513671875,
+      "mass_relevant": 12.33749008178711
+    },
+    {
+      "word": "mrnas",
+      "df": 0.763071580165927,
+      "qf": 0.05,
+      "mass_irrelevant": 22334.19921875,
+      "mass_relevant": 8.091951370239258
+    },
+    {
+      "word": "immunoprecipitation",
+      "df": 0.9884236928419834,
+      "qf": 0.04666666666666667,
+      "mass_irrelevant": 21933.73046875,
+      "mass_relevant": 6.989640235900879
+    },
+    {
+      "word": "yl",
+      "df": 0.7908547173451669,
+      "qf": 0.05,
+      "mass_irrelevant": 21684.6640625,
+      "mass_relevant": 8.223091125488281
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "microdissection",
+      "df": 0.6334169399961412,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "noncanonical",
+      "df": 0.3320470769824426,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "nociceptive",
+      "df": 0.05170750530580745,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "neuropathology",
+      "df": 0.3181555083928227,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "neuropathological",
+      "df": 0.4993247154157824,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "myogenesis",
+      "df": 0.11769245610650203,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "multifaceted",
+      "df": 0.9610264325680108,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "mpo",
+      "df": 0.1014856260852788,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "monocytic",
+      "df": 0.5525757283426587,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "mobilize",
+      "df": 0.4246575342465753,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "misfolding",
+      "df": 0.0858576114219564,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "mineralization",
+      "df": 0.15743777734902567,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "micronutrient",
+      "df": 0.0331854138529809,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "microl",
+      "df": 0.015049199305421571,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "nonessential",
+      "df": 0.885780436040903,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 1668.7342529296875,
+    "inserted_on_irrelevant": 2475374.0,
+    "ratio_irr_to_rel": 1483.3841552734375
+  },
+  "top_firing_inserted": [
+    {
+      "word": "strikingly",
+      "df": 0.9951765386841598,
+      "qf": 0.0
+    },
+    {
+      "word": "incompletely",
+      "df": 0.9938259695157244,
+      "qf": 0.0
+    },
+    {
+      "word": "implicating",
+      "df": 0.9932471541578236,
+      "qf": 0.0
+    },
+    {
+      "word": "unanswered",
+      "df": 0.9928612772525565,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidated",
+      "df": 0.991124831178854,
+      "qf": 0.0033333333333333335
+    },
+    {
+      "word": "irreversibly",
+      "df": 0.9901601389156859,
+      "qf": 0.0
+    },
+    {
+      "word": "hypothesize",
+      "df": 0.9899672004630523,
+      "qf": 0.0
+    },
+    {
+      "word": "hereafter",
+      "df": 0.988616631294617,
+      "qf": 0.0033333333333333335
+    },
+    {
+      "word": "crucially",
+      "df": 0.988616631294617,
+      "qf": 0.0033333333333333335
+    },
+    {
+      "word": "unexplored",
+      "df": 0.988616631294617,
+      "qf": 0.0
+    },
+    {
+      "word": "immunoprecipitation",
+      "df": 0.9884236928419834,
+      "qf": 0.04666666666666667
+    },
+    {
+      "word": "putative",
+      "df": 0.9884236928419834,
+      "qf": 0.006666666666666667
+    },
+    {
+      "word": "underlie",
+      "df": 0.9880378159367161,
+      "qf": 0.0
+    },
+    {
+      "word": "elucidate",
+      "df": 0.9878448774840826,
+      "qf": 0.006666666666666667
+    },
+    {
+      "word": "potently",
+      "df": 0.987651939031449,
+      "qf": 0.0
+    },
+    {
+      "word": "prospectively",
+      "df": 0.9864943083156473,
+      "qf": 0.0
+    },
+    {
+      "word": "correspondingly",
+      "df": 0.9861084314103801,
+      "qf": 0.01
+    },
+    {
+      "word": "robustly",
+      "df": 0.9849508006945784,
+      "qf": 0.0
+    },
+    {
+      "word": "ascertained",
+      "df": 0.9847578622419448,
+      "qf": 0.0
+    },
+    {
+      "word": "concomitantly",
+      "df": 0.9845649237893113,
+      "qf": 0.0
+    }
+  ]
+}

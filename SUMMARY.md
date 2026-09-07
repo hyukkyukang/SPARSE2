@@ -302,6 +302,13 @@ the per-document store cap — the numbers below are the corrected ones).
 | | | same, tail calibration of the inserted entries | 0.5106 (+0.0207*) | 0.3202 (+0.0257*) | 0.2879 (+0.0191*) |
 | | | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2945 (+0.0000) | 0.2688 (+0.0000) |
 | | | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0041*) | 0.2703 (+0.0015) |
+| **nfcorpus** (3.6k passages, nutrition) | Octen-Embedding-0.6B | *baseline, trained vocabulary only* | **0.4577** | **0.2772** | **0.2471** |
+| | | this corpus's terminology, by document frequency | 0.4875 (+0.0297*) | 0.2980 (+0.0208*) | 0.2597 (+0.0127*) |
+| | | same, chosen by tf-idf | 0.4875 (+0.0297*) | 0.2979 (+0.0207*) | 0.2597 (+0.0127*) |
+| | | same, document-frequency ceiling 10% | 0.4875 (+0.0297*) | 0.2980 (+0.0208*) | 0.2597 (+0.0127*) |
+| | | same, tail calibration of the inserted entries | 0.4874 (+0.0297*) | 0.2976 (+0.0204*) | 0.2606 (+0.0136*) |
+| | | random vectors (capacity control) | 0.4577 (+0.0000) | 0.2772 (+0.0000) | 0.2471 (+0.0000) |
+| | | wrong-domain terms (scifact) | 0.4601 (+0.0024) | 0.2833 (+0.0062*) | 0.2522 (+0.0052*) |
 | **nfcorpus** (3.6k passages, nutrition) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.4960** | **0.3017** | **0.2807** |
 | | | this corpus's terminology, by document frequency | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
 | | | same, chosen by tf-idf | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
@@ -316,6 +323,13 @@ the per-document store cap — the numbers below are the corrected ones).
 | | | same, tail calibration of the inserted entries | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) |
 | | | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
 | | | wrong-domain terms (nfcorpus) | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) |
+| **scifact** (5.2k passages, scientific claims) | Octen-Embedding-0.6B | *baseline, trained vocabulary only* | **0.4828** | **0.5162** | **0.8072** |
+| | | this corpus's terminology, by document frequency | 0.5272 (+0.0445*) | 0.5615 (+0.0453*) | 0.8412 (+0.0340*) |
+| | | same, chosen by tf-idf | 0.5270 (+0.0443*) | 0.5621 (+0.0458*) | 0.8446 (+0.0373*) |
+| | | same, document-frequency ceiling 10% | 0.5272 (+0.0445*) | 0.5615 (+0.0453*) | 0.8412 (+0.0340*) |
+| | | same, tail calibration of the inserted entries | 0.5132 (+0.0305) | 0.5460 (+0.0297*) | 0.8379 (+0.0307*) |
+| | | random vectors (capacity control) | 0.4828 (+0.0000) | 0.5162 (+0.0000) | 0.8072 (+0.0000) |
+| | | wrong-domain terms (nfcorpus) | 0.4936 (+0.0108) | 0.5291 (+0.0129*) | 0.8200 (+0.0128) |
 | **scifact** (5.2k passages, scientific claims) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.4179** | **0.4504** | **0.7661** |
 | | | this corpus's terminology, by document frequency | 0.4086 (-0.0092) | 0.4373 (-0.0130) | 0.7576 (-0.0086) |
 | | | same, chosen by tf-idf | 0.4067 (-0.0112) | 0.4358 (-0.0145) | 0.7576 (-0.0086) |
@@ -330,6 +344,13 @@ the per-document store cap — the numbers below are the corrected ones).
 | | | same, tail calibration of the inserted entries | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) |
 | | | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) |
 | | | wrong-domain terms (scifact) | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) |
+| **trec-covid** (171k passages, COVID literature) | Octen-Embedding-0.6B | *baseline, trained vocabulary only* | **0.5927** | **0.4538** | **0.0799** |
+| | | this corpus's terminology, by document frequency | 0.7790 (+0.1863*) | 0.6107 (+0.1569*) | 0.1009 (+0.0210*) |
+| | | same, chosen by tf-idf | 0.7473 (+0.1546*) | 0.5919 (+0.1381*) | 0.0981 (+0.0182) |
+| | | same, document-frequency ceiling 10% | 0.7552 (+0.1624*) | 0.5961 (+0.1423*) | 0.0980 (+0.0180*) |
+| | | same, tail calibration of the inserted entries | 0.7924 (+0.1997*) | 0.6061 (+0.1523*) | 0.0976 (+0.0177) |
+| | | random vectors (capacity control) | 0.5927 (+0.0000) | 0.4538 (+0.0000) | 0.0799 (+0.0000) |
+| | | wrong-domain terms (scifact) | 0.6003 (+0.0075) | 0.4590 (+0.0052) | 0.0805 (+0.0006) |
 | **trec-covid** (171k passages, COVID literature) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.5965** | **0.4909** | **0.0905** |
 | | | this corpus's terminology, by document frequency | 0.8517 (+0.2551*) | 0.6383 (+0.1474*) | 0.0964 (+0.0059) |
 | | | same, chosen by tf-idf | 0.8367 (+0.2401*) | 0.6292 (+0.1383*) | 0.0957 (+0.0052) |
