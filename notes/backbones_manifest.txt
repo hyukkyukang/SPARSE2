@@ -1,0 +1,38 @@
+# Files a new server needs under $DVLSR_DATA to run ./run_backbone.sh <enc> <main> <aux>
+# (everything below is encoder-independent and already built; ~7 GB). rsync -a --files-from=this.
+data/raw/queries.dev.small.tsv
+data/raw/qrels.dev.small.tsv
+data/raw/queries.train.tsv
+data/prep/passages.bin
+data/prep/offsets.npy
+data/prep/splits.npz
+data/prep/c1_pids.npy
+data/prep/train_negatives.npz
+data/prep/vocab_splits.npz
+artifacts/vocab.npz
+artifacts/probe_plan.npz
+domain/scifact/passages.bin
+domain/scifact/offsets.npy
+domain/scifact/ids.json
+domain/scifact/queries.tsv
+domain/scifact/qrels.tsv
+domain/nfcorpus/passages.bin
+domain/nfcorpus/offsets.npy
+domain/nfcorpus/ids.json
+domain/nfcorpus/queries.tsv
+domain/nfcorpus/qrels.tsv
+domain/trec-covid/passages.bin
+domain/trec-covid/offsets.npy
+domain/trec-covid/ids.json
+domain/trec-covid/queries.tsv
+domain/trec-covid/qrels.tsv
+# optional: the shared domain word lists (91 rebuilds them identically if absent)
+artifacts/vocab_dom_scifact.npz
+artifacts/vocab_dom_scifact_tfidf.npz
+artifacts/vocab_dom_scifact_dfcap.npz
+artifacts/vocab_dom_nfcorpus.npz
+artifacts/vocab_dom_nfcorpus_tfidf.npz
+artifacts/vocab_dom_nfcorpus_dfcap.npz
+artifacts/vocab_dom_trec-covid.npz
+artifacts/vocab_dom_trec-covid_tfidf.npz
+artifacts/vocab_dom_trec-covid_dfcap.npz

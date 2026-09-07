@@ -174,3 +174,71 @@ within-decile activation comparison of §D.6.5 then reported signed gap_r = +3.3
 degenerate entries and requires 20 usable seen entries in a decile before that decile
 contributes, so the rare split reports the gap as unmeasurable — which is what the A100
 run did, and what the split's construction implies.
+
+## D14 — Pilot M backbones choose their layer by a retrieval probe, not by §A.4
+
+**What the protocol says.** §A.4 selects the hidden layer by cross-representation
+self-hit@10, with related-term MRR as a tie-breaker.
+
+**What we did.** For the two Qwen3-0.6B backbones of `notes/backbones.md` the layer is
+chosen by `scripts/95_layer_probe.py`: training-free retrieval (the §C rule) at five
+candidate layers {12, 16, 20, 24, 28} on a probe corpus of every dev-small positive plus
+100k random C1 passages, picking the best MRR@10; tau_d/tau_q come from the §0.6 samples
+at that layer.
+
+**Why.** For e5 the §A.4 rule picked layer 9 and Pilot C showed layer 12 retrieves 30%
+better; identity and retrieval are anti-correlated across layers (§A findings). A 28-layer
+causal decoder has no "last BERT layer" analogue and its final layer is shaped for
+next-token prediction, so neither the rule nor a guess is safe. The probe applies the
+criterion that actually chose e5's layer at ~7% of C1's encoding cost.
+
+## D15 — word-unit boundaries are decided per piece, and surfaces are stripped
+
+**What changed.** `Encoder._word_units` kept a unit iff its first character lay at or
+after the prompt (`c0 >= plen`). Byte-level BPE offsets include the space preceding a
+word, so under that rule the first text word after a prompt was silently dropped
+(`"Document: The"` tokenises to `ĠThe` spanning (9,13) with plen = 10). Qwen's
+pre-tokenizer also glues a leading punctuation mark to the next word, so Octen's
+`"…\nQuery:what"` yields one word whose first piece `:` is prompt. Now a *piece* is text
+iff it ends after the prompt, a unit is text iff it has such a piece, the unit's state
+averages only those pieces, and its surface is taken from the prompt boundary and
+stripped.
+
+Byte-level BPE backbones (`trim_punct=True`) additionally trim leading/trailing
+non-alphanumerics from a unit's surface and drop punctuation-only pieces from its mean,
+because Qwen's pre-tokenizer glues one leading non-letter onto a word (`brown-fox` →
+`brown`, `-fox`; `sars-cov-2` → `sars`, `-cov`, `-`, `2`), which would otherwise never
+match a vocabulary word. This part is *not* applied to e5: BERT keeps symbol characters
+(°, €, ™) inside words and `str.isalnum` rejects them, so it would alter 0.1% of e5 units.
+
+**Proof the prompt rule changes nothing for e5.** WordPiece offsets exclude spaces and no
+piece straddles the boundary, so the rule is equivalent. Verified: 500 P passages and 200 dev
+queries through the old and new code give identical unit lists, rows and bit-identical
+states (28,234 document units, 1,048 query units).
+
+## D16 — single-layer encoding truncates the frozen stack
+
+`Encoder.truncate_to(L)` drops every transformer layer above the one in use and replaces
+the stack's final norm by the identity (HF applies that norm to the *last* entry of
+`hidden_states`, and all artifacts were built from the un-normed layer-L state of the full
+model). `hidden_states[L]` depends on layers 1..L only, so this is exact: verified
+`max |diff| = 0` against the full stack for both backbones at layer 20. Used only where no
+pooled embedding is needed (frozen training, corpus encoding, domain evaluation); the
+prototype/bank builders and the dense reference keep the full stack. Saves (28−L)/28 of
+the forward pass.
+
+## D17 — Octen inputs follow the model card's reference code, not sentence-transformers 6
+
+The Octen model card gives two usages. Its HuggingFace snippet is the Qwen3-Embedding
+format: an `Instruct: …\nQuery:` prefix before queries, bare documents, the `<|endoftext|>`
+the tokenizer appends as the pooled last token. Our `Encoder` reproduces that snippet to
+cosine 1.0000 on 32 passages and 16 queries (left-padded reference vs our right padding).
+sentence-transformers 6.0 wraps every input in the repo's chat template
+(`<|im_start|>user\n…<|im_end|>\n`) and pools the trailing newline instead of the end
+token — a library behaviour that differs from the authors' code (cosine 0.80–0.86 against
+it), so it is not what we match. The card's sentence-transformers document prompt `" "` is
+stripped by that library before tokenisation, i.e. it is a no-op there; we use `""` so the
+first document token is `The`, not `ĠThe`, as in the reference snippet.
+
+jina-embeddings-v5's retrieval LoRA is merged into the weights at load: pooled outputs
+identical (cosine 1.0000), unit states 0.9999 in fp16, throughput 102 → 183 passages/s.

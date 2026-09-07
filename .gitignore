@@ -4,3 +4,4 @@ __pycache__/
 logs/*.log
 *.tmp
 logs_gpu10/
+env.sh

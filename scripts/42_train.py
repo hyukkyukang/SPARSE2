@@ -44,7 +44,7 @@ os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 def entry_raw(enc, layer, rep, r1_prefix, tag=""):
     if rep == "R2":
         return np.asarray(np.load(paths.proto_file(enc, tag))["protoA"][
-            :, paths.LAYERS.index(layer)], np.float32)
+            :, paths.layers_for(enc).index(layer)], np.float32)
     return np.asarray(np.load(paths.ART / f"r1_{enc}.npz")[r1_prefix], np.float32)
 
 
@@ -135,10 +135,18 @@ class Trainer:
         if self.meta is not None:
             self.trainable &= ~self.meta
 
-        self.enc = Encoder(a.encoder, dtype=torch.float32)
+        ecfg = paths.ENCODERS[a.encoder]
+        # A frozen encoder that is numerically safe in fp16 is loaded in fp16: half the
+        # memory and no per-forward weight casts. Trainable arms keep fp32 master weights.
+        enc_dtype = (torch.float16 if (a.variant == "V1" and ecfg.get("fp16_weights"))
+                     else torch.float32)
+        self.enc = Encoder(a.encoder, dtype=enc_dtype)
         if a.variant == "V1":
             self.enc.model.requires_grad_(False)
             self.enc.model.eval()
+            if a.teacher == "none" and self.enc.truncate_to(a.layer):
+                lg.info(f"encoder truncated to layer {a.layer}: the frozen arm needs no "
+                        f"deeper state and no pooled embedding")
         elif a.variant == "V2":
             from peft import LoraConfig, get_peft_model
             # q/k/v/o as §D.3 specifies: "dense" alone would also catch both FFN
@@ -164,12 +172,13 @@ class Trainer:
         self.tfQ = token_tf(a.encoder, a.layer, True)
         self.AB = self.AB_seen = None          # entry-norm affine (see refresh_entry_norm)
         self._bank = None
-        self.head = Head(768, 768, t_init=20.0, b_init=20.0 * a.tau, kind=a.head).to(DEV)
+        dim = int(self.E_all.shape[1])
+        self.head = Head(dim, dim, t_init=20.0, b_init=20.0 * a.tau, kind=a.head).to(DEV)
 
         self.E_head = None
         self.map_holdout = None
         if a.entry_head:
-            self.E_head = EntryHead(768, 768).to(DEV)
+            self.E_head = EntryHead(dim, dim).to(DEV)
             lg.info(f"entry-side head: {sum(p.numel() for p in self.E_head.parameters()):,} "
                     f"shared parameters, identity at step 0")
             if a.eh_holdout > 0:
@@ -259,7 +268,7 @@ class Trainer:
         key = np.sort(occ.reshape(-1).astype(np.int64) * self.nV
                       + np.repeat(pick.astype(np.int64), occ.shape[1]))
         key_t = torch.from_numpy(key).to(DEV)
-        acc = torch.zeros(self.nV, 768, device=DEV)
+        acc = torch.zeros(self.nV, self.enc.dim, device=DEV)
         cnt = torch.zeros(self.nV, device=DEV)
         order = np.argsort([self.col.off[p + 1] - self.col.off[p] for p in pids])
         was = self.enc.model.training

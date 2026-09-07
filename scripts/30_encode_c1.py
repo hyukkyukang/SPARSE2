@@ -45,7 +45,7 @@ def entry_matrix(enc, layer, rep, r1_prefix="doc", transform="whitened",
     """Entry side under one of the §0.5 conditions, with its own transform."""
     WD = paths.ART / "whiten"
     if rep == "R2":
-        E = np.load(paths.ART / f"proto_{enc}.npz")["protoA"][:, paths.LAYERS.index(layer)]
+        E = np.load(paths.ART / f"proto_{enc}.npz")["protoA"][:, paths.layers_for(enc).index(layer)]
         wp = WD / f"{enc}_L{layer}_V_R2.npz"
     elif rep == "R3":
         E = r3_matrix(enc, layer, list(store_layers))
@@ -75,7 +75,7 @@ def token_tf(enc, layer, query_side=False, transform="whitened"):
 
 def worker(shard, n_shards, enc_name, layer, rep, bs, r1_prefix, qside, transform):
     E = entry_matrix(enc_name, layer, rep, r1_prefix, transform)
-    li = paths.LAYERS.index(layer)
+    li = paths.layers_for(enc_name).index(layer)
     enc = Encoder(enc_name)
     tf = token_tf(enc_name, layer, qside, transform)
     if qside:

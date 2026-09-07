@@ -181,10 +181,11 @@ def build_aux(enc_name: str, force=False):
                 rows.append(wu.row.astype(np.int32) + s0)
                 st.append(wu.states.cpu().numpy())
                 words.extend(wu.word)
-        np.savez(path, states=np.concatenate(st, 0), row=np.concatenate(rows, 0),
+        S = np.concatenate(st, 0)
+        np.savez(path, states=S, row=np.concatenate(rows, 0),
                  words=np.asarray(words), n_rows=np.int32(len(texts)),
                  layers=np.asarray(L))
-        lg.info(f"{enc_name}: {tag} {np.concatenate(st,0).shape} over {len(texts)} texts")
+        lg.info(f"{enc_name}: {tag} {S.shape} over {len(texts)} texts")
 
     dump(col.texts(pids), False, sp, "S")
     np.save(paths.ART / "tauS_pids.npy", pids)

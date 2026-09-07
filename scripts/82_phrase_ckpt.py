@@ -80,7 +80,7 @@ def main(src="V1oracle", dst="V1_phrase", enc="e5", norm=False):
     blob = torch.load(sd / "head.pt", map_location="cpu", weights_only=False)
     z = np.load(paths.vocab_file("phr"))
     isp = z["is_phrase"]
-    proto = np.load(paths.proto_file(enc, "phr"))["protoA"][:, paths.LAYERS.index(cfg["layer"])]
+    proto = np.load(paths.proto_file(enc, "phr"))["protoA"][:, paths.layers_for(enc).index(cfg["layer"])]
     Vp = torch.as_tensor(np.asarray(proto[isp], np.float32))
     mu, W = torch.as_tensor(blob["muV"]), torch.as_tensor(blob["WV"])
     Ep = F.normalize((Vp - mu) @ W, dim=-1)
@@ -89,7 +89,7 @@ def main(src="V1oracle", dst="V1_phrase", enc="e5", norm=False):
     AB = None
     if norm:
         from dvlsr.model import Head
-        head = Head(768, 768, kind=cfg.get("head", "mlp")).to("cuda")
+        head = Head(int(E_all.shape[1]), int(E_all.shape[1]), kind=cfg.get("head", "mlp")).to("cuda")
         head.load_state_dict(blob["head"]); head.eval()
         AB = entry_norm_for(head, E_all.to("cuda"), z["decile"], ~isp, enc, cfg["layer"]).cpu()
     dd = paths.CKPT / dst

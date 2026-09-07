@@ -50,7 +50,8 @@ the base recipe is weakest and costs a little where it is already strong.
 
 ## 3. What was built and run
 
-MS MARCO v1 passage (8,841,823 passages). **63 trained models** across the two parts.
+MS MARCO v1 passage (8,841,823 passages). **68 trained models** across the two parts, plus
+three BEIR corpora for the domain-shift pilots.
 
 * **Setup**: collection binary + P/Q/S splits; a frozen 30,000-entry vocabulary; contextual
   prototypes over 2.48M passages per encoder; 200k-token background banks; ZCA whitening
@@ -67,6 +68,13 @@ MS MARCO v1 passage (8,841,823 passages). **63 trained models** across the two p
 * **Pilot G**: the three runs Pilot F's result made worth doing — bare strings under
   normalisation, normalisation on the rare split, and a parameterized-vocabulary control.
 * **Pilot H**: seed repeats for the arms the final decision rests on.
+* **Pilot I–K**: a shared learned map on the entry side, k=100 prototypes, and two attempts
+  to make the entry map generalise (region holdout, displacement penalty).
+* **Pilot L**: real vocabulary shift — scifact, nfcorpus, trec-covid — with three term-
+  selection rules, a capacity control, a wrong-domain control, and BM25 / SPLADE++ /
+  SPLADE-v3 / dense references on the same corpora.
+* **Pilot M** (`notes/backbones.md`, in progress): Pilot L on two more backbones,
+  Octen-Embedding-0.6B and jina-embeddings-v5-text-small.
 * **Infrastructure**: an exact GPU inverted index (verified against brute force) that
   searches C₁ for 6,980 queries in ~20 s.
 
@@ -280,46 +288,67 @@ Every split above is a synthetic ablation of one collection. **Pilot L** runs th
 thing: a model trained only on MS MARCO, given entries for terminology a *different*
 corpus uses and the model has never had a dimension for, then evaluated on that corpus.
 Entries are chosen from corpus text by frequency alone — never from queries or relevance
-labels — which is what a deployment indexing a corpus can actually do.
+labels — which is what a deployment indexing a corpus can actually do. The baseline is
+the same model encoded with its trained vocabulary only (its own encode: an earlier
+version derived it by masking and, on the dense corpus, silently lost trained entries to
+the per-document store cap — the numbers below are the corrected ones).
 
-| corpus | inserted entries are... | MRR@10 | zeroed | gain | significant |
-|---|---|---|---|---|---|
-| **nfcorpus** (3.6k passages, nutrition) | this corpus's terminology | 0.5166 | 0.4899 | **+0.027** | yes |
-| | same, tail-calibrated | 0.5039 | 0.4871 | +0.017 | yes |
-| | random vectors (capacity control) | 0.4899 | 0.4899 | 0.000 | no |
-| | wrong-domain terms | 0.4902 | 0.4899 | +0.000 | no |
-| **scifact** (5.2k passages, scientific claims) | this corpus's terminology | 0.4635 | 0.4100 | **+0.054** | yes |
-| | same, tail-calibrated | 0.4625 | 0.4016 | +0.061 | yes |
-| | random vectors | 0.4119 | 0.4119 | 0.000 | no |
-| | wrong-domain terms | 0.4170 | 0.4119 | +0.005 | no |
-| **trec-covid** (171k passages, COVID literature) | this corpus's terminology | 0.3719 | 0.6284 | **−0.257** | yes |
-| | same, tail-calibrated | 0.3275 | 0.5549 | −0.227 | yes |
-| | random vectors | 0.6942 | 0.6942 | 0.000 | no |
-| | wrong-domain terms | 0.7142 | 0.6942 | +0.020 | no |
+| corpus | inserted entries are... | MRR@10 | nDCG@10 | R@100 |
+|---|---|---|---|---|
+| **nfcorpus** (3.6k passages, nutrition) | *baseline, trained vocabulary only* | **0.4899** | **0.2943** | **0.2705** |
+| | this corpus's terminology, by document frequency | 0.5166 (+0.0267*) | 0.3216 (+0.0273*) | 0.2854 (+0.0149*) |
+| | same, chosen by tf-idf | 0.5166 (+0.0267*) | 0.3216 (+0.0273*) | 0.2854 (+0.0149*) |
+| | same, document-frequency ceiling 10% | 0.5166 (+0.0267*) | 0.3216 (+0.0273*) | 0.2854 (+0.0149*) |
+| | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2943 (+0.0000) | 0.2705 (+0.0000) |
+| | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0043*) | 0.2720 (+0.0015) |
+| **scifact** (5.2k passages, scientific claims) | *baseline, trained vocabulary only* | **0.4119** | **0.4373** | **0.7700** |
+| | this corpus's terminology, by document frequency | 0.4635 (+0.0516*) | 0.4944 (+0.0570*) | 0.8320 (+0.0620*) |
+| | same, chosen by tf-idf | 0.4646 (+0.0528*) | 0.4959 (+0.0586*) | 0.8353 (+0.0653*) |
+| | same, document-frequency ceiling 10% | 0.4635 (+0.0516*) | 0.4944 (+0.0570*) | 0.8320 (+0.0620*) |
+| | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
+| | wrong-domain terms (nfcorpus) | 0.4170 (+0.0051) | 0.4421 (+0.0048) | 0.7733 (+0.0033) |
+| **trec-covid** (171k passages, COVID literature) | *baseline, trained vocabulary only* | **0.6942** | **0.5543** | **0.0892** |
+| | this corpus's terminology, by document frequency | 0.3719 (-0.3223*) | 0.1967 (-0.3576*) | 0.0270 (-0.0622*) |
+| | same, chosen by tf-idf | 0.4432 (-0.2509*) | 0.2322 (-0.3221*) | 0.0291 (-0.0601*) |
+| | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3511*) | 0.0273 (-0.0620*) |
+| | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (-0.0011) | 0.0891 (-0.0002) |
+| | wrong-domain terms (scifact) | … | … | … |
 
-**The controls are clean on all three.** 2,000–3,000 random unit vectors change retrieval
+`*` = paired bootstrap CI over queries excludes zero. Rows with the tail calibration
+applied at insertion are being recomputed under the corrected definition (correction on
+the inserted entries only) and appear in `reports_gpu10/DOMAIN.md` as they land.
+
+**The controls are clean on all three.** 1,000–3,000 random unit vectors change retrieval
 by *exactly* zero everywhere: they never clear the firing threshold, so extra dimensions
 are inert without meaning, and the gain is not capacity. The same construction with
-another corpus's terminology — real words, real prototypes, wrong domain — is also
+another corpus's terminology — real words, real prototypes, wrong domain — is
 non-significant everywhere. Whatever the effect is, it is about the terms.
 
 **Two corpora gain, one is badly harmed**, and the harm is the more informative half.
-On scifact, R@100 rises 0.747 → 0.832 with no retraining and no new parameters. On
-trec-covid, R@100 *falls* 0.074 → 0.027, so this is not an artefact of a rank-sensitive
-measure.
+On scifact, R@100 rises 0.770 → 0.832 with no retraining and no new parameters. On
+trec-covid, MRR@10 falls 0.694 → 0.372 and R@100 falls with it, so this is not an
+artefact of a rank-sensitive measure.
 
-**The failure is topical dominance, not miscalibration.** The top inserted trec-covid
-entries are `covid`, `coronavirus`, `cov`, `wuhan` — and all 50 queries in that benchmark
-are also about COVID. Terms that appear in most documents *and* most queries add no
-discrimination and swamp the signal that was working. Calibration does not rescue it, and
-the activation gap is ~+5 on **all three** corpora, so the gap does not predict the
-outcome. What predicts it is whether an inserted term is discriminative *within the corpus
-being searched*; a corpus-defining term is the opposite of discriminative.
+**How the terms are chosen barely matters.** Ranking by tf-idf, or capping document
+frequency at 10% (which removes `covid`, `coronavirus`, `cov` outright), changes
+trec-covid by at most 0.07 of a 0.32 loss; on the two small corpora fewer candidates
+clear the occurrence floor than the cap allows, so all three rules select the identical
+set and the rows coincide by construction. Corpus-defining terms are therefore *not* the
+cause; the inserted entries hurt as a population on a corpus 33x larger than the others.
+Calibration does not rescue it either, and the activation gap is ~+5 on all three corpora,
+so over-firing does not predict the outcome.
 
-**So the operative rule is sharper than "adding vocabulary helps".** It helps when added
-terms are discriminative in the target corpus, and hurts when they are corpus-defining.
-That property is computable at insertion time from document frequency alone, with no
-labels, and a df ceiling is the obvious filter this study did not have.
+**Against the reference systems on the same corpora:**
+
+| corpus | BM25 | SPLADE++ | SPLADE-v3 | e5 dense (our backbone) | ours, no added vocabulary | ours, + domain vocabulary |
+|---|---|---|---|---|---|---|
+| nfcorpus | 0.5086 | 0.5611 | 0.5817 | 0.5641 | 0.4899 | 0.5166 |
+| scifact | 0.6290 | 0.6484 | 0.6574 | 0.6690 | 0.4119 | 0.4635 |
+| trec-covid | … | … | … | … | 0.6942 | 0.3719 |
+
+Our sparse projection sits below BM25 on two of the three corpora and well below the dense
+backbone it is projected from. Insertion is a real, significant improvement where it
+helps; it is not what closes that gap.
 
 ---
 
@@ -353,10 +382,13 @@ The most consequential methodological finding is unchanged from the first pass:
 whether a token state retrieves the embedding of its own word does not.
 
 **Real domain shift is where the claim is strongest and its boundary sharpest** (§4.11).
-Inserting a genuinely foreign vocabulary is worth +0.054 and +0.027 MRR@10 on two corpora
-and costs −0.257 on a third, with random-vector and wrong-domain controls flat everywhere.
-The method extends a vocabulary usefully when the added terms discriminate within the
-target corpus, and damages it when they are corpus-defining.
+Inserting a genuinely foreign vocabulary is worth +0.052 and +0.027 MRR@10 on two small
+corpora and costs −0.322 on a corpus 33x larger, with random-vector and wrong-domain
+controls flat everywhere. How the terms are chosen barely moves either number: the harm is
+the inserted entries as a population, not a few corpus-defining terms, and calibration
+does not repair it. What separates the two outcomes — corpus size, the number of inserted
+dimensions, or the density they add — is the open question Pilot M's second and third
+backbones are meant to help answer.
 
 **Honest positioning.** Our best text-defined configurations reach 0.19–0.25 MRR@10 on C₁
 against BM25 0.189, dense 0.356 and SPLADE++ 0.382. This is a method for *extending* a

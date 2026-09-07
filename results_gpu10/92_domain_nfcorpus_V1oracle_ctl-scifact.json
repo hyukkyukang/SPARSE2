@@ -3,6 +3,7 @@
   "corpus": "nfcorpus",
   "norm": false,
   "control": "scifact",
+  "select": "df",
   "n_passages": 3633,
   "n_queries": 323,
   "n_inserted": 957,
@@ -15,6 +16,7 @@
       0.5382264484741265
     ],
     "nnz_d": 347.9545829892651,
+    "cap_hit": 0.0,
     "n_scored": 323
   },
   "without": {
@@ -26,6 +28,7 @@
       0.537984237554671
     ],
     "nnz_d": 77.4131571703826,
+    "cap_hit": 0.0,
     "n_scored": 323
   },
   "delta_mrr": {

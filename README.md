@@ -115,26 +115,26 @@ insertion time from its own statistics.
 
 A model trained only on MS MARCO, given entries for terminology a different corpus uses,
 evaluated on that corpus. Entries selected from corpus text by frequency alone, never from
-queries or labels.
+queries or labels. The baseline is the same model with its trained vocabulary only, as its
+own encode (change in MRR@10; `sig` = paired bootstrap CI excludes zero).
 
 | corpus | this corpus's terms | random vectors | wrong-domain terms |
 |---|---|---|---|
-| nfcorpus, 3.6k passages | **+0.027** (sig) | 0.000 | +0.000 |
-| scifact, 5.2k passages | **+0.054** (sig) | 0.000 | +0.005 |
-| trec-covid, 171k passages | **−0.257** (sig) | 0.000 | +0.020 |
+| nfcorpus, 3.6k passages | **+0.027 (sig)** | +0.000 | +0.000 |
+| scifact, 5.2k passages | **+0.052 (sig)** | +0.000 | +0.005 |
+| trec-covid, 171k passages | **-0.322 (sig)** | +0.000 | … |
 
 Random vectors change retrieval by exactly zero everywhere, so the gain is not capacity;
 another corpus's terminology is non-significant everywhere, so it is not "any real words".
-Two corpora gain and one is badly harmed, and R@100 moves the same way as MRR in all three
-(0.747 → 0.832 on scifact; 0.074 → 0.027 on trec-covid).
+Two corpora gain and one is badly harmed, and R@100 moves the same way as MRR in all three.
 
-**The harm is topical dominance.** The top inserted trec-covid entries are `covid`,
-`coronavirus`, `wuhan`, and every query in that benchmark is about COVID: terms in most
-documents *and* most queries add no discrimination. Calibration does not rescue it, and
-the activation gap is ~+5 on all three corpora, so over-firing does not predict the
-outcome. **Adding vocabulary helps when the terms discriminate within the target corpus
-and hurts when they are corpus-defining** — a property computable at insertion time from
-document frequency, with no labels.
+**Term selection is not the cause of the harm.** tf-idf ranking or a 10% document-frequency
+ceiling (which removes `covid`, `coronavirus`, `cov`) recovers at most a fifth of the
+trec-covid loss; the rest is the inserted entries as a population on a corpus 33x larger
+than the others. Calibration does not rescue it, and over-firing is similar on all three
+corpora. Full tables, with BM25, SPLADE++, SPLADE-v3 and dense references, in
+`reports_gpu10/DOMAIN.md`; the same experiment on two more backbones is in progress
+(`notes/backbones.md`).
 
 ## Two negatives that close off explanations
 

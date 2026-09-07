@@ -3,6 +3,7 @@
   "corpus": "nfcorpus",
   "norm": false,
   "control": "rand",
+  "select": "df",
   "n_passages": 3633,
   "n_queries": 323,
   "n_inserted": 957,
@@ -15,6 +16,7 @@
       0.537984237554671
     ],
     "nnz_d": 77.41480869804569,
+    "cap_hit": 0.0,
     "n_scored": 323
   },
   "without": {
@@ -26,6 +28,7 @@
       0.537984237554671
     ],
     "nnz_d": 77.4131571703826,
+    "cap_hit": 0.0,
     "n_scored": 323
   },
   "delta_mrr": {

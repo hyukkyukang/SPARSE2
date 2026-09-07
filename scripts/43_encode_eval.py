@@ -25,10 +25,14 @@ def load_ckpt(name, device="cuda"):
     d = paths.CKPT / name
     cfg = json.load(open(d / "config.json"))
     blob = torch.load(d / "head.pt", map_location=device, weights_only=False)
-    head = Head(768, 768, kind=cfg.get("head", "mlp")).to(device)
+    dim = int(blob["E_all"].shape[1])
+    head = Head(dim, dim, kind=cfg.get("head", "mlp")).to(device)
     head.load_state_dict(blob["head"])
     head.eval()
-    enc = Encoder(cfg["encoder"], dtype=torch.float32)
+    ecfg = paths.ENCODERS[cfg["encoder"]]
+    enc = Encoder(cfg["encoder"], dtype=(torch.float16 if (cfg["variant"] == "V1" and
+                                                          ecfg.get("fp16_weights"))
+                                         else torch.float32))
     if cfg["variant"] == "V2":
         from peft import PeftModel
         enc.model = PeftModel.from_pretrained(enc.model, str(d / "lora")).merge_and_unload()
@@ -37,6 +41,8 @@ def load_ckpt(name, device="cuda"):
         enc.model = AutoModel.from_pretrained(str(d / "encoder"),
                                               dtype=torch.float32).to(device)
     enc.model.eval()
+    if cfg["variant"] == "V1" and enc.truncate_to(cfg["layer"]):
+        pass        # every consumer of load_ckpt encodes word units at cfg["layer"] only
     E = blob["E_all"].to(device)
     AB = blob.get("AB")
     AB = None if AB is None else AB.to(device)      # Pilot F entry normalisation

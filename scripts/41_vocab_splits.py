@@ -18,7 +18,7 @@ lg = get_logger("splits", "41_vocab_splits.log")
 def entry_vectors(enc, layer, rep, r1_prefix="none"):
     if rep == "R2":
         return np.asarray(np.load(paths.ART / f"proto_{enc}.npz")["protoA"][
-            :, paths.LAYERS.index(layer)], np.float32)
+            :, paths.layers_for(enc).index(layer)], np.float32)
     return np.asarray(np.load(paths.ART / f"r1_{enc}.npz")[r1_prefix], np.float32)
 
 

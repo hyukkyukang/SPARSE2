@@ -3,7 +3,7 @@
   "corpus": "nfcorpus",
   "norm": false,
   "control": null,
-  "select": "df",
+  "select": "dfcap",
   "n_passages": 3633,
   "n_queries": 323,
   "n_inserted": 957,

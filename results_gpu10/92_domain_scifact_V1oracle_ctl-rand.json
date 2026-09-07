@@ -3,6 +3,7 @@
   "corpus": "scifact",
   "norm": false,
   "control": "rand",
+  "select": "df",
   "n_passages": 5183,
   "n_queries": 300,
   "n_inserted": 2003,
@@ -15,6 +16,7 @@
       0.4621739417989418
     ],
     "nnz_d": 72.66139301562801,
+    "cap_hit": 0.0,
     "n_scored": 300
   },
   "without": {
@@ -26,6 +28,7 @@
       0.4621739417989418
     ],
     "nnz_d": 72.66100713872275,
+    "cap_hit": 0.0,
     "n_scored": 300
   },
   "delta_mrr": {

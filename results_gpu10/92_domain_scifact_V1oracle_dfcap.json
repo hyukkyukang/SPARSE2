@@ -3,7 +3,7 @@
   "corpus": "scifact",
   "norm": false,
   "control": null,
-  "select": "df",
+  "select": "dfcap",
   "n_passages": 5183,
   "n_queries": 300,
   "n_inserted": 2003,

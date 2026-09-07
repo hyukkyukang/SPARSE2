@@ -47,6 +47,24 @@ ENCODERS = {
     "colbert": dict(
         hf="colbert-ir/colbertv2.0", pooling="token",
         q_prefix="[unused0] ", d_prefix="[unused1] ", dim=128),
+    # ---- Pilot M backbones (notes/backbones.md): 28-layer Qwen3-0.6B decoders ----
+    # Prompts follow each model card's own reference code (D17): Octen = the Qwen3-Embedding
+    # format, an instruction before queries and bare documents, with the <|endoftext|> the
+    # tokenizer appends as the pooled token; jina = "Query: " / "Document: " with the
+    # retrieval LoRA merged into the weights (identical outputs, 1.8x faster). Both pool the
+    # last token; both ship in bf16 and are finite at every layer in fp16 on Turing.
+    # `layers` are the single-layer candidates scripts/95_layer_probe.py chooses among.
+    "octen": dict(
+        hf="Octen/Octen-Embedding-0.6B", pooling="last",
+        q_prefix="Instruct: Given a web search query, retrieve relevant passages that "
+                 "answer the query\nQuery:",
+        d_prefix="", dim=1024, layers=[12, 16, 20, 24, 28], fp16_weights=True,
+        trim_punct=True),
+    "jina5s": dict(
+        hf="jinaai/jina-embeddings-v5-text-small", pooling="last",
+        q_prefix="Query: ", d_prefix="Document: ", dim=1024, layers=[12, 16, 20, 24, 28],
+        trust_remote_code=True, adapter="retrieval", merge_adapter=True, fp16_weights=True,
+        trim_punct=True),
 }
 COLBERT = "colbert-ir/colbertv2.0"
 SPLADE = "naver/splade-cocondenser-ensembledistil"
@@ -55,8 +73,12 @@ LAYERS = list(range(4, 13))            # §0.1 sweep indices 4..12
 
 
 def layers_for(enc: str) -> list[int]:
-    """ColBERTv2 is the Pilot A ceiling and is used at its final layer only (§0.1)."""
-    return [12] if enc == "colbert" else LAYERS
+    """The hidden layers stored for an encoder: §0.1's sweep for the BERT-sized models,
+    ColBERTv2 at its final layer only, and an explicit candidate list for the Pilot M
+    decoders. Every artifact indexed by layer must go through this, never LAYERS."""
+    if enc == "colbert":
+        return [12]
+    return list(ENCODERS.get(enc, {}).get("layers", LAYERS))
 
 
 MAXLEN_DOC = 192
