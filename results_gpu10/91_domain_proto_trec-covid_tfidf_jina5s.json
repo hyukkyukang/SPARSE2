@@ -1,0 +1,8 @@
+{
+  "name": "trec-covid",
+  "select": "tfidf",
+  "encoder": "jina5s",
+  "n_added": 3000,
+  "n_usable": 2976,
+  "median_occurrences": 49.0
+}

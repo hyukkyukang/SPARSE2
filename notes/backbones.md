@@ -209,7 +209,15 @@ retrieval prefer different depths — reappearing *across models* rather than ac
 of one model, and it is why a fixed "use the last layer" rule would have cost jina5s ~30%
 relative MRR.
 
-Because jina5s peaked at the edge, the sweep is extended to layers {6, 8, 10} under the
+Because jina5s peaked at the edge, the sweep was extended to layers {6, 8, 10} under the
 separate encoder keys `octen_lo`/`jina5s_lo` (identical models and prompts, different
-artifact names, so the extension runs beside a live pipeline). Octen's peak is at its
-maximum depth and cannot be extended.
+artifact names, so the extension runs beside a live pipeline). Result for jina5s:
+
+| layer | 6 | 8 | 10 | **12** | 16 | 20 | 24 | 28 |
+|---|---|---|---|---|---|---|---|---|
+| MRR@10 | 0.2905 | 0.3044 | 0.2914 | **0.2981** | 0.2864 | 0.2552 | 0.2332 | 0.2063 |
+
+The curve is a broad plateau over layers 8–12 and falls away after 16. Layer 8 leads layer
+12 by 0.006, inside the noise of a single probe and below the 0.01 margin set for
+retraining, so layer 12 stands and the jina5s results below are not a layer-selection
+artefact. Octen's peak is at its maximum depth and cannot be extended.

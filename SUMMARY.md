@@ -293,29 +293,50 @@ the same model encoded with its trained vocabulary only (its own encode: an earl
 version derived it by masking and, on the dense corpus, silently lost trained entries to
 the per-document store cap — the numbers below are the corrected ones).
 
-| corpus | inserted entries are... | MRR@10 | nDCG@10 | R@100 |
-|---|---|---|---|---|
-| **nfcorpus** (3.6k passages, nutrition) | *baseline, trained vocabulary only* | **0.4899** | **0.2945** | **0.2688** |
-| | this corpus's terminology, by document frequency | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
-| | same, chosen by tf-idf | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2838 (+0.0149*) |
-| | same, document-frequency ceiling 10% | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
-| | same, tail calibration of the inserted entries | 0.5106 (+0.0207*) | 0.3202 (+0.0257*) | 0.2879 (+0.0191*) |
-| | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2945 (+0.0000) | 0.2688 (+0.0000) |
-| | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0041*) | 0.2703 (+0.0015) |
-| **scifact** (5.2k passages, scientific claims) | *baseline, trained vocabulary only* | **0.4119** | **0.4373** | **0.7700** |
-| | this corpus's terminology, by document frequency | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
-| | same, chosen by tf-idf | 0.4624 (+0.0505*) | 0.4942 (+0.0569*) | 0.8353 (+0.0653*) |
-| | same, document-frequency ceiling 10% | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
-| | same, tail calibration of the inserted entries | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) |
-| | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
-| | wrong-domain terms (nfcorpus) | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) |
-| **trec-covid** (171k passages, COVID literature) | *baseline, trained vocabulary only* | **0.6942** | **0.5532** | **0.0891** |
-| | this corpus's terminology, by document frequency | 0.3746 (-0.3196*) | 0.1984 (-0.3548*) | 0.0272 (-0.0619*) |
-| | same, chosen by tf-idf | 0.4560 (-0.2382*) | 0.2341 (-0.3191*) | 0.0289 (-0.0601*) |
-| | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3500*) | 0.0273 (-0.0618*) |
-| | same, tail calibration of the inserted entries | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) |
-| | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) |
-| | wrong-domain terms (scifact) | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) |
+| corpus | backbone | inserted entries are... | MRR@10 | nDCG@10 | R@100 |
+|---|---|---|---|---|---|
+| **nfcorpus** (3.6k passages, nutrition) | e5-base-v2 | *baseline, trained vocabulary only* | **0.4899** | **0.2945** | **0.2688** |
+| | | this corpus's terminology, by document frequency | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
+| | | same, chosen by tf-idf | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2838 (+0.0149*) |
+| | | same, document-frequency ceiling 10% | 0.5166 (+0.0267*) | 0.3218 (+0.0273*) | 0.2837 (+0.0149*) |
+| | | same, tail calibration of the inserted entries | 0.5106 (+0.0207*) | 0.3202 (+0.0257*) | 0.2879 (+0.0191*) |
+| | | random vectors (capacity control) | 0.4899 (+0.0000) | 0.2945 (+0.0000) | 0.2688 (+0.0000) |
+| | | wrong-domain terms (scifact) | 0.4902 (+0.0003) | 0.2986 (+0.0041*) | 0.2703 (+0.0015) |
+| **nfcorpus** (3.6k passages, nutrition) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.4960** | **0.3017** | **0.2807** |
+| | | this corpus's terminology, by document frequency | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
+| | | same, chosen by tf-idf | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
+| | | same, document-frequency ceiling 10% | 0.5248 (+0.0288*) | 0.3232 (+0.0215*) | 0.2893 (+0.0085*) |
+| | | same, tail calibration of the inserted entries | 0.5239 (+0.0279*) | 0.3199 (+0.0182*) | 0.2914 (+0.0106*) |
+| | | random vectors (capacity control) | 0.4960 (+0.0000) | 0.3017 (+0.0000) | 0.2807 (+0.0000) |
+| | | wrong-domain terms (scifact) | 0.5044 (+0.0084*) | 0.3110 (+0.0093*) | 0.2838 (+0.0031) |
+| **scifact** (5.2k passages, scientific claims) | e5-base-v2 | *baseline, trained vocabulary only* | **0.4119** | **0.4373** | **0.7700** |
+| | | this corpus's terminology, by document frequency | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
+| | | same, chosen by tf-idf | 0.4624 (+0.0505*) | 0.4942 (+0.0569*) | 0.8353 (+0.0653*) |
+| | | same, document-frequency ceiling 10% | 0.4629 (+0.0511*) | 0.4939 (+0.0565*) | 0.8320 (+0.0620*) |
+| | | same, tail calibration of the inserted entries | 0.4563 (+0.0444*) | 0.4911 (+0.0538*) | 0.8320 (+0.0620*) |
+| | | random vectors (capacity control) | 0.4119 (+0.0000) | 0.4373 (+0.0000) | 0.7700 (+0.0000) |
+| | | wrong-domain terms (nfcorpus) | 0.4173 (+0.0054) | 0.4431 (+0.0058) | 0.7700 (+0.0000) |
+| **scifact** (5.2k passages, scientific claims) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.4179** | **0.4504** | **0.7661** |
+| | | this corpus's terminology, by document frequency | 0.4086 (-0.0092) | 0.4373 (-0.0130) | 0.7576 (-0.0086) |
+| | | same, chosen by tf-idf | 0.4067 (-0.0112) | 0.4358 (-0.0145) | 0.7576 (-0.0086) |
+| | | same, document-frequency ceiling 10% | 0.4086 (-0.0092) | 0.4373 (-0.0130) | 0.7576 (-0.0086) |
+| | | same, tail calibration of the inserted entries | 0.3207 (-0.0972*) | 0.3522 (-0.0981*) | 0.6952 (-0.0709*) |
+| | | random vectors (capacity control) | 0.4179 (+0.0000) | 0.4504 (+0.0000) | 0.7661 (+0.0000) |
+| | | wrong-domain terms (nfcorpus) | 0.4377 (+0.0198) | 0.4680 (+0.0177) | 0.7856 (+0.0194) |
+| **trec-covid** (171k passages, COVID literature) | e5-base-v2 | *baseline, trained vocabulary only* | **0.6942** | **0.5532** | **0.0891** |
+| | | this corpus's terminology, by document frequency | 0.3746 (-0.3196*) | 0.1984 (-0.3548*) | 0.0272 (-0.0619*) |
+| | | same, chosen by tf-idf | 0.4560 (-0.2382*) | 0.2341 (-0.3191*) | 0.0289 (-0.0601*) |
+| | | same, document-frequency ceiling 10% | 0.4166 (-0.2776*) | 0.2032 (-0.3500*) | 0.0273 (-0.0618*) |
+| | | same, tail calibration of the inserted entries | 0.3796 (-0.3146*) | 0.1889 (-0.3642*) | 0.0246 (-0.0645*) |
+| | | random vectors (capacity control) | 0.6942 (+0.0000) | 0.5532 (+0.0000) | 0.0891 (+0.0000) |
+| | | wrong-domain terms (scifact) | 0.7142 (+0.0200) | 0.5639 (+0.0107) | 0.0881 (-0.0009) |
+| **trec-covid** (171k passages, COVID literature) | jina-embeddings-v5-text-small | *baseline, trained vocabulary only* | **0.5965** | **0.4909** | **0.0905** |
+| | | this corpus's terminology, by document frequency | 0.8517 (+0.2551*) | 0.6383 (+0.1474*) | 0.0964 (+0.0059) |
+| | | same, chosen by tf-idf | 0.8367 (+0.2401*) | 0.6292 (+0.1383*) | 0.0957 (+0.0052) |
+| | | same, document-frequency ceiling 10% | 0.8133 (+0.2168*) | 0.6154 (+0.1244*) | 0.0990 (+0.0085) |
+| | | same, tail calibration of the inserted entries | 0.8008 (+0.2043*) | 0.5879 (+0.0970) | 0.0850 (-0.0055) |
+| | | random vectors (capacity control) | 0.5965 (+0.0000) | 0.4909 (+0.0000) | 0.0905 (+0.0000) |
+| | | wrong-domain terms (scifact) | 0.6124 (+0.0158) | 0.5076 (+0.0167) | 0.0915 (+0.0010) |
 
 `*` = paired bootstrap CI over queries excludes zero. Calibration corrects the inserted
 entries only; it slightly *reduces* the gain on the small corpora, consistent with those
@@ -344,11 +365,11 @@ so over-firing does not predict the outcome.
 
 **Against the reference systems on the same corpora:**
 
-| corpus | BM25 | SPLADE++ | SPLADE-v3 | e5 dense (our backbone) | ours, no added vocabulary | ours, + domain vocabulary |
+| corpus | BM25 | SPLADE++ | SPLADE-v3 | e5-base-v2 dense | Octen-Embedding-0.6B dense | jina-embeddings-v5-text-small dense |
 |---|---|---|---|---|---|---|
-| nfcorpus | 0.5086 | 0.5611 | 0.5817 | … | 0.4899 | 0.5166 |
-| scifact | 0.6290 | 0.6484 | 0.6574 | … | 0.4119 | 0.4629 |
-| trec-covid | 0.7676 | 0.8883 | 0.9153 | 0.9133 | 0.6942 | 0.3746 |
+| nfcorpus | 0.5086 | 0.5611 | 0.5817 | … | 0.5781 | 0.6008 |
+| scifact | 0.6290 | 0.6484 | 0.6574 | … | 0.6703 | 0.7077 |
+| trec-covid | 0.7676 | 0.8883 | 0.9153 | 0.9133 | 0.9300 | 0.8967 |
 
 Our sparse projection sits below BM25 on two of the three corpora and well below the dense
 backbone it is projected from. Insertion is a real, significant improvement where it

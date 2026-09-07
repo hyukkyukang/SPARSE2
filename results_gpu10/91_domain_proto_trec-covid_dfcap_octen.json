@@ -1,0 +1,8 @@
+{
+  "name": "trec-covid",
+  "select": "dfcap",
+  "encoder": "octen",
+  "n_added": 3000,
+  "n_usable": 2969,
+  "median_occurrences": 44.0
+}

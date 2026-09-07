@@ -1,0 +1,56 @@
+{
+  "model": "V1oracle_jina5s",
+  "corpus": "scifact",
+  "norm": false,
+  "control": "rand",
+  "select": "df",
+  "n_passages": 5183,
+  "n_queries": 300,
+  "n_inserted": 2005,
+  "with": {
+    "mrr": 0.4178703703703704,
+    "ndcg": 0.4503613682532574,
+    "r100": 0.7661111111111111,
+    "mrr_ci": [
+      0.36836173941798944,
+      0.46920783730158727
+    ],
+    "nnz_d": 93.19062319120201,
+    "cap_hit": 0.0,
+    "n_scored": 300
+  },
+  "without": {
+    "mrr": 0.4178703703703704,
+    "ndcg": 0.4503613682532574,
+    "r100": 0.7661111111111111,
+    "mrr_ci": [
+      0.36836173941798944,
+      0.46920783730158727
+    ],
+    "nnz_d": 93.19062319120201,
+    "cap_hit": 0.0,
+    "n_scored": 300
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -14.145749225268112
+}

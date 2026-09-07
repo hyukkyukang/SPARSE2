@@ -1,0 +1,17 @@
+{
+  "L6": {
+    "rel_mu_shift": 0.4015020904199541,
+    "rel_cov_frob": 1.925005522838916,
+    "shared_ok": false
+  },
+  "L8": {
+    "rel_mu_shift": 0.5012963872288241,
+    "rel_cov_frob": 2.0124196285250937,
+    "shared_ok": false
+  },
+  "L10": {
+    "rel_mu_shift": 0.5540282332133174,
+    "rel_cov_frob": 2.4095518260998787,
+    "shared_ok": false
+  }
+}

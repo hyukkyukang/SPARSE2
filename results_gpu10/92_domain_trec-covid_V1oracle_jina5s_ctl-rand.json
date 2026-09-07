@@ -1,0 +1,56 @@
+{
+  "model": "V1oracle_jina5s",
+  "corpus": "trec-covid",
+  "norm": false,
+  "control": "rand",
+  "select": "df",
+  "n_passages": 171332,
+  "n_queries": 50,
+  "n_inserted": 2974,
+  "with": {
+    "mrr": 0.5965476190476191,
+    "ndcg": 0.490931329179492,
+    "r100": 0.09050491622498445,
+    "mrr_ci": [
+      0.48118988095238086,
+      0.7142214285714286
+    ],
+    "nnz_d": 77.52313636681997,
+    "cap_hit": 0.0,
+    "n_scored": 50
+  },
+  "without": {
+    "mrr": 0.5965476190476191,
+    "ndcg": 0.490931329179492,
+    "r100": 0.09050491622498445,
+    "mrr_ci": [
+      0.48118988095238086,
+      0.7142214285714286
+    ],
+    "nnz_d": 77.52313636681997,
+    "cap_hit": 0.0,
+    "n_scored": 50
+  },
+  "delta_mrr": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_two_sided": 2.0,
+    "excludes_zero": false
+  },
+  "signed_gap_r": -13.437105296400482
+}
