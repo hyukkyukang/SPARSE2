@@ -11,7 +11,7 @@ probe), snowflake-arctic-embed-l-v2.0 (XLM-R large, CLS, layer 24). Three pretra
 families, three pooling rules. Wiring and validation: `notes/backbones.md`; survey and
 rationale: `notes/backbone_survey.md`. e5-base-v2 is the pilot contrast only.
 
-## Training data (decided in outline)
+## Training data (decided: tiers A and B)
 
 Goal stated by the owner: use every public retrieval training set that does not overlap
 the test suite, in particular RTEB-open (`Hyukkyu/rteb-open`).
@@ -21,8 +21,33 @@ the test suite, in particular RTEB-open (`Hyukkyu/rteb-open`).
 | A. supervised retrieval | MS MARCO passage (502k queries, full), NQ, TriviaQA, SQuAD, HotpotQA, FEVER, ELI5, Quora duplicates, AllNLI | in |
 | B. weakly supervised pairs | Yahoo Answers, PAQ, WikiAnswers, AG News, NPR, CC-News, WikiHow, SimpleWiki, SearchQA | in, capped per source |
 | B, excluded | StackExchange (LoTTE, CQADupStack, BRIGHT), S2ORC and SPECTER (SCIDOCS, LitSearch), GooAQ (LoTTE search queries), Amazon QA/reviews (ESCI) | out: each collides with a shift test set |
-| C. code | CodeSearchNet, CoSQA, StackOverflow QA (StaQC/ProCQA) | in; nothing from Apps, MBPP, WikiSQL train splits, HumanEval or DS-1000 |
+| C. code | CodeSearchNet, CoSQA, StackOverflow QA (StaQC/ProCQA) | **out** (owner's decision 2026-09-08): tiers A and B only; the RTEB code sets are tested zero-shot with no code training data |
 | excluded | MIRACL, Mr.TyDi (RTEB beta set), medical-QA instruction data (ChatDoctor), non-English sets | out |
+
+The unified training set (counts from the sentence-transformers cards and BEIR train splits;
+`documents` is the positive side unless a shared corpus exists; Wikipedia-derived sets share
+one Wikipedia store, DPR's 21.0M passages, in the unified index):
+
+| task | repo | languages | domain | license | queries | documents | qrels | public neg. |
+|---|---|---|---|---|---:|---:|---:|:---:|
+| MS MARCO passage | sentence-transformers/msmarco-hard-negatives | eng | web search | MS MARCO (non-commercial) | 502,939 | 8,841,823 | 532,761 | ✓ 50/query + CE scores |
+| Natural Questions | sentence-transformers/natural-questions | eng | Wikipedia QA | cc-by-sa-3.0 | 100,231 | Wikipedia | 100,231 | ✓ DPR BM25 |
+| TriviaQA | sentence-transformers/trivia-qa | eng | trivia QA | apache-2.0 | 73,346 | Wikipedia | 73,346 | ✓ DPR BM25 |
+| SQuAD | sentence-transformers/squad | eng | Wikipedia RC | cc-by-sa-4.0 | 87,599 | 18,891 paragraphs | 87,599 | ✓ DPR BM25 |
+| HotpotQA | sentence-transformers/hotpotqa, BeIR train | eng | multi-hop Wikipedia QA | cc-by-sa-4.0 | 85,000 | 5,233,329 | 170,000 | ✓ 20/query |
+| FEVER | BeIR fever train | eng | fact verification | cc-by-sa-4.0 | 109,810 | 5,416,568 | 140,085 | ✗ |
+| ELI5 | sentence-transformers/eli5 | eng | long-form QA (Reddit) | unspecified (Reddit) | 325,475 | 325,475 | 325,475 | ✗ |
+| Quora duplicates | sentence-transformers/quora-duplicates | eng | duplicate questions, symmetric | other (Quora) | 149,263 | ~537k questions | 149,263 | ✓ 101,762 triplets |
+| AllNLI | sentence-transformers/all-nli | eng | NLI, symmetric | cc-by-sa-4.0 / cc-by-3.0 | 314,315 | sentences | 314,315 | ✓ contradictions |
+| Yahoo Answers | sentence-transformers/yahoo-answers | eng | community QA | Yahoo Webscope (non-commercial) | 1,198,260 | 1,198,260 | 1,198,260 | ✗ |
+| PAQ | sentence-transformers/paq | eng | synthetic Wikipedia QA | cc-by-sa | 64,371,441 | Wikipedia | 64,371,441 | ✗ |
+| WikiAnswers duplicates | sentence-transformers/wikianswers-duplicates | eng | duplicate questions, symmetric | unspecified | 761,379,586 pairs | questions | same | ✗ |
+| AG News | sentence-transformers/agnews | eng | news title→description | unspecified | 1,157,745 | 1,157,745 | 1,157,745 | ✗ |
+| NPR | sentence-transformers/npr | eng | news title→body | unspecified | 594,384 | 594,384 | 594,384 | ✗ |
+| CC-News | sentence-transformers/ccnews | eng | news title→article | Common Crawl terms | 614,664 | 614,664 | 614,664 | ✗ |
+| WikiHow | sentence-transformers/embedding-training-data | eng | how-to summary→text | cc-by-nc-sa-3.0 | 128,542 | 128,542 | 128,542 | ✗ |
+| SimpleWiki | sentence-transformers/embedding-training-data | eng | Wikipedia↔Simple Wikipedia | cc-by-sa | 102,225 | 102,225 | 102,225 | ✗ |
+| SearchQA | sentence-transformers/embedding-training-data | eng | Jeopardy QA with web snippets | unspecified | 117,220 | top-5 snippets | 117,220 | ✗ |
 
 Recipe, from the literature on multi-source training (Arctic-Embed, Nomic, NV-Retriever,
 the task-conflict/model-merging paper):
