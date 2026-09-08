@@ -399,5 +399,6 @@ of the unit states at every candidate layer, and throughput at 192 tokens, batch
 All three use the text-defined unit rule (D19). Gemma's bidirectionality was checked
 directly: the layer-12 state of `bank` in "the bank of the river …" against "the bank of
 the money …" has cosine 0.87, so later tokens reach earlier states. Card-reported nDCG@10
-on our corpora, for the end-to-end check of each dense row: arctic-l SciFact 71.6 (card),
-NFCorpus 36.0, TREC-COVID 82.5 are to be read off `94_domain_baselines` once run.
+on our three corpora, the end-to-end check for each backbone's dense row once
+`94_domain_baselines` runs: arctic-l SciFact 70.6, NFCorpus 35.3, TREC-COVID 83.9;
+arctic-m 71.8, 35.9, 80.3. EmbeddingGemma's card publishes no per-dataset numbers.
