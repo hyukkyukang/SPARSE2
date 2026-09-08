@@ -1,0 +1,420 @@
+{
+  "corpus": "trec-covid",
+  "model": "V1oracle_octen",
+  "encoder": "octen",
+  "layer": 28,
+  "n_trained": 30000,
+  "n_inserted": 2974,
+  "n_docs": 171332,
+  "n_queries": 50,
+  "firing": {
+    "trained_df_mean": 0.002328485435684324,
+    "inserted_df_mean": 0.011880644791925903,
+    "trained_df_median": 0.00037354376298648237,
+    "inserted_df_median": 0.005267550720239068,
+    "trained_qf_mean": 0.000294,
+    "inserted_qf_mean": 0.0035709482178883658,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 0,
+    "inserted_df_gt_20pct": 11,
+    "trained_df_gt_20pct": 9,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.6754666685047797,
+    "inserted_share_top10_irrelevant": 0.6766296500112953,
+    "n_rel_in_top10": 295,
+    "n_irr_in_top10": 205
+  },
+  "worst_entries": [
+    {
+      "word": "covid",
+      "df": 0.44374080732145776,
+      "qf": 0.96,
+      "mass_irrelevant": 14243253.0,
+      "mass_relevant": 91366.15625
+    },
+    {
+      "word": "coronavirus",
+      "df": 0.46919431279620855,
+      "qf": 0.96,
+      "mass_irrelevant": 11466049.0,
+      "mass_relevant": 71889.1328125
+    },
+    {
+      "word": "cov",
+      "df": 0.4344547428384657,
+      "qf": 0.94,
+      "mass_irrelevant": 3682251.5,
+      "mass_relevant": 35755.93359375
+    },
+    {
+      "word": "coronaviruses",
+      "df": 0.46879158592673875,
+      "qf": 0.96,
+      "mass_irrelevant": 3369276.0,
+      "mass_relevant": 22406.091796875
+    },
+    {
+      "word": "coronaviral",
+      "df": 0.4589276959353769,
+      "qf": 0.96,
+      "mass_irrelevant": 3001111.5,
+      "mass_relevant": 19613.025390625
+    },
+    {
+      "word": "ncov",
+      "df": 0.2755994210071674,
+      "qf": 0.34,
+      "mass_irrelevant": 551993.75,
+      "mass_relevant": 7066.37353515625
+    },
+    {
+      "word": "sari",
+      "df": 0.1654623771391217,
+      "qf": 0.16,
+      "mass_irrelevant": 470286.4375,
+      "mass_relevant": 7679.34912109375
+    },
+    {
+      "word": "covs",
+      "df": 0.15203231153549834,
+      "qf": 0.18,
+      "mass_irrelevant": 390507.03125,
+      "mass_relevant": 7067.08642578125
+    },
+    {
+      "word": "sirs",
+      "df": 0.17063362360796583,
+      "qf": 0.16,
+      "mass_irrelevant": 369937.375,
+      "mass_relevant": 5859.29296875
+    },
+    {
+      "word": "siv",
+      "df": 0.15816076389699532,
+      "qf": 0.16,
+      "mass_irrelevant": 242832.140625,
+      "mass_relevant": 4717.19677734375
+    },
+    {
+      "word": "pandemie",
+      "df": 0.303399248243177,
+      "qf": 0.2,
+      "mass_irrelevant": 191911.234375,
+      "mass_relevant": 1487.865966796875
+    },
+    {
+      "word": "covidien",
+      "df": 0.2421380711133939,
+      "qf": 0.3,
+      "mass_irrelevant": 176849.046875,
+      "mass_relevant": 2406.6904296875
+    },
+    {
+      "word": "pandemia",
+      "df": 0.2845236149697663,
+      "qf": 0.16,
+      "mass_irrelevant": 150485.4375,
+      "mass_relevant": 1521.0606689453125
+    },
+    {
+      "word": "sarscov",
+      "df": 0.12185114281044988,
+      "qf": 0.16,
+      "mass_irrelevant": 146059.859375,
+      "mass_relevant": 3094.080810546875
+    },
+    {
+      "word": "hcov",
+      "df": 0.15529498284033338,
+      "qf": 0.18,
+      "mass_irrelevant": 141201.671875,
+      "mass_relevant": 2666.6044921875
+    },
+    {
+      "word": "ccov",
+      "df": 0.13946022926248453,
+      "qf": 0.16,
+      "mass_irrelevant": 131636.953125,
+      "mass_relevant": 2610.998779296875
+    },
+    {
+      "word": "betacoronaviruses",
+      "df": 0.22501342422898232,
+      "qf": 0.16,
+      "mass_irrelevant": 102383.25,
+      "mass_relevant": 941.9671020507812
+    },
+    {
+      "word": "hcovs",
+      "df": 0.15286694838092124,
+      "qf": 0.16,
+      "mass_irrelevant": 98880.0078125,
+      "mass_relevant": 1896.8736572265625
+    },
+    {
+      "word": "pandemics",
+      "df": 0.17857726519272524,
+      "qf": 0.04,
+      "mass_irrelevant": 78812.90625,
+      "mass_relevant": 1024.892578125
+    },
+    {
+      "word": "pacientes",
+      "df": 0.21015338640767633,
+      "qf": 0.06,
+      "mass_irrelevant": 67532.1875,
+      "mass_relevant": 709.637451171875
+    },
+    {
+      "word": "sanger",
+      "df": 0.1373532089743889,
+      "qf": 0.14,
+      "mass_irrelevant": 66901.1328125,
+      "mass_relevant": 1793.40234375
+    },
+    {
+      "word": "saa",
+      "df": 0.1406567366283006,
+      "qf": 0.14,
+      "mass_irrelevant": 62354.85546875,
+      "mass_relevant": 1295.14697265625
+    },
+    {
+      "word": "tratamiento",
+      "df": 0.1060047159900077,
+      "qf": 0.06,
+      "mass_irrelevant": 46395.3515625,
+      "mass_relevant": 463.02294921875
+    },
+    {
+      "word": "neue",
+      "df": 0.12468774076062848,
+      "qf": 0.02,
+      "mass_irrelevant": 35358.55078125,
+      "mass_relevant": 57.26468276977539
+    },
+    {
+      "word": "nouveau",
+      "df": 0.12256904722993953,
+      "qf": 0.02,
+      "mass_irrelevant": 24321.634765625,
+      "mass_relevant": 54.14164733886719
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "biorxiv",
+      "df": 0.0013774426260126538,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "sistema",
+      "df": 0.04345364555366189,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "strictures",
+      "df": 0.00028015782223986176,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "transcriptomics",
+      "df": 0.019552681343823687,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "trimers",
+      "df": 0.002107020288095627,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "unanticipated",
+      "df": 0.014924240655569304,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "virologists",
+      "df": 0.010161557677491653,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "visualizing",
+      "df": 0.0029533303761118766,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "alle",
+      "df": 0.006356080592066864,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "ankara",
+      "df": 0.0006712114491163355,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "antegrade",
+      "df": 0.0008930030583895594,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "arenavirus",
+      "df": 0.06675343776994373,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "rituximab",
+      "df": 0.002883290920551911,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "broilers",
+      "df": 0.004826885812340952,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "chemotactic",
+      "df": 0.0034669530502182896,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 332787.59375,
+    "inserted_on_irrelevant": 39789664.0,
+    "ratio_irr_to_rel": 119.56474304199219
+  },
+  "top_firing_inserted": [
+    {
+      "word": "coronavirus",
+      "df": 0.46919431279620855,
+      "qf": 0.96
+    },
+    {
+      "word": "coronaviruses",
+      "df": 0.46879158592673875,
+      "qf": 0.96
+    },
+    {
+      "word": "coronaviral",
+      "df": 0.4589276959353769,
+      "qf": 0.96
+    },
+    {
+      "word": "covid",
+      "df": 0.44374080732145776,
+      "qf": 0.96
+    },
+    {
+      "word": "cov",
+      "df": 0.4344547428384657,
+      "qf": 0.94
+    },
+    {
+      "word": "pandemie",
+      "df": 0.303399248243177,
+      "qf": 0.2
+    },
+    {
+      "word": "pandemia",
+      "df": 0.2845236149697663,
+      "qf": 0.16
+    },
+    {
+      "word": "ncov",
+      "df": 0.2755994210071674,
+      "qf": 0.34
+    },
+    {
+      "word": "covidien",
+      "df": 0.2421380711133939,
+      "qf": 0.3
+    },
+    {
+      "word": "betacoronaviruses",
+      "df": 0.22501342422898232,
+      "qf": 0.16
+    },
+    {
+      "word": "pacientes",
+      "df": 0.21015338640767633,
+      "qf": 0.06
+    },
+    {
+      "word": "pandemics",
+      "df": 0.17857726519272524,
+      "qf": 0.04
+    },
+    {
+      "word": "estudio",
+      "df": 0.17480680783508043,
+      "qf": 0.0
+    },
+    {
+      "word": "sirs",
+      "df": 0.17063362360796583,
+      "qf": 0.16
+    },
+    {
+      "word": "patienten",
+      "df": 0.16893516681063667,
+      "qf": 0.04
+    },
+    {
+      "word": "epidemia",
+      "df": 0.16686316625032102,
+      "qf": 0.0
+    },
+    {
+      "word": "coronaviridae",
+      "df": 0.1666063549132678,
+      "qf": 0.08
+    },
+    {
+      "word": "sari",
+      "df": 0.1654623771391217,
+      "qf": 0.16
+    },
+    {
+      "word": "siv",
+      "df": 0.15816076389699532,
+      "qf": 0.16
+    },
+    {
+      "word": "hcov",
+      "df": 0.15529498284033338,
+      "qf": 0.18
+    }
+  ]
+}

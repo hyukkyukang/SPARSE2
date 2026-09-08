@@ -343,21 +343,40 @@ multiplication of any cell (10.6x). **Why one encoder turns an inserted vocabula
 hubs and another does not is the open question Pilot M leaves**, and it is a question about
 the encoder's geometry, not about the vocabulary or the corpus.
 
-**A label-free filter repairs the failures but is not yet a rule.**
-`scripts/97_qf_filter.py` drops inserted entries whose query-side firing rate exceeds a
-threshold, computed from a query sample with no relevance labels:
+**Term selection, entry filters, and why per-entry rules have a ceiling.** Seven variants
+were run on six (corpus, backbone) cells (`notes/backbones.md`, full table). Lexical rules
+(frequency, tf-idf, a document-frequency ceiling, pure IDF) are inert on the small corpora,
+where fewer candidates clear the occurrence floor than the cap allows, and mirror-imaged on
+trec-covid: rarer-is-better recovers 0.20 of e5's 0.32 loss and costs jina 0.15 of its 0.26
+gain. The hub entries are lexically *rare* (`predisposes`: 0.04% of trec-covid documents,
+fires on 84% of them under e5; rank correlation of text frequency with model firing +0.05),
+so IDF weighting selects them. Three filters that measure how the *model* fires an entry —
+on a query sample, on a document sample at a fixed 10%, and at the 99th percentile of the
+trained entries' own firing — each repair both failures (jina/scifact −0.009 → +0.057 to
++0.081; e5/trec-covid −0.320 → +0.021 to +0.079) and each cost jina/trec-covid two thirds
+or more of its +0.255, because `covid`/`coronavirus` have the same firing statistics under
+every backbone and are essential for two of them and destructive for one.
 
-| cell | before | after dropping high-query-firing entries |
-|---|---|---|
-| e5 / trec-covid | −0.320 | **+0.075** (613 of 2,974 dropped) |
-| jina / scifact | −0.009 | **+0.081\*** (148 of 2,005) |
-| e5 / scifact | +0.051 | **+0.061\*** (27 of 2,003) |
-| jina / trec-covid | +0.255 | +0.069 (31 of 2,974) |
+A geometry study (`scripts/98_geometry_analysis.py`, `reports_gpu10/GEOMETRY.txt`) then
+asked whether the prototypes themselves, in the backbone's own space, can tell helpful
+entries from harmful ones: raw norm, centroid cosine, occurrence count, nearest trained
+entry, and Pilot F's bank statistics on both sides, over nine cells. None keeps its sign
+across cells. The decisive row is query-side firing, whose AUC for per-entry harm is *below*
+0.5 in all nine cells: the entries that fire on many queries are individually *more*
+concentrated on relevant documents than chance, yet removing them repairs the failures.
+Harm is a crowding effect of many mildly informative entries together, which no per-entry
+label can express. The one aggregate that tracks it — the inserted set's mean pairwise
+cosine (0.000 for trained entries) — marks the failing cell as the backbone's most
+internally correlated vocabulary in both backbones that fail, but on a backbone-specific
+scale (e5 0.26–0.32, jina 0.14–0.17, octen 0.04–0.06), so it is a diagnostic, not a threshold.
 
-Three cells repaired, one badly damaged: removing 1% of jina's trec-covid entries costs
-0.186 of its 0.255 gain, because there the high-query-firing entries (`covid`,
-`coronavirus`, `cov`) are precisely the valuable ones. A criterion that uses both the
-query and document sides is the obvious next step, and is not yet validated.
+**A gated filter reaches the best-known result on all nine cells.** Filter (drop inserted
+entries firing on more than 5% of a query sample) only when the inserted set's *mean*
+query-firing exceeds 0.01. On the six cells it was derived from it selects the best-known
+variant on five and is within 0.01 on the sixth; held out on octen's three cells (mean
+firing 0.0005, 0.0036, 0.0036 → do not filter) it preserves +0.030, +0.044 and +0.186, where
+the ungated filter cuts the last to +0.040. It needs a query sample and no labels
+(`scripts/97_qf_filter.py --gate 0.01`).
 
 **Calibration never helps outside the synthetic splits.** The Pilot F tail correction was
 applied at insertion in all nine cells: six clearly worse, three within noise, none

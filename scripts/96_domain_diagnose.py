@@ -149,6 +149,10 @@ def main(a):
             f"| inserted share of top-10 score: rel {res['score_share']['inserted_share_top10_relevant']} "
             f"irr {res['score_share']['inserted_share_top10_irrelevant']}")
     save_json(res, paths.RESULTS / f"96_domain_diag_{a.name}_{a.name_model}.json")
+    # per-entry ground truth for every inserted entry, for the geometry analysis (98)
+    np.savez(paths.RESULTS / f"96_domain_diag_{a.name}_{a.name_model}_entries.npz",
+             words=np.asarray(ins_words), mass_rel=mr, mass_irr=mi,
+             df=dfreq[nB:], qf=qfreq[nB:], dom_idx=np.flatnonzero(dom))
 
 
 if __name__ == "__main__":

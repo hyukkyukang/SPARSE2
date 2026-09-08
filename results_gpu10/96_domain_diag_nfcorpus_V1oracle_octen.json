@@ -1,0 +1,420 @@
+{
+  "corpus": "nfcorpus",
+  "model": "V1oracle_octen",
+  "encoder": "octen",
+  "layer": 28,
+  "n_trained": 30000,
+  "n_inserted": 961,
+  "n_docs": 3633,
+  "n_queries": 323,
+  "firing": {
+    "trained_df_mean": 0.0030045141756124415,
+    "inserted_df_mean": 0.012954438630967775,
+    "trained_df_median": 0.0002752546105147261,
+    "inserted_df_median": 0.007431874483897605,
+    "trained_qf_mean": 0.0002852425180598555,
+    "inserted_qf_mean": 0.0005412318824238168,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 0,
+    "inserted_df_gt_20pct": 0,
+    "trained_df_gt_20pct": 16,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.13213370979628636,
+    "inserted_share_top10_irrelevant": 0.05845110936774447,
+    "n_rel_in_top10": 723,
+    "n_irr_in_top10": 2507
+  },
+  "worst_entries": [
+    {
+      "word": "dietetic",
+      "df": 0.15111478117258464,
+      "qf": 0.030959752321981424,
+      "mass_irrelevant": 1509.8187255859375,
+      "mass_relevant": 20.241682052612305
+    },
+    {
+      "word": "antioxidative",
+      "df": 0.0778970547756675,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 1263.2283935546875,
+      "mass_relevant": 8.562955856323242
+    },
+    {
+      "word": "carcinogenicity",
+      "df": 0.05560143132397467,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 610.3060913085938,
+      "mass_relevant": 145.79808044433594
+    },
+    {
+      "word": "carcinogenesis",
+      "df": 0.06028075970272502,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 546.6514892578125,
+      "mass_relevant": 135.3028564453125
+    },
+    {
+      "word": "curcuminoids",
+      "df": 0.018717313515001378,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 481.56109619140625,
+      "mass_relevant": 75.78543090820312
+    },
+    {
+      "word": "phytosterols",
+      "df": 0.027525461051472612,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 425.19281005859375,
+      "mass_relevant": 47.14628601074219
+    },
+    {
+      "word": "phyto",
+      "df": 0.03220478943022296,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 357.62353515625,
+      "mass_relevant": 10.633322715759277
+    },
+    {
+      "word": "dioxins",
+      "df": 0.023947151114781174,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 409.596435546875,
+      "mass_relevant": 65.79568481445312
+    },
+    {
+      "word": "curcuma",
+      "df": 0.018717313515001378,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 407.40087890625,
+      "mass_relevant": 64.9124526977539
+    },
+    {
+      "word": "oxidants",
+      "df": 0.06083126892375447,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 325.57110595703125,
+      "mass_relevant": 2.5940895080566406
+    },
+    {
+      "word": "dioxin",
+      "df": 0.021745114230663363,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 383.27154541015625,
+      "mass_relevant": 63.8397216796875
+    },
+    {
+      "word": "bioavailable",
+      "df": 0.03963666391412056,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 321.8757019042969,
+      "mass_relevant": 7.340982437133789
+    },
+    {
+      "word": "toxicants",
+      "df": 0.08037434627030003,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 479.73486328125,
+      "mass_relevant": 192.52865600585938
+    },
+    {
+      "word": "phytate",
+      "df": 0.026699697219928435,
+      "qf": 0.01238390092879257,
+      "mass_irrelevant": 322.54052734375,
+      "mass_relevant": 65.55717468261719
+    },
+    {
+      "word": "phytoestrogen",
+      "df": 0.039361409303605835,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 253.34518432617188,
+      "mass_relevant": 3.033250570297241
+    },
+    {
+      "word": "hyperlipidemia",
+      "df": 0.07404349022846132,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 226.60723876953125,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "bioactivity",
+      "df": 0.043490228461326726,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 215.56655883789062,
+      "mass_relevant": 1.6569149494171143
+    },
+    {
+      "word": "phenols",
+      "df": 0.046242774566473986,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 220.11363220214844,
+      "mass_relevant": 8.947708129882812
+    },
+    {
+      "word": "organochlorines",
+      "df": 0.04734379300853289,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 227.80372619628906,
+      "mass_relevant": 18.558292388916016
+    },
+    {
+      "word": "toxicant",
+      "df": 0.057803468208092484,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 281.0714416503906,
+      "mass_relevant": 92.20984649658203
+    },
+    {
+      "word": "bioactive",
+      "df": 0.038810900082576386,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 189.81448364257812,
+      "mass_relevant": 2.0359766483306885
+    },
+    {
+      "word": "phytochemical",
+      "df": 0.035232590145884944,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 170.99525451660156,
+      "mass_relevant": 4.453836441040039
+    },
+    {
+      "word": "phytoestrogens",
+      "df": 0.03963666391412056,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 160.1156005859375,
+      "mass_relevant": 2.2798781394958496
+    },
+    {
+      "word": "neurocognitive",
+      "df": 0.037159372419488024,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 132.5005645751953,
+      "mass_relevant": 16.99344825744629
+    },
+    {
+      "word": "phytic",
+      "df": 0.017616295072942472,
+      "qf": 0.009287925696594427,
+      "mass_irrelevant": 151.393798828125,
+      "mass_relevant": 39.50081253051758
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "parkinsonism",
+      "df": 0.011560693641618497,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 23.39748191833496,
+      "mass_relevant": 110.24066162109375
+    },
+    {
+      "word": "parkinsonian",
+      "df": 0.009633911368015413,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 20.683650970458984,
+      "mass_relevant": 101.68266296386719
+    },
+    {
+      "word": "neurocysticercosis",
+      "df": 0.004679328378750344,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 1.4142521619796753,
+      "mass_relevant": 77.76337432861328
+    },
+    {
+      "word": "bmaa",
+      "df": 0.010734929810074319,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 18.96198272705078,
+      "mass_relevant": 83.38228607177734
+    },
+    {
+      "word": "rapamycin",
+      "df": 0.006330856041838701,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 39.801841735839844,
+      "mass_relevant": 87.48048400878906
+    },
+    {
+      "word": "cysticercosis",
+      "df": 0.004404073768235618,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 0.24557434022426605,
+      "mass_relevant": 41.950172424316406
+    },
+    {
+      "word": "igf",
+      "df": 0.017616295072942472,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 70.11201477050781,
+      "mass_relevant": 99.94441223144531
+    },
+    {
+      "word": "sirtuins",
+      "df": 0.0013762730525736307,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 29.669841766357422
+    },
+    {
+      "word": "cysticerci",
+      "df": 0.004404073768235618,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 0.2555042505264282,
+      "mass_relevant": 28.829553604125977
+    },
+    {
+      "word": "igfbp",
+      "df": 0.00853289292595651,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 18.072872161865234,
+      "mass_relevant": 45.85902404785156
+    },
+    {
+      "word": "carrageenan",
+      "df": 0.0019267822736030828,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 1.9400979280471802,
+      "mass_relevant": 29.053394317626953
+    },
+    {
+      "word": "nanoparticles",
+      "df": 0.0038535645472061657,
+      "qf": 0.0030959752321981426,
+      "mass_irrelevant": 2.0267868041992188,
+      "mass_relevant": 6.480806350708008
+    },
+    {
+      "word": "nonylphenol",
+      "df": 0.013762730525736306,
+      "qf": 0.006191950464396285,
+      "mass_irrelevant": 29.50946807861328,
+      "mass_relevant": 32.95555114746094
+    },
+    {
+      "word": "adjunctive",
+      "df": 0.002202036884117809,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "myrosinase",
+      "df": 0.0011010184420589045,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 2454.73388671875,
+    "inserted_on_irrelevant": 13533.814453125,
+    "ratio_irr_to_rel": 5.513352870941162
+  },
+  "top_firing_inserted": [
+    {
+      "word": "randomization",
+      "df": 0.1546930911092761,
+      "qf": 0.0
+    },
+    {
+      "word": "randomised",
+      "df": 0.15441783649876134,
+      "qf": 0.0
+    },
+    {
+      "word": "dietetic",
+      "df": 0.15111478117258464,
+      "qf": 0.030959752321981424
+    },
+    {
+      "word": "blinded",
+      "df": 0.1001926782273603,
+      "qf": 0.0
+    },
+    {
+      "word": "cohorts",
+      "df": 0.08587943848059455,
+      "qf": 0.0
+    },
+    {
+      "word": "toxicants",
+      "df": 0.08037434627030003,
+      "qf": 0.009287925696594427
+    },
+    {
+      "word": "antioxidative",
+      "df": 0.0778970547756675,
+      "qf": 0.006191950464396285
+    },
+    {
+      "word": "prospectively",
+      "df": 0.07734654555463805,
+      "qf": 0.0
+    },
+    {
+      "word": "multicenter",
+      "df": 0.07707129094412331,
+      "qf": 0.0
+    },
+    {
+      "word": "hyperlipidemia",
+      "df": 0.07404349022846132,
+      "qf": 0.0030959752321981426
+    },
+    {
+      "word": "epidemiologic",
+      "df": 0.0737682356179466,
+      "qf": 0.0
+    },
+    {
+      "word": "epidemiological",
+      "df": 0.07321772639691715,
+      "qf": 0.0
+    },
+    {
+      "word": "regressions",
+      "df": 0.061381778144783926,
+      "qf": 0.0
+    },
+    {
+      "word": "symptomatology",
+      "df": 0.061381778144783926,
+      "qf": 0.0
+    },
+    {
+      "word": "oxidants",
+      "df": 0.06083126892375447,
+      "qf": 0.006191950464396285
+    },
+    {
+      "word": "carcinogenesis",
+      "df": 0.06028075970272502,
+      "qf": 0.01238390092879257
+    },
+    {
+      "word": "toxicant",
+      "df": 0.057803468208092484,
+      "qf": 0.009287925696594427
+    },
+    {
+      "word": "nonfatal",
+      "df": 0.05560143132397467,
+      "qf": 0.0
+    },
+    {
+      "word": "carcinogenicity",
+      "df": 0.05560143132397467,
+      "qf": 0.01238390092879257
+    },
+    {
+      "word": "phenolics",
+      "df": 0.0547756674924305,
+      "qf": 0.0
+    }
+  ]
+}

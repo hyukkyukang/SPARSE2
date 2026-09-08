@@ -146,12 +146,17 @@ nor the relevant/irrelevant score split orders all nine cells correctly — e5 g
 scifact with the *highest* density multiplication of any cell. **Why one encoder turns an
 inserted vocabulary into hubs and another does not is the open question this pilot leaves.**
 
-**A label-free filter repairs the failures but is not yet a rule.** Dropping inserted
-entries that fire on many queries (`scripts/97_qf_filter.py`, computed from a query sample
-with no relevance labels) turns e5/trec-covid from −0.320 to +0.075 and jina/scifact from
-−0.009 to +0.081, and improves e5/scifact from +0.051 to +0.061 — but costs jina/trec-covid
-0.186 of its 0.255 gain, because there the high-query-firing entries (`covid`,
-`coronavirus`) are the valuable ones. Three cells repaired, one damaged.
+**Term selection cannot fix it; a gated model-firing filter can.** The hub entries are
+lexically *rare* (`predisposes`: 0.04% of documents, fires on 84% under e5), so IDF-style
+re-ranking selects them. Filters that measure how the *model* fires each entry repair both
+failures but each costs jina/trec-covid most of its +0.255, because `covid` has identical
+statistics under every backbone and is essential for two. Per-entry geometry of the
+prototypes (norm, centroid, bank statistics; `reports_gpu10/GEOMETRY.txt`) keeps no
+consistent sign over nine cells, and query-firing is *anti*-correlated with per-entry harm
+in all nine: harm is a crowding effect of many mildly informative entries together. The
+procedure that reaches the best-known result on every cell is a **gate** — filter only when
+the inserted set's mean query-firing exceeds 0.01 — which was held out on all three octen
+cells and preserved every gain (`scripts/97_qf_filter.py --gate 0.01`).
 
 ## Two negatives that close off explanations
 

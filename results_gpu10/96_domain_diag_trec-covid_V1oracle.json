@@ -8,8 +8,8 @@
   "n_docs": 171332,
   "n_queries": 50,
   "firing": {
-    "trained_df_mean": 0.0014435674596689466,
-    "inserted_df_mean": 0.2325469165832282,
+    "trained_df_mean": 0.00144356765422299,
+    "inserted_df_mean": 0.23254690873303147,
     "trained_df_median": 0.00015758877500992227,
     "inserted_df_median": 0.13036385497163402,
     "trained_qf_mean": 0.0006039999999999999,
@@ -21,8 +21,8 @@
     "inserted_df_gt_20pct_share_of_mass": null
   },
   "score_share": {
-    "inserted_share_top10_relevant": 0.929298738849924,
-    "inserted_share_top10_irrelevant": 0.9638416947696009,
+    "inserted_share_top10_relevant": 0.9292987420203838,
+    "inserted_share_top10_irrelevant": 0.963841694475982,
     "n_rel_in_top10": 94,
     "n_irr_in_top10": 406
   },
@@ -66,15 +66,15 @@
       "word": "nonessential",
       "df": 0.7845527980762497,
       "qf": 0.84,
-      "mass_irrelevant": 5390445.0,
-      "mass_relevant": 28172.009765625
+      "mass_irrelevant": 5390445.5,
+      "mass_relevant": 28172.013671875
     },
     {
       "word": "coronaviral",
       "df": 0.5672553872014569,
       "qf": 0.98,
-      "mass_irrelevant": 5048008.5,
-      "mass_relevant": 31670.30078125
+      "mass_irrelevant": 5048007.5,
+      "mass_relevant": 31670.302734375
     },
     {
       "word": "pandemia",
@@ -87,15 +87,15 @@
       "word": "lockdown",
       "df": 0.45748021385380433,
       "qf": 0.98,
-      "mass_irrelevant": 3881090.5,
-      "mass_relevant": 26707.791015625
+      "mass_irrelevant": 3881091.0,
+      "mass_relevant": 26707.794921875
     },
     {
       "word": "quarantines",
       "df": 0.4807216398571195,
       "qf": 0.98,
       "mass_irrelevant": 3852611.25,
-      "mass_relevant": 27720.0234375
+      "mass_relevant": 27720.021484375
     },
     {
       "word": "remdesivir",
@@ -122,14 +122,14 @@
       "word": "pathophysiological",
       "df": 0.7762005930007237,
       "qf": 0.78,
-      "mass_irrelevant": 3556768.5,
+      "mass_irrelevant": 3556768.0,
       "mass_relevant": 18788.97265625
     },
     {
       "word": "lockdowns",
       "df": 0.44004622604066956,
       "qf": 0.98,
-      "mass_irrelevant": 3526706.5,
+      "mass_irrelevant": 3526706.0,
       "mass_relevant": 26962.0546875
     },
     {
@@ -143,14 +143,14 @@
       "word": "dysregulated",
       "df": 0.7743095277006047,
       "qf": 0.74,
-      "mass_irrelevant": 3331700.5,
-      "mass_relevant": 18602.873046875
+      "mass_irrelevant": 3331700.75,
+      "mass_relevant": 18602.875
     },
     {
       "word": "quarantined",
       "df": 0.4781710363504774,
       "qf": 0.96,
-      "mass_irrelevant": 3290821.0,
+      "mass_irrelevant": 3290820.75,
       "mass_relevant": 24914.560546875
     },
     {
@@ -158,20 +158,20 @@
       "df": 0.47590642728737187,
       "qf": 0.88,
       "mass_irrelevant": 3234655.25,
-      "mass_relevant": 22574.849609375
+      "mass_relevant": 22574.853515625
     },
     {
       "word": "symptomatology",
       "df": 0.7104744005789928,
       "qf": 0.76,
-      "mass_irrelevant": 3199987.75,
+      "mass_irrelevant": 3199987.5,
       "mass_relevant": 18659.201171875
     },
     {
       "word": "erythematous",
       "df": 0.5188231036817407,
       "qf": 0.96,
-      "mass_irrelevant": 3132339.75,
+      "mass_irrelevant": 3132339.5,
       "mass_relevant": 22440.455078125
     },
     {
@@ -193,14 +193,14 @@
       "df": 0.4394158709406299,
       "qf": 0.94,
       "mass_irrelevant": 3023363.5,
-      "mass_relevant": 24742.04296875
+      "mass_relevant": 24742.044921875
     },
     {
       "word": "immunopathological",
       "df": 0.6806025727826676,
       "qf": 0.76,
-      "mass_irrelevant": 2970117.75,
-      "mass_relevant": 19859.806640625
+      "mass_irrelevant": 2970117.25,
+      "mass_relevant": 19859.80859375
     }
   ],
   "best_entries": [
@@ -304,7 +304,7 @@
     },
     {
       "word": "tumorigenesis",
-      "df": 0.14732215814909067,
+      "df": 0.147316321527794,
       "qf": 0.0,
       "mass_irrelevant": 0.0,
       "mass_relevant": 0.0
@@ -312,8 +312,8 @@
   ],
   "mass": {
     "inserted_on_relevant": 3236697.5,
-    "inserted_on_irrelevant": 440708736.0,
-    "ratio_irr_to_rel": 136.16000366210938
+    "inserted_on_irrelevant": 440708672.0,
+    "ratio_irr_to_rel": 136.1599884033203
   },
   "top_firing_inserted": [
     {

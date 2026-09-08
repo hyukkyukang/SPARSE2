@@ -1,0 +1,13 @@
+{
+  "corpus": "trec-covid",
+  "model": "V1oracle_octen",
+  "encoder": "octen",
+  "mode": "query",
+  "threshold": 0.05,
+  "n_candidates": 2974,
+  "n_kept": 2974,
+  "n_dropped": 0,
+  "qf_mean_before": 0.0035709482178883658,
+  "qf_mean_after": 0.0035709482178883658,
+  "dropped_examples": []
+}

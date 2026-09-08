@@ -8,7 +8,7 @@
   "n_docs": 5183,
   "n_queries": 300,
   "firing": {
-    "trained_df_mean": 0.0022125988809569746,
+    "trained_df_mean": 0.002212605312238729,
     "inserted_df_mean": 0.34992851259479674,
     "trained_df_median": 0.00019293845263360988,
     "inserted_df_median": 0.24348832722361566,
@@ -22,7 +22,7 @@
   },
   "score_share": {
     "inserted_share_top10_relevant": 0.2784523838511601,
-    "inserted_share_top10_irrelevant": 0.27286611977517766,
+    "inserted_share_top10_irrelevant": 0.27286614276493043,
     "n_rel_in_top10": 209,
     "n_irr_in_top10": 2791
   },
@@ -31,7 +31,7 @@
       "word": "modulates",
       "df": 0.851630329924754,
       "qf": 0.20666666666666667,
-      "mass_irrelevant": 131165.953125,
+      "mass_irrelevant": 131165.90625,
       "mass_relevant": 47.803871154785156
     },
     {
@@ -94,7 +94,7 @@
       "word": "downregulation",
       "df": 0.8552961605247926,
       "qf": 0.10333333333333333,
-      "mass_irrelevant": 45376.015625,
+      "mass_irrelevant": 45376.0234375,
       "mass_relevant": 15.30430793762207
     },
     {
@@ -178,7 +178,7 @@
       "word": "phosphorylated",
       "df": 0.7306579201234806,
       "qf": 0.05333333333333334,
-      "mass_irrelevant": 24260.513671875,
+      "mass_irrelevant": 24260.490234375,
       "mass_relevant": 12.33749008178711
     },
     {

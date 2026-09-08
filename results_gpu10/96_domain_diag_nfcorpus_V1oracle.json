@@ -21,7 +21,7 @@
     "inserted_df_gt_20pct_share_of_mass": null
   },
   "score_share": {
-    "inserted_share_top10_relevant": 0.1242961217809126,
+    "inserted_share_top10_relevant": 0.12429637363369919,
     "inserted_share_top10_irrelevant": 0.04351456308331814,
     "n_rel_in_top10": 772,
     "n_irr_in_top10": 2458
@@ -66,7 +66,7 @@
       "word": "carcinogenicity",
       "df": 0.34544453619598126,
       "qf": 0.009287925696594427,
-      "mass_irrelevant": 1252.9730224609375,
+      "mass_irrelevant": 1252.9761962890625,
       "mass_relevant": 108.73726654052734
     },
     {
@@ -157,14 +157,14 @@
       "word": "peroxidation",
       "df": 0.6507018992568125,
       "qf": 0.0030959752321981426,
-      "mass_irrelevant": 574.5810546875,
+      "mass_irrelevant": 574.582275390625,
       "mass_relevant": 1.0909901857376099
     },
     {
       "word": "antioxidative",
       "df": 0.3633360858794385,
       "qf": 0.0030959752321981426,
-      "mass_irrelevant": 533.06298828125,
+      "mass_irrelevant": 533.06103515625,
       "mass_relevant": 1.4428502321243286
     },
     {
@@ -312,8 +312,8 @@
   ],
   "mass": {
     "inserted_on_relevant": 3018.38818359375,
-    "inserted_on_irrelevant": 32958.265625,
-    "ratio_irr_to_rel": 10.919160842895508
+    "inserted_on_irrelevant": 32958.27734375,
+    "ratio_irr_to_rel": 10.919164657592773
   },
   "top_firing_inserted": [
     {

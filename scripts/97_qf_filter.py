@@ -88,6 +88,13 @@ def main(a):
         thr = float(np.percentile(qf[:nB][qf[:nB] > 0], a.rel_pct)) if (qf[:nB] > 0).any() else thr
         lg.info(f"relative threshold: {a.rel_pct}th percentile of trained-entry firing = {thr:.4f}")
     keep_ins = qf_ins <= thr
+    if a.gate is not None and qf_ins.mean() < a.gate:
+        # Gated filter: only filter when the inserted set AS A WHOLE fires broadly on queries.
+        # On the six cells the gate was derived from, mean query-firing is 0.0006-0.0048 where
+        # inserting everything is best and 0.0158/0.0704 where the filter is best; a gate at
+        # 0.01 separates them. Fitted post hoc -- octen's cells are the held-out test.
+        lg.info(f"gate: mean inserted firing {qf_ins.mean():.4f} < {a.gate}; keeping all entries")
+        keep_ins[:] = True
     lg.info(f"{a.name}/{cfg['encoder']}: inserted {a.mode}-firing mean {qf_ins.mean():.4f} "
             f"max {qf_ins.max():.3f} | keeping {int(keep_ins.sum())}/{len(qf_ins)} at <={thr}")
 
@@ -100,6 +107,8 @@ def main(a):
 
     # a new tag whose is_domain keeps only the surviving entries; everything else is copied
     kind = "qf" if a.mode == "query" else ("mdfr" if a.rel_pct is not None else "mdf")
+    if a.gate is not None:
+        kind = "g" + kind
     tag = f"{src}_{kind}-{a.name_model}"
     is_dom = z["is_domain"].copy()
     is_dom[drop_idx] = False
@@ -132,6 +141,8 @@ if __name__ == "__main__":
     ap.add_argument("--max-df", type=float, default=0.10,
                     help="doc mode: drop inserted entries the model fires on more than this share of sampled passages")
     ap.add_argument("--n-docs", type=int, default=5000)
+    ap.add_argument("--gate", type=float, default=None,
+                    help="skip filtering when the inserted set's MEAN firing rate is below this")
     ap.add_argument("--rel-pct", type=float, default=None,
                     help="doc mode: cut at this percentile of the TRAINED entries' firing rates instead of --max-df")
     main(ap.parse_args())

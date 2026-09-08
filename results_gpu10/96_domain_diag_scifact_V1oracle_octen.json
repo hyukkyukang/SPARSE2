@@ -1,0 +1,420 @@
+{
+  "corpus": "scifact",
+  "model": "V1oracle_octen",
+  "encoder": "octen",
+  "layer": 28,
+  "n_trained": 30000,
+  "n_inserted": 2006,
+  "n_docs": 5183,
+  "n_queries": 300,
+  "firing": {
+    "trained_df_mean": 0.00291077239693871,
+    "inserted_df_mean": 0.017855270768824146,
+    "trained_df_median": 0.00038587690526721975,
+    "inserted_df_median": 0.010418676442214933,
+    "trained_qf_mean": 0.0006011111111111112,
+    "inserted_qf_mean": 0.0036374210701229643,
+    "inserted_never_fires": 0,
+    "inserted_df_gt_50pct": 0,
+    "inserted_df_gt_20pct": 2,
+    "trained_df_gt_20pct": 8,
+    "inserted_df_gt_20pct_share_of_mass": null
+  },
+  "score_share": {
+    "inserted_share_top10_relevant": 0.2957214248526092,
+    "inserted_share_top10_irrelevant": 0.35041743653389545,
+    "n_rel_in_top10": 230,
+    "n_irr_in_top10": 2770
+  },
+  "worst_entries": [
+    {
+      "word": "treg",
+      "df": 0.10476557978005016,
+      "qf": 0.05333333333333334,
+      "mass_irrelevant": 16914.751953125,
+      "mass_relevant": 49.57135009765625
+    },
+    {
+      "word": "tregs",
+      "df": 0.0995562415589427,
+      "qf": 0.056666666666666664,
+      "mass_irrelevant": 14582.7080078125,
+      "mass_relevant": 44.1773796081543
+    },
+    {
+      "word": "tgf",
+      "df": 0.12213004051707506,
+      "qf": 0.05333333333333334,
+      "mass_irrelevant": 10529.3974609375,
+      "mass_relevant": 22.775686264038086
+    },
+    {
+      "word": "tcr",
+      "df": 0.08894462666409415,
+      "qf": 0.04666666666666667,
+      "mass_irrelevant": 9893.3759765625,
+      "mass_relevant": 38.25005340576172
+    },
+    {
+      "word": "tert",
+      "df": 0.11904302527493729,
+      "qf": 0.06,
+      "mass_irrelevant": 9820.791015625,
+      "mass_relevant": 21.724594116210938
+    },
+    {
+      "word": "transcriptional",
+      "df": 0.1367933629172294,
+      "qf": 0.023333333333333334,
+      "mass_irrelevant": 9352.7138671875,
+      "mass_relevant": 7.504443645477295
+    },
+    {
+      "word": "cellularity",
+      "df": 0.2560293266448003,
+      "qf": 0.07333333333333333,
+      "mass_irrelevant": 8785.353515625,
+      "mass_relevant": 5.991896629333496
+    },
+    {
+      "word": "tlr",
+      "df": 0.10418676442214933,
+      "qf": 0.043333333333333335,
+      "mass_irrelevant": 8705.0703125,
+      "mass_relevant": 24.63168716430664
+    },
+    {
+      "word": "represses",
+      "df": 0.1584024696121937,
+      "qf": 0.06666666666666667,
+      "mass_irrelevant": 8570.4521484375,
+      "mass_relevant": 8.017662048339844
+    },
+    {
+      "word": "stemness",
+      "df": 0.09048813428516303,
+      "qf": 0.03,
+      "mass_irrelevant": 8528.353515625,
+      "mass_relevant": 20.96982192993164
+    },
+    {
+      "word": "transcriptionally",
+      "df": 0.13640748601196218,
+      "qf": 0.023333333333333334,
+      "mass_irrelevant": 8436.07421875,
+      "mass_relevant": 6.715060234069824
+    },
+    {
+      "word": "tcrs",
+      "df": 0.07370248890603898,
+      "qf": 0.04666666666666667,
+      "mass_irrelevant": 5836.54150390625,
+      "mass_relevant": 29.800504684448242
+    },
+    {
+      "word": "ipscs",
+      "df": 0.08913756511672777,
+      "qf": 0.03666666666666667,
+      "mass_irrelevant": 5725.279296875,
+      "mass_relevant": 16.185462951660156
+    },
+    {
+      "word": "rnai",
+      "df": 0.09936330310630909,
+      "qf": 0.03666666666666667,
+      "mass_irrelevant": 5465.21923828125,
+      "mass_relevant": 12.39387035369873
+    },
+    {
+      "word": "mscs",
+      "df": 0.09994211846420992,
+      "qf": 0.03666666666666667,
+      "mass_irrelevant": 5187.72216796875,
+      "mass_relevant": 15.496964454650879
+    },
+    {
+      "word": "crucially",
+      "df": 0.20798765193903146,
+      "qf": 0.02666666666666667,
+      "mass_irrelevant": 4338.419921875,
+      "mass_relevant": 4.059037208557129
+    },
+    {
+      "word": "mirna",
+      "df": 0.04823461315840247,
+      "qf": 0.03,
+      "mass_irrelevant": 4114.1318359375,
+      "mass_relevant": 23.743896484375
+    },
+    {
+      "word": "rnas",
+      "df": 0.07447424271657341,
+      "qf": 0.02666666666666667,
+      "mass_irrelevant": 3921.076416015625,
+      "mass_relevant": 12.808123588562012
+    },
+    {
+      "word": "cytokine",
+      "df": 0.07910476557978005,
+      "qf": 0.02666666666666667,
+      "mass_irrelevant": 3790.889892578125,
+      "mass_relevant": 15.365426063537598
+    },
+    {
+      "word": "mirnas",
+      "df": 0.04283233648466139,
+      "qf": 0.03,
+      "mass_irrelevant": 3762.911865234375,
+      "mass_relevant": 22.52118492126465
+    },
+    {
+      "word": "immunological",
+      "df": 0.10013505691684353,
+      "qf": 0.02666666666666667,
+      "mass_irrelevant": 3714.619384765625,
+      "mass_relevant": 4.439913272857666
+    },
+    {
+      "word": "upregulation",
+      "df": 0.04919930542157052,
+      "qf": 0.02,
+      "mass_irrelevant": 3155.980712890625,
+      "mass_relevant": 0.6309190392494202
+    },
+    {
+      "word": "interleukin",
+      "df": 0.03087015242137758,
+      "qf": 0.023333333333333334,
+      "mass_irrelevant": 3023.20947265625,
+      "mass_relevant": 13.255929946899414
+    },
+    {
+      "word": "repressing",
+      "df": 0.1074667181169207,
+      "qf": 0.03333333333333333,
+      "mass_irrelevant": 2991.716796875,
+      "mass_relevant": 2.9859249591827393
+    },
+    {
+      "word": "upregulates",
+      "df": 0.06598495080069458,
+      "qf": 0.02666666666666667,
+      "mass_irrelevant": 2851.927978515625,
+      "mass_relevant": 0.15632401406764984
+    }
+  ],
+  "best_entries": [
+    {
+      "word": "corroborate",
+      "df": 0.0005788153579008296,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "coexistence",
+      "df": 0.01775033764229211,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "clopidogrel",
+      "df": 0.0009646922631680494,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "clonogenic",
+      "df": 0.008875168821146055,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "circumvent",
+      "df": 0.0019293845263360988,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "misfolded",
+      "df": 0.0038587690526721975,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "microcirculation",
+      "df": 0.009839861084314104,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "mammographic",
+      "df": 0.004630522863206637,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "lavage",
+      "df": 0.001736446073702489,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "cryptococcus",
+      "df": 0.001543507621068879,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "virally",
+      "df": 0.014277445494887131,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "correspondingly",
+      "df": 0.0005788153579008296,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "conjugates",
+      "df": 0.003087015242137758,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "conditionally",
+      "df": 0.008103415010611615,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    },
+    {
+      "word": "comparably",
+      "df": 0.0005788153579008296,
+      "qf": 0.0,
+      "mass_irrelevant": 0.0,
+      "mass_relevant": 0.0
+    }
+  ],
+  "mass": {
+    "inserted_on_relevant": 2381.29296875,
+    "inserted_on_irrelevant": 453764.8125,
+    "ratio_irr_to_rel": 190.55397033691406
+  },
+  "top_firing_inserted": [
+    {
+      "word": "cellularity",
+      "df": 0.2560293266448003,
+      "qf": 0.07333333333333333
+    },
+    {
+      "word": "crucially",
+      "df": 0.20798765193903146,
+      "qf": 0.02666666666666667
+    },
+    {
+      "word": "inactivation",
+      "df": 0.19023731429673935,
+      "qf": 0.023333333333333334
+    },
+    {
+      "word": "represses",
+      "df": 0.1584024696121937,
+      "qf": 0.06666666666666667
+    },
+    {
+      "word": "transcriptional",
+      "df": 0.1367933629172294,
+      "qf": 0.023333333333333334
+    },
+    {
+      "word": "transcriptionally",
+      "df": 0.13640748601196218,
+      "qf": 0.023333333333333334
+    },
+    {
+      "word": "transcriptomic",
+      "df": 0.13640748601196218,
+      "qf": 0.02
+    },
+    {
+      "word": "transcriptome",
+      "df": 0.13004051707505307,
+      "qf": 0.013333333333333334
+    },
+    {
+      "word": "transcriptomes",
+      "df": 0.12791819409608335,
+      "qf": 0.013333333333333334
+    },
+    {
+      "word": "proteinase",
+      "df": 0.12386648659077754,
+      "qf": 0.02
+    },
+    {
+      "word": "tgf",
+      "df": 0.12213004051707506,
+      "qf": 0.05333333333333334
+    },
+    {
+      "word": "tert",
+      "df": 0.11904302527493729,
+      "qf": 0.06
+    },
+    {
+      "word": "humanized",
+      "df": 0.11827127146440286,
+      "qf": 0.006666666666666667
+    },
+    {
+      "word": "repressing",
+      "df": 0.1074667181169207,
+      "qf": 0.03333333333333333
+    },
+    {
+      "word": "inactivates",
+      "df": 0.10650202585375265,
+      "qf": 0.04666666666666667
+    },
+    {
+      "word": "treg",
+      "df": 0.10476557978005016,
+      "qf": 0.05333333333333334
+    },
+    {
+      "word": "tlr",
+      "df": 0.10418676442214933,
+      "qf": 0.043333333333333335
+    },
+    {
+      "word": "insufficiently",
+      "df": 0.10264325680108045,
+      "qf": 0.0
+    },
+    {
+      "word": "immunological",
+      "df": 0.10013505691684353,
+      "qf": 0.02666666666666667
+    },
+    {
+      "word": "mscs",
+      "df": 0.09994211846420992,
+      "qf": 0.03666666666666667
+    }
+  ]
+}

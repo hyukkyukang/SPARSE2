@@ -1,0 +1,13 @@
+{
+  "corpus": "scifact",
+  "model": "V1oracle_octen",
+  "encoder": "octen",
+  "mode": "query",
+  "threshold": 0.05,
+  "n_candidates": 2006,
+  "n_kept": 2006,
+  "n_dropped": 0,
+  "qf_mean_before": 0.0036374210701229643,
+  "qf_mean_after": 0.0036374210701229643,
+  "dropped_examples": []
+}

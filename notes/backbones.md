@@ -256,3 +256,52 @@ and what differs is the population it arrives with. Whether an inserted vocabula
 backbone is a property of the whole set on that backbone, and the label-free quantity that
 reflects it — the share of retrieval score the inserted entries take on a corpus sample — is
 measurable at insertion time but was not tested here.
+
+## Can the prototypes' geometry select entries per backbone? (scripts/98_geometry_analysis.py)
+
+Ground truth per inserted entry from the score decomposition (`96`): the entry is *harmful*
+if the share of its score mass landing on relevant documents is below the corpus's base rate
+of relevant pairs (a lift < 1). Candidates computable from the new prototypes and the frozen
+artifacts alone, in the backbone's own space: raw prototype norm, cosine to the trained
+centroid (raw and whitened), occurrence count, cosine to the nearest trained entry, and the
+mean / 99.9th-percentile similarity against the document bank and the query bank (Pilot F's
+statistics, both sides, absolute and relative to the trained entries). Full table in
+`reports_gpu10/GEOMETRY.txt`.
+
+**Per-entry geometry does not predict per-entry harm.** Over nine cells and eleven
+statistics, none is consistent in sign: the raw norm scores AUC 0.74 on jina/nfcorpus and
+0.25 on e5/nfcorpus; the whitened centroid cosine 0.73 on e5/nfcorpus and 0.42 on
+jina/nfcorpus. The bank statistics sit within 0.05 of chance on six of nine cells and reach
+0.63–0.76 only on the two decoder trec-covid cells, which have 5 and 9 harmful entries. The
+firing statistics that need the corpus are no better as per-entry predictors (document
+firing: 0.29–0.75).
+
+**Per-entry harm is the wrong target.** Query-side firing rate has AUC *below* 0.5 in all
+nine cells (0.17–0.46): the entries that fire on many queries are individually *more*
+concentrated on relevant documents than chance. Yet removing exactly those entries turns
+jina/scifact from −0.009 to +0.081 and e5/trec-covid from −0.320 to +0.075. Each is mildly
+informative alone; together they add a large near-uniform component that crowds out the
+trained signal. No label assigned to single entries can express a crowding effect, which is
+the ceiling every per-entry filter in the table above ran into.
+
+**Aggregate geometry is a within-backbone warning signal.** Mean pairwise cosine of the
+inserted set (an equal-sized random subset of trained entries is ~0.000 everywhere):
+
+| backbone | nfcorpus | scifact | trec-covid | failing cell |
+|---|---|---|---|---|
+| e5 | 0.257 | 0.274 | **0.318** | trec-covid (−0.320) |
+| jina5s | 0.139 | 0.151 | **0.174** | scifact (−0.009) |
+| octen | 0.043 | 0.059 | 0.047 | none |
+
+In both backbones that have a failure, the failing cell is that backbone's most internally
+correlated inserted vocabulary. The scale is backbone-specific — e5's *lowest* (0.257) is
+above jina's highest and five times octen's — and the ordering among the gains is not
+monotonic, so this is a diagnostic to compare a new vocabulary against what the same
+backbone has tolerated before, not a threshold and not a predictor of magnitude.
+
+**The gated query-firing filter is the only procedure that reaches the best-known result
+on every cell.** Filter (drop entries with query-firing > 0.05) only when the inserted set's
+mean query-firing exceeds 0.01. On the six cells it was derived from it selects the
+best-known variant on five and is within 0.01 on the sixth. Held out on octen's three cells
+(mean query-firing 0.0005, 0.0036, 0.0036 → do not filter) it preserves all three gains,
++0.030, +0.044, +0.186, where the ungated filter would have cut the last to +0.040.

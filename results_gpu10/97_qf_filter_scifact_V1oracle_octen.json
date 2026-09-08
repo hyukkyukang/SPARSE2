@@ -1,0 +1,20 @@
+{
+  "corpus": "scifact",
+  "model": "V1oracle_octen",
+  "encoder": "octen",
+  "mode": "query",
+  "threshold": 0.05,
+  "n_candidates": 2006,
+  "n_kept": 2000,
+  "n_dropped": 6,
+  "qf_mean_before": 0.0036374210701229643,
+  "qf_mean_after": 0.003466666666666667,
+  "dropped_examples": [
+    "tgf",
+    "represses",
+    "treg",
+    "tregs",
+    "cellularity",
+    "tert"
+  ]
+}
