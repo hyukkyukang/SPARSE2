@@ -218,3 +218,41 @@ The curve is a broad plateau over layers 8–12 and falls away after 16. Layer 8
 12 by 0.006, inside the noise of a single probe and below the 0.01 margin set for
 retraining, so layer 12 stands and the jina5s results below are not a layer-selection
 artefact. Octen's peak is at its maximum depth and cannot be extended.
+
+## Term selection and entry filters, all variants on six cells
+
+Change in MRR@10 against the backbone's own baseline; `*` = paired bootstrap CI excludes
+zero; entries inserted in parentheses. Lexical rules re-rank the candidate list; filters
+start from the frequency-ranked list and drop entries by how the MODEL fires them.
+
+| variant | e5 / nfcorpus | jina / nfcorpus | e5 / scifact | jina / scifact | e5 / trec-covid | jina / trec-covid |
+|---|---|---|---|---|---|---|
+| frequency ranking | +0.027* (957) | +0.029* (961) | +0.051* (2003) | -0.009 (2005) | -0.320* (2974) | +0.255* (2974) |
+| tf-idf | +0.027* (957) | +0.029* (961) | +0.051* (2003) | -0.011 (2005) | -0.238* (2976) | +0.240* (2976) |
+| df ceiling 10% | +0.027* (957) | +0.029* (961) | +0.051* (2003) | -0.009 (2005) | -0.278* (2969) | +0.217* (2969) |
+| pure IDF | +0.027* (957) | +0.029* (961) | +0.052* (2003) | -0.010 (2005) | -0.117 (2774) | +0.109* (2797) |
+| query-firing filter (labels-free, needs a query sample) | +0.027* (957) | +0.029* (961) | +0.061* (1976) | +0.081* (1857) | +0.074 (2361) | +0.069 (2943) |
+| model document-firing filter, fixed 10% | +0.012* (346) | +0.029* (894) | +0.018* (571) | +0.071* (1589) | +0.079 (1308) | +0.042 (2792) |
+| model document-firing filter, 99th pct of trained entries | +0.013* (262) | +0.027* (864) | +0.014* (332) | +0.057* (1410) | +0.021 (475) | +0.083* (2560) |
+
+**Lexical selection is inert on the small corpora** (fewer candidates clear the occurrence
+floor than the cap, so every rule takes the same set) and mirror-imaged on trec-covid:
+rarer-is-better recovers 0.20 of e5's 0.32 loss and costs jina 0.15 of its 0.26 gain. The
+hub entries are lexically *rare* — `predisposes` occurs in 0.04% of trec-covid documents and
+fires on 84% of them under e5 (rank correlation of text frequency with model firing: +0.05)
+— so IDF weighting selects them rather than removing them.
+
+**Both failures are repairable, by any model-based filter**: jina/scifact −0.009 → +0.057 to
++0.081; e5/trec-covid −0.320 → +0.021 to +0.079. **No filter is safe on every cell.** Each
+costs jina/trec-covid two thirds or more of its +0.255, because the entries it removes there
+(`covid`, `coronavirus`, `cov`: ~50% document firing, ~96% query firing under *both* backbones)
+carry the gain for jina and the loss for e5 with identical statistics. The document-firing
+filters also over-prune e5 on the small corpora (keeping 260–570 of 2,003), because under e5
+*every* inserted entry fires broadly, the helpful ones included (`microdissection`: 63%).
+
+The per-entry approach therefore has a ceiling that this table locates: the same entry with
+the same firing statistics is essential under one backbone and destructive under another,
+and what differs is the population it arrives with. Whether an inserted vocabulary drowns a
+backbone is a property of the whole set on that backbone, and the label-free quantity that
+reflects it — the share of retrieval score the inserted entries take on a corpus sample — is
+measurable at insertion time but was not tested here.

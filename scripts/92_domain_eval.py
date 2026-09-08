@@ -267,5 +267,6 @@ if __name__ == "__main__":
                          "vocabulary: both keep the dimension count and remove the terminology")
     ap.add_argument("--cap", type=int, default=1024)
     ap.add_argument("--dchunk", type=int, default=20000)
-    ap.add_argument("--select", default="df", choices=["df", "tfidf", "dfcap", "qf"])
+    ap.add_argument("--select", default="df",
+                    help="df | tfidf | dfcap | idf, or a filter tag such as mdf-V1oracle_jina5s")
     main(ap.parse_args())

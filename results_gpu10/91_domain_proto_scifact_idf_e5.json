@@ -1,0 +1,8 @@
+{
+  "name": "scifact",
+  "select": "idf",
+  "encoder": "e5",
+  "n_added": 2017,
+  "n_usable": 2003,
+  "median_occurrences": 8.0
+}

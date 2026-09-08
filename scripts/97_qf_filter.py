@@ -57,18 +57,39 @@ def main(a):
     mu_q, Wq = whitening.load(paths.ART / "whiten" / f"{cfg['encoder']}_L{layer}_Q.npz")
     tfQ = whitening.Transform("whitened", mu_q, Wq, DEV)
 
-    # a query sample is all a deployment needs -- no relevance labels
     g = np.random.default_rng(0)
-    sel = np.sort(g.choice(len(qtexts), size=min(a.n_queries, len(qtexts)), replace=False))
-    with Timer(f"{a.name}/{cfg['encoder']}: query firing over {len(sel)} queries", lg):
-        qi, qv = d92.encode([qtexts[i] for i in sel], enc, head, tfQ, E, None, layer, True, 256)
+    if a.mode == "query":
+        # a query sample (query logs, in a deployment) -- no relevance labels
+        sel = np.sort(g.choice(len(qtexts), size=min(a.n_queries, len(qtexts)), replace=False))
+        with Timer(f"{a.name}/{cfg['encoder']}: query firing over {len(sel)} queries", lg):
+            qi, qv = d92.encode([qtexts[i] for i in sel], enc, head, tfQ, E, None, layer, True, 256)
+        thr = a.max_qf
+    else:
+        # a DOCUMENT sample of the corpus being indexed -- the thing a deployment always has.
+        # This measures the entry's firing breadth under the model, which for the hub
+        # entries is 100-2000x its lexical frequency (96_domain_diagnose: `predisposes`
+        # occurs in 0.04% of trec-covid documents and fires on 84% of them).
+        mu_h, Wh = whitening.load(paths.ART / "whiten" / f"{cfg['encoder']}_L{layer}_H.npz")
+        tfH = whitening.Transform("whitened", mu_h, Wh, DEV)
+        sel = np.sort(g.choice(len(col), size=min(a.n_docs, len(col)), replace=False))
+        with Timer(f"{a.name}/{cfg['encoder']}: document firing over {len(sel)} passages", lg):
+            qi, qv = d92.encode(col.texts(sel), enc, head, tfH, E, None, layer, False, 1024)
+        thr = a.max_df
     del enc
     torch.cuda.empty_cache()
     qf = np.bincount(qi[qv > 0].ravel(), minlength=E.shape[0]).astype(np.float64) / len(sel)
     qf_ins = qf[nB:]
-    keep_ins = qf_ins <= a.max_qf
-    lg.info(f"{a.name}/{cfg['encoder']}: inserted qf mean {qf_ins.mean():.4f} "
-            f"max {qf_ins.max():.3f} | keeping {int(keep_ins.sum())}/{len(qf_ins)} at qf<={a.max_qf}")
+    if a.rel_pct is not None:
+        # Relative threshold: an inserted entry may not fire more broadly than the trained
+        # vocabulary's own entries do on THIS corpus under THIS backbone. Self-calibrating:
+        # e5 fires everything broadly (helpful entries included), so a fixed 10% cut kept
+        # only 571/2003 of its scifact entries; the decoders fire narrowly. The p-th
+        # percentile of the trained entries' firing rates is the cut, no magic number.
+        thr = float(np.percentile(qf[:nB][qf[:nB] > 0], a.rel_pct)) if (qf[:nB] > 0).any() else thr
+        lg.info(f"relative threshold: {a.rel_pct}th percentile of trained-entry firing = {thr:.4f}")
+    keep_ins = qf_ins <= thr
+    lg.info(f"{a.name}/{cfg['encoder']}: inserted {a.mode}-firing mean {qf_ins.mean():.4f} "
+            f"max {qf_ins.max():.3f} | keeping {int(keep_ins.sum())}/{len(qf_ins)} at <={thr}")
 
     words = [str(w) for w in z["words"]]
     dom_idx = np.flatnonzero(dom)
@@ -78,7 +99,8 @@ def main(a):
             ", ".join(f"{words[dom_idx[j]]}({qf_ins[j]:.2f})" for j in np.argsort(-qf_ins)[:20]))
 
     # a new tag whose is_domain keeps only the surviving entries; everything else is copied
-    tag = f"{src}_qf"
+    kind = "qf" if a.mode == "query" else ("mdfr" if a.rel_pct is not None else "mdf")
+    tag = f"{src}_{kind}-{a.name_model}"
     is_dom = z["is_domain"].copy()
     is_dom[drop_idx] = False
     np.savez(paths.vocab_file(tag), **{**{k: z[k] for k in z.files}, "is_domain": is_dom})
@@ -89,13 +111,14 @@ def main(a):
         p = paths.proto_file(e, src)
         if p.exists() and not paths.proto_file(e, tag).exists():
             os.symlink(p, paths.proto_file(e, tag))
-    save_json(dict(corpus=a.name, model=a.name_model, encoder=cfg["encoder"], max_qf=a.max_qf,
+    save_json(dict(corpus=a.name, model=a.name_model, encoder=cfg["encoder"], mode=a.mode,
+                   threshold=thr,
                    n_candidates=int(dom.sum()), n_kept=int(keep_ins.sum()),
                    n_dropped=int((~keep_ins).sum()), qf_mean_before=float(qf_ins.mean()),
                    qf_mean_after=float(qf_ins[keep_ins].mean()) if keep_ins.any() else None,
                    dropped_examples=dropped[:60]),
-              paths.RESULTS / f"97_qf_filter_{a.name}_{a.name_model}.json")
-    lg.info(f"wrote vocabulary tag {tag}: evaluate with --select qf")
+              paths.RESULTS / f"97_{kind}_filter_{a.name}_{a.name_model}.json")
+    lg.info(f"wrote vocabulary tag {tag}: evaluate with --select {tag[len(src)+1:]}")
 
 
 if __name__ == "__main__":
@@ -105,4 +128,10 @@ if __name__ == "__main__":
     ap.add_argument("--max-qf", type=float, default=0.05,
                     help="drop inserted entries firing on more than this share of queries")
     ap.add_argument("--n-queries", type=int, default=1000)
+    ap.add_argument("--mode", default="query", choices=["query", "doc"])
+    ap.add_argument("--max-df", type=float, default=0.10,
+                    help="doc mode: drop inserted entries the model fires on more than this share of sampled passages")
+    ap.add_argument("--n-docs", type=int, default=5000)
+    ap.add_argument("--rel-pct", type=float, default=None,
+                    help="doc mode: cut at this percentile of the TRAINED entries' firing rates instead of --max-df")
     main(ap.parse_args())

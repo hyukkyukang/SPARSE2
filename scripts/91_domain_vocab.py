@@ -89,6 +89,10 @@ def main(a):
         # tf x idf: total occurrences weighted by how *few* documents contain the term, so
         # a word in most of the corpus is penalised however often it occurs
         score = {w: tot[w] * np.log(N / cnt[w]) for w in pool}
+    elif a.select == "idf":
+        # the heaviest possible IDF weighting: rank purely by rarity among the candidates
+        # that clear the occurrence floor (tests whether lexically rarer terms are safer)
+        score = {w: np.log(N / cnt[w]) for w in pool}
     elif a.select == "dfcap":
         # document frequency, but nothing above a share of the corpus: the per-corpus
         # analogue of a stopword list, computable at insertion time with no labels
@@ -209,7 +213,7 @@ if __name__ == "__main__":
     ap.add_argument("--min-occ", type=int, default=5)
     ap.add_argument("--k", type=int, default=50)
     ap.add_argument("--bs", type=int, default=64)
-    ap.add_argument("--select", default="df", choices=["df", "tfidf", "dfcap"])
+    ap.add_argument("--select", default="df", choices=["df", "tfidf", "dfcap", "idf"])
     ap.add_argument("--max-df", type=float, default=0.10,
                     help="dfcap only: drop terms appearing in more than this share of passages")
     main(ap.parse_args())

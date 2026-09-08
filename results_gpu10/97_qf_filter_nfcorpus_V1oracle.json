@@ -1,0 +1,13 @@
+{
+  "corpus": "nfcorpus",
+  "model": "V1oracle",
+  "encoder": "e5",
+  "mode": "query",
+  "threshold": 0.05,
+  "n_candidates": 957,
+  "n_kept": 957,
+  "n_dropped": 0,
+  "qf_mean_before": 0.0005726098391839825,
+  "qf_mean_after": 0.0005726098391839825,
+  "dropped_examples": []
+}

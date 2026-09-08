@@ -1,0 +1,13 @@
+{
+  "corpus": "nfcorpus",
+  "model": "V1oracle_jina5s",
+  "encoder": "jina5s",
+  "mode": "query",
+  "threshold": 0.05,
+  "n_candidates": 961,
+  "n_kept": 961,
+  "n_dropped": 0,
+  "qf_mean_before": 0.0007345289832894657,
+  "qf_mean_after": 0.0007345289832894657,
+  "dropped_examples": []
+}
