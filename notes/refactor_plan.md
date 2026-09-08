@@ -115,7 +115,7 @@ SPARSE2/
 ├── benchmarks/  (result templates)
 ├── notes/   (kept as is: protocol, deviations, pilot notes, main_experiment, this plan)
 ├── results/ reports/ (kept, read-only record of the pilots)
-├── legacy/  (the pilot code, frozen: dvlsr/ + scripts/0*–9*; excluded from ruff/tests; deleted at Phase 10)
+├── scripts/pilot_study/  legacy/ (pilot package + scripts, self-contained) + reproduce_{pilotC,pilotD,pilotF,domain_shift,query_gate}.sh
 ├── .github/workflows/unittest.yaml, deploy-doc.yml
 ├── Dockerfile, docker-compose.yml, requirements.txt, README.md, LICENSE
 ```
@@ -271,7 +271,7 @@ Each phase ends with a gate; legacy code for that phase is deleted only after th
 
 | phase | work | gate (parity / test) | est. |
 |---|---|---|---|
-| 0. Freeze | tag `pilot-final`; move `dvlsr/` + `scripts/0*–9*` + `run_*.sh` to `legacy/`; ruff/pytest exclude it | `legacy` still runs one pilot command | 0.5 d |
+| 0. Freeze | new repository on `/mnt/sdc`; copy the pilot package + scripts to `scripts/pilot_study/legacy/`; ruff/pytest exclude it; SPARSE2 tagged `pilot-final` | one pilot command runs from the copy | 0.5 d |
 | 1. Skeleton | copy GenZ framework (`src/utils, representation, index, metric, task, tokenization, dataset base+beir+corpus+collator+pl_module+types, model/registry+pl_module+retriever/base+sparse/base+neural/base+lexical/bm25+neural/splade`), `scripts/{evaluate,index}.py`, `config/`, `tests/` for those, `requirements.txt`, CI, docs skeleton; strip remote/expander hooks | `pytest` green; `evaluate.py model=bm25 dataset=beir/scifact` reproduces GenZ's BM25 nDCG@10 on scifact; SPLADE-v3 scifact 0.686 as in `reports_gpu10/DOMAIN.md` | 2 d |
 | 2. Encoder + units + artifacts | `src/encoder`, `src/tokenization/word_units.py`, `src/vocabulary/*`, preprocess scripts, backbone configs | (a) unit states bit-identical to `legacy` for e5 (legacy rule) and cosine ≥ 0.9999 for jina/arctic/gemma (alnum rule) on 1k passages; (b) prototypes/banks/whitening for jina reproduce the pilot artifacts (cos 1.0000); (c) layer probe reproduces jina 0.2981 @12, arctic 0.315 @24 | 3 d |
 | 3. Retriever + index + evaluate | `dvlsr.py`, head, checkpoint loader (reads pilot `head.pt`), GenZ index build, `testing=retrieval` | training-free and V1oracle_jina5s on scifact/nfcorpus/trec-covid reproduce `reports_gpu10/DOMAIN.md` baselines to ±0.001 MRR@10; index build ≥ pilot throughput (417/259/142 p/s) | 3 d |
@@ -281,7 +281,7 @@ Each phase ends with a gate; legacy code for that phase is deleted only after th
 | 7. Annotation pipeline | store, dense retriever, mining, Qwen3 reranker scoring, filter, `training/mixture.yaml` | MS MARCO subset: our mined negatives overlap the public package's top-50 ≥ 60%; teacher scores rank MS MARCO dev top-20 with MRR@10 ≥ 0.40 (sanity, in-domain only); throughput within 20% of estimates | 4 d + GPU (12 h store encode, 18 h scoring) |
 | 8. Baselines | dense rows per backbone via `HFDenseRetriever`; SPLADE++/v3 via GenZ; our-own-SPLADE training (mixture arm) if kept | dense scifact/nfcorpus/trec-covid match `94_domain_baselines` (jina 0.744/0.391/0.828 nDCG@10) | 2 d |
 | 9. Analysis + docs + CI | `scripts/analysis/*`, README (GenZ style), Sphinx, workflows, `benchmarks/` templates | docs build; CI green on 3.12; README commands all run | 2 d |
-| 10. Delete legacy | remove `legacy/`, keep tag | nothing imports `legacy`; all gates recorded in `notes/refactor_log.md` | 0.5 d |
+| 10. Pilot drivers | `scripts/pilot_study/reproduce_*.sh` for C, D, F, L/M, gate with expected numbers | each driver runs end to end on one cell | 1 d |
 
 Total: about 25 working days of implementation plus the GPU time listed. Phases 2–4 are
 the critical path; 5 and 7 can proceed in parallel with them.
@@ -311,23 +311,42 @@ the critical path; 5 and 7 can proceed in parallel with them.
   current venv is 3.10; GenZ targets 3.12–3.14). Lucene/JAVA dependency dropped (BM25 via
   bm25s/GenZ). Dockerfile inherited from GenZ.
 
-## 9. Risks and decisions for the owner
+## 9. Owner's decisions (2026-09-08)
 
-1. **In place or new repository?** Plan assumes in place (history, notes, results kept;
-   `legacy/` until Phase 10). Alternative: a new repo seeded from GenZ, with SPARSE2 kept
-   read-only.
-2. **Copy scope from GenZ.** Plan copies the framework layer only (≈ 40 files) and none of
-   `src/remote`, `src/model/expander`, `src/telemetry`, `benchmarks/sparse_scoring`. Say if
-   telemetry (index-build reports) should come along.
-3. **Legacy retention.** Delete at Phase 10, or keep `legacy/` permanently for pilot
-   reproduction.
-4. **HF hosting of the new corpora** (LitSearch, TripClick, CUREv1) under your account in
-   the RTEB schema, as the RTEB sets are.
-5. **GPU index scorer.** GenZ scores sparse indexes with numba on CPU; the pilots scored on
+1. **New repository, no git history.** Working name `SPARSE` (the acronym is fixed; its
+   expansion is still being chosen). Lives on the scratch mount
+   (`/mnt/sdc/hkkang/SPARSE`, symlinked from `~/SPARSE`) because the root filesystem is
+   full. SPARSE2 stays as the read-only pilot record.
+2. **Copy scope**: the framework layer plus `src/telemetry` (index.py depends on it) and
+   the benchmark-artifact schema; `src/prompt` reduced to the base/constructor/registry and
+   the `raw` prompt, since our backbones use plain prefixes. Nothing from `src/remote`,
+   `src/model/expander`, `src/model/embedder`, the LLM prompt templates, or GenZ's own models.
+3. **Pilot code** is kept under `scripts/pilot_study/` in the new repository: a
+   self-contained copy of the pilot package and scripts (`scripts/pilot_study/legacy/`) so
+   the numbers can be re-run exactly, plus thin reproduction drivers for the important
+   pilots only: C (training-free retrieval), D (recovery ratio on the held-out splits),
+   F (insertion-time calibration), L/M (domain shift on three backbones) and the query-time
+   gate. Each driver states the expected numbers from `SUMMARY.md`. Phases 4 and 6 also
+   reproduce L/M and D on the new stack, which is the long-term reproduction path.
+4. **Datasets on the HF Hub** under the owner's account (`Hyukkyu/*`) in the RTEB unified
+   schema, including LitSearch, TripClick and CUREv1.
+5. **Python 3.14 and the newest packages** that resolve together at creation time, then
+   pinned (GenZ's discipline: torch unpinned, everything else pinned). Environment via `uv`
+   on the scratch mount.
+
+## 10. Risks
+
+1. **Root filesystem full** (726 MB free on `/`): every path of the new project, the venv,
+   pip/uv caches and HF caches must be on `/mnt/sdc`; a stray cache on `/` will fail writes.
+2. **Python 3.14 wheel coverage**: torch, numba, faiss-cpu, peft and sentence-transformers
+   must all have cp314 wheels; GenZ's Dockerfile shows torch/numba/faiss do. If peft or
+   sentence-transformers lag, jina's adapter merge is done once and the merged weights
+   saved, and the reference-pipeline validation runs from the 3.10 venv.
+3. **GPU index scorer.** GenZ scores sparse indexes with numba on CPU; the pilots scored on
    GPU. Phase 3 benchmarks both on the 8.8M-passage MS MARCO index; if numba is >3x slower,
    our GPU scorer is kept as `index.backend=gpu`.
-6. **Python 3.12 venv and transformers 5.16.1 remote-code fixes** (arctic-m's GTE buffers,
-   Gemma's fp32-only path) stay as backbone `post_load` hooks; they are already written.
-7. **Timeline.** ~5 weeks for one engineer with the GPU runs interleaved; the main
+4. **transformers remote-code fixes** (arctic-m's GTE buffers, Gemma's fp32-only path)
+   stay as backbone `post_load` hooks; they are already written.
+5. **Timeline.** ~5 weeks for one engineer with the GPU runs interleaved; the main
    experiment's artifact and annotation runs (Phases 2, 7) can start on this machine before
    the training stack (Phase 6) is finished.
