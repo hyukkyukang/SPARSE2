@@ -317,7 +317,7 @@ the study has not seen (its data contain one explosion-type failure, e5 on trec-
 ## Continuation
 
 The main experiment is being built in a new repository that follows the GenZ architecture:
-`https://github.com/hyukkyukang/SPARSE` (branch `sparse-refactor`; local copy
+`https://github.com/hyukkyukang/SPARSE` (branch `main`; local copy
 `/mnt/sdc/hkkang/SPARSE`). Its `notes/refactor_plan.md` and `notes/refactor_log.md` record
 the migration and the parity gates against this pilot study. This repository is the frozen
 pilot record.
