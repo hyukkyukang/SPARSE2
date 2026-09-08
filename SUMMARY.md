@@ -529,9 +529,8 @@ already holds them out, so the map cannot reshape the space around exactly the e
 saw. That is the only known lever on the third mechanism, and the effectiveness ceiling it
 would preserve is already measured.
 
-Also unrun: **partial normalisation** (`--norm-alpha`, for the conditional case of §4.7);
-phrase prototypes built from states that see the phrase *as a unit* rather than by
-averaging its parts (§4.8); and an evaluation on **real vocabulary shift** — a different
-corpus with its own terminology — rather than synthetic held-out splits of one collection.
-That last is the weakest point in the current evidence: every split here is an ablation of
-MS MARCO, while the motivating story is new entities and evolving jargon.
+Also unrun: **partial normalisation** (`--norm-alpha`, for the conditional case of §4.7)
+and phrase prototypes built from states that see the phrase *as a unit* rather than by
+averaging its parts (§4.8). The evaluation on **real vocabulary shift** that an earlier
+version of this section listed as the weakest point has since been run on three backbones
+and three corpora (§4.11).
