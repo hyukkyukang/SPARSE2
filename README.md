@@ -313,3 +313,11 @@ its own fitting**, so it cannot reshape the space around exactly the entries it 
 unrun: **partial normalisation** (`--norm-alpha`), phrase prototypes built from states that
 see the phrase *as a unit*, and the per-query gate on a corpus whose failure is of a kind
 the study has not seen (its data contain one explosion-type failure, e5 on trec-covid).
+
+## Continuation
+
+The main experiment is being built in a new repository that follows the GenZ architecture:
+`https://github.com/hyukkyukang/SPARSE-old` (branch `sparse-refactor`; local copy
+`/mnt/sdc/hkkang/SPARSE`). Its `notes/refactor_plan.md` and `notes/refactor_log.md` record
+the migration and the parity gates against this pilot study. This repository is the frozen
+pilot record.
