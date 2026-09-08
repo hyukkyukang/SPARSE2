@@ -148,6 +148,11 @@ def main(a):
     g = torch.Generator().manual_seed(0)
     sub = E_base[torch.randperm(E_base.shape[0], generator=g)[:Ed.shape[0]].to(E_base.device)]
     out["aggregate"] = dict(inserted=agg(Ed), trained_subset=agg(sub))
+    # set-level statistics a deployment CAN compute: the query bank is MS MARCO *training*
+    # queries, fixed before deployment, never the test queries
+    out["aggregate"]["frac_inserted_above_trained_p99_queryBank"] = float((st["qQ_rel"] > 1).mean())
+    out["aggregate"]["frac_inserted_above_trained_p99_docBank"] = float((st["qH_rel"] > 1).mean())
+    out["aggregate"]["mean_qQ_rel"] = float(np.mean(st["qQ_rel"])); out["aggregate"]["mean_qH_rel"] = float(np.mean(st["qH_rel"]))
     # the specific contrast the study needs: e5's helpful-but-broad entries vs its harmful ones
     lift_f = np.where(fired, lift, np.nan)
     idx_h = np.argsort(-np.nan_to_num(lift_f, nan=-1))[:15]; idx_b = np.argsort(np.nan_to_num(lift_f, nan=1e9))[:15]

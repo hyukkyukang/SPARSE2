@@ -1,0 +1,64 @@
+{
+  "model": "V1oracle_jina5s",
+  "corpus": "scifact",
+  "norm": false,
+  "control": null,
+  "select": "df",
+  "qgate": {
+    "K": 20,
+    "mode": "all",
+    "n_ins_mean": 31.77,
+    "n_ins_median": 11.0,
+    "queries_gated": 126
+  },
+  "n_passages": 5183,
+  "n_queries": 300,
+  "n_inserted": 2005,
+  "two_store": true,
+  "with": {
+    "mrr": 0.43217328042328046,
+    "ndcg": 0.4601512373317502,
+    "r100": 0.7761111111111111,
+    "mrr_ci": [
+      0.38153931878306874,
+      0.48386445105820114
+    ],
+    "nnz_d": 225.56067914335327,
+    "cap_hit": 0.0,
+    "n_scored": 300
+  },
+  "without": {
+    "mrr": 0.4178703703703704,
+    "ndcg": 0.4503613682532574,
+    "r100": 0.7661111111111111,
+    "mrr_ci": [
+      0.36836173941798944,
+      0.46920783730158727
+    ],
+    "nnz_d": 93.19062319120201,
+    "cap_hit": 0.0,
+    "n_scored": 300
+  },
+  "delta_mrr": {
+    "diff": 0.014302910052910053,
+    "lo": -0.0021107142857142848,
+    "hi": 0.03147890211640212,
+    "p_two_sided": 0.0872,
+    "excludes_zero": false
+  },
+  "delta_ndcg": {
+    "diff": 0.009789869078492709,
+    "lo": -0.0049040735805873535,
+    "hi": 0.025183564122976874,
+    "p_two_sided": 0.1952,
+    "excludes_zero": false
+  },
+  "delta_r100": {
+    "diff": 0.01,
+    "lo": -0.013333333333333334,
+    "hi": 0.03333333333333333,
+    "p_two_sided": 0.491,
+    "excludes_zero": false
+  },
+  "signed_gap_r": 3.1808247673711953
+}

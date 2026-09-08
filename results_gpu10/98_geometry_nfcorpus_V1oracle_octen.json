@@ -92,7 +92,11 @@
       "mean_pairwise_cos": -6.805006705690175e-05,
       "top_eig_share": 0.003958284854888916,
       "top5_eig_share": 0.019383907318115234
-    }
+    },
+    "frac_inserted_above_trained_p99_queryBank": 0.001040582726326743,
+    "frac_inserted_above_trained_p99_docBank": 0.0,
+    "mean_qQ_rel": 0.3840084373950958,
+    "mean_qH_rel": 0.4509198069572449
   },
   "examples": {
     "helpful": [

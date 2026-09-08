@@ -168,6 +168,32 @@ Insert-all → gated, change in MRR@10:
 | scifact | +0.051* → **+0.051*** | +0.044* → **+0.044*** | -0.009 → **+0.081*** |
 | trec-covid | -0.320* → **+0.074** | +0.186* → **+0.186*** | +0.255* → **+0.255*** |
 
+**The deployable rule: two posting stores and a per-query gate.** Keep trained and
+inserted postings as separate stores at indexing time (under e5 the inserted entries fill
+the 1,024-entry per-document store on trec-covid and scifact and evict trained entries,
+which no query-side rule can restore). When a query arrives, count the inserted entries that
+fire on it; if more than 20 do, drop from that query the inserted entries that fire on more
+than 5% of the indexed documents. Nothing beyond the index and the single query is used;
+both thresholds were fixed before any run and octen's cells were never used to choose them
+(`scripts/92_domain_eval.py --two-store --qgate 20 --qgate-mode dfdrop`; all variants and
+K values in `reports_gpu10/QUERY_GATE.md`).
+
+Insert-all → two stores + per-query gate, change in MRR@10 (queries the gate acted on):
+
+| corpus | e5 | Octen | Jina |
+|---|---|---|---|
+| nfcorpus | +0.027* → **+0.027*** (1/323) | +0.030* → **+0.030*** (0) | +0.029* → **+0.029*** (3) |
+| scifact | +0.051* → **+0.037*** (43/300) | +0.044* → **+0.041*** (23) | -0.009 → **+0.045*** (126) |
+| trec-covid | -0.320* → **+0.020** (49/50) | +0.186* → **+0.196*** (4) | +0.255* → **+0.255*** (6) |
+
+Both failures are repaired and every gaining cell stays within 0.018 of insert-all. The
+gate has a wide margin: e5 fires a median of 238 inserted entries per trec-covid query, the
+decoders at most 33 and 48 on the same corpus. Answering a gated query from the trained
+store alone is the guarantee form (never below the baseline; e5/trec-covid exactly 0.000)
+but does not make jina/scifact significant, whose failure is broad entries rather than an
+explosion. The price of the query constraint shows only on the two failing cells: the
+query-sample upper bound reaches +0.081 and +0.074 there.
+
 ## Two negatives that close off explanations
 
 
@@ -275,7 +301,8 @@ normalisation, normalisation on rare, the parameterized-vocabulary control), H (
 repeats), I (shared entry-side map), J (k=100 prototypes), K (making the entry map
 generalise), L (real vocabulary shift) and M (the same on two more backbones) complete.
 **68 models trained on the rebuild**, 54 domain-shift evaluations across three backbones
-and three corpora, on top of the original A100 run.
+and three corpora, and a 153-cell query-time gate study on top of them, all on top of the
+original A100 run.
 
 Not run: the **full-corpus confirmation** (`scripts/60_*`), so every number is on C₁ and
 mildly optimistic for us. The encoder-training arms on the rebuild are capped at 3,000
@@ -284,5 +311,5 @@ steps rather than 12,500.
 The experiment the results now define: train the entry-side map with **regions held out of
 its own fitting**, so it cannot reshape the space around exactly the entries it saw. Also
 unrun: **partial normalisation** (`--norm-alpha`), phrase prototypes built from states that
-see the phrase *as a unit*, and an evaluation on **real vocabulary shift** — a different
-corpus with its own terminology — rather than synthetic held-out splits of one collection.
+see the phrase *as a unit*, and the per-query gate on a corpus whose failure is of a kind
+the study has not seen (its data contain one explosion-type failure, e5 on trec-covid).

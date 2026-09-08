@@ -153,9 +153,45 @@ def main(a):
         lg.info(f"tail correction applied to the inserted entries only "
                 f"(mean shift {float(AB[1][~seen_t].mean()):+.4f})")
 
-    with Timer(f"encode {a.name} (extended vocabulary)", lg):
-        di, dv = encode(col.texts(range(len(col))), enc, head, tfH, E, AB, layer, False, a.cap)
-        qi, qv = encode(qtexts, enc, head, tfQ, E, AB, layer, True, 256)
+    ck_mtime0 = int(os.path.getmtime(paths.CKPT / a.name_model / "head.pt"))
+    amp0 = str(precision.autocast_dtype()).replace("torch.", "")
+    ext = (paths.DATA / "domain" / a.name /
+           f"ext_{a.name_model}_{a.select}{'_norm' if a.norm else ''}{('_ctl-' + a.control) if a.control else ''}"
+           f"_cap{a.cap}_{ck_mtime0}_{amp0}.npz")
+    if ext.exists():
+        z1 = np.load(ext); di, dv = z1["di"], z1["dv"]
+        lg.info(f"extended document encode reused from {ext.name}")
+    else:
+        with Timer(f"encode {a.name} (extended vocabulary)", lg):
+            di, dv = encode(col.texts(range(len(col))), enc, head, tfH, E, AB, layer, False, a.cap)
+        tmp = ext.with_suffix(f".tmp{os.getpid()}.npz"); np.savez(tmp, di=di, dv=dv); os.replace(tmp, ext)
+    qi, qv = encode(qtexts, enc, head, tfQ, E, AB, layer, True, 256)
+    nB0 = E_base.shape[0]
+    # ---- QUERY-TIME GATE (deployment-compliant: uses only the query being answered and
+    # corpus-side statistics fixed at indexing time; never another query). Crowding -- the
+    # harm mechanism -- happens per query, when many broad inserted entries fire on the same
+    # query. If more than K inserted entries fire on this query, suppress them on the query
+    # side; the document index is untouched.
+    if a.qgate:
+        ins_q = (qi >= nB0) & (qv > 0)
+        n_ins = ins_q.sum(1)
+        if a.qgate_mode == "dfdrop":
+            dfreq0 = np.bincount(di[dv > 0].ravel(), minlength=E.shape[0]).astype(np.float64) / len(col)
+        gated = 0
+        for r in range(len(qtexts)):
+            if n_ins[r] <= a.qgate:
+                continue
+            gated += 1
+            cols = np.flatnonzero(ins_q[r])
+            if a.qgate_mode == "all":                 # fall back to the trained vocabulary
+                qv[r, cols] = 0.0
+            elif a.qgate_mode == "topk":              # keep the K strongest inserted entries
+                order = np.argsort(-qv[r, cols]); qv[r, cols[order[a.qgate:]]] = 0.0
+            elif a.qgate_mode == "dfdrop":            # drop the broad ones (corpus statistic)
+                broad = dfreq0[qi[r, cols]] > a.qgate_df; qv[r, cols[broad]] = 0.0
+        lg.info(f"query gate K={a.qgate} mode={a.qgate_mode}: inserted entries firing per query "
+                f"mean {n_ins.mean():.1f} median {np.median(n_ins):.0f} max {n_ins.max()} | "
+                f"{gated}/{len(qtexts)} queries gated")
     # The baseline must be its OWN encode over the trained vocabulary only. Deriving it by
     # masking the inserted entries out of the extended encode is wrong whenever a document
     # has more than `cap` non-zero entries: the inserted entries win storage slots and push
@@ -186,11 +222,27 @@ def main(a):
     nV = E.shape[0]
     ins = np.zeros(nV, bool); ins[E_base.shape[0]:] = True
     res = dict(model=a.name_model, corpus=a.name, norm=bool(a.norm), control=a.control or None,
-               select=a.select,
-               n_passages=len(col), n_queries=len(qids), n_inserted=int(ins.sum()))
+               select=a.select, qgate=(dict(K=a.qgate, mode=a.qgate_mode, n_ins_mean=float(n_ins.mean()),
+                                            n_ins_median=float(np.median(n_ins)), queries_gated=int(gated))
+                                       if a.qgate else None),
+               n_passages=len(col), n_queries=len(qids), n_inserted=int(ins.sum()),
+               two_store=bool(a.two_store))
     per = {}
+    ranked_by = {}
     for cond in ("with", "without"):
-        if cond == "with":
+        if cond == "with" and a.two_store:
+            # Two posting stores, as an index would keep them: the trained store is the
+            # baseline encode (nothing evicted by inserted entries) and the inserted store
+            # is the inserted part of the extended encode. Entry ids are disjoint
+            # (trained < nB0 <= inserted), so scattering both into one row and adding is
+            # exactly the sum of the two stores' scores; the masked slots add zeros.
+            ins_d, ins_qm = di >= nB0, qi >= nB0
+            Di = np.concatenate([bi, np.where(ins_d, di, 0)], 1)
+            Dv = np.concatenate([bv, np.where(ins_d, dv, 0.0)], 1)
+            Qi = np.concatenate([bqi, np.where(ins_qm, qi, 0)], 1)
+            Q = np.concatenate([bqv, np.where(ins_qm, qv, 0.0)], 1)
+            nc = nV
+        elif cond == "with":
             Qi, Q, Di, Dv, nc = qi, qv, di, dv, nV
         else:
             Qi, Q, Di, Dv, nc = bqi, bqv, bi, bv, E_base.shape[0]
@@ -198,15 +250,15 @@ def main(a):
         # need a (n_docs x |V|) matrix resident at once.
         K = min(100, len(col))
         Qm = torch.zeros(len(qids), nc, device=DEV)
-        Qm.scatter_(1, torch.as_tensor(Qi.astype(np.int64), device=DEV),
-                    torch.as_tensor(Q, device=DEV))
+        Qm.scatter_add_(1, torch.as_tensor(Qi.astype(np.int64), device=DEV),
+                        torch.as_tensor(Q, device=DEV))
         best_v = torch.full((len(qids), K), -1.0, device=DEV)
         best_i = torch.zeros((len(qids), K), dtype=torch.long, device=DEV)
         for s in range(0, len(col), a.dchunk):
             e = min(s + a.dchunk, len(col))
             Dm = torch.zeros(e - s, nc, device=DEV)
-            Dm.scatter_(1, torch.as_tensor(Di[s:e].astype(np.int64), device=DEV),
-                        torch.as_tensor(Dv[s:e], device=DEV))
+            Dm.scatter_add_(1, torch.as_tensor(Di[s:e].astype(np.int64), device=DEV),
+                            torch.as_tensor(Dv[s:e], device=DEV))
             sc = Qm @ Dm.T
             k = min(K, e - s)
             v, i = torch.topk(sc, k, dim=1)
@@ -218,6 +270,18 @@ def main(a):
         ranked = best_i.cpu().numpy()
         del Qm, best_v, best_i
         torch.cuda.empty_cache()
+        ranked_by[cond] = ranked
+    # "fallback" gate: two posting stores (trained / inserted) kept separately at indexing
+    # time; for a query on which more than K inserted entries fire, consult only the trained
+    # store. Deployment-compliant: the decision uses the single query. Unlike zeroing the
+    # query side of one merged store, this cannot lose trained entries to the per-document
+    # cap that the inserted entries filled.
+    if a.qgate and a.qgate_mode == "fallback":
+        g_rows = np.flatnonzero(n_ins > a.qgate)
+        ranked_by["with"][g_rows] = ranked_by["without"][g_rows]
+    for cond in ("with", "without"):
+        ranked = ranked_by[cond]
+        Dv = dv if cond == "with" else bv
         rr, nd, rc = [], [], []
         for r, q in enumerate(qids):
             rel = qrels.get(q, set())
@@ -253,7 +317,8 @@ def main(a):
     res["signed_gap_r"] = float(np.median(logs)) if logs else float("nan")
     lg.info(f"activation gap, inserted vs trained: {res['signed_gap_r']:+.3f}")
     sfx = ("" if a.select == "df" else f"_{a.select}") + ("_norm" if a.norm else "") \
-        + (f"_ctl-{a.control}" if a.control else "")
+        + (f"_ctl-{a.control}" if a.control else "") \
+        + ("_2s" if a.two_store else "") + (f"_qg{a.qgate}{a.qgate_mode}" if a.qgate else "")
     save_json(res, paths.RESULTS / f"92_domain_{a.name}_{a.name_model}{sfx}.json")
 
 
@@ -267,6 +332,15 @@ if __name__ == "__main__":
                          "vocabulary: both keep the dimension count and remove the terminology")
     ap.add_argument("--cap", type=int, default=1024)
     ap.add_argument("--dchunk", type=int, default=20000)
+    ap.add_argument("--qgate", type=int, default=0,
+                    help="query-time gate: act when more than K inserted entries fire on a query")
+    ap.add_argument("--qgate-mode", default="all", choices=["all", "topk", "dfdrop", "fallback"])
+    ap.add_argument("--two-store", action="store_true",
+                    help="score from two posting stores (trained = baseline encode, inserted = "
+                         "inserted part of the extended encode) so inserted entries never evict "
+                         "trained ones; combines with any --qgate-mode")
+    ap.add_argument("--qgate-df", type=float, default=0.05,
+                    help="dfdrop: drop inserted entries whose corpus document-firing exceeds this")
     ap.add_argument("--select", default="df",
                     help="df | tfidf | dfcap | idf, or a filter tag such as mdf-V1oracle_jina5s")
     main(ap.parse_args())

@@ -403,6 +403,45 @@ firing on more than 5% of a query sample; the gate applies it only when the inse
 mean query-firing is at least 0.01. Octen's three cells were never used in choosing either
 threshold.
 
+**The deployable rule: two posting stores and a per-query gate** (`scripts/92_domain_eval.py
+--two-store --qgate`, full tables in `reports_gpu10/QUERY_GATE.md`). It uses only what a
+deployment has: the index, and the one query being answered. At indexing time the trained
+and inserted postings are kept as two stores, so an inserted entry can never displace a
+trained one — under e5 the inserted entries fill the 1,024-entry per-document store (51.6%
+of trec-covid documents, 35.0% of scifact) and evict 17.8 of a document's 61.2 trained
+entries on trec-covid, a loss no query-side rule can undo (two stores alone move
+e5/trec-covid from −0.320 to −0.273). At query time the rule counts the inserted entries
+firing on the query; if more than K=20 fire, it drops from that query the inserted entries
+that fire on more than 5% of the indexed documents (an index statistic, computed with no
+query). Both thresholds were fixed before any run; octen's cells were never used to choose
+them.
+
+| corpus | backbone | insert all | **two stores + per-query gate** | two stores, fall back to trained (K=50) | query-sample gate (upper bound) |
+|---|---|---|---|---|---|
+| nfcorpus | e5 | +0.027* | **+0.027*** (1 of 323 queries gated) | +0.027* | +0.027* |
+| nfcorpus | Octen | +0.030* | **+0.030*** (0) | +0.030* | +0.030* |
+| nfcorpus | Jina | +0.029* | **+0.029*** (3) | +0.029* | +0.029* |
+| scifact | e5 | +0.051* | **+0.037*** (43 of 300) | +0.048* | +0.051* |
+| scifact | Octen | +0.044* | **+0.041*** (23) | +0.044* | +0.044* |
+| scifact | Jina | −0.009 | **+0.045*** (126) | +0.014 | +0.081* |
+| trec-covid | e5 | −0.320* | **+0.020** (49 of 50) | 0.000 | +0.074 |
+| trec-covid | Octen | +0.186* | **+0.196*** (4) | +0.186* | +0.186* |
+| trec-covid | Jina | +0.255* | **+0.255*** (6) | +0.255* | +0.255* |
+
+Both failures are repaired — e5/trec-covid −0.320 → +0.020, jina/scifact −0.009 → +0.045
+with a CI excluding zero — every gaining cell stays within 0.018 of its ungated number, and
+the held-out backbone's largest gain rises. The gate sees the explosion-type failure with a
+wide margin: e5 fires a median of 238 inserted entries per trec-covid query, the decoders at
+most 33 and 48 on the same corpus, so any K between 50 and 200 gates all of e5's queries and
+none of theirs. The simpler variant that answers a gated query from the trained store alone
+is a guarantee rather than a repair (never below the baseline; e5/trec-covid exactly 0.000)
+but leaves jina/scifact non-significant, because that failure is not an explosion (median
+11 firing) but broad entries firing on many documents, which only the index statistic
+identifies. Keeping the K strongest inserted entries instead is fragile in K (K=50 leaves
+e5/trec-covid at −0.065). The price of the constraint shows only on the two failing cells:
+the query-sample upper bound reaches +0.081 and +0.074 where the compliant rule reaches
++0.045 and +0.020.
+
 **Calibration never helps outside the synthetic splits.** The Pilot F tail correction was
 applied at insertion in all nine cells: six clearly worse, three within noise, none
 improved. It was developed and validated on held-out splits *within* MS MARCO, where
@@ -461,7 +500,11 @@ baselines. **The open question Pilot M leaves is why one encoder turns an insert
 vocabulary into hubs and another does not** — no statistic we measured (query-side firing,
 document-side firing, density multiplication, relevant/irrelevant score split) orders all
 nine cells correctly, and a filter built on the most promising of them repairs three cells
-and damages a fourth.
+and damages a fourth. What does hold on all nine cells is a rule that needs no such
+statistic: keep trained and inserted postings as two stores, and when more than 20 inserted
+entries fire on a query, drop from that query the ones that fire on more than 5% of the
+index. It uses only the index and the query in hand, repairs both failures, and leaves
+every gain within 0.018 of insert-all.
 
 **Honest positioning.** On MS MARCO's C₁ our best text-defined configurations reach
 0.19–0.25 MRR@10 against BM25 0.189, dense 0.356 and SPLADE++ 0.382. On the domain corpora

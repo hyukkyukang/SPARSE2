@@ -305,3 +305,79 @@ mean query-firing exceeds 0.01. On the six cells it was derived from it selects 
 best-known variant on five and is within 0.01 on the sixth. Held out on octen's three cells
 (mean query-firing 0.0005, 0.0036, 0.0036 → do not filter) it preserves all three gains,
 +0.030, +0.044, +0.186, where the ungated filter would have cut the last to +0.040.
+
+## Query-time gate: the deployment-compliant rule (`scripts/92_domain_eval.py --two-store --qgate`)
+
+Full tables: `reports_gpu10/QUERY_GATE.md` (`scripts/99_query_gate_report.py`).
+
+**The constraint.** Test queries are unknown until each one arrives. A rule may use the
+single query being answered and anything fixed at indexing time — the corpus, the model,
+statistics of the index — and never statistics over a set of queries. The query-firing
+filter and its gate in the previous sections use a *sample of queries*, which on these
+benchmarks is the test set; they are an upper bound on what query-side information can do,
+not a method. Everything in this section obeys the constraint.
+
+**The rule.** At indexing time keep two posting stores, trained and inserted
+(`--two-store`), so an inserted entry can never displace a trained one. At query time count
+the inserted entries that fire on the query. If more than K fire, act on the inserted side
+of *that query only*, one of three ways: answer from the trained store alone (`all`); drop
+the inserted entries that fire on more than 5% of the indexed documents, an index statistic
+computed with no query (`dfdrop`); keep the K strongest (`topk`). K=20 and the 5% threshold
+were fixed before any run; K=10/30/50 were run afterwards for sensitivity, so K=50 is post
+hoc. Octen's cells were never used in choosing either value.
+
+**Why two stores.** The evaluation store keeps 1,024 entries per document. Under e5 the
+inserted entries fill it — 51.6% of trec-covid documents and 35.0% of scifact documents hit
+the cap — and evict trained entries: 17.8 of a document's 61.2 trained entries on
+trec-covid, 5.9 of 72.3 on scifact. No query-side rule can bring an evicted entry back, so
+on one store the gate that drops every inserted entry from 49 of e5's 50 covid queries still
+leaves −0.066; on two stores the same gate gives exactly 0.000. Two stores with no gate at
+all already move e5/trec-covid from −0.320 to −0.273 and e5/scifact from +0.051 to +0.055.
+The decoders never reach the cap on any corpus, so for them one store and two stores are
+identical to four decimals.
+
+**Results** (change in MRR@10 against the backbone's baseline; `*` CI excludes zero;
+`(Nq)` queries on which the gate acted; upper bound = query-sample gate of the previous
+section):
+
+| corpus | backbone | insert all, one store | two stores, no gate | **two stores + df-drop, K=20** | two stores + fall back, K=50 | two stores + top-k, K=20 | upper bound |
+|---|---|---|---|---|---|---|---|
+| nfcorpus | e5 | +0.027* | +0.027* | **+0.027*** (1q) | +0.027* (0q) | +0.027* (1q) | +0.027* |
+| nfcorpus | Octen | +0.030* | +0.030* | **+0.030*** (0q) | +0.030* (0q) | +0.030* (0q) | +0.030* |
+| nfcorpus | Jina | +0.029* | +0.029* | **+0.029*** (3q) | +0.029* (0q) | +0.029* (3q) | +0.029* |
+| scifact | e5 | +0.051* | +0.055* | **+0.037*** (43q) | +0.048* (12q) | +0.057* (43q) | +0.051* |
+| scifact | Octen | +0.044* | +0.044* | **+0.041*** (23q) | +0.044* (0q) | +0.046* (23q) | +0.044* |
+| scifact | Jina | −0.009 | −0.009 | **+0.045*** (126q) | +0.014 (80q) | +0.021 (126q) | +0.081* |
+| trec-covid | e5 | −0.320* | −0.273* | **+0.020** (49q) | 0.000 (49q) | +0.035 (49q) | +0.074 |
+| trec-covid | Octen | +0.186* | +0.186* | **+0.196*** (4q) | +0.186* (0q) | +0.186* (4q) | +0.186* |
+| trec-covid | Jina | +0.255* | +0.255* | **+0.255*** (6q) | +0.255* (0q) | +0.255* (6q) | +0.255* |
+
+**What it establishes.**
+
+1. **The gate sees the explosion-type failure with a wide margin.** On trec-covid e5 fires a
+   median of 238 inserted entries per query; the decoders' maxima on the same corpus are 33
+   and 48, and their scifact medians are 2–11. Any K between 50 and 200 gates every one of
+   e5's covid queries and none of the decoders', so K is not a tuned number. K=10 is too
+   low: it gates 16–34 of the decoders' covid queries and costs them 0.03–0.10.
+2. **Fall-back (`all`) is a guarantee, not a repair.** A gated query is answered from the
+   untouched trained store, so it can never score below the baseline; e5/trec-covid is
+   exactly 0.000 at every K. Its cost is bounded by the gated fraction (K=20: 0.022 on
+   e5/scifact, 0.020 on jina/trec-covid; K=50: at most 0.007 anywhere). It does not repair
+   jina/scifact (+0.014, not significant).
+3. **Df-drop at K=20 is the rule to report.** Both failures repaired — e5/trec-covid
+   −0.320 → +0.020, jina/scifact −0.009 → +0.045* — every gaining cell within 0.018 of its
+   ungated two-store number, and octen/trec-covid, held out, up from +0.186 to +0.196. It is
+   the only compliant rule that makes jina/scifact significant, because that failure is not
+   an explosion (median 11 firing) but broad entries firing on many documents, which the
+   index statistic identifies without a query.
+4. **Top-k is fragile in the wrong direction.** K=20 gives the best e5/scifact number
+   (+0.057) and +0.035 on e5/trec-covid, but K=50 leaves e5/trec-covid at −0.065 and
+   jina/scifact at −0.005: keeping more of the inserted entries reintroduces the crowding.
+5. **The price of the constraint** is visible on the two failing cells only: the
+   query-sample gate reaches +0.081 on jina/scifact and +0.074 on e5/trec-covid where the
+   compliant rule reaches +0.045 and +0.020. On the other seven cells they are within 0.018.
+6. **Caveats.** The data contain one explosion-type failure (e5/trec-covid), so the margin
+   in point 1 is one observation. The two-store design changes the ungated e5 numbers
+   (point "why two stores"); the domain table reports the one-store numbers, this section
+   both. The per-document cap is a property of the evaluation store, but the eviction it
+   causes is a real effect of inserting into any budgeted index.

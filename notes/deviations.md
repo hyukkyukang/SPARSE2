@@ -242,3 +242,22 @@ first document token is `The`, not `ĠThe`, as in the reference snippet.
 
 jina-embeddings-v5's retrieval LoRA is merged into the weights at load: pooled outputs
 identical (cosine 1.0000), unit states 0.9999 in fp16, throughput 102 → 183 passages/s.
+
+## D18 — two posting stores and a per-query gate, added at evaluation time
+
+The protocol scores every document from one per-document store of at most 1,024 entries.
+Under e5 the inserted entries fill that store (51.6% of trec-covid documents, 35.0% of
+scifact documents reach the cap) and evict trained entries, which no query-side rule can
+restore. `scripts/92_domain_eval.py --two-store` scores instead from two stores, trained
+(the baseline encode) and inserted (the inserted part of the extended encode), as an index
+that keeps them separately would; entry ids are disjoint so the score is the exact sum.
+The domain table (`reports_gpu10/DOMAIN.md`) keeps the one-store numbers; the gate report
+(`reports_gpu10/QUERY_GATE.md`) shows both.
+
+The per-query gate (`--qgate K --qgate-mode all|dfdrop|topk`) is a query-time rule the
+protocol did not have. It obeys the study's constraint that nothing about the test queries
+is known in advance: it uses the count of inserted entries firing on the query being
+answered and, for `dfdrop`, the fraction of indexed documents each inserted entry fires on,
+fixed at indexing time. K=20 and the 5% document-firing threshold were set before any run;
+K=10/30/50 were run afterwards for sensitivity. The query-sample filters of
+`scripts/97_qf_filter.py` do not obey the constraint and are reported as an upper bound.
