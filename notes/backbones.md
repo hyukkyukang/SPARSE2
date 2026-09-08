@@ -384,15 +384,20 @@ section):
 
 ## Main-experiment backbones: wiring (2026-09-08)
 
-Decision: jina-embeddings-v5-text-small, embeddinggemma-300m, snowflake-arctic-embed-m-v2.0
-(`notes/backbone_survey.md`). Status:
+Decision: jina-embeddings-v5-text-small, embeddinggemma-300m, snowflake-arctic-embed-l-v2.0
+(`notes/backbone_survey.md`). Every backbone is checked the way Pilot M checked its two
+(D17): pooled embeddings against the model's own sentence-transformers pipeline, finiteness
+of the unit states at every candidate layer, and throughput at 192 tokens, batch 64.
 
-| backbone | encoder key | pooling; prompts | layers probed | validation |
-|---|---|---|---|---|
-| arctic-embed-m-v2.0 | `arctic` | CLS; `query: ` / none | 4, 6, 8, 10, 12 | pooled cos 1.0000 vs its own pipeline (fp32 and fp16); states finite; 417 passages/s (fp16, 192 tokens, 5 layers); D20 |
-| jina-v5-small | `jina5s_alnum` | last token; `Query: ` / `Document: ` | 12, 16, 20, 24, 28 | as Pilot M; unit rule D19 |
-| embeddinggemma-300m | `gemma` (pending) | mean; `task: search result \| query: ` / `title: none \| text: ` | to set (24 layers) | gated repository: needs the Gemma licence accepted and an HF token |
+| backbone | key | stack; pooling; prompts | layers probed | pooled cos vs own pipeline | precision | passages/s |
+|---|---|---|---|---|---|---|
+| arctic-embed-l-v2.0 | `arctic` | XLM-R large 24 × 1024; CLS; `query: ` / none | 8, 12, 16, 20, 24 | 1.0000 (fp32 and fp16) | fp16; states finite, max coordinate 26 | 259 (5 layers) |
+| embeddinggemma-300m | `gemma` | Gemma 3 bidirectional 24 × 768; mean incl. prompt, then Dense 768→3072→768; `task: search result \| query: ` / `title: none \| text: ` | 6, 9, 12, 15, 18, 21, 24 | 1.0000 (fp32) | fp32 only: fp16 states are NaN at layer 6 already; residual coordinates reach 37,000 at layer 21, so states are stored scaled by 1/8 (`state_scale`; cosine- and whitening-invariant); outer autocast disabled around its forward | 142 (7 layers, fp32) |
+| jina-v5-small | `jina5s_alnum` | as Pilot M | 12, 16, 20, 24, 28 | 0.9997 (Pilot M) | fp16 | 183 (full stack) |
+| arctic-embed-m-v2.0 (wired, not selected) | `arctic_m` | GTE 12 × 768; CLS; `query: ` / none | 4–12 | 1.0000 | fp16 | 417 |
 
-All three use the text-defined unit rule (D19). Card-reported nDCG@10 for arctic on our
-corpora, for the end-to-end check of its dense row: SciFact 71.8, NFCorpus 35.9,
-TREC-COVID 80.3.
+All three use the text-defined unit rule (D19). Gemma's bidirectionality was checked
+directly: the layer-12 state of `bank` in "the bank of the river …" against "the bank of
+the money …" has cosine 0.87, so later tokens reach earlier states. Card-reported nDCG@10
+on our corpora, for the end-to-end check of each dense row: arctic-l SciFact 71.6 (card),
+NFCorpus 36.0, TREC-COVID 82.5 are to be read off `94_domain_baselines` once run.

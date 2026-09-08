@@ -78,6 +78,7 @@ Seed1.6-embedding.
 
 Main-experiment backbones: **jina-embeddings-v5-text-small** (Qwen3-0.6B decoder, last
 token), **embeddinggemma-300m** (Gemma 3 made bidirectional, mean pooling), and
-**snowflake-arctic-embed-m-v2.0** (gte-multilingual-base encoder, CLS pooling). Three
+**snowflake-arctic-embed-l-v2.0** (XLM-R large encoder, CLS pooling; chosen over the
+-m-v2.0 model after it had been wired, so that entry stays as `arctic_m`). Three
 pretraining families and three pooling rules; Octen dropped because it shares jina's
 pretrained weights. e5-base-v2 remains the pilot contrast only.

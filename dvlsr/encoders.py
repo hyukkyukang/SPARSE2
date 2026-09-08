@@ -5,6 +5,7 @@ states. Special tokens, padding, prompt-prefix words and pure-punctuation units
 are dropped (see the §Appendix pitfall about [CLS]/[SEP] hubs).
 """
 from __future__ import annotations
+import os
 import numpy as np
 import torch
 from dataclasses import dataclass
@@ -65,6 +66,8 @@ class Encoder:
         from transformers import AutoModel, AutoTokenizer
         cfg = paths.ENCODERS[name]
         self.name, self.cfg = name, cfg
+        if cfg.get("dtype"):
+            dtype = getattr(torch, cfg["dtype"])      # the model dictates its precision
         trc = bool(cfg.get("trust_remote_code", False))
         self.tok = AutoTokenizer.from_pretrained(cfg["hf"], trust_remote_code=trc)
         mcfg = None
@@ -76,9 +79,32 @@ class Encoder:
             for k, v in cfg["config_kwargs"].items():
                 setattr(mcfg, k, v)
         self.model = AutoModel.from_pretrained(cfg["hf"], config=mcfg, dtype=dtype,
-                                               trust_remote_code=trc).to(device).eval()
+                                               trust_remote_code=trc,
+                                               **cfg.get("model_kwargs", {})).to(device).eval()
         if cfg.get("post_load") == "gte_buffers":
             rematerialize_gte_buffers(self.model)
+        # sentence-transformers Dense modules applied after pooling (EmbeddingGemma)
+        self.post_pool = None
+        if cfg.get("st_dense"):
+            import json, torch.nn as nn
+            from huggingface_hub import hf_hub_download
+            import safetensors.torch as stt
+            # the snapshot directory, without the completeness check snapshot_download
+            # applies (our cache holds only the files the pipeline needs)
+            root = os.path.dirname(hf_hub_download(cfg["hf"], "modules.json", local_files_only=True))
+            mods = [m for m in json.load(open(f"{root}/modules.json"))
+                    if m["type"].endswith("models.Dense")]
+            layers = []
+            for m in mods:
+                c = json.load(open(f"{root}/{m['path']}/config.json"))
+                assert c["activation_function"].endswith("Identity"), c
+                lin = nn.Linear(c["in_features"], c["out_features"], bias=c["bias"])
+                sd = stt.load_file(f"{root}/{m['path']}/model.safetensors")
+                lin.weight.data.copy_(sd["linear.weight"])
+                if c["bias"]:
+                    lin.bias.data.copy_(sd["linear.bias"])
+                layers.append(lin)
+            self.post_pool = nn.Sequential(*layers).to(device).to(dtype).eval()
         if cfg.get("adapter"):
             # jina-embeddings-v5 is a PEFT model with one LoRA adapter per task
             self.model.set_adapter([cfg["adapter"]])
@@ -90,6 +116,11 @@ class Encoder:
         self.dim = cfg["dim"]
         # decoders keep a KV cache by default; we never generate, so never allocate one
         self._fwd_kw = {"use_cache": False} if cfg.get("pooling") == "last" else {}
+        # Gemma's residual stream carries a few coordinates in the tens of thousands at its
+        # late layers, too close to fp16's 65,504 for the half-precision unit stores; a
+        # constant per-encoder scale keeps them safe and changes neither cosines nor the
+        # whitened states (ZCA absorbs a global scale; its shrinkage is relative).
+        self._scale = float(cfg.get("state_scale", 1.0))
         self.truncated = None
 
     # ------------------------------------------------------------------ layer surgery
@@ -128,6 +159,11 @@ class Encoder:
         return True
 
     # ------------------------------------------------------------------ helpers
+    def _ctx(self):
+        """Disable any outer autocast for models whose activations do not survive fp16."""
+        import contextlib
+        return torch.autocast("cuda", enabled=False) if self.cfg.get("no_autocast") else contextlib.nullcontext()
+
     def prefix(self, is_query: bool) -> str:
         return self.cfg["q_prefix"] if is_query else self.cfg["d_prefix"]
 
@@ -148,8 +184,9 @@ class Encoder:
             chunk = texts[i:i + batch_size]
             _, enc, _ = self._tok(chunk, is_query, maxlen)
             enc = {k: v.to(self.device) for k, v in enc.items()}
-            h = self.model(**enc, **self._fwd_kw).last_hidden_state
-            v = self._pool(h, enc)
+            with self._ctx():
+                h = self.model(**enc, **self._fwd_kw).last_hidden_state
+                v = self._pool(h, enc)
             out[i:i + len(chunk)] = v.to(torch.float16).cpu().numpy()
         return out
 
@@ -182,6 +219,8 @@ class Encoder:
         else:
             m = enc["attention_mask"].unsqueeze(-1).to(hs_last.dtype)
             v = (hs_last * m).sum(1) / m.sum(1).clamp(min=1e-6)
+        if getattr(self, "post_pool", None) is not None:
+            v = self.post_pool(v.to(self.post_pool[0].weight.dtype))
         return torch.nn.functional.normalize(v.float(), dim=-1)
 
     def _word_units(self, texts, layers, is_query, maxlen, keep, pooled=False) -> WordUnits:
@@ -254,12 +293,14 @@ class Encoder:
             pv = None
             if pooled:
                 assert self.truncated is None, "pooled embeddings need the full stack"
-                pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
+                with self._ctx():
+                    pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
             return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim), pv)
 
         if pooled:
             assert self.truncated is None, "pooled embeddings need the full stack"
-        hs = self.model(**enc, output_hidden_states=True, **self._fwd_kw).hidden_states
+        with self._ctx():
+            hs = self.model(**enc, output_hidden_states=True, **self._fwd_kw).hidden_states
         pv = self._pool(hs[-1], enc) if pooled else None
         # only pieces outside the prompt contribute to a unit's mean
         gid_t = torch.from_numpy(gid[piece_ok].astype(np.int64)).to(self.device)
@@ -272,6 +313,8 @@ class Encoder:
                          device=self.device, dtype=torch.float16)
         for li, l in enumerate(layers):
             h = hs[l].reshape(-1, self.dim).index_select(0, idx_t).float()
+            if self._scale != 1.0:
+                h = h * self._scale
             acc = torch.zeros(n_units, self.dim, device=self.device, dtype=torch.float32)
             acc.index_add_(0, gid_t, h)
             acc /= cnt.unsqueeze(1)
@@ -326,7 +369,8 @@ class Encoder:
             pv = None
             if pooled:
                 assert self.truncated is None, "pooled embeddings need the full stack"
-                pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
+                with self._ctx():
+                    pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
             return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim), pv)
         pairs_p = np.asarray(pairs_p, dtype=np.int64); pairs_u = np.asarray(pairs_u, dtype=np.int64)
         cnt_np = np.bincount(pairs_u, minlength=n_units)
@@ -338,11 +382,13 @@ class Encoder:
             pv = None
             if pooled:
                 assert self.truncated is None, "pooled embeddings need the full stack"
-                pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
+                with self._ctx():
+                    pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
             return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim), pv)
         if pooled:
             assert self.truncated is None, "pooled embeddings need the full stack"
-        hs = self.model(**enc, output_hidden_states=True, **self._fwd_kw).hidden_states
+        with self._ctx():
+            hs = self.model(**enc, output_hidden_states=True, **self._fwd_kw).hidden_states
         pv = self._pool(hs[-1], enc) if pooled else None
         gid_t = torch.from_numpy(pairs_u).to(self.device)
         idx_t = torch.from_numpy(pairs_p).to(self.device)
@@ -351,6 +397,8 @@ class Encoder:
         st = torch.empty(int(ok.sum()), len(layers), self.dim, device=self.device, dtype=torch.float16)
         for li, l in enumerate(layers):
             h = hs[l].reshape(-1, self.dim).index_select(0, idx_t).float()
+            if self._scale != 1.0:
+                h = h * self._scale
             acc = torch.zeros(n_units, self.dim, device=self.device, dtype=torch.float32)
             acc.index_add_(0, gid_t, h)
             acc /= cnt.unsqueeze(1)

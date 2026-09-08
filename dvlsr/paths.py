@@ -71,10 +71,16 @@ ENCODERS = {
 # separate encoders -- identical models and prompts, different artifact names -- so the
 # extension can run beside a live pipeline without touching its files.
 # ---- main-experiment backbones (notes/backbone_survey.md, decision 2026-09-08) ----
-# arctic-embed-m-v2.0: Alibaba GTE encoder (12 x 768, RoPE, XLM-R tokenizer) under
-# Snowflake's retrieval training; its card pools the CLS state with `query: ` on queries
-# only and bare documents. Remote code (Alibaba-NLP/new-impl) is required to load it.
+# arctic-embed-l-v2.0: XLM-R large (24 x 1024, absolute positions, plain XLMRobertaModel)
+# under Snowflake's retrieval training; its card pools the CLS state of the last layer with
+# `query: ` on queries only and bare documents, loading without the BERT pooler head.
 ENCODERS["arctic"] = dict(
+    hf="Snowflake/snowflake-arctic-embed-l-v2.0", pooling="cls",
+    q_prefix="query: ", d_prefix="", dim=1024, layers=[8, 12, 16, 20, 24],
+    unit_mode="alnum", fp16_weights=True, model_kwargs=dict(add_pooling_layer=False))
+# arctic-embed-m-v2.0 (validated, not selected): Alibaba GTE encoder (12 x 768, RoPE, XLM-R
+# tokenizer). Remote code (Alibaba-NLP/new-impl) is required to load it.
+ENCODERS["arctic_m"] = dict(
     hf="Snowflake/snowflake-arctic-embed-m-v2.0", pooling="cls",
     q_prefix="query: ", d_prefix="", dim=768, layers=[4, 6, 8, 10, 12],
     trust_remote_code=True, unit_mode="alnum", fp16_weights=True,
@@ -83,6 +89,15 @@ ENCODERS["arctic"] = dict(
     config_kwargs=dict(use_memory_efficient_attention=False, unpad_inputs=False),
     # its non-persistent rotary/position buffers are garbage under transformers 5
     post_load="gte_buffers")
+# embeddinggemma-300m: Gemma 3 (24 x 768) made bidirectional, mean pooling over every token
+# including the prompt, then two bias-free dense layers (768 -> 3072 -> 768) and L2 norm, as
+# its sentence-transformers pipeline does. Its activations overflow fp16 (model card), so
+# it runs in fp32 with outer autocast disabled around its forward.
+ENCODERS["gemma"] = dict(
+    hf="google/embeddinggemma-300m", pooling="mean",
+    q_prefix="task: search result | query: ", d_prefix="title: none | text: ", dim=768,
+    layers=[6, 9, 12, 15, 18, 21, 24], unit_mode="alnum", dtype="float32", no_autocast=True,
+    st_dense=True, state_scale=0.125)
 ENCODERS["jina5s_alnum"] = dict(ENCODERS["jina5s"], unit_mode="alnum")
 ENCODERS["octen_lo"] = dict(ENCODERS["octen"], layers=[6, 8, 10])
 ENCODERS["jina5s_lo"] = dict(ENCODERS["jina5s"], layers=[6, 8, 10])
