@@ -47,17 +47,24 @@ cross-encoder scores; NQ/TriviaQA/SQuAD have DPR's BM25 negatives; Quora has tri
 everything else is pairs. Nothing but MS MARCO has teacher scores, so both hard negatives
 and teacher scores are regenerated uniformly.
 
-* **Miner (full retrieval over the unified passage store)**: candidates BM25 (always) plus
-  a strong external dense model; not one of the three students alone, whose negatives
-  would be its own confusions. Decision pending (see discussion in the session log).
-* **Teacher (candidate scoring)**: one cross-encoder for all sources. Candidates
-  considered: Qwen3-Reranker-0.6B (strongest per parameter, data undisclosed),
-  Ettin-reranker-1B/400M (May 2026, documented public data, MSE-distilled from
-  mxbai-rerank-large-v2, Apache), bge-reranker-v2-m3 (documented, weaker),
-  ms-marco-MiniLM-L6 (MS MARCO only, fastest, weakest). Larger rerankers (4B, 8B) are 7–13x
-  slower and out of budget on this machine. Decision pending.
-* Budget: ~1.5M queries x (1 positive + 8–15 filtered candidates) = 12–24M pairs; a 0.6B–1B
-  reranker scores ~100–200 pairs/s per TITAN RTX, i.e. 8–17 h on four cards.
+* **Miner (decided 2026-09-08)**: BM25 plus Qwen3-Embedding-0.6B over the unified passage
+  store. Not one of the three students alone, whose negatives would be its own confusions.
+  Per query: BM25 top-50 and dense top-100 with known positives removed, then a fixed
+  sample of ~16 candidates (dense ranks 1–30 and 30–100, BM25 top-30) so the scoring budget
+  is bounded; all of it goes to the teacher.
+* **Teacher (decided 2026-09-08)**: Qwen3-Reranker-0.6B, a pointwise cross-encoder, for
+  every source. Alternatives considered: Ettin-reranker-1B/400M (May 2026, documented
+  public data, Apache, faster), bge-reranker-v2-m3, ms-marco-MiniLM-L6; 4B/8B rerankers are
+  7–13x slower and out of budget here. Caveat to state in the paper: Qwen3-Reranker's
+  training data is undisclosed, so contamination of the test suite through the teacher
+  cannot be ruled out; Ettin-1B is the documented-data fallback if a reviewer objects.
+  Details: score = logit(yes) − logit(no) for the loss (unbounded, no saturation);
+  P(yes) for filtering; per-source retrieval instruction in the prompt (within-query
+  losses are unaffected by scale shifts between sources); positive-aware filter in
+  probability space (drop a candidate with P(yes) >= 0.95 x the positive's); drop queries
+  whose positive scores below a floor (label noise in weakly supervised sources).
+* Budget: ~1.5M queries x 17 pairs = ~25M pairs; ~100 pairs/s per TITAN RTX -> ~18 h on
+  four cards; encoding a ~30M-passage store with Qwen3-Embedding-0.6B ~12 h on four cards.
 
 ## Test suites (decided in outline)
 
@@ -83,7 +90,6 @@ reported alongside effectiveness.
 
 ## Open items
 
-1. Miner model and teacher model (this discussion).
-2. Per-source caps and the exact mixture sizes.
-3. Which of LoTTE / ESCI, if either.
-4. Whether cross-language insertion (CUREv1 es/fr) is in scope.
+1. Per-source caps and the exact mixture sizes.
+2. Which of LoTTE / ESCI, if either.
+3. Whether cross-language insertion (CUREv1 es/fr) is in scope.
