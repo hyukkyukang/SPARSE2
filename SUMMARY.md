@@ -378,6 +378,23 @@ firing 0.0005, 0.0036, 0.0036 → do not filter) it preserves +0.030, +0.044 and
 the ungated filter cuts the last to +0.040. It needs a query sample and no labels
 (`scripts/97_qf_filter.py --gate 0.01`).
 
+| corpus | backbone | mean query-firing of inserted set | insert all | ungated filter | **gated filter** | |
+|---|---|---|---|---|---|---|
+| nfcorpus | e5 | 0.0006 → keep all | +0.027* | +0.027* | **+0.027*** |  |
+| nfcorpus | Octen | 0.0005 → keep all | +0.030* | +0.030* | **+0.030*** | held out |
+| nfcorpus | Jina | 0.0007 → keep all | +0.029* | +0.029* | **+0.029*** |  |
+| scifact | e5 | 0.0044 → keep all | +0.051* | +0.061* | **+0.051*** |  |
+| scifact | Octen | 0.0036 → keep all | +0.044* | +0.044* | **+0.044*** | held out |
+| scifact | Jina | 0.0158 → filter | -0.009 | +0.081* | **+0.081*** |  |
+| trec-covid | e5 | 0.0704 → filter | -0.320* | +0.074 | **+0.074** |  |
+| trec-covid | Octen | 0.0036 → keep all | +0.186* | +0.040 | **+0.186*** | held out |
+| trec-covid | Jina | 0.0048 → keep all | +0.255* | +0.069 | **+0.255*** |  |
+
+`*` = paired bootstrap CI excludes zero. The ungated filter drops every inserted entry
+firing on more than 5% of a query sample; the gate applies it only when the inserted set's
+mean query-firing is at least 0.01. Octen's three cells were never used in choosing either
+threshold.
+
 **Calibration never helps outside the synthetic splits.** The Pilot F tail correction was
 applied at insertion in all nine cells: six clearly worse, three within noise, none
 improved. It was developed and validated on held-out splits *within* MS MARCO, where

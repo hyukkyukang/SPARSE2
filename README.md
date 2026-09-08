@@ -158,6 +158,14 @@ procedure that reaches the best-known result on every cell is a **gate** — fil
 the inserted set's mean query-firing exceeds 0.01 — which was held out on all three octen
 cells and preserved every gain (`scripts/97_qf_filter.py --gate 0.01`).
 
+Insert-all → gated, change in MRR@10:
+
+| corpus | e5 | Octen | Jina |
+|---|---|---|---|
+| nfcorpus | +0.027* → **+0.027*** | +0.030* → **+0.030*** | +0.029* → **+0.029*** |
+| scifact | +0.051* → **+0.051*** | +0.044* → **+0.044*** | -0.009 → **+0.081*** |
+| trec-covid | -0.320* → **+0.074** | +0.186* → **+0.186*** | +0.255* → **+0.255*** |
+
 ## Two negatives that close off explanations
 
 
