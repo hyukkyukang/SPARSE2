@@ -401,6 +401,11 @@ layer 8 0.283, 12 0.288, 16 0.295, 20 0.281, **24 0.315** (τ 0.289). Like Octen
 retrieval-fine-tuned encoder peaks at its final layer; its training-free number is the
 highest of the five backbones probed so far (jina 0.298 at 12, Octen 0.267 at 28).
 
+Layer probe, embeddinggemma-300m (same protocol, fp32): layer 6 0.251, 9 0.223, 12 0.288,
+15 0.297, 18 0.294, **21 0.309**, 24 0.304 (τ 0.499). The curve rises through the stack and
+peaks three layers before the end; the final layer, which the model's own pooling reads,
+is second. Its best training-free number sits between arctic-l (0.315) and jina (0.298).
+
 All three use the text-defined unit rule (D19). Gemma's bidirectionality was checked
 directly: the layer-12 state of `bank` in "the bank of the river …" against "the bank of
 the money …" has cosine 0.87, so later tokens reach earlier states. Card-reported nDCG@10
