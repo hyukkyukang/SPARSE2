@@ -155,8 +155,10 @@ prototypes (norm, centroid, bank statistics; `reports_gpu10/GEOMETRY.txt`) keeps
 consistent sign over nine cells, and query-firing is *anti*-correlated with per-entry harm
 in all nine: harm is a crowding effect of many mildly informative entries together. The
 procedure that reaches the best-known result on every cell is a **gate** — filter only when
-the inserted set's mean query-firing exceeds 0.01 — which was held out on all three octen
-cells and preserved every gain (`scripts/97_qf_filter.py --gate 0.01`).
+the inserted set's mean query-firing exceeds 0.01 — held out on all three octen cells
+(`scripts/97_qf_filter.py --gate 0.01`). **It uses a sample of queries, which on these
+benchmarks is the test set, so it is an upper bound, not a deployable method**: a deployment
+sees queries one at a time. The compliant redesign is a query-time gate (see below).
 
 Insert-all → gated, change in MRR@10:
 

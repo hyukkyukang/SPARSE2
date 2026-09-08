@@ -370,7 +370,15 @@ cosine (0.000 for trained entries) — marks the failing cell as the backbone's 
 internally correlated vocabulary in both backbones that fail, but on a backbone-specific
 scale (e5 0.26–0.32, jina 0.14–0.17, octen 0.04–0.06), so it is a diagnostic, not a threshold.
 
-**A gated filter reaches the best-known result on all nine cells.** Filter (drop inserted
+**Constraint: test queries are not available ahead of time.** A deployment sees queries one
+at a time; only the corpus, the model artifacts and the single query being answered may be
+used. The query-firing filter and its gate below use a *sample of queries*, and on these
+benchmarks that sample is the test set — no labels, but the query distribution. They are
+therefore an **upper bound on what query-side information can achieve, not a deployable
+method**. The constraint-compliant methods (lexical selection, document-firing filters,
+prototype geometry) are exactly the ones above that are not safe on every cell.
+
+**A gated filter reaches the best-known result on all nine cells (upper bound).** Filter (drop inserted
 entries firing on more than 5% of a query sample) only when the inserted set's *mean*
 query-firing exceeds 0.01. On the six cells it was derived from it selects the best-known
 variant on five and is within 0.01 on the sixth; held out on octen's three cells (mean
