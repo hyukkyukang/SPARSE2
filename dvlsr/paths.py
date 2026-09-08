@@ -70,6 +70,20 @@ ENCODERS = {
 # candidate for jina5s (layer 12 of 28). These keys extend the sweep to {6, 8, 10} as
 # separate encoders -- identical models and prompts, different artifact names -- so the
 # extension can run beside a live pipeline without touching its files.
+# ---- main-experiment backbones (notes/backbone_survey.md, decision 2026-09-08) ----
+# arctic-embed-m-v2.0: Alibaba GTE encoder (12 x 768, RoPE, XLM-R tokenizer) under
+# Snowflake's retrieval training; its card pools the CLS state with `query: ` on queries
+# only and bare documents. Remote code (Alibaba-NLP/new-impl) is required to load it.
+ENCODERS["arctic"] = dict(
+    hf="Snowflake/snowflake-arctic-embed-m-v2.0", pooling="cls",
+    q_prefix="query: ", d_prefix="", dim=768, layers=[4, 6, 8, 10, 12],
+    trust_remote_code=True, unit_mode="alnum", fp16_weights=True,
+    # the remote code asserts xformers for its memory-efficient attention and unpadding;
+    # with both off it runs plain attention, which is what the card's own snippet does
+    config_kwargs=dict(use_memory_efficient_attention=False, unpad_inputs=False),
+    # its non-persistent rotary/position buffers are garbage under transformers 5
+    post_load="gte_buffers")
+ENCODERS["jina5s_alnum"] = dict(ENCODERS["jina5s"], unit_mode="alnum")
 ENCODERS["octen_lo"] = dict(ENCODERS["octen"], layers=[6, 8, 10])
 ENCODERS["jina5s_lo"] = dict(ENCODERS["jina5s"], layers=[6, 8, 10])
 COLBERT = "colbert-ir/colbertv2.0"

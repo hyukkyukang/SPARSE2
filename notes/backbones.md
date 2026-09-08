@@ -381,3 +381,18 @@ section):
    (point "why two stores"); the domain table reports the one-store numbers, this section
    both. The per-document cap is a property of the evaluation store, but the eviction it
    causes is a real effect of inserting into any budgeted index.
+
+## Main-experiment backbones: wiring (2026-09-08)
+
+Decision: jina-embeddings-v5-text-small, embeddinggemma-300m, snowflake-arctic-embed-m-v2.0
+(`notes/backbone_survey.md`). Status:
+
+| backbone | encoder key | pooling; prompts | layers probed | validation |
+|---|---|---|---|---|
+| arctic-embed-m-v2.0 | `arctic` | CLS; `query: ` / none | 4, 6, 8, 10, 12 | pooled cos 1.0000 vs its own pipeline (fp32 and fp16); states finite; 417 passages/s (fp16, 192 tokens, 5 layers); D20 |
+| jina-v5-small | `jina5s_alnum` | last token; `Query: ` / `Document: ` | 12, 16, 20, 24, 28 | as Pilot M; unit rule D19 |
+| embeddinggemma-300m | `gemma` (pending) | mean; `task: search result \| query: ` / `title: none \| text: ` | to set (24 layers) | gated repository: needs the Gemma licence accepted and an HF token |
+
+All three use the text-defined unit rule (D19). Card-reported nDCG@10 for arctic on our
+corpora, for the end-to-end check of its dense row: SciFact 71.8, NFCorpus 35.9,
+TREC-COVID 80.3.

@@ -26,6 +26,30 @@ class WordUnits:
     pooled: torch.Tensor | None = None      # (B, d) L2-normalised pooled embedding, if requested
 
 
+def rematerialize_gte_buffers(model) -> int:
+    """Rebuild the non-persistent buffers of Alibaba's GTE remote code (arctic-embed v2).
+
+    That code builds its position ids, rotary inverse frequencies and cos/sin caches with
+    torch.arange in __init__ and registers them persistent=False. transformers 5 constructs
+    models on the meta device and only loads what the checkpoint holds, so those buffers
+    come back as uninitialised memory and the first forward indexes with garbage. The
+    formulas are re-run here from the module's own attributes; returns the count fixed."""
+    import torch.nn as nn
+    n = 0
+    for m in model.modules():
+        if hasattr(m, "cos_cached") and hasattr(m, "inv_freq") and hasattr(m, "_set_cos_sin_cache"):
+            dev = m.cos_cached.device
+            inv = 1.0 / (m.base ** (torch.arange(0, m.dim, 2).float().to(dev) / m.dim))
+            m.register_buffer("inv_freq", inv, persistent=False)
+            m._set_cos_sin_cache(seq_len=m.max_position_embeddings, device=dev, dtype=m.cos_cached.dtype)
+            n += 1
+        if hasattr(m, "position_ids") and hasattr(m, "word_embeddings") and hasattr(m, "position_embedding_type"):
+            m.register_buffer("position_ids", torch.arange(m.position_ids.numel(), device=m.position_ids.device),
+                              persistent=False)
+            n += 1
+    return n
+
+
 def _trim(w: str) -> str:
     """Strip whitespace and any leading/trailing non-alphanumerics from a unit surface."""
     i, j = 0, len(w)
@@ -43,8 +67,18 @@ class Encoder:
         self.name, self.cfg = name, cfg
         trc = bool(cfg.get("trust_remote_code", False))
         self.tok = AutoTokenizer.from_pretrained(cfg["hf"], trust_remote_code=trc)
-        self.model = AutoModel.from_pretrained(cfg["hf"], dtype=dtype,
+        mcfg = None
+        if cfg.get("config_kwargs"):
+            # config overrides (transformers 5 passes unknown from_pretrained kwargs to the
+            # remote-code __init__, so they must be set on the config object instead)
+            from transformers import AutoConfig
+            mcfg = AutoConfig.from_pretrained(cfg["hf"], trust_remote_code=trc)
+            for k, v in cfg["config_kwargs"].items():
+                setattr(mcfg, k, v)
+        self.model = AutoModel.from_pretrained(cfg["hf"], config=mcfg, dtype=dtype,
                                                trust_remote_code=trc).to(device).eval()
+        if cfg.get("post_load") == "gte_buffers":
+            rematerialize_gte_buffers(self.model)
         if cfg.get("adapter"):
             # jina-embeddings-v5 is a PEFT model with one LoRA adapter per task
             self.model.set_adapter([cfg["adapter"]])
@@ -151,6 +185,8 @@ class Encoder:
         return torch.nn.functional.normalize(v.float(), dim=-1)
 
     def _word_units(self, texts, layers, is_query, maxlen, keep, pooled=False) -> WordUnits:
+        if self.cfg.get("unit_mode") == "alnum":
+            return self._word_units_alnum(texts, layers, is_query, maxlen, keep, pooled)
         maxlen = maxlen or (paths.MAXLEN_QRY if is_query else paths.MAXLEN_DOC)
         full, enc, plen = self._tok(texts, is_query, maxlen, offsets=True)
         offs = enc.pop("offset_mapping").numpy()
@@ -242,6 +278,85 @@ class Encoder:
             st[:, li] = acc.index_select(0, keep_t).to(torch.float16)
         sel = np.flatnonzero(ok)
         return WordUnits(u_row[sel].astype(np.int32), [words[i] for i in sel], st, pv)
+
+
+    def _word_units_alnum(self, texts, layers, is_query, maxlen, keep, pooled=False) -> WordUnits:
+        """Tokenizer-independent word units: every maximal run of alphanumeric characters in
+        the text after the prompt is a unit, and a piece contributes to every unit its
+        character span overlaps.
+
+        The legacy rule groups pieces by the tokenizer's own word ids, which follow its
+        pre-tokenizer: BERT and Qwen split punctuation off (``covid-19`` -> ``covid``, ``19``)
+        but SentencePiece models (XLM-R, Gemma) split only on whitespace, so under them
+        ``covid-19`` or ``brown-fox`` would be one unit whose surface matches no vocabulary
+        entry. Defining units on the text itself makes the three main-experiment backbones
+        share one definition; on Qwen it reproduces the legacy rule (a glued ``-fox`` piece
+        overlaps exactly the run ``fox``). Units are found with a Unicode alphanumeric run,
+        so accented and non-Latin words form units too; only ASCII-alphabetic ones can match V.
+        """
+        import re
+        run_re = re.compile(r"[^\W_]+")
+        maxlen = maxlen or (paths.MAXLEN_QRY if is_query else paths.MAXLEN_DOC)
+        full, enc, plen = self._tok(texts, is_query, maxlen, offsets=True)
+        offs = enc.pop("offset_mapping").numpy()
+        B, L = offs.shape[:2]
+        am = enc["attention_mask"].numpy().astype(bool)
+        u_row, words, pairs_p, pairs_u = [], [], [], []      # (flat piece index, unit id)
+        for b in range(B):
+            runs = [(m.start(), m.end(), m.group()) for m in run_re.finditer(full[b], plen)]
+            if not runs:
+                continue
+            base = len(words)
+            starts = np.fromiter((r[0] for r in runs), dtype=np.int64, count=len(runs))
+            ends = np.fromiter((r[1] for r in runs), dtype=np.int64, count=len(runs))
+            for t in np.flatnonzero(am[b]):
+                a, e = int(offs[b, t, 0]), int(offs[b, t, 1])
+                if e <= plen or e <= a:
+                    continue                     # special / padding / prompt-only piece
+                a = max(a, plen)
+                # runs overlapping [a, e): start < e and end > a
+                lo = int(np.searchsorted(ends, a, side="right"))
+                hi = int(np.searchsorted(starts, e, side="left"))
+                for u in range(lo, hi):
+                    pairs_p.append(b * L + t); pairs_u.append(base + u)
+            u_row.extend([b] * len(runs)); words.extend(r[2] for r in runs)
+        n_units = len(words)
+        enc = {k: v.to(self.device) for k, v in enc.items()}
+        if n_units == 0 or not pairs_p:
+            pv = None
+            if pooled:
+                assert self.truncated is None, "pooled embeddings need the full stack"
+                pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
+            return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim), pv)
+        pairs_p = np.asarray(pairs_p, dtype=np.int64); pairs_u = np.asarray(pairs_u, dtype=np.int64)
+        cnt_np = np.bincount(pairs_u, minlength=n_units)
+        ok = cnt_np > 0
+        if keep is not None:
+            ok &= np.array([keep(w.lower()) if o else False for w, o in zip(words, ok)], dtype=bool)
+        u_row = np.asarray(u_row, dtype=np.int32)
+        if not ok.any():
+            pv = None
+            if pooled:
+                assert self.truncated is None, "pooled embeddings need the full stack"
+                pv = self._pool(self.model(**enc, **self._fwd_kw).last_hidden_state, enc)
+            return WordUnits(np.zeros(0, np.int32), [], torch.zeros(0, len(layers), self.dim), pv)
+        if pooled:
+            assert self.truncated is None, "pooled embeddings need the full stack"
+        hs = self.model(**enc, output_hidden_states=True, **self._fwd_kw).hidden_states
+        pv = self._pool(hs[-1], enc) if pooled else None
+        gid_t = torch.from_numpy(pairs_u).to(self.device)
+        idx_t = torch.from_numpy(pairs_p).to(self.device)
+        cnt = torch.from_numpy(np.maximum(cnt_np, 1).astype(np.float32)).to(self.device)
+        keep_t = torch.from_numpy(np.flatnonzero(ok)).to(self.device)
+        st = torch.empty(int(ok.sum()), len(layers), self.dim, device=self.device, dtype=torch.float16)
+        for li, l in enumerate(layers):
+            h = hs[l].reshape(-1, self.dim).index_select(0, idx_t).float()
+            acc = torch.zeros(n_units, self.dim, device=self.device, dtype=torch.float32)
+            acc.index_add_(0, gid_t, h)
+            acc /= cnt.unsqueeze(1)
+            st[:, li] = acc.index_select(0, keep_t).to(torch.float16)
+        sel = np.flatnonzero(ok)
+        return WordUnits(u_row[sel], [words[i] for i in sel], st, pv)
 
 
 class SpladeEncoder:

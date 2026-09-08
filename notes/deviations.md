@@ -261,3 +261,25 @@ answered and, for `dfdrop`, the fraction of indexed documents each inserted entr
 fixed at indexing time. K=20 and the 5% document-firing threshold were set before any run;
 K=10/30/50 were run afterwards for sensitivity. The query-sample filters of
 `scripts/97_qf_filter.py` do not obey the constraint and are reported as an upper bound.
+
+## D19 — text-defined word units for the main-experiment backbones
+
+The protocol's word unit is the tokenizer's pre-tokenizer word (§0.4), which BERT and Qwen
+split at punctuation but SentencePiece models (XLM-R in arctic-embed, Gemma) split only at
+whitespace: under them `covid-19` or `brown-fox` is one unit whose surface matches no
+vocabulary entry. `dvlsr/encoders.py` `unit_mode="alnum"` defines a unit instead as a
+maximal run of Unicode alphanumeric characters in the text after the prompt; a piece
+contributes to every unit its character span overlaps. On Qwen this reproduces the D15
+rule on shared units (state cosine 0.9985 over 5,074 units) and differs only where Qwen's
+pre-tokenizer splits letters from digits (`cd33`, `s100a9` stay whole). e5's frozen pilot
+artifacts keep the legacy rule; the three main-experiment backbones use the new one.
+
+## D20 — arctic-embed-m-v2.0 under transformers 5
+
+Its remote code (Alibaba GTE) builds position ids and rotary caches as non-persistent
+buffers in `__init__`; transformers 5 constructs models on the meta device, so they load as
+uninitialised memory and the first forward indexes with garbage. `rematerialize_gte_buffers`
+recomputes them from the module's own attributes after loading, and the memory-efficient
+attention and unpadding flags (which assert xformers) are switched off in the config. With
+both, our CLS-pooled embeddings match the model's sentence-transformers pipeline (given the
+same fix) to cosine 1.0000 in fp32 and fp16.
