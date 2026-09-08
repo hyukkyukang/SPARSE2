@@ -396,6 +396,11 @@ of the unit states at every candidate layer, and throughput at 192 tokens, batch
 | jina-v5-small | `jina5s_alnum` | as Pilot M | 12, 16, 20, 24, 28 | 0.9997 (Pilot M) | fp16 | 183 (full stack) |
 | arctic-embed-m-v2.0 (wired, not selected) | `arctic_m` | GTE 12 × 768; CLS; `query: ` / none | 4–12 | 1.0000 | fp16 | 417 |
 
+Layer probe, arctic-l (training-free retrieval on the 107k-passage probe corpus, MRR@10):
+layer 8 0.283, 12 0.288, 16 0.295, 20 0.281, **24 0.315** (τ 0.289). Like Octen, a
+retrieval-fine-tuned encoder peaks at its final layer; its training-free number is the
+highest of the five backbones probed so far (jina 0.298 at 12, Octen 0.267 at 28).
+
 All three use the text-defined unit rule (D19). Gemma's bidirectionality was checked
 directly: the layer-12 state of `bank` in "the bank of the river …" against "the bank of
 the money …" has cosine 0.87, so later tokens reach earlier states. Card-reported nDCG@10
